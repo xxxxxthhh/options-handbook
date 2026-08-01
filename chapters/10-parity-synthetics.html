@@ -114,8 +114,8 @@
 </div>
 
 <p>
-  <span class="zh">两张图的形状严丝合缝：同样的水平上限、同样的斜率、同样的拐点。用引擎在 $70 到 $150 之间逐点相减，两者的差值<strong>恒等于 $1.09</strong>——一个不随股价变化的常数，而这个常数恰好等于 K·(1 − e<sup>−rT</sup>)，也就是<strong>持有 $110 现金三个月的利息</strong>。差别不在风险形态上，只在"你的钱停在哪里"。</span>
-  <span class="en">The two shapes fit exactly: same flat ceiling, same slope, same kink. Subtract them point by point from $70 to $150 with the engine and the difference is <strong>a constant $1.09</strong> — invariant in the stock price, and precisely equal to K·(1 − e<sup>−rT</sup>), i.e. <strong>three months' interest on $110 of cash</strong>. The difference isn't in the risk profile at all; it's in where your money is parked.</span>
+  <span class="zh">两张图的形状严丝合缝：同样的水平上限、同样的斜率、同样的拐点。用引擎在 $70 到 $150 之间逐点相减，两者的差值<strong>恒等于 $1.09</strong>——一个不随股价变化的常数，而这个常数恰好等于 K·(1 − e<sup>−rT</sup>)，也就是<strong>持有 $110 现金三个月的利息</strong>。差别不在风险形态上，只在"你的钱停在哪里"——把 CSP 那 $110 担保现金按无风险利率计息，这 $1.09 恰好被补回，<strong>两者在经济上完全相等</strong>。</span>
+  <span class="en">The two shapes fit exactly: same flat ceiling, same slope, same kink. Subtract them point by point from $70 to $150 with the engine and the difference is <strong>a constant $1.09</strong> — invariant in the stock price, and precisely equal to K·(1 − e<sup>−rT</sup>), i.e. <strong>three months' interest on $110 of cash</strong>. The difference isn't in the risk profile at all; it's in where your money is parked — credit the CSP's $110 of collateral cash with the risk-free rate and the $1.09 is restored exactly, making the two <strong>economically identical</strong>.</span>
 </p>
 
 <div class="warn">
@@ -190,7 +190,7 @@
     <span class="en">He had withdrawn $10,000 before it unwound; after forced liquidation the account was negative and the broker ate the shortfall. <strong>And the sole cause of all of it was the word "American" in the contract terms.</strong></span>
   </p>
   <p>
-    <span class="zh">这是本书第三次、也是最后一次讲同一件事。第 1 章：伯克希尔的欧式条款让 2009 年 3 月的 677 点<strong>在合同意义上不存在</strong>。第 8 章：XIV 的"加速赎回"条款让持有者<strong>连等待反弹的资格都没有</strong>。这一章：美式条款把一个数学上无风险的结构<strong>变成了一笔 5 万美元的债务</strong>。<strong>三个案例，三种条款，一个教训：决定你生死的常常不是模型，而是合同细则里那一行你没读的字。</strong></span>
+    <span class="zh">这是本书第三次、也是最后一次讲同一件事。第 1 章：伯克希尔的欧式条款让 2009 年 3 月的 677 点<strong>在合同意义上不存在</strong>。第 8 章：XIV 的"加速赎回"条款让持有者<strong>连等待反弹的资格都没有</strong>。这一章：美式条款把一个数学上无风险的结构<strong>变成了一笔约 5.8 万美元的债务</strong>。<strong>三个案例，三种条款，一个教训：决定你生死的常常不是模型，而是合同细则里那一行你没读的字。</strong></span>
     <span class="en">This is the third and final time this book tells the same story. Chapter 1: Berkshire's European terms made March 2009's 677 <strong>contractually non-existent</strong>. Chapter 8: XIV's acceleration clause denied holders <strong>even the right to wait for a bounce</strong>. Here: American terms turned a mathematically riskless structure <strong>into a $58,000 debt</strong>. <strong>Three cases, three clauses, one lesson: what decides your survival is usually not the model, but the line of fine print you didn't read.</strong></span>
   </p>
   <p>
@@ -209,8 +209,8 @@
 </p>
 
 <p>
-  <span class="zh"><strong>它管得到的：同一个 Strike 上的 Call 和 Put。</strong>由等式可以直接推出一个漂亮的结论——<strong>同一 Strike、同一到期日的 Call 和 Put，隐含波动率必然相等</strong>。因为它们的价格被恒等式锁死，而 Black-Scholes 是价格到 IV 的单调映射：价格锁死，IV 就锁死。如果你的行情软件显示同一 Strike 的 Call 和 Put 有不同的 IV，那不是市场机会，那是数据源用了不同的插值或时间戳。</span>
-  <span class="en"><strong>Within jurisdiction: the call and put at one strike.</strong> A neat corollary follows straight from the identity — <strong>a call and a put at the same strike and expiry must have identical implied volatility</strong>. Their prices are pinned by the identity, and Black-Scholes maps price to IV monotonically: pin the price and you pin the IV. If your platform shows different IVs for a call and put at the same strike, that isn't an opportunity — it's a data feed using different interpolation or timestamps.</span>
+  <span class="zh"><strong>它管得到的：同一个 Strike 上的 Call 和 Put。</strong>由等式可以直接推出一个漂亮的结论——<strong>同一 Strike、同一到期日的 Call 和 Put，隐含波动率必然相等</strong>。因为它们的价格被恒等式锁死，而 Black-Scholes 是价格到 IV 的单调映射：价格锁死，IV 就锁死。如果你的行情软件显示同一 Strike 的 Call 和 Put 有明显不同的 IV，那不是市场机会——多半是数据源用了不同的插值或时间戳。（严格地说，这条推论只对欧式期权精确成立，SPX 这类指数期权上几乎分毫不差；美式个股期权会因提前行权权、分红与借券成本出现<strong>小而系统</strong>的偏差——而那个偏差本身是有信息的：它是市场对分红和融券成本的报价，不是白捡的套利。）</span>
+  <span class="en"><strong>Within jurisdiction: the call and put at one strike.</strong> A neat corollary follows straight from the identity — <strong>a call and a put at the same strike and expiry must have identical implied volatility</strong>. Their prices are pinned by the identity, and Black-Scholes maps price to IV monotonically: pin the price and you pin the IV. If your platform shows clearly different IVs for a call and put at the same strike, that isn't an opportunity — most likely a data feed using different interpolation or timestamps. (Strictly, the corollary is exact only for European options — on index products like SPX it holds almost to the penny. American single-stock options show <strong>small, systematic</strong> deviations from early-exercise rights, dividends and borrow costs — and that deviation is itself informative: it is the market's quote for dividends and stock-borrow, not free money.)</span>
 </p>
 
 <p>
@@ -256,8 +256,8 @@
     <div id="pf-jheqx"></div>
   </div>
   <p>
-    <span class="zh">请注意<strong>它为什么需要第三条腿</strong>。如果只买 −4.6% 的 Put、只卖 +6.0% 的 Call，两者并不能互相抵消——按符合典型 SPX 偏斜形态的示意 IV 计算，这两条腿净支出约 <strong>$44/单位指数</strong>。必须再卖出一个 −19.5% 的深度价外 Put，才能把成本压下来。<strong>下跌保护之所以贵，不是因为它离得近，而是因为市场为下跌方向额外收费。</strong></span>
-    <span class="en">Note <strong>why it needs a third leg</strong>. Buying the −4.6% put and selling the +6.0% call does not net out: at illustrative IVs shaped like a typical SPX skew, those two legs cost roughly <strong>$44 per unit of index</strong>. Only by also selling a −19.5% deep OTM put does the cost come down. <strong>Downside protection is expensive not because it is close, but because the market charges a premium for the downside direction itself.</strong></span>
+    <span class="zh">请注意<strong>它为什么需要第三条腿</strong>。如果只买 −4.6% 的 Put、只卖 +6.0% 的 Call，两者并不能互相抵消——按符合典型 SPX 偏斜形态的示意 IV 计算，这两条腿净支出约 <strong>$44/单位指数</strong>。必须再卖出一个 −19.5% 的深度价外 Put，才能把成本压下来。图中 readout 显示的约 $32 净支出，就是这组示意 IV 下仍未补平的残差——它和下一段"零成本解在 +4.0%、实际 Call 卖在 +6.0%"是同一件事：Call 卖得越远，收回的钱越少。<strong>下跌保护之所以贵，不是因为它离得近，而是因为市场为下跌方向额外收费。</strong></span>
+    <span class="en">Note <strong>why it needs a third leg</strong>. Buying the −4.6% put and selling the +6.0% call does not net out: at illustrative IVs shaped like a typical SPX skew, those two legs cost roughly <strong>$44 per unit of index</strong>. Only by also selling a −19.5% deep OTM put does the cost come down. The ≈$32 net debit in the chart's readout is the residual these illustrative IVs still leave uncovered — the same fact as the next paragraph's "the zero-cost solve sits at +4.0% while the actual call is sold at +6.0%": the further out you sell the call, the less it brings in. <strong>Downside protection is expensive not because it is close, but because the market charges a premium for the downside direction itself.</strong></span>
   </p>
   <p>
     <span class="zh">把偏斜的代价量化出来最能说明问题。用同一组示意 IV 反解"能让整个结构零成本的 Call 行权价"：<strong>在有偏斜的世界里，你只能卖出 +4.0% 的 Call；在假想的无偏斜世界（所有 Strike 同一 IV）里，你可以卖出 +7.2% 的 Call。</strong>同样的下跌保护，偏斜让你多交出 <strong>3.2 个百分点</strong>的上涨空间。而 JHEQX 实际的 +6.0% 落在这两条示意曲线之间——真实市场的偏斜确实在这个区间里。</span>
