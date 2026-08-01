@@ -284,7 +284,13 @@ hr{border:0;border-top:1px solid var(--line);margin:3rem 0}
   body{background:#fff;font-size:10.5pt}
   .page{max-width:100%;padding:0}
   .panel{box-shadow:none;break-inside:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .case,.quiz,.spec{break-inside:avoid}
+  .quiz,.spec{break-inside:avoid}
+  /* Case cards routinely exceed one page (the tallest carries two panels). A box taller than
+     the page box makes the browser ignore break-inside:avoid and split it anywhere, so keep
+     the parts that do fit intact instead of asking for the whole card. */
+  .case h3{break-after:avoid}
+  .case .verdict{break-inside:avoid;break-before:avoid}
+  p{orphans:3;widows:3}
   .quiz .expl{display:block}
   a{text-decoration:none;color:inherit}
 }

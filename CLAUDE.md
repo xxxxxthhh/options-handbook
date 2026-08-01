@@ -4,9 +4,9 @@
 
 ## 项目状态
 
-- 已完成：index.html（封面/目录）、glossary.html（术语表）、chapters/02-single-leg.html（样章，**质量基准**）
-- 待写章节按 index.html 目录顺序推进：01 → 03 → 04 → 05 → 06 → 07 → 08 → 09
-- 每完成一章：更新 index.html 目录中该章的链接与 badge（`撰写中/Planned` → `live`）
+- **9 章全部完成**，index.html 目录全部为 live，`.chap-nav` 已接成 01→09→glossary 的完整链路
+- 质量基准仍为 chapters/02-single-leg.html（样章）
+- 新增章节时：更新 index.html 的链接与 badge（`撰写中/Planned` → `live`），并接好前后章 `.chap-nav`
 
 ## 硬性约定（违反即返工）
 
@@ -18,9 +18,19 @@
 ### 案例（每章至少 1 个，目标 2 个）
 - 使用 `.case` 卡片：`case-tag`（CASE FILE · YYYY-MM）→ 标题 → 事件叙述 → counterfactual 对比 → `.verdict gain|loss` 结论标签
 - 结论标签必须落在"利润扩大"或"亏损减少"之一，并给出量化对比（如 -34% → -4%）
-- 价格数据用真实历史事件的约值，正文标注"约值 approx."；简化假设（如忽略 assignment）必须在文中显式声明
-- 已用案例（勿重复）：NVDA 2023-05 财报、SPY 2020 COVID、AAPL 2022 CC、Buffett KO 1993
-- 候选池：1987 黑色星期一、2018-02 Volmageddon/XIV、2020 软银 Nasdaq Whale、2021-01 GameStop、Buffett 2004–08 指数 Put、LTCM 1998、泰勒斯橄榄榨油机（Ch1 开篇）
+- **两级数据口径，勿混用**：真实历史价格（股价、指数、VIX、汇率）标"约值 approx."；由 Black-Scholes 算出或自行假设的期权价格、权利金、Strike 一律标"**示意值**"，并在案例末尾用一段"简化声明"讲清哪些是真实数据、哪些是假设、忽略了什么
+- 反事实若能只用真实数据的算术完成（如仓位比例、杠杆倍数），**优先如此**，不要为了凑数字而虚构期权腿
+- 已用案例（勿重复）：
+  - Ch01 泰勒斯榨油机（约 BC600）· 伯克希尔指数 Put（2004–18）
+  - Ch02 NVDA 2023-05 财报 · SPY 2020 COVID · AAPL 2022 CC · Buffett KO 1993
+  - Ch03 GameStop 2021-01 · 日元套息平仓 2024-08-05
+  - Ch04 疫苗日 DAL 2020-11 · ARKK 2021-11
+  - Ch05 Brexit 2016-06 · 2017 低波动年→2018-02-05
+  - Ch06 META 2022-02 · AAPL 2021-01 财报
+  - Ch07 MSFT 2020 崩盘中被指派 · INTC 2022 Wheel
+  - Ch08 XIV/Volmageddon 2018-02 · optionsellers.com 2018-11 · 黑色星期一 1987-10
+  - Ch09 LTCM 1998 · 巴菲特 1969 清盘合伙企业
+- 候选池（尚未使用）：2020 软银 Nasdaq Whale（**注意：公开数字为媒体报道且被软银部分否认，只可定性引用，不要给量化 verdict**）、1998 长期资本以外的对冲基金爆仓、2015-08-24 ETF 闪崩、Barings/Leeson 1995、2010-05-06 闪崩
 
 ### 图表
 - 到期盈亏图：`Payoff.mount(id, { legs, range, controls })`；leg 形如 `{kind:'call'|'put'|'stock', side:±1, strike, premium}` 或 `{kind:'stock', basis}`；引擎自动算 breakeven/max gain/max loss，**不要**手绘 SVG 盈亏图
