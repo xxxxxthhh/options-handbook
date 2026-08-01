@@ -19,7 +19,7 @@ chapters/
   09-sizing-discipline.html  仓位与纪律：Regime、资金管理与"不交易"
 assets/
   style.css             设计系统 + print CSS（Ctrl+P 导出 PDF）
-  i18n.js               中英切换（#en hash 记忆语言）
+  i18n.js               中英切换（localStorage 记忆语言，#en hash 可作分享链接的显式覆盖）
   payoff.js             交互式盈亏图引擎（声明式配置 legs 即可复用）
   quiz.js               选择题即时反馈
 ```
@@ -27,7 +27,7 @@ assets/
 ## 部署到 GitHub Pages
 
 ```bash
-git init && git add -A && git commit -m "options handbook: skeleton + ch2 sample"
+# 本地仓库已初始化并含完整提交历史，直接创建远程并推送：
 gh repo create options-handbook --public --source . --push
 # 仓库 Settings → Pages → Source: Deploy from a branch → main / (root)
 ```

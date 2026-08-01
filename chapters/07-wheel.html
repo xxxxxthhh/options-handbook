@@ -156,30 +156,30 @@
     <span class="en">In early 2022, Intel traded near <strong>$51.5</strong>, with a dividend yield above 3%, a single-digit P/E, and <a class="term" href="../glossary.html#iv">IV</a> high enough to make put-selling yields look excellent. <strong>It would have scored well on every "Wheel screening checklist" in existence.</strong> By December 30, 2022 it closed at <strong>$26.43</strong> — roughly <strong>−48.7%</strong> on the year.</span>
   </p>
   <p>
-    <span class="zh">一位纪律严明的 Wheel 交易者会这样走完这一年：1 月卖出 $48 的 CSP 收 $1.80；2 月被指派，成本基准 $46.20；此后每月卖出约 5% 价外的 Covered Call，约收 $0.60/月，十个月合计约 $6.00。全年租金合计约 <strong>$7.80</strong>。</span>
-    <span class="en">A disciplined Wheel trader would have walked the year like this: sell the $48 CSP in January for $1.80; be assigned in February at a $46.20 cost basis; then sell a roughly 5%-OTM covered call each month for about $0.60, roughly $6.00 across ten months. Total rent for the year: about <strong>$7.80</strong>.</span>
+    <span class="zh">一位纪律严明的 Wheel 交易者会这样走完这一年：1 月卖出 $48 的 CSP 收 $1.80；2 月被指派，成本基准 $46.20。此后按 7.4 的规则，Covered Call 的 Strike 不得低于 $46.20——3 至 5 月股价还在 $44–50，这样的 Call 每月还能收约 $0.5–0.7；6 月起股价跌破 $40，$46.20 之上的 Call 每月只值一毛钱上下；9 月以后接近于零。全年租金合计约 <strong>$3.90</strong>，而不是"每月稳定收租"所想象的 $7–8。</span>
+    <span class="en">A disciplined Wheel trader would have walked the year like this: sell the $48 CSP in January for $1.80; be assigned in February at a $46.20 cost basis. From there, §7.4's rule pins every covered-call strike at $46.20 or above — through March–May, with the stock at $44–50, such calls still paid about $0.5–0.7 a month; from June, with the stock under $40, calls above $46.20 were worth a dime or so; from September, next to nothing. Total rent for the year: about <strong>$3.90</strong> — not the $7–8 that "steady monthly rent" imagines.</span>
   </p>
   <div class="panel">
     <p class="panel-title"><span class="dot"></span>INTC · 2022 <span class="zh">（收盘价与成本基准 $46.20）</span><span class="en">(closes vs. the $46.20 cost basis)</span></p>
     <div id="case-intc"></div>
   </div>
   <p>
-    <span class="zh">年末结算：(26.43 − 48 + 7.80) ÷ 48 = <strong>约 -28.7%</strong>，而直接买入并持有的人是 <strong>-48.7%</strong>。<strong>从数字上看，Wheel 赢了二十个百分点。</strong>如果案例到此为止，它会是一个 Wheel 的成功故事。</span>
-    <span class="en">Year-end: (26.43 − 48 + 7.80) ÷ 48 = <strong>about −28.7%</strong>, against −48.7% for someone who simply bought and held. <strong>On the numbers, the Wheel won by twenty points.</strong> If the case stopped here it would read as a Wheel success story.</span>
+    <span class="zh">年末结算：(26.43 − 48 + 3.90) ÷ 48 = <strong>约 -37%</strong>，而直接买入并持有的人是 <strong>-48.7%</strong>。<strong>从数字上看，Wheel 仍然赢了约十二个百分点。</strong>如果案例到此为止，它会是一个 Wheel 的成功故事。</span>
+    <span class="en">Year-end: (26.43 − 48 + 3.90) ÷ 48 = <strong>about −37%</strong>, against −48.7% for someone who simply bought and held. <strong>On the numbers, the Wheel still won by about twelve points.</strong> If the case stopped here it would read as a Wheel success story.</span>
   </p>
   <p>
-    <span class="zh">但请看图中那条平线。成本基准是 $46.20，而股价在 9 月已经跌到 $25.77 —— <strong>系统在这里卡死了</strong>。此时一个 5% 价外的 Call 落在约 $27.75；卖出它，就是同意以 $27.75 交出成本 $46.20 的股票，一次性锁定每股约 $18.45 的亏损。于是唯一"合规"的选择是<strong>停止卖 Call</strong>——而停止卖 Call 意味着这套系统不再产生任何现金流。<strong>Wheel 的下半程从 9 月起就已经不存在了，剩下的只是一个被套的正股头寸。</strong></span>
-    <span class="en">But look at the flat line on the chart. The cost basis is $46.20 and by September the stock was at $25.77 — <strong>this is where the system jams</strong>. A 5%-OTM call now sits near $27.75; selling it means agreeing to hand over $46.20-basis shares at $27.75, crystallizing about $18.45 per share of loss in one stroke. So the only "compliant" choice is to <strong>stop selling calls</strong> — and stopping means the system produces no cash flow at all. <strong>From September onward the Wheel's second half simply did not exist; what remained was an underwater stock position.</strong></span>
+    <span class="zh">但请看图中那条平线。卡死不是发生在某一天，而是一段<strong>渐进的窒息</strong>：6 月股价跌到 $37.4 时，$46.20 之上的 Call 已经只值一毛钱，租金名存实亡；到 9 月股价 $25.77，它彻底归零。这时唯一还能收到像样租金的，是 $27.75 附近（5% 价外）的 Call——卖出它，就是同意以 $27.75 交出成本 $46.20 的股票，一次性锁定每股约 $18.45 的亏损。于是唯一"合规"的选择是<strong>停止卖 Call</strong>——而停止卖 Call 意味着这套系统不再产生任何现金流。<strong>Wheel 的下半程从 6 月起名存实亡，9 月起彻底不存在，剩下的只是一个被套的正股头寸。</strong></span>
+    <span class="en">But look at the flat line on the chart. The jam wasn't a single day; it was a <strong>gradual suffocation</strong>: by June, with the stock at $37.4, calls above $46.20 were worth a dime and the rent existed in name only; by September, at $25.77, it was zero. The only call still paying meaningful rent sat near $27.75 (5% OTM) — and selling it means agreeing to hand over $46.20-basis shares at $27.75, crystallizing about $18.45 per share of loss in one stroke. So the only "compliant" choice is to <strong>stop selling calls</strong> — and stopping means the system produces no cash flow at all. <strong>From June the Wheel's second half existed in name only; from September, not at all. What remained was an underwater stock position.</strong></span>
   </p>
   <p>
-    <span class="zh">这就是本章的核心结论。<strong>租金不是护城河，它是缓冲垫。</strong>$7.80 的租金把 -48.7% 垫到了 -28.7%，这是真实的减损；但它没有、也不可能修正第 ① 步的判断——2022 年的英特尔不是一只"跌下来就该买"的股票，而是一家基本面正在恶化的公司。<strong>Wheel 把"我愿意在 $48 买入英特尔"这个决定货币化了，可它无法让这个决定变得正确。</strong></span>
-    <span class="en">And that is this chapter's central conclusion. <strong>Rent is not a moat, it is a cushion.</strong> The $7.80 padded −48.7% into −28.7%, which is a genuine reduction; but it did not and could not correct the judgment made at step ① — 2022 Intel was not a stock to buy on weakness, it was a company whose fundamentals were deteriorating. <strong>The Wheel monetized the decision "I'd buy Intel at $48." It could not make that decision right.</strong></span>
+    <span class="zh">这就是本章的核心结论。<strong>租金不是护城河，它是缓冲垫。</strong>$3.90 的租金把 -48.7% 垫到了约 -37%，这是真实的减损；但它没有、也不可能修正第 ① 步的判断——2022 年的英特尔不是一只"跌下来就该买"的股票，而是一家基本面正在恶化的公司。<strong>Wheel 把"我愿意在 $48 买入英特尔"这个决定货币化了，可它无法让这个决定变得正确。</strong></span>
+    <span class="en">And that is this chapter's central conclusion. <strong>Rent is not a moat, it is a cushion.</strong> The $3.90 padded −48.7% into about −37%, a genuine reduction; but it did not and could not correct the judgment made at step ① — 2022 Intel was not a stock to buy on weakness, it was a company whose fundamentals were deteriorating. <strong>The Wheel monetized the decision "I'd buy Intel at $48." It could not make that decision right.</strong></span>
   </p>
   <p>
-    <span class="zh">简化声明：英特尔股价为真实历史收盘约值。CSP 与 Covered Call 的权利金（$1.80 与约 $0.60/月）为按当时 IV 水平给出的<strong>示意值</strong>，非实际成交价；计算忽略手续费、股息、以及实盘中几乎必然发生的 Roll 操作。</span>
-    <span class="en">Stated simplification: Intel's prices are approximate real closes. The CSP and covered-call premiums ($1.80 and about $0.60 a month) are <strong>illustrative</strong> values at the era's IV levels, not actual fills; the math ignores commissions, dividends, and the rolls that would almost certainly have occurred in a live account.</span>
+    <span class="zh">简化声明：英特尔股价为真实历史收盘约值。CSP 与 Covered Call 的权利金（$1.80，以及按各月股价对 $46.20 之上 Strike 估算的 $0.05–0.7/月）为按当时 IV 水平给出的<strong>示意值</strong>，非实际成交价；计算忽略手续费、股息、以及实盘中几乎必然发生的 Roll 操作。</span>
+    <span class="en">Stated simplification: Intel's prices are approximate real closes. The CSP and covered-call premiums ($1.80, plus $0.05–0.7 a month estimated against strikes above $46.20 at each month's stock price) are <strong>illustrative</strong> values at the era's IV levels, not actual fills; the math ignores commissions, dividends, and the rolls that would almost certainly have occurred in a live account.</span>
   </p>
-  <p class="verdict loss"><span class="zh">亏损减少：-48.7%（裸持有）→ 约 -28.7%（Wheel 收租），但代价是闭环自 9 月起卡死，系统不再产生现金流</span><span class="en">Loss reduced: −48.7% buy-and-hold → about −28.7% with Wheel rent — at the cost of a loop that jammed in September and produced no further cash flow</span></p>
+  <p class="verdict loss"><span class="zh">亏损减少：-48.7%（裸持有）→ 约 -37%（Wheel 收租），但 7.4 的规则让租金从 6 月起枯竭——缓冲垫恰好在最需要的时候变薄</span><span class="en">Loss reduced: −48.7% buy-and-hold → about −37% with Wheel rent — but §7.4's rule dried the rent up from June, thinning the cushion exactly when it was needed most</span></p>
 </div>
 
 <div class="panel">
@@ -194,8 +194,8 @@
 
 <div class="think">
   <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
-  <span class="zh">微软的案例和英特尔的案例，操作步骤<strong>完全相同</strong>：卖 CSP、被指派、算成本基准、卖 Covered Call。两者的结果相差六十个百分点。<strong>如果流程一样而结果天差地别，那么这套"系统"到底在系统化什么？</strong>它系统化的是执行，还是判断？如果只是执行，那么把它称作"策略"是否夸大了它的作用？</span>
-  <span class="en">The Microsoft case and the Intel case follow <strong>identical steps</strong>: sell the CSP, get assigned, compute the basis, sell covered calls. Their outcomes differ by sixty percentage points. <strong>If the process is the same and the results are not, what is this "system" actually systematizing?</strong> Execution, or judgment? And if only execution, does calling it a "strategy" overstate what it does?</span>
+  <span class="zh">微软的案例和英特尔的案例，操作步骤<strong>完全相同</strong>：卖 CSP、被指派、算成本基准、卖 Covered Call。两者的结果相差七十个百分点。<strong>如果流程一样而结果天差地别，那么这套"系统"到底在系统化什么？</strong>它系统化的是执行，还是判断？如果只是执行，那么把它称作"策略"是否夸大了它的作用？</span>
+  <span class="en">The Microsoft case and the Intel case follow <strong>identical steps</strong>: sell the CSP, get assigned, compute the basis, sell covered calls. Their outcomes differ by seventy percentage points. <strong>If the process is the same and the results are not, what is this "system" actually systematizing?</strong> Execution, or judgment? And if only execution, does calling it a "strategy" overstate what it does?</span>
 </div>
 
 <!-- ============ 7.6 ============ -->
@@ -221,8 +221,8 @@
 <div class="note">
   <span class="note-tag"><span class="zh">"不交易"是这套系统的合法输出</span><span class="en">"No trade" is a legitimate output of this system</span></span>
   <p>
-    <span class="zh">Wheel 有一个心理陷阱：它是一套<strong>循环</strong>系统，而循环系统天然给人"必须一直转"的暗示。空仓的一个月会让人觉得自己在浪费资金效率，于是去找一个次优的标的把轮子转起来。<strong>但这套系统的期望收益，几乎全部来自那些你正确地拒绝了的交易。</strong>2022 年在英特尔上纪律严明地转了十二个月的人，输给了看一眼趋势然后什么都没做的人——整整二十八个百分点。<strong>把"本月无合格标的"写进你的规则里，让它和"卖出 CSP"享有同等地位。</strong></span>
-    <span class="en">The Wheel carries a psychological trap: it is a <strong>cyclical</strong> system, and cyclical systems imply they must always be turning. A month in cash feels like wasted capital efficiency, so people find a second-best name just to keep the wheel moving. <strong>But this system's expected return comes almost entirely from the trades you correctly declined.</strong> Someone who ran Intel with perfect discipline for twelve months in 2022 lost to someone who glanced at the trend and did nothing — by a full twenty-eight points. <strong>Write "no qualifying candidate this month" into your rules, and give it equal standing with "sell the CSP."</strong></span>
+    <span class="zh">Wheel 有一个心理陷阱：它是一套<strong>循环</strong>系统，而循环系统天然给人"必须一直转"的暗示。空仓的一个月会让人觉得自己在浪费资金效率，于是去找一个次优的标的把轮子转起来。<strong>但这套系统的期望收益，几乎全部来自那些你正确地拒绝了的交易。</strong>2022 年在英特尔上严格按规则执行的人，输给了看一眼趋势然后什么都没做的人——整整三十七个百分点。<strong>把"本月无合格标的"写进你的规则里，让它和"卖出 CSP"享有同等地位。</strong></span>
+    <span class="en">The Wheel carries a psychological trap: it is a <strong>cyclical</strong> system, and cyclical systems imply they must always be turning. A month in cash feels like wasted capital efficiency, so people find a second-best name just to keep the wheel moving. <strong>But this system's expected return comes almost entirely from the trades you correctly declined.</strong> Someone who ran Intel by the rules in 2022 lost to someone who glanced at the trend and did nothing — by a full thirty-seven points. <strong>Write "no qualifying candidate this month" into your rules, and give it equal standing with "sell the CSP."</strong></span>
   </p>
 </div>
 
@@ -307,8 +307,8 @@
 <!-- ============ takeaways ============ -->
 <h2><span class="zh">本章要点</span><span class="en">Key Takeaways</span></h2>
 <p>
-  <span class="zh">Wheel 把第 2 章的两个卖方策略接成闭环，每一步都产生现金，因而很容易被误认为是一台印钞机。但微软和英特尔这两个案例走的是<strong>完全相同的四个步骤</strong>，结果却相差六十个百分点——这说明这套系统系统化的是<strong>执行</strong>，而不是<strong>判断</strong>。它的全部盈亏，在第 ① 步选定标的与 Strike 的那一刻就已经基本决定：微软在 2020 年 3 月被指派是这套系统最好的一天（成本基准 $166，最终 +33.2%），英特尔在 2022 年被指派则让闭环在九月彻底卡死，留下一张最大收益为负的盈亏图。<strong>租金不是护城河，它是缓冲垫</strong>——$7.80 的租金能把 -48.7% 垫到 -28.7%，但它无法把一个错误的买入决定变成正确的。所以这一章真正的技术含量不在管理，而在过滤：先看 Regime，再看标的，最后才看权利金；<strong>而当三个前提无法同时成立时，"本月不开仓"和"卖出 CSP"是这套系统同等合法的两个输出。</strong></span>
-  <span class="en">The Wheel joins Chapter 2's two selling strategies into a loop where every step produces cash, which makes it easy to mistake for a money printer. But the Microsoft and Intel cases run <strong>exactly the same four steps</strong> to outcomes sixty points apart — which tells you the system systematizes <strong>execution</strong>, not <strong>judgment</strong>. Its entire P/L is largely settled the moment step ① picks the name and the strike: being assigned Microsoft in March 2020 was this system's finest day ($166 basis, +33.2% eventually), while being assigned Intel in 2022 jammed the loop completely by September and left a payoff diagram whose maximum gain is negative. <strong>Rent is not a moat, it is a cushion</strong> — $7.80 of it padded −48.7% into −28.7%, but it could not turn a wrong purchase decision into a right one. So this chapter's real skill lies in filtering rather than managing: read the regime, then the name, and only then the premium; <strong>and when the three preconditions can't hold together, "nothing this month" and "sell the CSP" are equally legitimate outputs of the system.</strong></span>
+  <span class="zh">Wheel 把第 2 章的两个卖方策略接成闭环，每一步都产生现金，因而很容易被误认为是一台印钞机。但微软和英特尔这两个案例走的是<strong>完全相同的四个步骤</strong>，结果却相差七十个百分点——这说明这套系统系统化的是<strong>执行</strong>，而不是<strong>判断</strong>。它的全部盈亏，在第 ① 步选定标的与 Strike 的那一刻就已经基本决定：微软在 2020 年 3 月被指派是这套系统最好的一天（成本基准 $166，最终 +33.2%），英特尔在 2022 年被指派则让租金从六月起枯竭、闭环彻底卡死，留下一张最大收益为负的盈亏图。<strong>租金不是护城河，它是缓冲垫</strong>——$3.90 的租金能把 -48.7% 垫到约 -37%，但它无法把一个错误的买入决定变成正确的。所以这一章真正的技术含量不在管理，而在过滤：先看 Regime，再看标的，最后才看权利金；<strong>而当三个前提无法同时成立时，"本月不开仓"和"卖出 CSP"是这套系统同等合法的两个输出。</strong></span>
+  <span class="en">The Wheel joins Chapter 2's two selling strategies into a loop where every step produces cash, which makes it easy to mistake for a money printer. But the Microsoft and Intel cases run <strong>exactly the same four steps</strong> to outcomes seventy points apart — which tells you the system systematizes <strong>execution</strong>, not <strong>judgment</strong>. Its entire P/L is largely settled the moment step ① picks the name and the strike: being assigned Microsoft in March 2020 was this system's finest day ($166 basis, +33.2% eventually), while being assigned Intel in 2022 dried the rent up from June, jammed the loop completely, and left a payoff diagram whose maximum gain is negative. <strong>Rent is not a moat, it is a cushion</strong> — $3.90 of it padded −48.7% into about −37%, but it could not turn a wrong purchase decision into a right one. So this chapter's real skill lies in filtering rather than managing: read the regime, then the name, and only then the premium; <strong>and when the three preconditions can't hold together, "nothing this month" and "sell the CSP" are equally legitimate outputs of the system.</strong></span>
 </p>
 
 <nav class="chap-nav">
@@ -356,9 +356,9 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   CaseChart.mount('case-msft', {
-    labels: ['02-21', '03-06', '03-23', '04-30', '06-30', '09-30', '12-31'],
+    labels: ['02-21', '03-06', '03-20', '04-30', '06-30', '09-30', '12-31'],
     series: [
-      { name: { zh: 'MSFT', en: 'MSFT' }, color: '#3CDFA3', data: [178.59, 161.57, 135.98, 179.21, 203.51, 210.33, 222.42] },
+      { name: { zh: 'MSFT', en: 'MSFT' }, color: '#3CDFA3', data: [178.59, 161.57, 137.35, 179.21, 203.51, 210.33, 222.42] },
       { name: { zh: '成本 166', en: 'Basis 166' }, color: '#D99A3D', data: [166, 166, 166, 166, 166, 166, 166] }
     ],
     events: [{ i: 2, text: { zh: '被指派', en: 'Assigned' } }],
@@ -371,7 +371,7 @@ document.addEventListener('DOMContentLoaded', function () {
       { name: { zh: 'INTC', en: 'INTC' }, color: '#FF6A55', data: [51.5, 47.7, 49.5, 44, 37.4, 32.5, 25.8, 27.9, 26.4] },
       { name: { zh: '成本 46.2', en: 'Basis 46.2' }, color: '#D99A3D', data: [46.2, 46.2, 46.2, 46.2, 46.2, 46.2, 46.2, 46.2, 46.2] }
     ],
-    events: [{ i: 6, text: { zh: '闭环卡死', en: 'Loop jams' } }],
+    events: [{ i: 4, text: { zh: '租金枯竭', en: 'Rent dries up' } }],
     yfmt: function (v) { return '$' + v.toFixed(0); }
   });
 
