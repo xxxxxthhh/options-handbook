@@ -240,6 +240,18 @@
     <span class="zh">大量买入 Call → 做市商买股对冲 → 股价上涨 → Delta 上升需买入更多 → 正反馈螺旋。2021 年 GameStop 的引擎。</span>
     <span class="en">Heavy call buying → market makers hedge by buying stock → stock rises → deltas rise, forcing more buying → a feedback spiral. The engine of GameStop 2021.</span></td></tr>
 
+  <tr id="kelly"><td class="t">Kelly Criterion</td><td class="c">凯利公式</td><td>
+    <span class="zh">使长期复合增长率最大化的下注比例。它是一座山不是一条上升线：<strong>下注到两倍最优值，即使优势真实，长期增长率也变成负数</strong>。实践中通常只用一半（半凯利），保留约 75% 的增长并为"高估优势"留出余地。见第 9.3 节。</span>
+    <span class="en">The bet fraction that maximizes long-run compound growth. It is a hill, not a rising line: <strong>bet twice the optimum and long-run growth turns negative even with a genuine edge</strong>. Practitioners typically use half of it, retaining about 75% of the growth with a margin for overestimating the edge. See §9.3.</span></td></tr>
+
+  <tr id="drawdown"><td class="t">Drawdown</td><td class="c">回撤</td><td>
+    <span class="zh">从峰值到谷底的跌幅。回撤与回本的关系是 d ÷ (1−d)，<strong>不是对称的</strong>：-50% 需要 +100%，-90% 需要 +900%。这条曲线在 -50% 之后近乎垂直，那里存在一条不该越过的线。</span>
+    <span class="en">The fall from peak to trough. Recovery relates to it as d ÷ (1−d), <strong>not symmetrically</strong>: −50% needs +100%, −90% needs +900%. The curve is nearly vertical past −50%, and that is a line not to cross.</span></td></tr>
+
+  <tr id="leverage"><td class="t">Leverage</td><td class="c">杠杆</td><td>
+    <span class="zh">资产规模与权益之比。它不改变你判断的对错，只放大结果：LTCM 在 26.6:1 杠杆下，资产端约 -3.7% 的走势变成了权益的 -92%。<strong>期权本身自带杠杆，再叠加保证金等于杠杆的平方。</strong></span>
+    <span class="en">Assets divided by equity. It never changes whether you're right, only the magnitude: at LTCM's 26.6:1, a −3.7% move on assets became −92% of equity. <strong>Options carry embedded leverage already; adding margin squares it.</strong></span></td></tr>
+
   <tr id="regime"><td class="t">Regime</td><td class="c">市场状态</td><td>
     <span class="zh">当前市场所处的宏观环境类型（单边牛、震荡、趋势熊、恐慌）。同一策略在不同 Regime 下结果天差地别——先判断状态，再选策略。</span>
     <span class="en">The prevailing market environment (one-way bull, chop, trending bear, panic). The same strategy produces wildly different outcomes across regimes — read the regime before choosing the strategy.</span></td></tr>
@@ -248,8 +260,8 @@
 </table>
 
 <nav class="chap-nav">
-  <a href="index.html">← <span class="zh">目录</span><span class="en">Contents</span></a>
-  <a href="chapters/02-single-leg.html"><span class="zh">第 2 章 →</span><span class="en">Chapter 2 →</span></a>
+  <a href="chapters/09-sizing-discipline.html">← <span class="zh">第 9 章 仓位与纪律</span><span class="en">Ch.9 Sizing and Discipline</span></a>
+  <a href="index.html"><span class="zh">目录 →</span><span class="en">Contents →</span></a>
 </nav>
 
 </main>

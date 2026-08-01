@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.09 仓位与纪律 Sizing and Discipline · Options Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../index.html"><b>OPTIONS</b>/HANDBOOK</a>
+  <div class="spacer"></div>
+  <nav>
+    <a href="../index.html"><span class="zh">目录</span><span class="en">Contents</span></a>
+    <a href="../glossary.html">Glossary</a>
+  </nav>
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button data-lang="zh" aria-pressed="true">中</button>
+    <button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main class="page">
+
+<p class="eyebrow">Chapter 09 · Sizing and Discipline</p>
+<h1><span class="zh">仓位与纪律：状态判断、资金管理与"不交易"</span><span class="en">Sizing and Discipline: Regimes, Risk Budgets, and "No Trade"</span></h1>
+<p class="lede">
+  <span class="zh">前八章讲的是"选什么"。这一章讲的是"下多少"，以及"什么都不下"。这是最后一章，也是唯一一章讲的东西<strong>完全在你的控制之内</strong>——你无法控制市场往哪走、IV 会不会塌、财报是好是坏，但你可以百分之百地控制那个数字。</span>
+  <span class="en">The first eight chapters were about what to choose. This one is about how much — and about choosing nothing. It's the last chapter, and the only one whose subject is <strong>entirely within your control</strong>. You cannot control which way the market goes, whether IV collapses, or how earnings land. You can control that one number completely.</span>
+</p>
+
+<!-- ============ 9.1 ============ -->
+<h2><span class="zh">9.1 唯一你能完全控制的变量</span><span class="en">9.1 The One Variable You Fully Control</span></h2>
+
+<p>
+  <span class="zh">第 8 章的三个案例给出了一个不舒服的结论：<strong>他们死于仓位，不是死于判断。</strong>把这个结论推到底，你会得到本手册最重要的一句话——<strong>在长期结果里，仓位的权重高于选股，也高于择时。</strong>这不是修辞，它有严格的算术支撑，而这一节就是那个算术。</span>
+  <span class="en">Chapter 8's three cases delivered an uncomfortable conclusion: <strong>they died of size, not of judgment.</strong> Push that all the way and you arrive at this handbook's most important sentence — <strong>over long horizons, position size matters more than selection and more than timing.</strong> That isn't rhetoric; it has strict arithmetic behind it, and this section is that arithmetic.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>INTERACTIVE · <span class="zh">同一笔 CSP，拖动张数看形状如何改变</span><span class="en">the same CSP — drag the contract count</span></p>
+  <div id="pf-sizing"></div>
+</div>
+
+<p>
+  <span class="zh">请注意拖动"张数"时发生的事：<strong>盈亏平衡点纹丝不动，曲线的形状也完全一样，只有纵轴的刻度在变。</strong>换句话说，仓位不改变你判断的对错，它只决定<strong>判断错的时候你还能不能继续玩下去</strong>。这就是它区别于其他一切决策的地方——选股影响的是期望值，仓位影响的是<strong>你能否活到期望值兑现</strong>。</span>
+  <span class="en">Watch what happens as you drag the contract count: <strong>the breakeven never moves and the shape is identical — only the vertical scale changes.</strong> Size does not alter whether your view is right; it determines <strong>whether you're still in the game when the view is wrong</strong>. That is what separates it from every other decision — selection moves your expected value, size decides <strong>whether you survive to collect it</strong>.</span>
+</p>
+
+<!-- ============ 9.2 ============ -->
+<h2><span class="zh">9.2 破产的算术</span><span class="en">9.2 The Arithmetic of Ruin</span></h2>
+
+<p>
+  <span class="zh">回撤和回本之间的关系不是对称的，而且不对称的程度远超直觉。亏损 <strong>-50%</strong> 之后，你需要 <strong>+100%</strong> 才能回到原点；亏损 <strong>-80%</strong> 之后，需要 <strong>+400%</strong>。</span>
+  <span class="en">The relationship between a drawdown and its recovery isn't symmetric, and the asymmetry is far worse than intuition suggests. After <strong>−50%</strong> you need <strong>+100%</strong> to get back to even; after <strong>−80%</strong>, you need <strong>+400%</strong>.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span><span class="zh">回撤 → 回本所需涨幅</span><span class="en">drawdown → gain required to recover</span></p>
+  <div id="case-drawdown"></div>
+</div>
+
+<p>
+  <span class="zh">这条曲线在 -50% 之后近乎垂直。它意味着一件非常具体的事：<strong>存在一条你永远不该越过的线，因为线那边不存在"努力赚回来"这个选项。</strong>第 8 章那位全仓 XIV 的投资者需要 +1,900% 才能回本，而承载他这个判断的那只票据在三周后就已经不存在了。</span>
+  <span class="en">The curve is nearly vertical past −50%. That means something very concrete: <strong>there is a line you must never cross, because on the other side of it "work your way back" is not an available option.</strong> Chapter 8's all-in XIV holder needed +1,900% to break even, and the instrument that carried their view ceased to exist three weeks later.</span>
+</p>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 1998-09</p>
+  <h3><span class="zh">LTCM：两位诺奖得主，26 倍杠杆，四个月</span><span class="en">LTCM: Two Nobel Laureates, 26× Leverage, Four Months</span></h3>
+  <p>
+    <span class="zh">长期资本管理公司（LTCM）于 1994 年成立，合伙人中包括 <strong>Myron Scholes 与 Robert Merton</strong>——他们在 1997 年因期权定价理论共同获得诺贝尔经济学奖。这大概是金融史上智力密度最高的一间办公室。它的业绩也配得上这份阵容：1995 年约 +43%，1996 年约 +41%，1997 年约 +17%（均为费后）。</span>
+    <span class="en">Long-Term Capital Management was founded in 1994 with partners including <strong>Myron Scholes and Robert Merton</strong>, who shared the 1997 Nobel Prize in Economics for option pricing theory. It was probably the highest concentration of intellect ever assembled in one financial office. The record matched: roughly +43% in 1995, +41% in 1996, +17% in 1997, all net of fees.</span>
+  </p>
+  <p>
+    <span class="zh">1998 年初，它的权益约 <strong>47 亿美元</strong>，而资产负债表规模约 <strong>1,250 亿美元</strong>——杠杆约 <strong>26.6 : 1</strong>。它的主力策略是"收敛交易"：押注两个高度相关的债券之间的异常价差会回归正常。这个判断在统计上极其可靠，只是每次的价差都很小，所以必须用巨大的杠杆才能把它放大成有意义的收益。</span>
+    <span class="en">Entering 1998 it held about <strong>$4.7 billion</strong> of equity against a balance sheet of roughly <strong>$125 billion</strong> — leverage near <strong>26.6 : 1</strong>. Its core strategy was convergence: betting that an abnormal spread between two highly correlated bonds would revert to normal. Statistically that view was extremely reliable — but each spread was tiny, so enormous leverage was required to turn it into meaningful return.</span>
+  </p>
+  <p>
+    <span class="zh">1998 年 8 月 17 日，俄罗斯对其国债违约。全球资金涌向最安全的资产，而 LTCM 的所有收敛交易同时朝相反方向张开。<strong>仅 8 月一个月，基金就损失了约 44%。</strong>到 9 月下旬，权益从 47 亿美元跌到约 <strong>4 亿美元</strong>——约 <strong>-92%</strong>。9 月 23 日，纽约联储召集 14 家机构注资约 36 亿美元完成接管。</span>
+    <span class="en">On August 17, 1998, Russia defaulted on its domestic debt. Capital fled worldwide toward the safest assets, and every one of LTCM's convergence trades widened at once. <strong>The fund lost roughly 44% in August alone.</strong> By late September equity had fallen from $4.7 billion to about <strong>$400 million</strong> — some <strong>−92%</strong>. On September 23 the New York Fed convened fourteen institutions to inject about $3.6 billion and take it over.</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>LTCM <span class="zh">·  权益（十亿美元，约值）</span><span class="en">· equity ($bn, approx.)</span></p>
+    <div id="case-ltcm"></div>
+  </div>
+  <p>
+    <span class="zh">现在做这一章的算术。<strong>46 亿美元的亏损，摊到 1,250 亿美元的资产上，只相当于约 -3.7%。</strong>换句话说：LTCM 的投资组合在四个月里只走坏了不到 4 个百分点，而这不到 4 个百分点，经由 26.6 倍杠杆放大成了权益的 -92%。<strong>杠杆没有让他们判断错误，它只是把一个温和的、完全正常的市场波动，翻译成了破产。</strong></span>
+    <span class="en">Now the chapter's arithmetic. <strong>A $4.6 billion loss spread across $125 billion of assets is only about −3.7%.</strong> Put plainly: LTCM's portfolio moved against it by under four percentage points across four months, and 26.6× leverage translated those four points into −92% of equity. <strong>Leverage did not make them wrong. It merely converted a mild, entirely ordinary market move into insolvency.</strong></span>
+  </p>
+  <p>
+    <span class="zh">Counterfactual：同一组交易、同一次俄罗斯违约、同一个 -3.7% 的资产端走势——如果杠杆是 <strong>5 : 1</strong> 而不是 26.6 : 1，权益的损失约为 <strong>-18%</strong>。这是一个难受但完全可以恢复的年份（按 9.2 的曲线，回本需要 +23%），而不是一场需要美联储出面的系统性事件。<strong>而且他们最终是对的：那些收敛交易在此后确实收敛了。他们只是没能活到那一天。</strong></span>
+    <span class="en">Counterfactual: same trades, same Russian default, same −3.7% on the asset side — at <strong>5 : 1</strong> leverage instead of 26.6 : 1, the equity loss is about <strong>−18%</strong>. That's a painful but entirely recoverable year (by §9.2's curve, +23% restores it), rather than a systemic event requiring the Federal Reserve. <strong>And they were ultimately right: those convergence trades did converge afterwards. They simply weren't there for it.</strong></span>
+  </p>
+  <p>
+    <span class="zh">简化声明：LTCM 的权益规模、资产规模、各年收益率与接管事实为真实历史约值。权益曲线上的中间点位为<strong>示意插值</strong>，用以表现崩塌节奏，非逐月披露数据。反事实中的"5 : 1 杠杆"是纯粹的算术换算（资产端 -3.7% × 5），它<strong>假设投资组合构成不变</strong>——现实中更低的杠杆也会改变交易规模与市场冲击，因此这个数字用于说明量级，不是精确的历史重演。</span>
+    <span class="en">Stated simplification: LTCM's equity, balance sheet, annual returns and the rescue are approximate real history. Intermediate points on the equity curve are <strong>illustrative interpolation</strong> conveying the pace of the collapse, not disclosed monthly data. The "5 : 1" counterfactual is pure arithmetic (−3.7% on assets × 5) and <strong>assumes an unchanged portfolio</strong> — in reality lower leverage would also have changed trade sizes and market impact, so the figure conveys magnitude rather than replaying history exactly.</span>
+  </p>
+  <p class="verdict loss"><span class="zh">亏损减少：同一组交易、同一次违约，资产端约 -3.7% 在 26.6:1 杠杆下变成权益 -92%；若杠杆为 5:1，同样的走势只对应约 -18%</span><span class="en">Loss reduced: same trades, same default — a −3.7% move on assets became −92% of equity at 26.6:1 leverage; at 5:1 the identical move costs about −18%</span></p>
+</div>
+
+<!-- ============ 9.3 ============ -->
+<h2><span class="zh">9.3 凯利公式：一个数学答案，和它为什么必须打折</span><span class="en">9.3 Kelly: A Mathematical Answer, and Why You Must Discount It</span></h2>
+
+<p>
+  <span class="zh"><a class="term" href="../glossary.html#kelly">凯利公式</a>回答的正是"下多少"这个问题：给定优势和赔率，什么下注比例能让长期<strong>复合增长率</strong>最大？对于一个胜率 55%、赔率 1:1 的赌局，答案是 <strong>10%</strong>。</span>
+  <span class="en">The <a class="term" href="../glossary.html#kelly">Kelly criterion</a> answers exactly the "how much" question: given an edge and payoff odds, what betting fraction maximizes long-run <strong>compound growth</strong>? For a 55%-win, 1:1-payoff bet, the answer is <strong>10%</strong>.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span><span class="zh">下注比例 → 长期增长率（胜率 55%，赔率 1:1）</span><span class="en">bet size → long-run growth (55% win rate, 1:1 payoff)</span></p>
+  <div id="case-kelly"></div>
+</div>
+
+<p>
+  <span class="zh">这条曲线里有两个数字值得记一辈子。<strong>第一，它是一座山，不是一条上升的直线。</strong>下注比例超过最优点之后，增长率<em>下降</em>——即使你的优势完全真实、一点没变。<strong>第二，也是更刺眼的：在下注 20%（也就是两倍凯利）时，长期增长率已经变成负数。</strong>你有真实的、可验证的 55% 胜率优势，你却在长期中稳定亏钱——原因仅仅是下注太大。</span>
+  <span class="en">Two numbers on this curve are worth remembering for life. <strong>First, it is a hill, not a rising line.</strong> Past the optimum, growth <em>falls</em> — even though your edge is entirely real and entirely unchanged. <strong>Second, and more startling: at a 20% bet — twice Kelly — long-run growth is already negative.</strong> You possess a genuine, verifiable 55% edge and you lose money steadily over time, for no reason other than betting too large.</span>
+</p>
+
+<p>
+  <span class="zh">但请不要把凯利当成一个可以直接套用的公式，原因很实际：<strong>它要求你准确知道自己的胜率和赔率，而在真实市场里你并不知道。</strong>你只有一个估计，而估计通常偏乐观。凯利对高估优势的惩罚是不对称的——高估一倍就直接把你推到那条曲线的负值区。</span>
+  <span class="en">But don't apply Kelly literally, for a very practical reason: <strong>it requires knowing your win rate and payoff odds exactly, and in real markets you don't.</strong> You have an estimate, and estimates skew optimistic. Kelly punishes overestimation asymmetrically — being wrong by a factor of two drops you straight into the negative region of that curve.</span>
+</p>
+
+<p>
+  <span class="zh">所以实践中的标准做法是<strong>半凯利</strong>：按公式算出的一半下注。代价很小而好处很大——在上面的例子里，半凯利保留了满凯利 <strong>75%</strong> 的增长率，同时把波动和回撤大幅降低，并且为"我高估了自己的优势"留出了安全边际。<strong>半凯利真正买到的不是收益，而是"我可能算错了"这件事的保险。</strong></span>
+  <span class="en">So the standard practice is <strong>half Kelly</strong>: bet half of what the formula says. The cost is small and the benefit large — in the example above, half Kelly retains <strong>75%</strong> of full-Kelly growth while sharply reducing volatility and drawdown, and it leaves a margin of safety for "I overestimated my edge." <strong>What half Kelly actually buys isn't return, it's insurance against your own estimate being wrong.</strong></span>
+</p>
+
+<dl class="spec">
+  <div><dt><span class="zh">满凯利</span><span class="en">Full Kelly</span></dt><dd><span class="zh">增长最快，回撤剧烈</span><span class="en">Fastest growth, brutal drawdowns</span></dd></div>
+  <div><dt><span class="zh">半凯利</span><span class="en">Half Kelly</span></dt><dd class="pos"><span class="zh">保留约 75% 增长</span><span class="en">Retains about 75% of growth</span></dd></div>
+  <div><dt><span class="zh">两倍凯利</span><span class="en">Double Kelly</span></dt><dd class="neg"><span class="zh">增长率为负</span><span class="en">Negative growth</span></dd></div>
+  <div><dt><span class="zh">优势估错时</span><span class="en">If the edge is wrong</span></dt><dd class="neg"><span class="zh">惩罚不对称</span><span class="en">The penalty is asymmetric</span></dd></div>
+</dl>
+
+<div class="note">
+  <span class="note-tag"><span class="zh">给期权交易者的可执行版本</span><span class="en">The executable version for option traders</span></span>
+  <p>
+    <span class="zh">你不需要真的去算凯利。把它的精神翻译成两条可以直接执行的规则就够了：<strong>① 单笔交易的最大亏损不超过组合净值的 1%–2%。</strong>注意是<em>最大亏损</em>而不是<em>持仓市值</em>——对定义风险的结构，这个数字在开仓时就是已知的（价差的宽度减权利金）；对没有上限的结构，这个数字不存在，所以你根本不该开它。<strong>② 相关头寸要合并计算。</strong>五个不同科技股的 CSP 不是五笔独立交易，它们在同一天出事，应当按一笔来计仓位。第 1 章那个"保险公司 vs 期权卖方"的思考题问的就是这件事。</span>
+    <span class="en">You never need to compute Kelly. Translating its spirit into two directly executable rules is enough. <strong>① No single trade risks more than 1–2% of portfolio equity.</strong> Note that's <em>maximum loss</em>, not <em>position value</em> — for a defined-risk structure that number is known at entry (width minus credit); for a structure with no ceiling the number doesn't exist, which is why you shouldn't be opening it. <strong>② Correlated positions count as one.</strong> Five CSPs on five different tech names are not five independent trades; they go bad on the same day and must be sized as one. Chapter 1's "insurer versus option seller" question was asking exactly this.</span>
+  </p>
+</div>
+
+<!-- ============ 9.4 ============ -->
+<h2><span class="zh">9.4 Regime：把前八章接起来</span><span class="en">9.4 Regime: Connecting the First Eight Chapters</span></h2>
+
+<p>
+  <span class="zh">这本书从头到尾只有一条主线：<strong>策略没有优劣，只有与 <a class="term" href="../glossary.html#regime">Regime</a> 的匹配与错配。</strong>现在可以把它整理成一张表——它不是交易信号，而是一份"什么时候该拿哪把工具"的提醒。</span>
+  <span class="en">One thread runs through this entire book: <strong>no strategy is superior or inferior; there is only a match or mismatch with the <a class="term" href="../glossary.html#regime">regime</a>.</strong> It can now be laid out as a table — not as trade signals, but as a reminder of which tool belongs to which weather.</span>
+</p>
+
+<dl class="spec">
+  <div><dt><span class="zh">单边急涨</span><span class="en">Melt-up</span></dt><dd class="pos"><span class="zh">买方的世界（2023 NVDA）</span><span class="en">Buyers' world (NVDA 2023)</span></dd></div>
+  <div><dt><span class="zh">震荡 / 缓涨</span><span class="en">Chop / grind</span></dt><dd class="pos"><span class="zh">卖方的世界（2017、Wheel）</span><span class="en">Sellers' world (2017, the Wheel)</span></dd></div>
+  <div><dt><span class="zh">趋势熊</span><span class="en">Trending bear</span></dt><dd class="neg"><span class="zh">Put 与价差（2022 ARKK）</span><span class="en">Puts and spreads (ARKK 2022)</span></dd></div>
+  <div><dt><span class="zh">恐慌</span><span class="en">Panic</span></dt><dd class="neg"><span class="zh">保险最贵，别在此时买（2024-08）</span><span class="en">Insurance costs most — don't buy here (2024-08)</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">这张表最有用的地方不是告诉你该做什么，而是提醒你<strong>同一个策略在不同状态下是完全不同的两笔交易</strong>。2022 年的 Covered Call 把 AAPL 的 -27% 垫成 -13%，同样的操作用在 2023 年的 NVDA 上则是灾难性的机会成本。2017 年做空波动率的人整年顺风顺水，2018 年 2 月 5 日一天还清。<strong>没有任何一个策略需要被"戒掉"，需要被戒掉的是"不看天气就出门"这个习惯。</strong></span>
+  <span class="en">The table's real use isn't telling you what to do; it's reminding you that <strong>the same strategy in two different regimes is two different trades</strong>. Covered calls padded AAPL's −27% into −13% in 2022, and the identical mechanic on NVDA in 2023 was a catastrophic opportunity cost. Short-volatility traders sailed through all of 2017 and repaid it on a single day in February 2018. <strong>No strategy needs to be sworn off. The habit that needs to be sworn off is going out without checking the weather.</strong></span>
+</p>
+
+<!-- ============ 9.5 ============ -->
+<h2><span class="zh">9.5 "不交易"是一个合法输出</span><span class="en">9.5 "No Trade" Is a Legitimate Output</span></h2>
+
+<p>
+  <span class="zh">这本手册反复出现过这句话，现在给它一个正式的位置。<strong>"不交易"不是没有做决定，它就是那个决定。</strong>而它之所以困难，不是因为它需要判断力，而是因为它需要你对抗一种结构性的压力：账户里的现金看起来像是闲置的资源，而一个没有持仓的月份看起来像是失职。</span>
+  <span class="en">This sentence has recurred throughout the handbook; here it gets a formal place. <strong>"No trade" is not the absence of a decision — it is the decision.</strong> What makes it hard isn't the judgment it requires but the structural pressure it must resist: cash in an account looks like an idle resource, and a month with no positions looks like negligence.</span>
+</p>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 1969</p>
+  <h3><span class="zh">巴菲特关掉了自己的基金</span><span class="en">Buffett Closed His Own Fund</span></h3>
+  <p>
+    <span class="zh">1969 年，巴菲特合伙企业已经连续十二年跑赢道琼斯指数，年化收益率约 <strong>29.5%</strong>，而同期道指约 7.4%。按任何标准，这都是一个正处在巅峰的基金经理。</span>
+    <span class="en">By 1969, Buffett Partnership had beaten the Dow for twelve consecutive years, compounding at roughly <strong>29.5%</strong> a year against the index's 7.4%. By any measure, this was a manager at his peak.</span>
+  </p>
+  <p>
+    <span class="zh">然后他给合伙人写信，宣布<strong>解散这家合伙企业</strong>。理由不是他累了，也不是他判断市场会崩盘——而是更朴素的一句话：<strong>按他的标准，市场上已经找不到足够便宜的东西了。</strong>他把钱还给了合伙人。</span>
+    <span class="en">Then he wrote to his partners announcing that he was <strong>winding the partnership up</strong>. Not because he was tired, and not because he forecast a crash — for a plainer reason: <strong>by his standards, there was no longer anything cheap enough to buy.</strong> He returned the money to his partners.</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>DJIA · 1969–1975 <span class="zh">（年末收盘与关键点位，约值）</span><span class="en">(year-end closes and key levels, approx.)</span></p>
+    <div id="case-dow"></div>
+  </div>
+  <p>
+    <span class="zh">此后发生的事：道指在 1973 年 1 月见顶于约 <strong>1,052</strong> 点，随后进入战后最严重的熊市之一，1974 年 12 月跌至约 <strong>578</strong> 点——<strong>自高点约 -45%</strong>。而选择"不交易"的人，在这段时间里的回撤是 <strong>0</strong>，并且在 1974 年底手握现金面对一个便宜得多的市场。1974 年 11 月，巴菲特在接受《福布斯》采访时表示，此时的他终于又可以放手买入了。</span>
+    <span class="en">What followed: the Dow peaked near <strong>1,052</strong> in January 1973, then entered one of the worst post-war bear markets, falling to about <strong>578</strong> by December 1974 — roughly <strong>−45% from the high</strong>. Whoever chose "no trade" experienced a drawdown of <strong>0</strong> across that stretch, and stood at the end of 1974 holding cash against a far cheaper market. In a November 1974 <em>Forbes</em> interview, Buffett indicated he could finally buy freely again.</span>
+  </p>
+  <p>
+    <span class="zh">这个案例的意义不在于"巴菲特预测到了熊市"——<strong>他并没有</strong>，他只是说找不到符合标准的东西。这才是可以被普通人复制的部分：<strong>"不交易"的触发条件不是你对未来的预测，而是当下的机会是否满足你事先写下的标准。</strong>前者需要预知能力，后者只需要诚实。</span>
+    <span class="en">The point isn't that Buffett predicted the bear market — <strong>he didn't</strong>; he said only that nothing met his standards. And that is the replicable part: <strong>the trigger for "no trade" isn't a forecast about the future, it's whether today's opportunities meet a standard you wrote down beforehand.</strong> The first requires prescience. The second requires only honesty.</span>
+  </p>
+  <p>
+    <span class="zh">简化声明：道指点位、合伙企业的年化收益与解散事实为真实历史约值。"回撤为 0"指持有现金本身的名义回撤——<strong>1973–74 年的高通胀会显著侵蚀现金的实际购买力</strong>，此处未计入这一影响。</span>
+    <span class="en">Stated simplification: the Dow levels, the partnership's compound return and its wind-up are approximate real history. "A drawdown of 0" refers to the nominal drawdown of holding cash — <strong>the high inflation of 1973–74 substantially eroded cash's real purchasing power</strong>, which is not accounted for here.</span>
+  </p>
+  <p class="verdict gain"><span class="zh">亏损减少：1969 年选择"不交易" → 道指自 1973 年 1 月高点回撤约 -45%，而持有现金的名义回撤为 0</span><span class="en">Loss avoided: choosing "no trade" in 1969 → the Dow fell about −45% from its January 1973 peak, while cash's nominal drawdown was 0</span></p>
+</div>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">如果"不交易"是一个合法输出，那么<strong>一个交易系统的完整性，应该用什么来衡量？</strong>是它在有信号时的胜率，还是它在没有信号时保持沉默的能力？把这个问题具体化：过去十二个月里，你有多少次因为"这个月还没做过交易"而开了一个本来不该开的仓？</span>
+  <span class="en">If "no trade" is a legitimate output, then <strong>by what should a trading system's completeness be measured?</strong> Its win rate when it fires, or its ability to stay silent when it shouldn't? Make it concrete: over the past twelve months, how many positions did you open only because you hadn't traded yet that month?</span>
+</div>
+
+<!-- ============ 9.6 ============ -->
+<h2><span class="zh">9.6 开仓前的一页纸</span><span class="en">9.6 The One Page Before You Enter</span></h2>
+
+<p>
+  <span class="zh">把这本书能给的所有东西压缩成六个问题。它们全部可以在下单前一分钟回答完，而且<strong>任何一个答不出来，就是"不交易"</strong>。</span>
+  <span class="en">Everything this book can give you, compressed into six questions. All of them can be answered in the minute before you submit an order, and <strong>any one you can't answer means "no trade"</strong>.</span>
+</p>
+
+<dl class="spec">
+  <div><dt><span class="zh">① 观点</span><span class="en">① The view</span></dt><dd><span class="zh">方向？幅度？时间窗？</span><span class="en">Direction? Magnitude? Window?</span></dd></div>
+  <div><dt><span class="zh">② 定价</span><span class="en">② The price</span></dt><dd><span class="zh">市场定了多少？我在它哪一边？</span><span class="en">What's priced? Which side am I on?</span></dd></div>
+  <div><dt><span class="zh">③ 结构</span><span class="en">③ The structure</span></dt><dd><span class="zh">这个观点最省钱的表达是什么？</span><span class="en">Cheapest expression of that view?</span></dd></div>
+  <div><dt><span class="zh">④ 最坏情况</span><span class="en">④ The worst case</span></dt><dd class="neg"><span class="zh">跳空 30%，我亏多少？（要数字）</span><span class="en">Gap 30% — how much? (a number)</span></dd></div>
+  <div><dt><span class="zh">⑤ 仓位</span><span class="en">⑤ The size</span></dt><dd><span class="zh">④ 是否 ≤ 净值的 1–2%？</span><span class="en">Is ④ ≤ 1–2% of equity?</span></dd></div>
+  <div><dt><span class="zh">⑥ 相关性</span><span class="en">⑥ Correlation</span></dt><dd><span class="zh">它和我已有的持仓同一天出事吗？</span><span class="en">Does it fail on the same day as my book?</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">第 ④ 条是这张清单的核心，也是第 8 章三块墓碑上共同缺失的那一条。<strong>请注意它要求的是一个具体的数字，而不是一种感觉。</strong>"风险可控"不是答案，"跌到 $180 我最多亏 $740"才是。而当你的结构没有上限、这个数字根本不存在时——<strong>那本身就是答案。</strong></span>
+  <span class="en">Question ④ is the heart of the list, and the one missing from all three of Chapter 8's headstones. <strong>Note that it demands a specific number, not a feeling.</strong> "The risk is manageable" is not an answer; "if it falls to $180 I lose at most $740" is. And when your structure has no ceiling so the number doesn't exist — <strong>that is itself the answer.</strong></span>
+</p>
+
+<!-- ============ 9.7 Quiz ============ -->
+<h2><span class="zh">9.7 本章测验</span><span class="en">9.7 Chapter Quiz</span></h2>
+<p><span class="zh">点击选项即可作答，答案与解析即时显示。</span><span class="en">Click an option to answer; the correct answer and explanation appear immediately.</span></p>
+
+<div class="quiz-set">
+
+<div class="quiz" data-answer="c">
+  <p class="q"><span class="zh">你的账户回撤了 50%。需要多少涨幅才能回到原点？</span><span class="en">Your account is down 50%. What gain restores it?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span>+50%</button>
+    <button data-opt="b"><span class="key">B</span>+75%</button>
+    <button data-opt="c"><span class="key">C</span>+100%</button>
+    <button data-opt="d"><span class="key">D</span>+150%</button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>C。</b>100 跌 50% 剩 50，从 50 回到 100 需要翻倍。<strong>回撤与回本之间的关系是 d ÷ (1−d)，而不是对称的。</strong>这个不对称在 -50% 之后急剧恶化：-80% 需要 +400%，-90% 需要 +900%。A 是最直觉也最危险的答案，它正是很多人低估回撤代价的原因。</span>
+    <span class="en"><b>C.</b> 100 down 50% leaves 50, and 50 back to 100 is a double. <strong>The relationship is d ÷ (1−d), not symmetry.</strong> The asymmetry worsens sharply past −50%: −80% requires +400%, −90% requires +900%. A is the intuitive and most dangerous answer, and it's precisely why people underestimate what a drawdown costs.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">LTCM 的投资组合在四个月里资产端只走坏了约 3.7%。为什么权益亏了约 92%？</span><span class="en">LTCM's portfolio moved against it by only about 3.7% on the asset side. Why did equity fall about 92%?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">因为他们的模型是错的</span><span class="en">Their models were wrong</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">因为 26.6 倍杠杆把 3.7% 放大了</span><span class="en">Because 26.6× leverage magnified the 3.7%</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">因为他们选错了标的</span><span class="en">They picked the wrong assets</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">因为俄罗斯违约无法预测</span><span class="en">Because the Russian default was unpredictable</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>3.7% × 26.6 ≈ 98%——这就是全部的机制，一行乘法。A、C 与事实不符：那些收敛交易此后确实收敛了，标的和模型都没问题。D 是最诱人的错误答案——它把责任推给"黑天鹅"，但<strong>真正的问题不是违约无法预测，而是他们的仓位配置成"任何 4% 的意外都不能发生"</strong>。在 5:1 杠杆下，同一次违约只是一个 -18% 的难受年份。</span>
+    <span class="en"><b>B.</b> 3.7% × 26.6 ≈ 98% — that is the entire mechanism, one line of multiplication. A and C are false: those convergence trades did converge later; neither the assets nor the models were the problem. D is the most seductive wrong answer, assigning blame to a black swan — but <strong>the real issue isn't that the default was unforeseeable, it's that they were sized so that no 4% surprise could be allowed to happen</strong>. At 5:1 the same default is a painful −18% year.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="d">
+  <p class="q"><span class="zh">你有一个真实的 55% 胜率优势（赔率 1:1），最优下注比例是 10%。如果你下注 20%，长期会怎样？</span><span class="en">You have a genuine 55% edge at 1:1 odds, so the optimal bet is 10%. What happens long-run if you bet 20%?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">收益翻倍</span><span class="en">Returns double</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">收益略高，波动更大</span><span class="en">Slightly higher returns, more volatility</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">收益不变</span><span class="en">Returns are unchanged</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">长期增长率变成负数</span><span class="en">Long-run growth turns negative</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>D。</b>这是凯利曲线最反直觉也最重要的一点：<strong>它是一座山。</strong>越过顶点后增长率下降，而在两倍凯利处它已经跌破零——你拥有一个真实、可验证的优势，却在长期中稳定亏钱，<strong>唯一的原因是下注太大</strong>。这也解释了为什么实践中要用半凯利：它保留约 75% 的增长，同时为"我高估了自己的优势"留出安全边际。</span>
+    <span class="en"><b>D.</b> This is the Kelly curve's least intuitive and most important feature: <strong>it's a hill.</strong> Past the peak, growth declines, and by double Kelly it has already crossed below zero — you hold a real, verifiable edge and still lose money over time, <strong>for no reason other than betting too large</strong>. It's also why practitioners use half Kelly: about 75% of the growth, with a margin of safety for having overestimated the edge.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="a">
+  <p class="q"><span class="zh">你在五只不同的科技股上各卖出一张 CSP。按仓位管理，这算几笔交易？</span><span class="en">You sell one CSP on each of five different tech stocks. For sizing purposes, how many trades is that?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">接近一笔，因为它们会在同一天出事</span><span class="en">Close to one — they go bad on the same day</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">五笔独立交易，风险已分散</span><span class="en">Five independent trades; risk is diversified</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">五笔，但可以适当加仓</span><span class="en">Five, and you can safely add more</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">取决于每只股票的 Delta</span><span class="en">It depends on each stock's delta</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>A。</b>分散的前提是<strong>不相关</strong>，而五只科技股在市场下跌时高度相关——它们会同时被指派。这正是第 1 章"保险公司 vs 期权卖方"那道思考题的答案：保险公司能卖出十万份互不相关的车险，而你的五张 CSP 是同一场车祸的五份保单。B 是最常见的自我安慰：<strong>持仓数量不等于分散度，相关性才是。</strong></span>
+    <span class="en"><b>A.</b> Diversification requires <strong>independence</strong>, and five tech names are highly correlated in a selloff — they get assigned together. This is the answer to Chapter 1's "insurer versus option seller" question: an insurer writes a hundred thousand uncorrelated auto policies, while your five CSPs are five policies on the same collision. B is the commonest self-comfort: <strong>the number of positions is not diversification; correlation is.</strong></span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">巴菲特 1969 年解散合伙企业，最主要的理由是什么？</span><span class="en">What was Buffett's principal reason for winding up the partnership in 1969?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">他预测到了 1973–74 年的熊市</span><span class="en">He predicted the 1973–74 bear market</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">按他的标准，市场上找不到足够便宜的标的</span><span class="en">By his standards, nothing was cheap enough to buy</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">他的策略失效了</span><span class="en">His strategy had stopped working</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">他想转向期权交易</span><span class="en">He wanted to move into options</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>这个区别是这一章的关键。<strong>A 需要预知能力，B 只需要诚实。</strong>巴菲特没有预测熊市，他只是把"符合标准的机会"这个条件如实地评估为"不存在"。这才是普通人能复制的部分：<strong>"不交易"的触发条件是当下机会与事先标准的比对，不是对未来的预测。</strong>C 与事实相反——他此前十二年年化约 29.5%。</span>
+    <span class="en"><b>B.</b> The distinction is this chapter's crux. <strong>A requires prescience; B requires only honesty.</strong> Buffett did not forecast the bear market; he simply assessed "opportunities meeting my standard" and honestly found none. That is the replicable part: <strong>the trigger for "no trade" is comparing today's opportunities against a standard set in advance, not a prediction about the future.</strong> C is the opposite of the truth — he had compounded at about 29.5% for twelve years.</span>
+  </div>
+</div>
+
+</div>
+
+<!-- ============ takeaways ============ -->
+<h2><span class="zh">本章要点 · 全书收束</span><span class="en">Key Takeaways · Closing the Book</span></h2>
+<p>
+  <span class="zh">仓位是这本书里唯一完全属于你的变量。市场往哪走、IV 会不会塌、财报是好是坏，都不归你管；而那个数字百分之百归你管——并且它决定的不是你判断的对错，而是<strong>判断错的时候你还能不能继续玩下去</strong>。破产的算术是不对称的：-50% 需要 +100% 才能回本，-90% 需要 +900%，而 LTCM 的资产端只走坏了 3.7%，26.6 倍杠杆就把它翻译成了权益的 -92%——那些收敛交易后来确实收敛了，他们只是没能活到那一天。凯利公式说得更狠：<strong>即使你拥有真实的优势，下注到两倍最优值，长期增长率也会变成负数</strong>。所以规则很朴素——单笔最大亏损不超过净值的 1%–2%，相关头寸合并计算，而"最大亏损"必须是一个你在下单前就能说出口的具体数字。</span>
+  <span class="en">Size is the only variable in this book that fully belongs to you. Which way the market goes, whether IV collapses, how earnings land — none of that is yours; that one number is entirely yours, and what it decides isn't whether you're right but <strong>whether you're still playing when you're wrong</strong>. The arithmetic of ruin is asymmetric: −50% needs +100% back, −90% needs +900%, and LTCM's assets moved just 3.7% before 26.6× leverage translated it into −92% of equity — those convergence trades did converge, the firm simply wasn't there. Kelly puts it harder still: <strong>even with a genuine edge, betting twice the optimum turns long-run growth negative</strong>. So the rules are plain — no single trade risks more than 1–2% of equity, correlated positions count as one, and "maximum loss" must be a specific number you can say out loud before you enter.</span>
+</p>
+<p>
+  <span class="zh">而贯穿这九章的那条线，到这里可以完整地说出来了。<strong>策略没有优劣，只有与 Regime 的匹配与错配</strong>：2020 年属于 Put 买方，2022 年属于 Call 卖方，2023 年属于 Call 买方，而同一个 Covered Call 在这三年里分别是救命的、赚钱的和灾难性的。<strong>入场纪律高于管理技巧</strong>：Wheel 在微软和英特尔上走了完全相同的四个步骤，结果相差六十个百分点，差别全部发生在第一步。<strong>而"不交易"是一个和买入、卖出完全平等的合法输出</strong>——巴菲特在 1969 年用它跳过了一场 -45% 的熊市，靠的不是预测，只是诚实地承认没有机会符合他事先写下的标准。<strong>期权给了你一套精确表达观点的工具，但它从不告诉你什么时候你其实没有观点。那一部分，永远只能由你自己填。</strong></span>
+  <span class="en">And the thread running through all nine chapters can now be stated whole. <strong>No strategy is better or worse; there is only match or mismatch with the regime</strong>: 2020 belonged to put buyers, 2022 to call sellers, 2023 to call buyers — and the same covered call was, across those three years, a lifesaver, a moneymaker, and a disaster. <strong>Entry discipline outranks management technique</strong>: the Wheel ran identical four-step procedures on Microsoft and Intel to outcomes sixty points apart, and the entire difference occurred at step one. <strong>And "no trade" is an output exactly as legitimate as buy or sell</strong> — Buffett used it in 1969 to sit out a −45% bear market, not by forecasting it, but by honestly admitting that nothing met a standard he had written down in advance. <strong>Options give you a precise vocabulary for expressing a view. They never tell you when you don't actually have one. That part is always yours to supply.</strong></span>
+</p>
+
+<nav class="chap-nav">
+  <a href="08-cautionary-tales.html">← <span class="zh">第 8 章 反面教材</span><span class="en">Ch.8 Cautionary Tales</span></a>
+  <a href="../glossary.html">Glossary →</a>
+</nav>
+
+</main>
+
+<script src="../assets/i18n.js"></script>
+<script src="../assets/payoff.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  Payoff.mount('pf-sizing', {
+    legs: [{ kind: 'put', side: -1, strike: 100, premium: 3, qty: 1 }],
+    range: [60, 120],
+    controls: [
+      { leg: 0, prop: 'qty',    min: 1, max: 10, step: 1,   label: { zh: '张数 Contracts', en: 'Contracts' } },
+      { leg: 0, prop: 'strike', min: 80, max: 115, step: 1, label: { zh: 'Strike 行权价', en: 'Strike' } }
+    ]
+  });
+
+  CaseChart.mount('case-drawdown', {
+    labels: ['-10%', '-20%', '-30%', '-40%', '-50%', '-60%', '-70%', '-80%', '-90%'],
+    series: [
+      { name: { zh: '回本所需', en: 'Gain needed' }, color: '#FF6A55', data: [11, 25, 43, 67, 100, 150, 233, 400, 900] }
+    ],
+    events: [{ i: 4, text: { zh: '对称点', en: 'The hinge' } }],
+    yfmt: function (v) { return '+' + v.toFixed(0) + '%'; }
+  });
+
+  CaseChart.mount('case-ltcm', {
+    labels: ['98-01', '98-05', '98-07', '98-08', '98-09-10', '98-09-23'],
+    series: [
+      { name: { zh: '权益', en: 'Equity' }, color: '#FF6A55', data: [4.7, 4.4, 4.1, 2.3, 1, 0.4] }
+    ],
+    events: [{ i: 3, text: { zh: '俄罗斯违约', en: 'Russia defaults' } }],
+    yfmt: function (v) { return '$' + v.toFixed(1) + 'B'; }
+  });
+
+  CaseChart.mount('case-kelly', {
+    labels: ['0%', '5%', '10%', '15%', '20%', '25%', '30%', '40%', '50%'],
+    series: [
+      { name: { zh: '增长率', en: 'Growth' }, color: '#3CDFA3', data: [0, 37.5, 50.1, 37.4, -1.4, -67.3, -162, -448, -889] }
+    ],
+    events: [{ i: 2, text: { zh: '满凯利', en: 'Full Kelly' } }],
+    yfmt: function (v) { return v.toFixed(0); }
+  });
+
+  CaseChart.mount('case-dow', {
+    labels: ['1969', '1970', '1971', '1972', '73-01', '1973', '74-12', '1975'],
+    series: [
+      { name: { zh: '道指', en: 'DJIA' }, color: '#FF6A55', data: [800, 839, 890, 1020, 1052, 851, 578, 852] }
+    ],
+    events: [{ i: 0, text: { zh: '解散合伙企业', en: 'Fund wound up' } }],
+    yfmt: function (v) { return v.toFixed(0); }
+  });
+
+});
+</script>
+</body>
+</html>

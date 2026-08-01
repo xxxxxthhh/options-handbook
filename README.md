@@ -8,7 +8,15 @@
 index.html              封面 + 目录
 glossary.html           可搜索术语表（正文术语锚点链接至此）
 chapters/
-  02-single-leg.html    第 2 章（样章）：单腿策略
+  01-what-is-an-option.html  期权的本质：权利、义务与定价直觉
+  02-single-leg.html         单腿策略：Long Call / Put · Covered Call · CSP
+  03-greeks.html             Greeks：读懂期权的仪表盘
+  04-vertical-spreads.html   垂直价差：把观点做成有限风险的结构
+  05-volatility.html         波动率策略：Straddle · Strangle · Iron Condor
+  06-event-trading.html      事件交易：财报、IV Crush 与价差的用法
+  07-wheel.html              Wheel 系统：CSP → 指派 → Covered Call
+  08-cautionary-tales.html   反面教材：裸卖、杠杆与波动率的墓碑
+  09-sizing-discipline.html  仓位与纪律：Regime、资金管理与"不交易"
 assets/
   style.css             设计系统 + print CSS（Ctrl+P 导出 PDF）
   i18n.js               中英切换（#en hash 记忆语言）
