@@ -4,9 +4,9 @@
 
 ## 项目状态
 
-- **9 章全部完成**，index.html 目录全部为 live，`.chap-nav` 已接成 01→09→glossary 的完整链路
+- **9 章全部完成并已发布**：https://xxxxxthhh.github.io/options-handbook/ （GitHub Pages, main 分支根目录）
 - 质量基准仍为 chapters/02-single-leg.html（样章）
-- 新增章节时：更新 index.html 的链接与 badge（`撰写中/Planned` → `live`），并接好前后章 `.chap-nav`
+- 目录进度 badge 已随全书完成而移除；新增章节时只需在 index.html 目录加链接，并接好前后章 `.chap-nav`
 
 ## 硬性约定（违反即返工）
 

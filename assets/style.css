@@ -240,12 +240,6 @@ hr{border:0;border-top:1px solid var(--line);margin:3rem 0}
 .toc a{text-decoration:none;font-weight:500}
 .toc a:hover{color:var(--amber)}
 .toc .soon{color:var(--muted)}
-.toc .badge{
-  font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;
-  border:1px solid var(--line);border-radius:999px;padding:.1rem .55rem;
-  color:var(--muted);margin-left:auto;white-space:nowrap;
-}
-.toc .badge.live{border-color:var(--gain);color:var(--gain)}
 
 /* ---------- glossary ---------- */
 .gloss-search{
