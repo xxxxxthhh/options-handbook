@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.07 Wheel 系统 The Wheel · Options Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../index.html"><b>OPTIONS</b>/HANDBOOK</a>
+  <div class="spacer"></div>
+  <nav>
+    <a href="../index.html"><span class="zh">目录</span><span class="en">Contents</span></a>
+    <a href="../glossary.html">Glossary</a>
+  </nav>
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button data-lang="zh" aria-pressed="true">中</button>
+    <button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main class="page">
+
+<p class="eyebrow">Chapter 07 · The Wheel</p>
+<h1><span class="zh">Wheel 系统：CSP → 指派 → Covered Call 的闭环</span><span class="en">The Wheel: CSP → Assignment → Covered Call</span></h1>
+<p class="lede">
+  <span class="zh">把第 2 章的两个卖方策略首尾相接，就得到了一套可以无限循环的系统。它的宣传语是"用纪律换取持续现金流"，这没错。但它真正的性质是另一句话：<strong>Wheel 不是一台印钞机，它是一套让你必须提前说清楚"我愿意在什么价格买、在什么价格卖"的强制程序。</strong></span>
+  <span class="en">Join Chapter 2's two selling strategies end to end and you get a system that can run indefinitely. Its pitch — "discipline converted into steady cash flow" — is fair. But its real nature is a different sentence: <strong>the Wheel isn't a money printer, it's a procedure that forces you to state, in advance, the price at which you'd buy and the price at which you'd sell.</strong></span>
+</p>
+
+<!-- ============ 7.1 ============ -->
+<h2><span class="zh">7.1 闭环</span><span class="en">7.1 The Loop</span></h2>
+
+<dl class="spec">
+  <div><dt><span class="zh">① 卖 CSP</span><span class="en">① Sell a CSP</span></dt><dd><span class="zh">收租，等着接货</span><span class="en">Collect rent, wait to be filled</span></dd></div>
+  <div><dt><span class="zh">② 被指派</span><span class="en">② Get assigned</span></dt><dd><span class="zh">按 Strike 买入 100 股</span><span class="en">Buy 100 shares at the strike</span></dd></div>
+  <div><dt><span class="zh">③ 卖 Covered Call</span><span class="en">③ Sell a covered call</span></dt><dd><span class="zh">继续收租</span><span class="en">Keep collecting rent</span></dd></div>
+  <div><dt><span class="zh">④ 被 call 走</span><span class="en">④ Get called away</span></dt><dd><span class="zh">卖出股票，回到 ①</span><span class="en">Shares sold, back to ①</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">这个循环的优雅之处在于，<strong>每一步都是你在第 2 章已经学会的东西</strong>，而且每一步都产生现金。没有指派时，你收 <a class="term" href="../glossary.html#csp">CSP</a> 的权利金；被指派后，你持有想要的股票并收 <a class="term" href="../glossary.html#covered-call">Covered Call</a> 的权利金；被 call 走时，你按预设价格卖出并回到起点。看上去每一个分支都有利可图。</span>
+  <span class="en">The loop's elegance is that <strong>every step is something Chapter 2 already taught you</strong>, and every step produces cash. Unassigned, you keep the <a class="term" href="../glossary.html#csp">CSP</a> premium; assigned, you own a stock you wanted and collect <a class="term" href="../glossary.html#covered-call">covered call</a> premium; called away, you sell at your pre-set price and return to the start. Every branch appears to pay.</span>
+</p>
+
+<p>
+  <span class="zh">这正是危险所在。<strong>"每个分支都有利可图"这个表象，掩盖了一个事实：所有分支的盈亏，都取决于同一个在第 ① 步就已经做出的决定——你选了哪只股票、定在哪个 Strike。</strong>Wheel 的管理技巧再高明，也无法修正一个错误的第 ① 步。本章剩下的内容，基本都在说明这一句话。</span>
+  <span class="en">Which is exactly the danger. <strong>"Every branch pays" conceals the fact that every branch's P/L depends on a single decision already made at step ① — which stock you chose, and at what strike.</strong> No amount of skilled management repairs a wrong step ①. Most of this chapter exists to demonstrate that sentence.</span>
+</p>
+
+<!-- ============ 7.2 ============ -->
+<h2><span class="zh">7.2 第 ① 步：CSP 的三个前提</span><span class="en">7.2 Step ①: The CSP's Three Preconditions</span></h2>
+
+<p>
+  <span class="zh">第 2 章已经给过一个前提："Strike 是你真心愿意持有这家公司的价格。"运转一整套系统需要把它拆成三条，而且三条必须<strong>同时</strong>成立：</span>
+  <span class="en">Chapter 2 already gave one: "the strike must be a price at which you genuinely want to own the business." Running a full system requires splitting that into three, and all three must hold <strong>simultaneously</strong>:</span>
+</p>
+
+<dl class="spec">
+  <div><dt><span class="zh">① 标的</span><span class="en">① The name</span></dt><dd><span class="zh">被套牢三年也不后悔</span><span class="en">You'd hold it for three years</span></dd></div>
+  <div><dt><span class="zh">② 价格</span><span class="en">② The price</span></dt><dd><span class="zh">Strike 是你想买的价位</span><span class="en">The strike is a price you want</span></dd></div>
+  <div><dt><span class="zh">③ 仓位</span><span class="en">③ The size</span></dt><dd><span class="zh">全部被指派也不伤筋动骨</span><span class="en">Full assignment is survivable</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">注意这三条里<strong>没有一条提到权利金</strong>。这不是疏忽。Wheel 最常见的死法，是把顺序倒过来：先扫描哪只股票的<a class="term" href="../glossary.html#premium">权利金</a>年化最高，再回过头去说服自己"这家公司其实也还行"。<strong>而权利金最肥的地方，恰恰是市场认为风险最大的地方——<a class="term" href="../glossary.html#iv">IV</a> 高不是免费的午餐，它是市场对真实风险的报价。</strong></span>
+  <span class="en">Note that <strong>none of the three mentions premium</strong>. That is not an oversight. The Wheel's commonest cause of death is running the list backwards: first screen for the highest annualized <a class="term" href="../glossary.html#premium">premium</a>, then talk yourself into "the company's actually fine." <strong>And the fattest premium sits exactly where the market sees the most risk — high <a class="term" href="../glossary.html#iv">IV</a> is not a free lunch, it is the market's quote for real danger.</strong></span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>STEP ① · CASH-SECURED PUT <span class="zh">拖动 Strike：这就是你的预设买价</span><span class="en">drag the strike — this is your pre-set buy price</span></p>
+  <div id="pf-wheel-csp"></div>
+</div>
+
+<!-- ============ 7.3 ============ -->
+<h2><span class="zh">7.3 第 ② 步：被指派不是失败</span><span class="en">7.3 Step ②: Assignment Is Not a Failure</span></h2>
+
+<p>
+  <span class="zh">新手最容易在这一步产生情绪。收到指派通知的那一刻，账户里突然出现 100 股正股和一笔浮亏，感觉像是"出事了"。但按照设计，<strong>指派是这套系统的正常工作状态，不是异常</strong>——你从一开始收的钱，买的就是"在 Strike 接货"这个义务。</span>
+  <span class="en">This is where beginners get emotional. The assignment notice arrives, 100 shares and an unrealized loss appear in the account, and it feels like something broke. By design, <strong>assignment is this system's normal operating state, not an exception</strong> — the obligation to take delivery at the strike is precisely what you were paid for from the outset.</span>
+</p>
+
+<p>
+  <span class="zh">唯一需要立刻做对的事，是把<a class="term" href="../glossary.html#cost-basis">成本基准</a>算清楚。<strong>你的成本不是 Strike，而是 Strike 减去你收到的所有权利金。</strong>这个数字将决定后面每一步 Covered Call 的 Strike 该定在哪里，也是判断"这笔交易到底是赚是亏"的唯一标尺。</span>
+  <span class="en">The one thing to get right immediately is your <a class="term" href="../glossary.html#cost-basis">cost basis</a>. <strong>Your cost is not the strike; it is the strike minus every premium you've collected.</strong> That number determines where each subsequent covered call's strike belongs, and it is the only yardstick for whether the trade is actually up or down.</span>
+</p>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2020</p>
+  <h3><span class="zh">崩盘中被指派的微软：Wheel 最好的一天，看起来像最坏的一天</span><span class="en">Assigned Microsoft in the Crash: The Wheel's Best Day Looks Like Its Worst</span></h3>
+  <p>
+    <span class="zh">2020 年 2 月 21 日，微软收于约 <strong>$178.59</strong>，疫情尚未反映到价格里。两个人同时看多微软，做法不同：</span>
+    <span class="en">On February 21, 2020, Microsoft closed near <strong>$178.59</strong>, the pandemic not yet in the price. Two people were bullish on Microsoft and acted differently:</span>
+  </p>
+  <dl class="spec">
+    <div><dt>A</dt><dd><span class="zh">直接买入 100 股 @ $178.59</span><span class="en">Buys 100 shares at $178.59</span></dd></div>
+    <div><dt>B</dt><dd><span class="zh">卖出 $170 CSP，收 $4.00</span><span class="en">Sells the $170 CSP for $4.00</span></dd></div>
+  </dl>
+  <p>
+    <span class="zh">接下来五周是史上最快的熊市。3 月 20 日微软跌到约 $137，B 被指派——他按 $170 买入了一只当时市价 $137 的股票，账面立刻浮亏约 19%。<strong>在那个星期五，B 看起来像是做了一笔糟糕透顶的交易。</strong>但他的<a class="term" href="../glossary.html#cost-basis">成本基准</a>是 $170 − $4 = <strong>$166</strong>，而 A 的成本是 $178.59。</span>
+    <span class="en">The next five weeks were the fastest bear market on record. By March 20 Microsoft was near $137 and B was assigned — buying at $170 a stock then quoted at $137, an immediate paper loss of about 19%. <strong>That Friday, B looked like someone who had made a catastrophic trade.</strong> But B's <a class="term" href="../glossary.html#cost-basis">cost basis</a> was $170 − $4 = <strong>$166</strong>, against A's $178.59.</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>MSFT · 2020 <span class="zh">（收盘价与 B 的成本基准）</span><span class="en">(closes, with B's cost basis)</span></p>
+    <div id="case-msft"></div>
+  </div>
+  <p>
+    <span class="zh">到 2020 年 12 月 31 日，微软收于 <strong>$222.42</strong>。A 的回报是 (222.42 − 178.59) ÷ 178.59 = <strong>+24.5%</strong>；B 按投入的 $17,000 现金计算，回报是 (222.42 − 170 + 4) ÷ 170 = <strong>+33.2%</strong>。<strong>同一个正确的判断，B 多赚了将近九个百分点，全部来自"他没有在 2 月买，而是让市场在 3 月把股票送到他的价位"。</strong></span>
+    <span class="en">By December 31, 2020, Microsoft closed at <strong>$222.42</strong>. A returned (222.42 − 178.59) ÷ 178.59 = <strong>+24.5%</strong>; B, against the $17,000 of cash committed, returned (222.42 − 170 + 4) ÷ 170 = <strong>+33.2%</strong>. <strong>The same correct view, and B earned nearly nine points more — entirely because B didn't buy in February, but let the market deliver the shares at B's price in March.</strong></span>
+  </p>
+  <p>
+    <span class="zh">简化声明：微软股价为真实历史收盘约值。$4.00 的权利金是按当时约 30 天、约 5% 价外的 Put 给出的<strong>示意值</strong>，非实际成交价。计算按现金全额担保口径，忽略手续费与被指派时点的精确差异；也未计入 B 在指派后本应继续卖出的 Covered Call。</span>
+    <span class="en">Stated simplification: Microsoft's prices are approximate real closes. The $4.00 premium is an <strong>illustrative</strong> value for a roughly 30-day, roughly 5%-OTM put, not an actual fill. The math assumes full cash securing and ignores commissions and the exact assignment timing; it also excludes the covered calls B would have gone on to sell.</span>
+  </p>
+  <p class="verdict gain"><span class="zh">利润扩大：同一个看多微软的判断，2 月直接买入 +24.5% → CSP 在崩盘中接货 +33.2%</span><span class="en">Profit amplified: the same bullish view, +24.5% buying outright in February → +33.2% taking delivery via the CSP in the crash</span></p>
+</div>
+
+<div class="warn">
+  <span class="warn-tag"><span class="zh">但闭环的下半程会削掉这个优势</span><span class="en">But the loop's second half erodes that edge</span></span>
+  <p>
+    <span class="zh">上面的计算刻意省略了一件事：按 Wheel 的规则，B 在 3 月被指派后<strong>应该开始卖 Covered Call</strong>。而 2020 年 4 月到 12 月是一段几乎笔直向上的 V 形反弹——微软从 $137 涨到 $222。在这样的行情里，任何一个价外 Call 都会在几周内被击穿，股票被 call 走，B 会在 $180、$190 的位置反复踏空后面的涨幅。<strong>换句话说，帮 B 赚到 +33.2% 的是 CSP 那一半，而 Covered Call 那一半会把它还回去不少。</strong>这正是第 2 章那个结论的又一次现身：<strong>Covered Call 在单边上涨中"赚小钱、丢大钱"，而 Wheel 内置了这个缺陷。</strong></span>
+    <span class="en">The calculation above deliberately omits something: by the Wheel's own rules, B <strong>should have started selling covered calls</strong> after the March assignment. And April through December 2020 was a nearly straight-line V-shaped recovery, Microsoft running from $137 to $222. In that tape any OTM call gets breached within weeks, the shares are called away, and B repeatedly steps off the escalator at $180, at $190. <strong>Put plainly: the +33.2% came from the CSP half, and the covered-call half would have given a good deal of it back.</strong> This is Chapter 2's conclusion resurfacing: <strong>covered calls earn small money and forfeit big money in a one-way rally, and the Wheel has that flaw built in.</strong></span>
+  </p>
+</div>
+
+<!-- ============ 7.4 ============ -->
+<h2><span class="zh">7.4 第 ③ 步：Covered Call 的 Strike 只有一条规则</span><span class="en">7.4 Step ③: The Covered Call's Strike Has One Rule</span></h2>
+
+<p>
+  <span class="zh">被指派后开始卖 Call，Strike 的选择只有一条硬规则：<strong>不要低于你的成本基准。</strong>把 Strike 定在成本基准之下，意味着如果被 call 走，你<strong>锁定了一笔亏损</strong>——你用一点点权利金，买断了自己回本的可能性。</span>
+  <span class="en">Once assigned, selling calls comes with one hard rule for the strike: <strong>never below your cost basis.</strong> A strike beneath your basis means that being called away <strong>locks in a loss</strong> — you sold your own chance of getting back to even for a sliver of premium.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>STEP ③ · COVERED CALL <span class="zh">Strike 高于成本基准时的形状</span><span class="en">the shape when the strike sits above your basis</span></p>
+  <div id="pf-wheel-cc"></div>
+</div>
+
+<p>
+  <span class="zh">这条规则听起来是常识，直到你遇到这样的情形：股价已经跌到成本基准的一半，而成本基准之上的 Call 几乎不值钱——卖一个月只能收到几分钱，等于没有收入。<strong>这时候 Wheel 的闭环就卡住了：你不能卖低于成本的 Call（会锁定亏损），也没法从高于成本的 Call 收到有意义的租金。</strong>系统停转，你只剩下一个被套的正股头寸和一堆无处安放的纪律。</span>
+  <span class="en">That sounds like common sense until you meet this situation: the stock has halved relative to your basis, and calls above the basis are nearly worthless — a month's premium is a few cents, which is to say no income at all. <strong>At that point the loop jams: you can't sell calls below your basis (that locks in the loss), and calls above it pay no meaningful rent.</strong> The system stops turning, leaving you an underwater share position and a set of rules with nothing to do.</span>
+</p>
+
+<!-- ============ 7.5 ============ -->
+<h2><span class="zh">7.5 Wheel 唯一的真实风险：你选了什么</span><span class="en">7.5 The Wheel's Only Real Risk: What You Picked</span></h2>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2022</p>
+  <h3><span class="zh">在英特尔上跑 Wheel：租金收得很勤，刀也接得很稳</span><span class="en">Running the Wheel on Intel: Diligent Rent, Steady Knife</span></h3>
+  <p>
+    <span class="zh">2022 年初，英特尔约 <strong>$51.5</strong>，股息率超过 3%，市盈率个位数，<a class="term" href="../glossary.html#iv">IV</a> 又足够高到让卖 Put 的年化收益很好看。<strong>它在每一个"Wheel 选股清单"上都会被打上高分。</strong>到 2022 年 12 月 30 日，它收在 <strong>$26.43</strong>——全年约 <strong>-48.7%</strong>。</span>
+    <span class="en">In early 2022, Intel traded near <strong>$51.5</strong>, with a dividend yield above 3%, a single-digit P/E, and <a class="term" href="../glossary.html#iv">IV</a> high enough to make put-selling yields look excellent. <strong>It would have scored well on every "Wheel screening checklist" in existence.</strong> By December 30, 2022 it closed at <strong>$26.43</strong> — roughly <strong>−48.7%</strong> on the year.</span>
+  </p>
+  <p>
+    <span class="zh">一位纪律严明的 Wheel 交易者会这样走完这一年：1 月卖出 $48 的 CSP 收 $1.80；2 月被指派，成本基准 $46.20；此后每月卖出约 5% 价外的 Covered Call，约收 $0.60/月，十个月合计约 $6.00。全年租金合计约 <strong>$7.80</strong>。</span>
+    <span class="en">A disciplined Wheel trader would have walked the year like this: sell the $48 CSP in January for $1.80; be assigned in February at a $46.20 cost basis; then sell a roughly 5%-OTM covered call each month for about $0.60, roughly $6.00 across ten months. Total rent for the year: about <strong>$7.80</strong>.</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>INTC · 2022 <span class="zh">（收盘价与成本基准 $46.20）</span><span class="en">(closes vs. the $46.20 cost basis)</span></p>
+    <div id="case-intc"></div>
+  </div>
+  <p>
+    <span class="zh">年末结算：(26.43 − 48 + 7.80) ÷ 48 = <strong>约 -28.7%</strong>，而直接买入并持有的人是 <strong>-48.7%</strong>。<strong>从数字上看，Wheel 赢了二十个百分点。</strong>如果案例到此为止，它会是一个 Wheel 的成功故事。</span>
+    <span class="en">Year-end: (26.43 − 48 + 7.80) ÷ 48 = <strong>about −28.7%</strong>, against −48.7% for someone who simply bought and held. <strong>On the numbers, the Wheel won by twenty points.</strong> If the case stopped here it would read as a Wheel success story.</span>
+  </p>
+  <p>
+    <span class="zh">但请看图中那条平线。成本基准是 $46.20，而股价在 9 月已经跌到 $25.77 —— <strong>系统在这里卡死了</strong>。此时一个 5% 价外的 Call 落在约 $27.75；卖出它，就是同意以 $27.75 交出成本 $46.20 的股票，一次性锁定每股约 $18.45 的亏损。于是唯一"合规"的选择是<strong>停止卖 Call</strong>——而停止卖 Call 意味着这套系统不再产生任何现金流。<strong>Wheel 的下半程从 9 月起就已经不存在了，剩下的只是一个被套的正股头寸。</strong></span>
+    <span class="en">But look at the flat line on the chart. The cost basis is $46.20 and by September the stock was at $25.77 — <strong>this is where the system jams</strong>. A 5%-OTM call now sits near $27.75; selling it means agreeing to hand over $46.20-basis shares at $27.75, crystallizing about $18.45 per share of loss in one stroke. So the only "compliant" choice is to <strong>stop selling calls</strong> — and stopping means the system produces no cash flow at all. <strong>From September onward the Wheel's second half simply did not exist; what remained was an underwater stock position.</strong></span>
+  </p>
+  <p>
+    <span class="zh">这就是本章的核心结论。<strong>租金不是护城河，它是缓冲垫。</strong>$7.80 的租金把 -48.7% 垫到了 -28.7%，这是真实的减损；但它没有、也不可能修正第 ① 步的判断——2022 年的英特尔不是一只"跌下来就该买"的股票，而是一家基本面正在恶化的公司。<strong>Wheel 把"我愿意在 $48 买入英特尔"这个决定货币化了，可它无法让这个决定变得正确。</strong></span>
+    <span class="en">And that is this chapter's central conclusion. <strong>Rent is not a moat, it is a cushion.</strong> The $7.80 padded −48.7% into −28.7%, which is a genuine reduction; but it did not and could not correct the judgment made at step ① — 2022 Intel was not a stock to buy on weakness, it was a company whose fundamentals were deteriorating. <strong>The Wheel monetized the decision "I'd buy Intel at $48." It could not make that decision right.</strong></span>
+  </p>
+  <p>
+    <span class="zh">简化声明：英特尔股价为真实历史收盘约值。CSP 与 Covered Call 的权利金（$1.80 与约 $0.60/月）为按当时 IV 水平给出的<strong>示意值</strong>，非实际成交价；计算忽略手续费、股息、以及实盘中几乎必然发生的 Roll 操作。</span>
+    <span class="en">Stated simplification: Intel's prices are approximate real closes. The CSP and covered-call premiums ($1.80 and about $0.60 a month) are <strong>illustrative</strong> values at the era's IV levels, not actual fills; the math ignores commissions, dividends, and the rolls that would almost certainly have occurred in a live account.</span>
+  </p>
+  <p class="verdict loss"><span class="zh">亏损减少：-48.7%（裸持有）→ 约 -28.7%（Wheel 收租），但代价是闭环自 9 月起卡死，系统不再产生现金流</span><span class="en">Loss reduced: −48.7% buy-and-hold → about −28.7% with Wheel rent — at the cost of a loop that jammed in September and produced no further cash flow</span></p>
+</div>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span><span class="zh">卡死的样子：成本 $46.20，卖 $27.75 的 Call</span><span class="en">what a jammed wheel looks like: $46.20 basis, selling the $27.75 call</span></p>
+  <div id="pf-wheel-jam"></div>
+</div>
+
+<p>
+  <span class="zh">请读一下上图的 Max gain。它是一个<strong>负数</strong>——这个头寸<strong>最好</strong>的可能结果，仍然是每股亏损约 $18。这是本手册里唯一一张最大收益为负的盈亏图，而它描述的是一个完全按规则操作、纪律毫无瑕疵的账户。<strong>没有任何管理技巧能把这张图变成正的，因为错误发生在图被画出来之前。</strong></span>
+  <span class="en">Read that chart's max gain. It is a <strong>negative number</strong> — the <strong>best</strong> available outcome for this position is still a loss of about $18 a share. It is the only payoff diagram in this handbook whose maximum gain is negative, and it describes an account that followed every rule with flawless discipline. <strong>No management technique turns that chart positive, because the error happened before the chart was ever drawn.</strong></span>
+</p>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">微软的案例和英特尔的案例，操作步骤<strong>完全相同</strong>：卖 CSP、被指派、算成本基准、卖 Covered Call。两者的结果相差六十个百分点。<strong>如果流程一样而结果天差地别，那么这套"系统"到底在系统化什么？</strong>它系统化的是执行，还是判断？如果只是执行，那么把它称作"策略"是否夸大了它的作用？</span>
+  <span class="en">The Microsoft case and the Intel case follow <strong>identical steps</strong>: sell the CSP, get assigned, compute the basis, sell covered calls. Their outcomes differ by sixty percentage points. <strong>If the process is the same and the results are not, what is this "system" actually systematizing?</strong> Execution, or judgment? And if only execution, does calling it a "strategy" overstate what it does?</span>
+</div>
+
+<!-- ============ 7.6 ============ -->
+<h2><span class="zh">7.6 状态过滤与"不交易"</span><span class="en">7.6 Regime Filters and the "No Trade" Output</span></h2>
+
+<p>
+  <span class="zh">Wheel 是一个<strong>做多 + 做空波动率</strong>的组合头寸。把它翻译成第 3 章的语言：净 Delta 为正，净 Vega 为负，净 Theta 为正，净 Gamma 为负。这四个符号已经把它的适用环境写死了——<strong>它需要一个不涨太快、也不跌太狠的市场</strong>。</span>
+  <span class="en">The Wheel is a combined <strong>long delta plus short volatility</strong> position. In Chapter 3's language: net delta positive, net vega negative, net theta positive, net gamma negative. Those four signs already fix its habitat — <strong>it needs a market that neither rises too fast nor falls too hard</strong>.</span>
+</p>
+
+<dl class="spec">
+  <div><dt><span class="zh">震荡市</span><span class="en">Choppy</span></dt><dd class="pos"><span class="zh">最佳：反复收租</span><span class="en">Ideal: rent, repeatedly</span></dd></div>
+  <div><dt><span class="zh">缓涨</span><span class="en">Grinding up</span></dt><dd class="pos"><span class="zh">良好：被 call 走也赚</span><span class="en">Good: called away, still paid</span></dd></div>
+  <div><dt><span class="zh">单边急涨</span><span class="en">Melt-up</span></dt><dd class="neg"><span class="zh">大幅跑输持股</span><span class="en">Badly trails buy-and-hold</span></dd></div>
+  <div><dt><span class="zh">趋势熊</span><span class="en">Trending bear</span></dt><dd class="neg"><span class="zh">接刀，闭环卡死</span><span class="en">Catches knives, loop jams</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">于是本手册的主线在这里第一次成为一条可执行的规则：<strong>先判断 <a class="term" href="../glossary.html#regime">Regime</a>，再决定要不要转动轮子。</strong>当你手上的标的正处在一个明确的下降趋势里，最正确的操作不是把 Strike 定得更低、把 DTE 拉得更短、或者把权利金收得更勤——<strong>而是不开这个仓</strong>。</span>
+  <span class="en">So the book's through-line becomes an executable rule here for the first time: <strong>read the <a class="term" href="../glossary.html#regime">regime</a> before deciding whether to turn the wheel.</strong> When your candidate sits in a clear downtrend, the correct action is not a lower strike, a shorter DTE, or more frequent premium collection — <strong>it is not opening the position at all</strong>.</span>
+</p>
+
+<div class="note">
+  <span class="note-tag"><span class="zh">"不交易"是这套系统的合法输出</span><span class="en">"No trade" is a legitimate output of this system</span></span>
+  <p>
+    <span class="zh">Wheel 有一个心理陷阱：它是一套<strong>循环</strong>系统，而循环系统天然给人"必须一直转"的暗示。空仓的一个月会让人觉得自己在浪费资金效率，于是去找一个次优的标的把轮子转起来。<strong>但这套系统的期望收益，几乎全部来自那些你正确地拒绝了的交易。</strong>2022 年在英特尔上纪律严明地转了十二个月的人，输给了看一眼趋势然后什么都没做的人——整整二十八个百分点。<strong>把"本月无合格标的"写进你的规则里，让它和"卖出 CSP"享有同等地位。</strong></span>
+    <span class="en">The Wheel carries a psychological trap: it is a <strong>cyclical</strong> system, and cyclical systems imply they must always be turning. A month in cash feels like wasted capital efficiency, so people find a second-best name just to keep the wheel moving. <strong>But this system's expected return comes almost entirely from the trades you correctly declined.</strong> Someone who ran Intel with perfect discipline for twelve months in 2022 lost to someone who glanced at the trend and did nothing — by a full twenty-eight points. <strong>Write "no qualifying candidate this month" into your rules, and give it equal standing with "sell the CSP."</strong></span>
+  </p>
+</div>
+
+<!-- ============ 7.7 Quiz ============ -->
+<h2><span class="zh">7.7 本章测验</span><span class="en">7.7 Chapter Quiz</span></h2>
+<p><span class="zh">点击选项即可作答，答案与解析即时显示。</span><span class="en">Click an option to answer; the correct answer and explanation appear immediately.</span></p>
+
+<div class="quiz-set">
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">你卖出 $50 的 CSP 收 $2，被指派。你的成本基准是？</span><span class="en">You sell a $50 CSP for $2 and are assigned. Your cost basis is:</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span>$50</button>
+    <button data-opt="b"><span class="key">B</span>$48</button>
+    <button data-opt="c"><span class="key">C</span>$52</button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">取决于指派时的市价</span><span class="en">It depends on the market price at assignment</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>你按 $50 买入，但此前已收到 $2，实际付出 $48。这个数字有实际用途：它是后面所有 Covered Call 的 Strike 下限。D 是常见误解——<strong>指派时的市价决定你的浮亏，但不决定你的成本</strong>，两者是不同的东西。</span>
+    <span class="en"><b>B.</b> You bought at $50 having already collected $2, so you laid out $48. The number has a job: it's the floor for every covered-call strike that follows. D is a common confusion — <strong>the market price at assignment sets your unrealized loss, not your cost</strong>; those are different quantities.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="d">
+  <p class="q"><span class="zh">扫描期权链时你发现某只股票的 CSP 年化收益率高达 60%。这最可能意味着什么？</span><span class="en">Screening chains, you find a stock whose CSP shows a 60% annualized yield. This most likely means:</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">你发现了一个定价错误</span><span class="en">You found a mispricing</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">这是理想的 Wheel 标的</span><span class="en">It's an ideal Wheel candidate</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">该股流动性很好</span><span class="en">The stock is highly liquid</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">市场认为它有很大的下跌风险</span><span class="en">The market sees substantial downside risk in it</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>D。</b>权利金高等价于 IV 高，而 IV 是市场对波动幅度的报价，不是慈善。60% 的年化在说：<strong>市场认为这只股票很可能在到期前大幅下跌</strong>。B 恰恰把 Wheel 的选股顺序做反了——先看收益率再找理由，是这套系统最常见的死法。A 假设自己比整个市场更聪明，这需要证据而不是一个筛选器。</span>
+    <span class="en"><b>D.</b> Rich premium means high IV, and IV is the market's quote for magnitude, not charity. A 60% annualized yield is saying <strong>the market thinks this stock may well fall hard before expiry</strong>. B runs the Wheel's selection order exactly backwards — yield first, rationale afterwards, which is this system's most common cause of death. A assumes you're smarter than the whole market, which requires evidence rather than a screener.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="c">
+  <p class="q"><span class="zh">你的成本基准是 $46，股价已跌到 $26。一个 $28 的 Call 每月能收 $0.60。你应该卖吗？</span><span class="en">Your cost basis is $46 and the stock is at $26. A $28 call pays $0.60 a month. Should you sell it?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">应该，有租金总比没有好</span><span class="en">Yes — some rent beats none</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">应该，可以加快回本</span><span class="en">Yes — it speeds up the recovery</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">不应该，被 call 走会锁定每股约 $18 的亏损</span><span class="en">No — being called away locks in about $18 a share of loss</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">应该，Delta 很低不会被指派</span><span class="en">Yes — the delta is low so it won't be assigned</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>C。</b>这就是英特尔案例里闭环卡死的那一刻。$0.60 的租金看起来是白捡的，但它的代价是：一旦股价反弹到 $28 以上，你必须以 $28 交出成本 $46 的股票——<strong>用 $0.60 买断了 $18 的回本可能</strong>。B 尤其危险，它把"锁定亏损"说成了"加快回本"。D 是自欺：低 Delta 意味着概率低，不意味着不会发生，而这里"发生"的代价是灾难性的。</span>
+    <span class="en"><b>C.</b> This is the exact moment the Intel loop jammed. The $0.60 looks free, but its price is this: if the stock recovers past $28 you must deliver $46-basis shares at $28 — <strong>selling away $18 of recovery for $0.60</strong>. B is especially dangerous, dressing "locking in a loss" as "speeding up recovery." D is self-deception: low delta means low probability, not impossibility, and here the consequence of "possible" is catastrophic.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="a">
+  <p class="q"><span class="zh">Wheel 在哪种市场状态下表现最差？</span><span class="en">In which regime does the Wheel perform worst?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">单边急涨与趋势熊，两者都很差</span><span class="en">Melt-ups and trending bears — both are bad</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">只有趋势熊</span><span class="en">Only trending bears</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">只有单边急涨</span><span class="en">Only melt-ups</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">震荡市</span><span class="en">Choppy markets</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>A。</b>Wheel 是"净 Delta 为正 + 净 Vega 为负"的组合，所以两端都吃亏：<strong>急涨时它被 call 走反复踏空（微软 2020 年反弹段的问题），趋势熊时它接刀且闭环卡死（英特尔 2022）。</strong>它需要的是中间地带——震荡或缓涨，所以 D 恰恰是它最好的环境。B、C 各只说对了一半。</span>
+    <span class="en"><b>A.</b> The Wheel is net long delta and net short volatility, so it's hurt at both ends: <strong>in a melt-up it's called away and keeps missing the move (Microsoft's 2020 recovery), and in a trending bear it catches knives until the loop jams (Intel 2022).</strong> It needs the middle ground — chop or a slow grind up — which makes D its best environment, not its worst. B and C are each half right.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">这个月你扫描了所有候选标的，没有一只同时满足"愿意长期持有"和"Strike 是理想买价"。最好的做法是？</span><span class="en">This month nothing on your list satisfies both "I'd hold it long term" and "the strike is a price I want." The best action is:</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">选一只最接近的，把 Strike 定低一点</span><span class="en">Take the closest fit and set the strike lower</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">本月不开仓</span><span class="en">Open nothing this month</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">缩短 DTE 以降低风险</span><span class="en">Shorten the DTE to reduce risk</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">减小仓位后照常卖出</span><span class="en">Cut the size and sell anyway</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>A、C、D 有一个共同点：它们都在调整<strong>参数</strong>，而问题出在<strong>前提</strong>。更低的 Strike、更短的 DTE、更小的仓位，都不能把一只你并不想持有的股票变成合格标的——它们只是让同一个错误变得更便宜一点。<strong>"本月无合格标的"是这套系统的正常输出，不是失败。</strong>这套系统的期望收益，很大一部分来自你正确拒绝的那些交易。</span>
+    <span class="en"><b>B.</b> A, C and D share a defect: they adjust <strong>parameters</strong> when the problem is a <strong>precondition</strong>. A lower strike, a shorter DTE, a smaller size — none converts a stock you don't want into a qualifying candidate; they only make the same mistake cheaper. <strong>"No qualifying candidate this month" is a normal output of this system, not a failure.</strong> A large share of the system's expected return comes from the trades you correctly declined.</span>
+  </div>
+</div>
+
+</div>
+
+<!-- ============ takeaways ============ -->
+<h2><span class="zh">本章要点</span><span class="en">Key Takeaways</span></h2>
+<p>
+  <span class="zh">Wheel 把第 2 章的两个卖方策略接成闭环，每一步都产生现金，因而很容易被误认为是一台印钞机。但微软和英特尔这两个案例走的是<strong>完全相同的四个步骤</strong>，结果却相差六十个百分点——这说明这套系统系统化的是<strong>执行</strong>，而不是<strong>判断</strong>。它的全部盈亏，在第 ① 步选定标的与 Strike 的那一刻就已经基本决定：微软在 2020 年 3 月被指派是这套系统最好的一天（成本基准 $166，最终 +33.2%），英特尔在 2022 年被指派则让闭环在九月彻底卡死，留下一张最大收益为负的盈亏图。<strong>租金不是护城河，它是缓冲垫</strong>——$7.80 的租金能把 -48.7% 垫到 -28.7%，但它无法把一个错误的买入决定变成正确的。所以这一章真正的技术含量不在管理，而在过滤：先看 Regime，再看标的，最后才看权利金；<strong>而当三个前提无法同时成立时，"本月不开仓"和"卖出 CSP"是这套系统同等合法的两个输出。</strong></span>
+  <span class="en">The Wheel joins Chapter 2's two selling strategies into a loop where every step produces cash, which makes it easy to mistake for a money printer. But the Microsoft and Intel cases run <strong>exactly the same four steps</strong> to outcomes sixty points apart — which tells you the system systematizes <strong>execution</strong>, not <strong>judgment</strong>. Its entire P/L is largely settled the moment step ① picks the name and the strike: being assigned Microsoft in March 2020 was this system's finest day ($166 basis, +33.2% eventually), while being assigned Intel in 2022 jammed the loop completely by September and left a payoff diagram whose maximum gain is negative. <strong>Rent is not a moat, it is a cushion</strong> — $7.80 of it padded −48.7% into −28.7%, but it could not turn a wrong purchase decision into a right one. So this chapter's real skill lies in filtering rather than managing: read the regime, then the name, and only then the premium; <strong>and when the three preconditions can't hold together, "nothing this month" and "sell the CSP" are equally legitimate outputs of the system.</strong></span>
+</p>
+
+<nav class="chap-nav">
+  <a href="06-event-trading.html">← <span class="zh">第 6 章 事件交易</span><span class="en">Ch.6 Event Trading</span></a>
+  <a href="08-cautionary-tales.html"><span class="zh">第 8 章 反面教材 →</span><span class="en">Ch.8 Cautionary Tales →</span></a>
+</nav>
+
+</main>
+
+<script src="../assets/i18n.js"></script>
+<script src="../assets/payoff.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  Payoff.mount('pf-wheel-csp', {
+    legs: [{ kind: 'put', side: -1, strike: 170, premium: 4 }],
+    range: [130, 200],
+    controls: [
+      { leg: 0, prop: 'strike',  min: 140, max: 190, step: 1,   label: { zh: 'Strike 预设买价', en: 'Strike (your buy price)' } },
+      { leg: 0, prop: 'premium', min: 1,   max: 12,  step: 0.5, label: { zh: 'Premium 租金', en: 'Premium (rent)' } }
+    ]
+  });
+
+  Payoff.mount('pf-wheel-cc', {
+    legs: [
+      { kind: 'stock', basis: 166 },
+      { kind: 'call', side: -1, strike: 180, premium: 4 }
+    ],
+    range: [130, 215],
+    controls: [
+      { leg: 1, prop: 'strike', min: 166, max: 210, step: 1, label: { zh: 'Call Strike（不得低于成本 166）', en: 'Call strike (never below the 166 basis)' } }
+    ]
+  });
+
+  Payoff.mount('pf-wheel-jam', {
+    legs: [
+      { kind: 'stock', basis: 46.2 },
+      { kind: 'call', side: -1, strike: 27.75, premium: 0.6 }
+    ],
+    range: [15, 60],
+    controls: [
+      { leg: 1, prop: 'strike', min: 27, max: 55, step: 0.5, label: { zh: 'Call Strike（拖到 45.6 以上才有正收益）', en: 'Call strike (needs 45.6+ to turn positive)' } }
+    ]
+  });
+
+  CaseChart.mount('case-msft', {
+    labels: ['02-21', '03-06', '03-23', '04-30', '06-30', '09-30', '12-31'],
+    series: [
+      { name: { zh: 'MSFT', en: 'MSFT' }, color: '#3CDFA3', data: [178.59, 161.57, 135.98, 179.21, 203.51, 210.33, 222.42] },
+      { name: { zh: '成本 166', en: 'Basis 166' }, color: '#D99A3D', data: [166, 166, 166, 166, 166, 166, 166] }
+    ],
+    events: [{ i: 2, text: { zh: '被指派', en: 'Assigned' } }],
+    yfmt: function (v) { return '$' + v.toFixed(0); }
+  });
+
+  CaseChart.mount('case-intc', {
+    labels: ['01', '02', '03', '04', '06', '08', '09', '10', '12'],
+    series: [
+      { name: { zh: 'INTC', en: 'INTC' }, color: '#FF6A55', data: [51.5, 47.7, 49.5, 44, 37.4, 32.5, 25.8, 27.9, 26.4] },
+      { name: { zh: '成本 46.2', en: 'Basis 46.2' }, color: '#D99A3D', data: [46.2, 46.2, 46.2, 46.2, 46.2, 46.2, 46.2, 46.2, 46.2] }
+    ],
+    events: [{ i: 6, text: { zh: '闭环卡死', en: 'Loop jams' } }],
+    yfmt: function (v) { return '$' + v.toFixed(0); }
+  });
+
+});
+</script>
+</body>
+</html>

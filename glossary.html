@@ -200,6 +200,10 @@
     <span class="zh">持股 + 买 Put + 卖 Call：用卖 Call 的收入补贴买 Put 的保费，把持仓收益锁进一个区间，常可做到零成本。</span>
     <span class="en">Shares + long put + short call: the call premium subsidizes the put, boxing the position into a range — often at zero net cost.</span></td></tr>
 
+  <tr id="cost-basis"><td class="t">Cost Basis</td><td class="c">成本基准</td><td>
+    <span class="zh">扣除已收权利金后的实际持股成本：被指派时 = Strike − 累计权利金。它是 Wheel 里所有 Covered Call 的 Strike 下限——把 Strike 定在它之下，被 call 走就锁定亏损。见第 7.3 节。</span>
+    <span class="en">Your real cost after netting off premiums collected: on assignment, strike − cumulative premium. It is the floor for every covered-call strike in a Wheel — set a strike below it and being called away locks in a loss. See §7.3.</span></td></tr>
+
   <tr id="roll"><td class="t">Roll</td><td class="c">移仓 / 展期</td><td>
     <span class="zh">平掉当前合约、同时开出更远到期日（或不同 Strike）的新合约。卖方管理头寸、推迟指派的核心操作。</span>
     <span class="en">Closing the current contract while opening a later-dated (or different-strike) one. The seller's core maneuver for managing positions and deferring assignment.</span></td></tr>
