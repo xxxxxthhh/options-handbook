@@ -180,6 +180,14 @@
     <span class="zh">同时买入（或卖出）Call 和 Put，做多（或做空）波动本身而不押方向。Strike 相同为 Straddle，分开为 Strangle。</span>
     <span class="en">Buying (or selling) both a call and a put — a bet on volatility itself, not direction. Same strike: straddle; separated strikes: strangle.</span></td></tr>
 
+  <tr id="expected-move"><td class="t">Expected Move</td><td class="c">预期波动幅度</td><td>
+    <span class="zh">期权市场对"到期前标的会走多远"的报价。快速估法：<strong>ATM Straddle 的总价 ÷ 股价</strong>。买波动率之前必须先算它——你赌的不是"会动"，而是"动得比这个数更大"。</span>
+    <span class="en">The option market's quote for how far the underlying travels before expiry. Quick estimate: <strong>the ATM straddle's total price ÷ the share price</strong>. Compute it before buying volatility — your bet isn't "it moves," it's "it moves more than this."</span></td></tr>
+
+  <tr id="short-vol"><td class="t">Short Volatility</td><td class="c">做空波动率</td><td>
+    <span class="zh">任何净卖出期权的头寸（Short Strangle、Iron Condor、CSP、Covered Call）。收益分布天然是"缓坡 + 悬崖"：多数时候小赚，偶尔一次大亏。见第 5.5 节与第 8 章。</span>
+    <span class="en">Any net-short-option position (short strangle, iron condor, CSP, covered call). Its return distribution is inherently "slope then cliff": small gains most of the time, an occasional large loss. See §5.5 and Chapter 8.</span></td></tr>
+
   <tr id="iron-condor"><td class="t">Iron Condor</td><td class="c">铁鹰</td><td>
     <span class="zh">同时卖出上下两个价外价差，赌股价停留在区间内。收租策略的进阶形态，风险有限但两侧都可能破。</span>
     <span class="en">Selling an OTM spread on each side, betting the stock stays in a range. An advanced income structure — defined risk, but breachable on either wing.</span></td></tr>

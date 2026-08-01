@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.05 波动率策略 Volatility Structures · Options Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../index.html"><b>OPTIONS</b>/HANDBOOK</a>
+  <div class="spacer"></div>
+  <nav>
+    <a href="../index.html"><span class="zh">目录</span><span class="en">Contents</span></a>
+    <a href="../glossary.html">Glossary</a>
+  </nav>
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button data-lang="zh" aria-pressed="true">中</button>
+    <button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main class="page">
+
+<p class="eyebrow">Chapter 05 · Volatility Structures</p>
+<h1><span class="zh">波动率策略：交易"会不会动"，而不是"往哪动"</span><span class="en">Volatility Structures: Trading Whether It Moves, Not Where</span></h1>
+<p class="lede">
+  <span class="zh">前四章的所有策略都需要你回答"往哪走"。这一章的策略不需要——它们赌的是<strong>幅度</strong>：会不会有大事发生。这听起来像是把难题减半，实际上它把难题换成了一个更隐蔽的：<strong>你不是在赌波动会不会发生，而是在赌它会不会比市场已经定好的价格更大。</strong></span>
+  <span class="en">Every strategy in the first four chapters asks you to answer "which way." The ones here don't — they bet on <strong>magnitude</strong>: whether something big happens at all. That sounds like halving the problem. In fact it swaps it for a subtler one: <strong>you aren't betting on whether volatility occurs, but on whether it exceeds the price the market already set for it.</strong></span>
+</p>
+
+<!-- ============ 5.1 ============ -->
+<h2><span class="zh">5.1 第三个维度</span><span class="en">5.1 The Third Dimension</span></h2>
+
+<p>
+  <span class="zh">回到第 1 章那句话：<strong>方向是免费的，范围是收费的。</strong>既然市场为"范围"收费，那么范围本身就是一个可以买卖的东西——这就是波动率交易。第 3 章已经给了它一个名字：<a class="term" href="../glossary.html#vega">Vega</a>。本章的所有结构，本质上都是把 Delta 尽量归零、把 Vega 留下来的方法。</span>
+  <span class="en">Back to Chapter 1's sentence: <strong>direction is free, range is expensive.</strong> If the market charges for range, then range itself is tradable — that is volatility trading. Chapter 3 already named it: <a class="term" href="../glossary.html#vega">vega</a>. Every structure in this chapter is a way of zeroing out delta and keeping vega.</span>
+</p>
+
+<dl class="spec">
+  <div><dt>Long Straddle</dt><dd class="pos"><span class="zh">买 Call + 买 Put，同 Strike</span><span class="en">Long call + long put, same strike</span></dd></div>
+  <div><dt>Long Strangle</dt><dd class="pos"><span class="zh">同上，但 Strike 分开（更便宜）</span><span class="en">Same, strikes apart (cheaper)</span></dd></div>
+  <div><dt>Short Strangle</dt><dd class="neg"><span class="zh">反过来卖，风险无上限</span><span class="en">Sold instead — unbounded risk</span></dd></div>
+  <div><dt><a class="term" href="../glossary.html#iron-condor">Iron Condor</a></dt><dd><span class="zh">Short Strangle + 两侧保护翼</span><span class="en">Short strangle plus protective wings</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">但这里有一个必须现在就说清楚的陷阱。买入 Straddle 的人常常这样想："财报要来了，肯定会大动，所以买跨式。"<strong>这句话里缺了最关键的一半。</strong>市场也知道财报要来了，也知道会大动，而且已经把这个预期写进了期权价格。你真正的赌注不是"会不会动"，而是<strong>"会不会动得比市场以为的更多"</strong>。这个区别决定了本章绝大多数交易的成败。</span>
+  <span class="en">But there's a trap to name immediately. Straddle buyers often reason: "earnings are coming, it's going to move big, so buy a straddle." <strong>That sentence is missing its most important half.</strong> The market also knows earnings are coming, also knows it will move, and has already written that expectation into the price. Your actual bet is not "will it move" but <strong>"will it move more than the market thinks."</strong> That distinction decides most of the trades in this chapter.</span>
+</p>
+
+<!-- ============ 5.2 ============ -->
+<h2><span class="zh">5.2 Long Straddle 与 Strangle：买入"会有大事发生"</span><span class="en">5.2 Long Straddle and Strangle: Buying "Something Big Happens"</span></h2>
+
+<dl class="spec">
+  <div><dt><span class="zh">观点</span><span class="en">Outlook</span></dt><dd><span class="zh">大幅波动，方向不限</span><span class="en">Large move, either direction</span></dd></div>
+  <div><dt>Max gain</dt><dd class="pos">∞ <span class="zh">（上行）</span><span class="en">(upside)</span></dd></div>
+  <div><dt>Max loss</dt><dd class="neg"><span class="zh">两笔 Premium 之和</span><span class="en">Both premiums</span></dd></div>
+  <div><dt>Breakeven</dt><dd><span class="zh">Strike ± 总成本（两个）</span><span class="en">Strike ± total cost (two of them)</span></dd></div>
+  <div><dt><span class="zh">最大敌人</span><span class="en">Chief enemy</span></dt><dd class="neg"><span class="zh">Theta 与 IV Crush</span><span class="en">Theta and IV crush</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">同时买入同一 Strike 的 Call 和 Put。股价往上冲，Call 赚的钱盖过 Put 的损失；往下砸，反过来。<strong>唯一让你亏钱的情形是股价待着不动</strong>——而这恰恰是股价最常做的事。这就是 Straddle 的核心张力：它有两条腿在赢，但同时有两条腿在被 Theta 收租。</span>
+  <span class="en">Buy a call and a put at the same strike. If the stock surges, the call's gain outruns the put's loss; if it collapses, the reverse. <strong>The only way to lose is for the stock to sit still</strong> — which is what stocks do most of the time. That is the straddle's central tension: two legs that can win, and two legs paying rent to theta.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>INTERACTIVE · LONG STRADDLE <span class="zh">注意有两个盈亏平衡点</span><span class="en">note there are two breakevens</span></p>
+  <div id="pf-straddle"></div>
+</div>
+
+<p>
+  <span class="zh">Strangle 是同一个想法的廉价版：把 Call 的 Strike 往上挪、Put 的 Strike 往下挪，两条腿都变成价外，成本大幅下降。代价是<strong>两个盈亏平衡点被推得更远</strong>——你需要更大的波动才能开始赚钱。这是本书反复出现的同一笔交易：<strong>用更低的成本换更差的胜率。</strong></span>
+  <span class="en">A strangle is the budget version of the same idea: push the call's strike up and the put's down so both legs are out of the money, and the cost drops sharply. The price is that <strong>both breakevens move further away</strong> — you need a bigger move before you make anything. It is the same trade that recurs throughout this book: <strong>lower cost bought with worse odds.</strong></span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>INTERACTIVE · LONG STRANGLE <span class="zh">更便宜，但平衡点更远</span><span class="en">cheaper, but the breakevens run further out</span></p>
+  <div id="pf-strangle"></div>
+</div>
+
+<!-- ============ 5.3 ============ -->
+<h2><span class="zh">5.3 Expected Move：市场已经为你的判断定好了价</span><span class="en">5.3 Expected Move: The Market Already Priced Your Idea</span></h2>
+
+<p>
+  <span class="zh">在买入任何波动率结构之前，你必须先算出一个数字：<a class="term" href="../glossary.html#expected-move">Expected Move</a>（预期波动幅度）。它是期权市场对"到期前这只股票大概会走多远"的报价，而且有一个粗糙但极好用的估法：<strong>ATM Straddle 的总价，就约等于市场定价的波动幅度。</strong></span>
+  <span class="en">Before buying any volatility structure you must first compute one number: the <a class="term" href="../glossary.html#expected-move">expected move</a>. It's the option market's quote for how far the stock will probably travel before expiry, and there's a crude but excellent estimate: <strong>the total price of the ATM straddle is roughly the move the market has priced in.</strong></span>
+</p>
+
+<p>
+  <span class="zh">股价 $100，ATM Straddle 报价 $8？市场认为到期前它大概会走 ±8%。<strong>这就是你的对手盘出的价。</strong>如果你判断它只会动 5%，你不该买跨式——你该考虑卖。如果你判断它会动 15%，买入才有意义。<strong>"会大动"从来不是理由，"会比 8% 更大"才是。</strong></span>
+  <span class="en">Stock at $100, ATM straddle quoted at $8? The market thinks it travels about ±8% before expiry. <strong>That is your counterparty's price.</strong> If you think it moves 5%, you shouldn't be buying the straddle — you should consider selling it. If you think 15%, buying makes sense. <strong>"It will move a lot" is never the reason; "it will move more than 8%" is.</strong></span>
+</p>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2016-06</p>
+  <h3><span class="zh">英国脱欧公投：英镑史上最大单日跌幅，跨式买家却几乎白忙</span><span class="en">Brexit: Sterling's Worst Day Ever, and the Straddle Barely Paid</span></h3>
+  <p>
+    <span class="zh">2016 年 6 月 23 日，英国举行脱欧公投。民调接近 50/50，博彩市场却押注留欧。6 月 24 日结果揭晓：脱欧胜出。GBP/USD 从公投前一天收盘的约 <strong>1.4877</strong> 盘中一路砸到 <strong>1.3229</strong>，单日跌约 <strong>-8.1%</strong>——<strong>英镑现代史上最大的单日跌幅</strong>。FTSE 100 开盘跌 8.7%，日经 225 当日跌 7.92%。</span>
+    <span class="en">On June 23, 2016 the UK held its referendum. Polls were near 50/50 while betting markets leaned Remain. On June 24 the result landed: Leave. GBP/USD fell from about <strong>1.4877</strong> at the prior close to <strong>1.3229</strong> intraday, roughly <strong>-8.1%</strong> on the day — <strong>the largest single-day fall in sterling's modern history</strong>. The FTSE 100 opened down 8.7%; the Nikkei 225 closed down 7.92%.</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>GBP/USD · 2016 <span class="zh">（约值）</span><span class="en">(approx.)</span></p>
+    <div id="case-gbp"></div>
+  </div>
+  <p>
+    <span class="zh">现在是关键的一问：在 6 月 22 日买入跨式的人赚到了吗？<strong>几乎没有。</strong>公投前 GBP/USD 一个月期隐含波动率已经升到约 <strong>30%</strong>（2008 年金融危机以来最高），而公投当晚的隔夜期权隐含波动率被报到了数百个百分点——换算过来，<strong>期权市场已经为一次约 7%–8% 的隔夜跳空定好了价</strong>。实际跳了 8.1%。</span>
+    <span class="en">Now the question that matters: did someone who bought the straddle on June 22 make money? <strong>Barely.</strong> Ahead of the vote, GBP/USD one-month implied volatility had climbed to about <strong>30%</strong> — the highest since the 2008 crisis — and overnight implied volatility for referendum night was quoted in the hundreds of percent. Translated, <strong>the option market had already priced an overnight gap of roughly 7–8%</strong>. The actual gap was 8.1%.</span>
+  </p>
+  <p>
+    <span class="zh"><strong>史上最大的单日跌幅，只是刚刚够到期权市场已经开出的价格。</strong>这是本章最重要的一课，也是最反直觉的一课：判断对了事件、对了方向、对了幅度量级——依然可能只是打平，因为你为这三样东西付的钱刚好等于它们的价值。</span>
+    <span class="en"><strong>The worst single day in sterling's history only just reached the price the option market had already published.</strong> This is the chapter's most important lesson and its least intuitive: you can be right about the event, right about the direction, and right about the order of magnitude — and still merely break even, because what you paid for those three things was exactly what they turned out to be worth.</span>
+  </p>
+  <p>
+    <span class="zh">Counterfactual：而在 2016 年 4 月——公投还有两个月，民调尚未收紧、事件溢价尚未堆积——同一个指标只有约 <strong>10%–12%</strong>。一位当时就下注"公投会引发巨震"的交易者，买到的是<strong>价格约为三分之一的同一个判断</strong>。他和 6 月 22 日那位的观点完全相同，结果却天差地别。</span>
+    <span class="en">Counterfactual: back in April 2016 — two months out, before the polls tightened and the event premium piled up — that same measure sat around <strong>10–12%</strong>. A trader who bet then that "the referendum will cause an upheaval" bought <strong>the identical view at roughly a third of the price</strong>. Their thesis and the June 22 buyer's were the same. Their outcomes were not.</span>
+  </p>
+  <p>
+    <span class="zh">简化声明：GBP/USD 汇率与各指数跌幅为真实历史约值。隐含波动率水平（4 月约 10%–12%、公投前约 30%）为当时市场报道的<strong>约值区间</strong>，非精确报价；"三分之一的价格"是按这两个波动率水平的比例给出的<strong>示意</strong>，未逐笔还原任何具体合约的成交价。</span>
+    <span class="en">Stated simplification: the GBP/USD rates and index declines are approximate real history. The implied-volatility levels (about 10–12% in April, about 30% pre-vote) are <strong>approximate ranges</strong> as reported at the time, not precise quotes; "a third of the price" is an <strong>illustrative</strong> ratio derived from those two volatility levels, not a reconstruction of any specific contract's fills.</span>
+  </p>
+  <p class="verdict gain"><span class="zh">利润扩大：同一个"公投会引发巨震"的判断，4 月按约 10% 隐含波动率买入 vs 6 月按约 30% 买入——成本相差约 3 倍，而实际波动是 8.1%</span><span class="en">Profit amplified: the same "the referendum will convulse markets" view, bought at ~10% implied vol in April vs ~30% in June — roughly 3× the cost for an 8.1% realized move</span></p>
+</div>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">如果买入波动率的最佳时机是"事件还没被定价的时候"，而那正是你对事件最没把握的时候——<strong>这个策略要求的核心能力究竟是什么？</strong>是预测事件，还是预测<em>别人什么时候开始预测事件</em>？</span>
+  <span class="en">If the best moment to buy volatility is before the event is priced — which is precisely when you're least sure about the event — <strong>what capability does this strategy actually require?</strong> Forecasting the event, or forecasting <em>when everyone else will start forecasting it</em>?</span>
+</div>
+
+<!-- ============ 5.4 ============ -->
+<h2><span class="zh">5.4 卖出平静：Short Strangle 与 Iron Condor</span><span class="en">5.4 Selling Calm: Short Strangles and Iron Condors</span></h2>
+
+<p>
+  <span class="zh">把 5.2 的结构整个反过来卖，你就站到了统计学更友好的那一边。股价大部分时候不会大动，所以<strong>卖出"会大动"这个预期，长期胜率很高</strong>。这就是 Short Strangle：卖出一个价外 Call 和一个价外 Put，只要股价在两者之间到期，两笔权利金全部归你。</span>
+  <span class="en">Sell the whole of §5.2's structure and you move to the side statistics favors. Stocks mostly don't move much, so <strong>selling the expectation of a big move wins often</strong>. That's the short strangle: sell an OTM call and an OTM put, and if the stock expires anywhere between them you keep both premiums.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>SHORT STRANGLE <span class="zh">收益是那条平顶，风险在图外</span><span class="en">the gain is that flat roof; the risk is off-chart</span></p>
+  <div id="pf-short-strangle"></div>
+</div>
+
+<div class="warn">
+  <span class="warn-tag"><span class="zh">请读一下上图的 Max loss 数字</span><span class="en">Read that chart's max-loss figure again</span></span>
+  <p>
+    <span class="zh">图表引擎只能在显示区间内计算，所以它给出的"最大亏损"是被<strong>画框截断</strong>的结果。真实的 Short Strangle：下方最多亏到股价归零，上方<strong>在数学上没有下限</strong>——股价可以涨到任何地方。这不是图表的缺陷，而是一个绝佳的提醒：<strong>裸卖波动率的风险，本来就画不进任何一张图里。</strong>第 8 章会用两个真实案例说明画不进去的部分有多大。</span>
+    <span class="en">The chart engine can only compute inside the display range, so the "max loss" it reports is <strong>truncated by the frame</strong>. A real short strangle loses down to a zero share price on one side, and on the other has <strong>no mathematical floor at all</strong> — the stock can go anywhere. That isn't a flaw in the chart; it's an excellent reminder that <strong>the risk of naked short volatility was never something a chart could contain.</strong> Chapter 8 uses two real cases to show how large the un-drawable part gets.</span>
+  </p>
+</div>
+
+<p>
+  <span class="zh">解决办法就是第 4 章的老朋友：在两侧各买一只更远的"翅膀"，把无限风险封进一个矩形。这就是 <a class="term" href="../glossary.html#iron-condor">Iron Condor</a>——本质上是<strong>一个 Bull Put Spread 加一个 Bear Call Spread</strong>，两个贷记价差同时开在股价的两侧。</span>
+  <span class="en">The fix is Chapter 4's old friend: buy a further-out "wing" on each side and box the unlimited risk into a rectangle. That's the <a class="term" href="../glossary.html#iron-condor">iron condor</a> — structurally <strong>a bull put spread plus a bear call spread</strong>, two credit spreads opened on either side of the stock.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>IRON CONDOR <span class="zh">四条腿，风险被封进矩形</span><span class="en">four legs, risk boxed into a rectangle</span></p>
+  <div id="pf-condor"></div>
+</div>
+
+<dl class="spec">
+  <div><dt><span class="zh">观点</span><span class="en">Outlook</span></dt><dd><span class="zh">区间震荡，IV 将下降</span><span class="en">Range-bound, IV falling</span></dd></div>
+  <div><dt>Max gain</dt><dd class="pos"><span class="zh">净贷记</span><span class="en">Net credit</span></dd></div>
+  <div><dt>Max loss</dt><dd class="neg"><span class="zh">一侧宽度 − 净贷记</span><span class="en">One wing's width − credit</span></dd></div>
+  <div><dt>Breakeven</dt><dd><span class="zh">两个（上下各一）</span><span class="en">Two (one each side)</span></dd></div>
+  <div><dt><span class="zh">最佳环境</span><span class="en">Best regime</span></dt><dd><span class="zh">高 <a class="term" href="../glossary.html#iv-rank">IV 分位</a> + 无事件</span><span class="en">High <a class="term" href="../glossary.html#iv-rank">IV rank</a>, no catalysts</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">这里有一个被广泛误解的点，值得单独说清楚。<strong>卖方赚钱的条件不是"股价不动"，而是"<a class="term" href="../glossary.html#iv">IV</a> 高于最终的<a class="term" href="../glossary.html#realized-vol">实际波动率</a>"。</strong>股价可以每天上下晃 1%，只要 IV 定价的是每天晃 2%，卖方仍然赚钱；反过来，股价看似平静但 IV 只有 8% 而实际走了 12%，卖方仍然亏。<strong>你卖的是保险的价格，不是"什么都不会发生"这个预言。</strong>这也是为什么专业的卖方看的是 IV 分位，而不是 K 线。</span>
+  <span class="en">One widely misunderstood point deserves its own paragraph. <strong>A seller profits not when the stock is still, but when <a class="term" href="../glossary.html#iv">IV</a> exceeds the eventual <a class="term" href="../glossary.html#realized-vol">realized volatility</a>.</strong> The stock can swing 1% daily and the seller still wins, provided IV was pricing 2% a day. Conversely a stock can look calm while IV of 8% meets realized movement of 12%, and the seller loses. <strong>You are selling the price of insurance, not the prophecy that nothing will happen.</strong> This is why professional sellers watch IV rank rather than candlesticks.</span>
+</p>
+
+<!-- ============ 5.5 ============ -->
+<h2><span class="zh">5.5 收益分布的形状：缓坡与悬崖</span><span class="en">5.5 The Shape of the Distribution: Slope and Cliff</span></h2>
+
+<p>
+  <span class="zh">买波动率和卖波动率，产生的<strong>不是镜像的收益，而是镜像的形状</strong>。买方：大多数月份小亏，偶尔一次大赚。卖方：大多数月份小赚，偶尔一次大亏。两者的长期期望可以都接近于零，但走出来的账户曲线完全不同——而人对这两条曲线的心理承受力也完全不同。</span>
+  <span class="en">Buying and selling volatility don't produce mirrored returns so much as <strong>mirrored shapes</strong>. The buyer: small losses most months, an occasional large gain. The seller: small gains most months, an occasional large loss. Both can have long-run expectancies near zero, yet the equity curves look nothing alike — and people's tolerance for the two is nothing alike either.</span>
+</p>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2017 → 2018-02</p>
+  <h3><span class="zh">史上最平静的一年，和结束它的那一天</span><span class="en">The Calmest Year on Record, and the Day That Ended It</span></h3>
+  <p>
+    <span class="zh">2017 年是波动率卖方能想象的最好年份。<a class="term" href="../glossary.html#vix">VIX</a> 全年均值约 <strong>11.09</strong>，是有记录以来最低的年均值；11 月 3 日收在 <strong>9.14</strong>。标普 500 全年<strong>没有任何一天</strong>涨跌超过 ±2%，最大单日跌幅只有约 -1.8%，全年最大回撤约 -2.8%，指数本身涨了约 19%。<strong>卖出波动率的人整整十二个月几乎没有遇到过一次像样的回撤。</strong></span>
+    <span class="en">2017 was the best year a volatility seller could imagine. The <a class="term" href="../glossary.html#vix">VIX</a> averaged about <strong>11.09</strong> — the lowest annual average on record — and closed at <strong>9.14</strong> on November 3. The S&P 500 had <strong>not a single day</strong> moving more than ±2%; its worst day was about -1.8%, its deepest drawdown about -2.8%, and the index gained roughly 19%. <strong>For twelve straight months, sellers of volatility met almost nothing worth calling a setback.</strong></span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>VIX · 2017 → 2018-02 <span class="zh">（收盘，约值）</span><span class="en">(closes, approx.)</span></p>
+    <div id="case-vix2017"></div>
+  </div>
+  <p>
+    <span class="zh">2018 年 2 月 5 日，标普 500 单日下跌 <strong>4.10%</strong>——这一天的跌幅<strong>超过 2017 年全年最大单日跌幅的两倍</strong>。VIX 当日从 17.31 涨到 <strong>37.32</strong>，上涨 <strong>115.6%</strong>，是该指数史上最大的单日涨幅。三天后的 2 月 8 日，标普再跌 3.75%。</span>
+    <span class="en">On February 5, 2018 the S&P 500 fell <strong>4.10%</strong> in a session — <strong>more than double 2017's worst day for the entire year</strong>. The VIX went from 17.31 to <strong>37.32</strong>, a <strong>115.6%</strong> single-day rise, the largest in the index's history. Three days later, on February 8, the S&P fell another 3.75%.</span>
+  </p>
+  <p>
+    <span class="zh">把这件事翻译成卖方的语言。一位在 2017 年 11 月 3 日卖出波动率的人，<strong>卖出价对应的 VIX 是 9.14</strong>；2018 年 2 月 5 日若被迫回补，<strong>买回价对应的 VIX 是 37.32</strong>——<strong>回补成本是卖出收入的 4.08 倍</strong>。而这中间他收了三个月的租金。<strong>缓坡与悬崖的比例，大约就是这个数字。</strong></span>
+    <span class="en">Translate that into a seller's language. Someone selling volatility on November 3, 2017 sold at a level corresponding to a <strong>VIX of 9.14</strong>; forced to cover on February 5, 2018, the buy-back corresponds to a <strong>VIX of 37.32</strong> — <strong>a cost 4.08× the income</strong>. In between they collected three months of rent. <strong>That ratio is roughly the proportion between the slope and the cliff.</strong></span>
+  </p>
+  <p>
+    <span class="zh">这正是 Iron Condor 存在的理由。同一个看空波动率的观点，无抵押的 Short Strangle 版本让"回补成本"这个数字<strong>没有上限</strong>——它跟着 VIX 走到哪里算哪里；而加上两侧翅膀之后，最大亏损在开仓那一刻就固定成"宽度 − 净贷记"一个数，2 月 5 日再糟糕也不会更糟。<strong>翅膀不会让你赚更多，它只保证悬崖有底。</strong></span>
+    <span class="en">This is exactly why the iron condor exists. Expressing the same short-volatility view as an uncollateralized short strangle leaves the cost of covering <strong>with no ceiling</strong> — it goes wherever the VIX goes. Add the two wings and the maximum loss is fixed at entry as one number, "width minus credit," and February 5 could not have made it worse. <strong>The wings never make you more money; they only guarantee the cliff has a bottom.</strong></span>
+  </p>
+  <p>
+    <span class="zh">简化声明：VIX 与标普 500 的数值为真实历史数据。"卖出/回补"是用 VIX 水平作为波动率价格的<strong>代理比较</strong>，用以说明量级——实际的期权头寸损益还取决于 Strike、到期日与偏斜，不等于 VIX 的比值。</span>
+    <span class="en">Stated simplification: the VIX and S&P figures are real. The "sell/cover" comparison uses VIX levels as a <strong>proxy</strong> for the price of volatility to convey magnitude — an actual option position's P/L also depends on strikes, expiry and skew, and does not equal the VIX ratio.</span>
+  </p>
+  <p class="verdict loss"><span class="zh">亏损减少：同一个做空波动率的观点，无抵押版本的回补成本达卖出价的 4.08 倍（VIX 9.14 → 37.32）；Iron Condor 版本的最大亏损在开仓时就固定为"宽度 − 净贷记"</span><span class="en">Loss capped: the same short-volatility view cost 4.08× its income to cover uncollateralized (VIX 9.14 → 37.32); as an iron condor the worst case was fixed at entry as "width − credit"</span></p>
+</div>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">2017 年整整十二个月，卖出波动率的人每个月都被市场证明是对的。<strong>在这样一条曲线上连续正确十二次之后，一个人对风险的估计会发生什么变化？</strong>如果连续的成功本身就会让人加大仓位，那么"策略的最大回撤"和"使用者的最大回撤"是不是同一个数字？</span>
+  <span class="en">For twelve straight months in 2017, sellers of volatility were proven right every single month. <strong>What happens to a person's estimate of risk after twelve consecutive confirmations?</strong> If a streak of success itself induces larger size, is "the strategy's maximum drawdown" even the same number as "the user's maximum drawdown"?</span>
+</div>
+
+<div class="note">
+  <span class="note-tag"><span class="zh">与实盘的连接</span><span class="en">Bridge to live trading</span></span>
+  <p>
+    <span class="zh">三条能直接用的规则。<strong>① 先看 <a class="term" href="../glossary.html#iv-rank">IV 分位</a>，再看图。</strong>绝对的 IV 数字在不同标的间没有可比性——生物科技股的 40% 可能很便宜，公用事业股的 40% 极贵。分位数回答的才是"现在贵不贵"。<strong>② 卖方避开事件，买方寻找事件——但都要先算 Expected Move。</strong>财报前的高 IV 不是"卖方的礼物"，它是市场对一次真实跳空的合理定价。<strong>③ 四条腿意味着四次点差。</strong>Iron Condor 的理论优势很容易被开仓与平仓合计八次的买卖价差吃掉；只在流动性极好的标的（SPY、QQQ、大型股）上做，并且永远用组合单。</span>
+    <span class="en">Three directly usable rules. <strong>① Check <a class="term" href="../glossary.html#iv-rank">IV rank</a> before you look at a chart.</strong> Absolute IV isn't comparable across underlyings — 40% may be cheap for a biotech and extortionate for a utility. Only the rank answers "is this expensive now." <strong>② Sellers avoid events, buyers seek them — but both compute the expected move first.</strong> High pre-earnings IV is not a gift to sellers; it is the market's reasonable price for a real gap. <strong>③ Four legs means four spreads crossed.</strong> An iron condor's theoretical edge is easily consumed by eight bid-ask crossings across entry and exit; trade them only in deeply liquid underlyings (SPY, QQQ, mega caps), and always as a combo order.</span>
+  </p>
+</div>
+
+<!-- ============ 5.6 Quiz ============ -->
+<h2><span class="zh">5.6 本章测验</span><span class="en">5.6 Chapter Quiz</span></h2>
+<p><span class="zh">点击选项即可作答，答案与解析即时显示。</span><span class="en">Click an option to answer; the correct answer and explanation appear immediately.</span></p>
+
+<div class="quiz-set">
+
+<div class="quiz" data-answer="c">
+  <p class="q"><span class="zh">股价 $200，财报前 ATM Straddle 总价 $16。你认为财报后股价会动 6%。你应该？</span><span class="en">Stock at $200; the pre-earnings ATM straddle costs $16 in total. You expect a 6% post-earnings move. You should:</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">买入跨式，因为 6% 是很大的波动</span><span class="en">Buy the straddle — 6% is a big move</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">买入宽跨式，因为更便宜</span><span class="en">Buy a strangle instead — it's cheaper</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">考虑卖出，因为市场已定价 8%</span><span class="en">Consider selling — the market has priced 8%</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">不交易，信息不足</span><span class="en">Don't trade; there isn't enough information</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>C。</b>$16 ÷ $200 = 8%，这就是市场定价的 Expected Move。你的判断（6%）<strong>低于</strong>市场定价，所以买方是在为你自己都不相信的那 2% 付费——这正是卖方的机会。A 犯的是本章开头点名的错误："大波动"不是理由，"比 8% 更大"才是。B 更糟：宽跨式更便宜，但盈亏平衡点更远，需要的波动<em>更大</em>。D 看似谨慎，但题目已经给全了做决策所需的两个数字。</span>
+    <span class="en"><b>C.</b> $16 ÷ $200 = 8%, which is the market's expected move. Your view (6%) is <strong>below</strong> that price, so buying means paying for 2% you don't even believe in — which is precisely the seller's opportunity. A commits the error named at the top of this chapter: "a big move" isn't the reason, "bigger than 8%" is. B is worse: a strangle is cheaper but its breakevens sit further out, so it needs an <em>even larger</em> move. D looks prudent, but the question already supplies both numbers a decision requires.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">2016 年 6 月 24 日英镑创下史上最大单日跌幅，为什么 6 月 22 日买入跨式的人几乎没赚到钱？</span><span class="en">Sterling had its worst day ever on June 24, 2016 — why did someone who bought the straddle on June 22 barely profit?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">因为他买错了方向</span><span class="en">They picked the wrong direction</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">因为市场早已把 7%–8% 的跳空写进了价格</span><span class="en">Because a 7–8% gap was already written into the price</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">因为跨式不适合外汇市场</span><span class="en">Because straddles don't work in FX</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">因为他持有到期太久了</span><span class="en">Because they held to expiry, which was too long</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>跨式没有方向可言（A 自相矛盾——买跨式就是为了不用选方向）。公投前一个月期隐含波动率约 30%、隔夜期权隐含波动率数百个百分点，等于市场已经为 7%–8% 的跳空开好了价；实际跳了 8.1%，只是刚够回本。C 与事实不符，外汇是跨式最常用的市场之一。D 不成立：这次事件在一夜之间就结束了。<strong>这道题的真正答案是：你的对手盘和你一样聪明，而且他先给出了报价。</strong></span>
+    <span class="en"><b>B.</b> A straddle has no direction to get wrong (A contradicts itself — avoiding the direction choice is the point). One-month implied vol near 30% and overnight implied vol in the hundreds of percent meant the market had already quoted a 7–8% gap; the realized 8.1% only just covered it. C is false — FX is one of the most common straddle markets. D fails because the event resolved overnight. <strong>The real answer: your counterparty is as smart as you are, and they published the price first.</strong></span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="d">
+  <p class="q"><span class="zh">卖出 Iron Condor 后，股价每天上下晃动 1.5%，但一直待在你的两个短腿之间。你会赚钱吗？</span><span class="en">After selling an iron condor the stock chops ±1.5% daily but stays between your short strikes. Do you make money?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">不会，因为股价在波动</span><span class="en">No — the stock is moving</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">一定会，因为股价在区间内</span><span class="en">Certainly — it stayed in the range</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">取决于 Delta</span><span class="en">It depends on delta</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">取决于 IV 当初是否高于最终的实际波动率</span><span class="en">It depends on whether IV exceeded eventual realized volatility</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>D。</b>卖方卖的是<strong>保险的价格</strong>，不是"什么都不会发生"这个预言。若开仓时 IV 定价的是每天 2% 而实际只走了 1.5%，你赚；若 IV 只定价 1%，那么即使到期时股价恰好在区间内，中途的<a class="term" href="../glossary.html#gamma">Gamma</a> 损耗与被迫调整也会让你难受。B 是最常见的误解——到期时在区间内是<em>必要</em>条件，不是充分条件。A 走向另一个极端：波动本身不是问题，波动<em>超出定价</em>才是。</span>
+    <span class="en"><b>D.</b> A seller sells <strong>the price of insurance</strong>, not the prophecy that nothing happens. If IV at entry priced 2% a day and realized was 1.5%, you win; if IV priced only 1%, then even finishing inside the range leaves you bruised by <a class="term" href="../glossary.html#gamma">gamma</a> losses and forced adjustments along the way. B is the commonest misconception — expiring inside the range is <em>necessary</em>, not sufficient. A goes to the other extreme: movement isn't the problem, movement <em>beyond what was priced</em> is.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="a">
+  <p class="q"><span class="zh">Iron Condor 相比 Short Strangle，真正买到的是什么？</span><span class="en">Relative to a short strangle, what does an iron condor actually buy you?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">一个固定的最坏结果，代价是更少的权利金</span><span class="en">A fixed worst case, paid for with less premium</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">更高的胜率</span><span class="en">A higher win rate</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">更大的收益</span><span class="en">A larger maximum gain</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">免疫 IV 上升</span><span class="en">Immunity to rising IV</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>A。</b>两侧翅膀花钱买入，所以净贷记一定<strong>小于</strong>裸卖宽跨（C 反了）。胜率其实略降，因为收得少、盈亏平衡点更靠内（B 错）。翅膀也是期权，IV 上升时两侧都涨，只是净暴露变小而非归零（D 错）。你买到的唯一东西，是把"亏损跟着 VIX 走到哪算哪"换成开仓时就写死的一个数字——<strong>这就是 2018 年 2 月 5 日那批人用真金白银买到的教训。</strong></span>
+    <span class="en"><b>A.</b> The wings cost money, so the net credit is necessarily <strong>smaller</strong> than a naked strangle's (C is backwards). The win rate actually falls slightly, since you collect less and the breakevens sit tighter (not B). The wings are options too — rising IV lifts both sides, shrinking net exposure rather than eliminating it (not D). The one thing you buy is replacing "the loss goes wherever the VIX goes" with a number fixed at entry — <strong>which is exactly the lesson that February 5, 2018 charged people real money for.</strong></span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="c">
+  <p class="q"><span class="zh">你想赌某个季度会有一次大动荡，但不知道具体哪天。应该买近月还是远月期权？</span><span class="en">You want to bet that some quarter contains a major convulsion, without knowing which day. Near-dated or longer-dated options?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">近月，Gamma 大</span><span class="en">Near-dated — more gamma</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">近月，便宜</span><span class="en">Near-dated — cheaper</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">远月，Vega 大且不必猜时点</span><span class="en">Longer-dated — more vega, and no need to guess the date</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">都一样</span><span class="en">It makes no difference</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>C。</b>回看第 3 章的对立关系：<strong>Gamma 随到期临近飙升，Vega 随到期临近萎缩</strong>。你赌的是"某个时间窗内波动率会上升"，这是一个 Vega 赌注，需要远月。近月虽然单价便宜（B 没说错），但你必须反复展期，每次都重新支付事件溢价，而且一旦猜错周次就直接归零。A 混淆了两种赌注：Gamma 适合"我知道就是这一天"，Vega 适合"我知道就是这个季度"。</span>
+    <span class="en"><b>C.</b> Recall Chapter 3's opposition: <strong>gamma spikes into expiry while vega shrinks into it</strong>. You are betting that volatility rises somewhere inside a window — a vega bet, which wants time. Near-dated options are indeed cheaper per contract (B isn't wrong about that), but you'd have to roll repeatedly, paying the event premium each time, and guessing the wrong week zeroes you out. A confuses the two bets: gamma is for "I know it's this day," vega is for "I know it's this quarter."</span>
+  </div>
+</div>
+
+</div>
+
+<!-- ============ takeaways ============ -->
+<h2><span class="zh">本章要点</span><span class="en">Key Takeaways</span></h2>
+<p>
+  <span class="zh">波动率策略看似免除了"猜方向"这个难题，实际上把它换成了一个更难的：<strong>你必须比市场更准确地估计幅度</strong>，而市场已经把它的估计明码标价——那个价格就是 ATM Straddle 的总价。英镑在 2016 年 6 月 24 日走出了现代史上最大的单日跌幅，而前一天买入跨式的人几乎只是打平，这件事应该永久地治好"某某事件肯定会引发大波动所以买跨式"这种想法。卖方站在统计学更友好的一侧，但他们赚的也不是"什么都没发生"，而是 IV 与实际波动率之间的差价；他们的账户曲线天然长成"缓坡加悬崖"的形状，而 2017 年那样完美的十二个月，恰恰是让人在悬崖前把仓位加到最大的东西。<strong>Iron Condor 的两只翅膀不会让你多赚一分钱，它们只保证悬崖有底</strong>——在一个 VIX 能在一天之内从 17 涨到 37 的世界里，"有底"本身就是这笔交易里最值钱的部分。</span>
+  <span class="en">Volatility structures appear to excuse you from guessing direction, and in exchange hand you something harder: <strong>you must estimate magnitude better than the market does</strong> — and the market has already posted its estimate, in the form of the ATM straddle's price. That sterling had its worst modern day on June 24, 2016 while the previous day's straddle buyer roughly broke even should permanently cure the reflex of "big event, therefore buy the straddle." Sellers stand on the side statistics prefers, but what they earn isn't "nothing happened" — it's the gap between IV and realized volatility. Their equity curves naturally grow into a slope-then-cliff shape, and a perfect twelve months like 2017 is precisely the thing that maximizes position size right before the cliff. <strong>An iron condor's wings never earn you an extra cent; they only guarantee the cliff has a bottom</strong> — and in a world where the VIX can travel from 17 to 37 between two closes, having a bottom is the most valuable thing in the trade.</span>
+</p>
+
+<nav class="chap-nav">
+  <a href="04-vertical-spreads.html">← <span class="zh">第 4 章 垂直价差</span><span class="en">Ch.4 Vertical Spreads</span></a>
+  <a href="06-event-trading.html"><span class="zh">第 6 章 事件交易 →</span><span class="en">Ch.6 Event Trading →</span></a>
+</nav>
+
+</main>
+
+<script src="../assets/i18n.js"></script>
+<script src="../assets/payoff.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  Payoff.mount('pf-straddle', {
+    legs: [
+      { kind: 'call', side: 1, strike: 100, premium: 5 },
+      { kind: 'put', side: 1, strike: 100, premium: 5 }
+    ],
+    range: [70, 130],
+    controls: [
+      { leg: 0, prop: 'premium', min: 1, max: 12, step: 0.5, label: { zh: 'Call 成本', en: 'Call cost' } },
+      { leg: 1, prop: 'premium', min: 1, max: 12, step: 0.5, label: { zh: 'Put 成本', en: 'Put cost' } }
+    ]
+  });
+
+  Payoff.mount('pf-strangle', {
+    legs: [
+      { kind: 'call', side: 1, strike: 110, premium: 2.5 },
+      { kind: 'put', side: 1, strike: 90, premium: 2.5 }
+    ],
+    range: [65, 135],
+    controls: [
+      { leg: 0, prop: 'strike', min: 100, max: 130, step: 1, label: { zh: 'Call Strike 上边界', en: 'Call strike (upper)' } },
+      { leg: 1, prop: 'strike', min: 70, max: 100, step: 1, label: { zh: 'Put Strike 下边界', en: 'Put strike (lower)' } }
+    ]
+  });
+
+  Payoff.mount('pf-short-strangle', {
+    legs: [
+      { kind: 'put', side: -1, strike: 90, premium: 2.5 },
+      { kind: 'call', side: -1, strike: 110, premium: 2.5 }
+    ],
+    range: [60, 140],
+    controls: [
+      { leg: 0, prop: 'strike', min: 70, max: 100, step: 1, label: { zh: 'Put Strike 下防线', en: 'Put strike (lower line)' } },
+      { leg: 1, prop: 'strike', min: 100, max: 130, step: 1, label: { zh: 'Call Strike 上防线', en: 'Call strike (upper line)' } }
+    ]
+  });
+
+  Payoff.mount('pf-condor', {
+    legs: [
+      { kind: 'put', side: 1, strike: 85, premium: 0.8 },
+      { kind: 'put', side: -1, strike: 92, premium: 2.2 },
+      { kind: 'call', side: -1, strike: 108, premium: 2.2 },
+      { kind: 'call', side: 1, strike: 115, premium: 0.8 }
+    ],
+    range: [78, 122],
+    controls: [
+      { leg: 1, prop: 'strike', min: 88, max: 99, step: 1, label: { zh: '短 Put Strike', en: 'Short put strike' } },
+      { leg: 2, prop: 'strike', min: 101, max: 112, step: 1, label: { zh: '短 Call Strike', en: 'Short call strike' } }
+    ]
+  });
+
+  CaseChart.mount('case-gbp', {
+    labels: ['04-29', '05-27', '06-10', '06-22', '06-24', '06-27', '06-30'],
+    series: [
+      { name: { zh: 'GBP/USD', en: 'GBP/USD' }, color: '#FF6A55', data: [1.4634, 1.4626, 1.452, 1.4877, 1.3679, 1.3225, 1.3312] }
+    ],
+    events: [{ i: 4, text: { zh: '公投结果', en: 'Result' } }],
+    yfmt: function (v) { return v.toFixed(2); }
+  });
+
+  CaseChart.mount('case-vix2017', {
+    labels: ['17-01', '17-04', '17-07', '17-11-03', '17-12', '18-01', '18-02-05', '18-02-08'],
+    series: [
+      { name: { zh: 'VIX', en: 'VIX' }, color: '#FF6A55', data: [11.99, 10.82, 10.26, 9.14, 11.04, 13.54, 37.32, 33.46] }
+    ],
+    events: [{ i: 6, text: { zh: '单日 +115.6%', en: '+115.6% in a day' } }],
+    yfmt: function (v) { return v.toFixed(0); }
+  });
+
+});
+</script>
+</body>
+</html>
