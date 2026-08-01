@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.11 时间维度 The Time Dimension · Options Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../index.html"><b>OPTIONS</b>/HANDBOOK</a>
+  <div class="spacer"></div>
+  <nav>
+    <a href="../index.html"><span class="zh">目录</span><span class="en">Contents</span></a>
+    <a href="../glossary.html">Glossary</a>
+  </nav>
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button data-lang="zh" aria-pressed="true">中</button>
+    <button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main class="page">
+
+<p class="eyebrow">Chapter 11 · The Time Dimension</p>
+<h1><span class="zh">时间维度：Calendar · Diagonal · PMCC</span><span class="en">The Time Dimension: Calendars, Diagonals, and the PMCC</span></h1>
+<p class="lede">
+  <span class="zh">到第 10 章为止，本书所有结构都遵守一条从未言明的规矩：<strong>所有腿必须同一个到期日</strong>。放开它，你就得到了一个全新的维度——不再只是"押股价走到哪里"，而是"押<strong>什么时候</strong>走到"。这一章也是全书唯一一处，那条你已经读了十章的实线，<strong>不再代表到期时的盈亏</strong>。</span>
+  <span class="en">Through Chapter 10 every structure in this book obeyed an unstated rule: <strong>all legs share one expiration</strong>. Drop it and a new dimension opens — no longer just betting on where the stock goes, but on <strong>when</strong> it gets there. This is also the one chapter in the book where the solid line you have been reading for ten chapters <strong>no longer means P/L at expiry</strong>.</span>
+</p>
+
+<!-- ============ 11.1 ============ -->
+<h2><span class="zh">11.1 放开最后一个约束</span><span class="en">11.1 Dropping the Last Constraint</span></h2>
+
+<p>
+  <span class="zh">第 4 章的垂直价差改变了 <a class="term" href="../glossary.html#strike">Strike</a>，第 5 章的组合改变了腿的数量和方向。但它们都共享同一个到期日，所以第 3 章那四个仪表盘可以整体读数：整个头寸有一个 <a class="term" href="../glossary.html#theta">Theta</a>、一个 <a class="term" href="../glossary.html#vega">Vega</a>。<strong>一旦两条腿到期日不同，这个前提就崩了</strong>——近月腿和远月腿的 Theta 衰减速度不同、对 <a class="term" href="../glossary.html#iv">IV</a> 的敏感度也不同，而这个差异本身就成了可以交易的东西。</span>
+  <span class="en">Chapter 4's verticals varied the <a class="term" href="../glossary.html#strike">strike</a>; Chapter 5's structures varied the number and direction of legs. All shared one expiry, so Chapter 3's four gauges could be read for the position as a whole: one <a class="term" href="../glossary.html#theta">theta</a>, one <a class="term" href="../glossary.html#vega">vega</a>. <strong>The moment two legs expire on different dates, that premise breaks</strong> — the near and far legs decay at different speeds and respond differently to <a class="term" href="../glossary.html#iv">IV</a>, and that difference itself becomes tradable.</span>
+</p>
+
+<p>
+  <span class="zh">回看第 3 章那张 Theta 衰减图：ATM 期权从 90 天走到 30 天只损失约 44% 的价值，而从 30 天走到 0 要损失剩下的全部。<strong>衰减是加速的——这意味着近月和远月在"每天损失多少"上存在系统性差异，而差异是可以被套利的。</strong>卖出衰减快的，买入衰减慢的，这就是本章所有结构的共同内核。</span>
+  <span class="en">Look again at Chapter 3's decay curve: an ATM option loses about 44% of its value going from 90 days to 30, then all of the remainder going from 30 to zero. <strong>Decay accelerates — which means near and far months differ systematically in how much they shed per day, and a systematic difference can be harvested.</strong> Sell the one decaying fast, buy the one decaying slowly. That is the shared core of every structure in this chapter.</span>
+</p>
+
+<!-- ============ 11.2 ============ -->
+<h2><span class="zh">11.2 Calendar Spread：卖近买远</span><span class="en">11.2 The Calendar Spread: Sell Near, Buy Far</span></h2>
+
+<dl class="spec">
+  <div><dt><span class="zh">观点</span><span class="en">Outlook</span></dt><dd><span class="zh">到期前股价停在 Strike 附近</span><span class="en">Stock pins near the strike</span></dd></div>
+  <div><dt><span class="zh">结构</span><span class="en">Structure</span></dt><dd><span class="zh">卖近月 + 买远月，同 Strike</span><span class="en">Short near + long far, same strike</span></dd></div>
+  <div><dt>Max gain</dt><dd class="pos"><span class="zh">在 Strike 处（需计算）</span><span class="en">At the strike (computed)</span></dd></div>
+  <div><dt>Max loss</dt><dd class="neg"><span class="zh">净借记</span><span class="en">The net debit</span></dd></div>
+  <div><dt><span class="zh">最怕</span><span class="en">Worst enemy</span></dt><dd class="neg"><span class="zh">股价大幅移动</span><span class="en">A large move either way</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">卖出一张 30 天的 Call，同时买入一张同 Strike 的 60 天 Call。近月衰减快、远月衰减慢，所以只要股价老实待在 Strike 附近，<strong>你卖掉的那条腿会先归零，而你买的那条腿还剩着大半价值</strong>。用本章的示意参数（现价 $100、Strike $100、近月 IV 35%、远月 IV 28%）：净借记只要 <strong>$0.69</strong>，而近月到期时若股价正好在 $100，头寸值 <strong>$2.68</strong>——相对成本约 <strong>390%</strong>。</span>
+  <span class="en">Sell a 30-day call and buy a 60-day call at the same strike. The near leg decays fast, the far leg slowly, so if the stock sits near the strike, <strong>the leg you sold goes to zero while the leg you own still holds most of its value</strong>. With this chapter's illustrative inputs (spot $100, strike $100, near IV 35%, far IV 28%) the net debit is just <strong>$0.69</strong>, and if the stock is exactly $100 when the near leg expires the position is worth <strong>$2.68</strong> — about <strong>390%</strong> on cost.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>CALENDAR SPREAD <span class="zh">卖 30 天 / 买 60 天 · 实线为近月到期时刻</span><span class="en">short 30d / long 60d · solid line = at the NEAR leg's expiry</span></p>
+  <div id="pf-calendar"></div>
+</div>
+
+<div class="warn">
+  <span class="warn-tag"><span class="zh">停一下：这条实线和前十章的不一样</span><span class="en">Stop: this solid line is not like the last ten chapters'</span></span>
+  <p>
+    <span class="zh">前十章里，实线的含义始终固定：<strong>到期那一刻的盈亏，此时所有时间价值都已归零</strong>，所以那条线一定由直线段和折点组成。上面这张图的实线是<strong>拱形的</strong>，因为它画的是<strong>近月腿到期那一刻</strong>——而此时远月腿还活着，还剩 30 天的时间价值。<strong>那不是"到期盈亏图"，那是一个中途快照。</strong></span>
+    <span class="en">For ten chapters the solid line meant one fixed thing: <strong>P/L at expiry, when all time value has gone to zero</strong> — which is why it was always made of straight segments and kinks. The solid line above is <strong>curved</strong>, because it shows the moment <strong>the near leg expires</strong>, while the far leg is still alive with 30 days of time value left. <strong>That is not an expiry payoff diagram; it is a mid-flight snapshot.</strong></span>
+  </p>
+  <p>
+    <span class="zh">这有一个直接的实际后果：<strong>那个 $2.68 的峰值不是你能锁定的结果，而是一个估值。</strong>它取决于远月腿在那一刻的 IV 是多少——而没有人能在开仓时知道这个数字。前十章的最大收益是合同保证的，这一章的不是。图中的"最大收益"读数，是在<strong>假设远月 IV 保持不变</strong>下算出来的，这个假设几乎一定不成立。下一节就是关于它为什么不成立。</span>
+    <span class="en">This has a direct practical consequence: <strong>that $2.68 peak is not a result you can lock in — it is a valuation.</strong> It depends on the far leg's IV at that moment, a number nobody knows at entry. In the first ten chapters, maximum gain was contractually guaranteed; here it is not. The chart's "max gain" readout is computed <strong>assuming the far leg's IV is unchanged</strong> — an assumption that is almost never true. The next section is about why.</span>
+  </p>
+</div>
+
+<!-- ============ 11.3 ============ -->
+<h2><span class="zh">11.3 期限结构：近月为什么有时更贵</span><span class="en">11.3 Term Structure: When the Near Month Costs More</span></h2>
+
+<p>
+  <span class="zh">第 3 章讲了不同 Strike 的 IV 不同（<a class="term" href="../glossary.html#skew">Skew</a>），第 10 章解释了为什么平价关系允许这件事。现在是另一个方向：<strong>同一个 Strike、不同到期日的 IV 也不同</strong>，这条曲线叫 <a class="term" href="../glossary.html#term-structure">Term Structure</a>（期限结构）。</span>
+  <span class="en">Chapter 3 showed IV differs across strikes (<a class="term" href="../glossary.html#skew">skew</a>), and Chapter 10 explained why parity permits it. Now the other axis: <strong>IV also differs across expiries at the same strike</strong>. That curve is the <a class="term" href="../glossary.html#term-structure">term structure</a>.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>TERM STRUCTURE <span class="zh">（典型形态示意）</span><span class="en">(illustrative shapes)</span></p>
+  <div id="case-termstruct"></div>
+</div>
+
+<p>
+  <span class="zh">平静时期曲线<strong>向上倾斜</strong>（<a class="term" href="../glossary.html#contango">contango</a>）：远月不确定性更多，所以 IV 更高。这是常态——第 8 章说过，VIX 期货长期处于这个状态，那正是 XIV 能连年上涨的结构性来源。<strong>而在恐慌中曲线会整个翻转</strong>：所有人都在抢购最近的保护，近月 IV 冲到远月之上，曲线变成向下倾斜（backwardation，贴水）。2020 年 2 月下旬到 3 月就是教科书式的例子——自 2006 年以来，VIX 曲线只有约 <strong>19%</strong> 的交易日处于倒挂状态，且几乎全部集中在 2008–09 年和 2020 年 3 月。</span>
+  <span class="en">In calm markets the curve <strong>slopes up</strong> (<a class="term" href="../glossary.html#contango">contango</a>): more time means more uncertainty, so higher IV. This is the normal state — Chapter 8 noted that VIX futures live in it, which is the structural source of XIV's years of gains. <strong>In a panic the curve inverts wholesale</strong>: everyone bids for the nearest protection, near-dated IV vaults above far-dated, and the curve slopes down (backwardation). Late February into March 2020 is the textbook instance — since 2006 the VIX curve has been inverted on only about <strong>19%</strong> of trading days, nearly all of them in 2008–09 and March 2020.</span>
+</p>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · <span class="zh">期限结构倒挂</span><span class="en">an inverted curve</span></p>
+  <h3><span class="zh">恐慌中的日历价差：便宜得可疑</span><span class="en">A Calendar in a Panic: Suspiciously Cheap</span></h3>
+  <p>
+    <span class="zh">曲线倒挂时，日历价差看起来是白送的：你卖出的近月 IV 高达 75%，买入的远月只有 55%。用引擎按这组示意 IV 计算，净借记<strong>压缩到只要 $0.47</strong>（同样参数下平静时期的日历价差要 $0.69），而如果股价到期时停在 Strike，头寸值 <strong>$5.97</strong>——账面回报 <strong>1,277%</strong>。任何筛选器都会把它标成绝佳机会。</span>
+    <span class="en">With the curve inverted, a calendar looks free: the near leg you sell carries 75% IV, the far leg you buy only 55%. On those illustrative IVs the engine puts the net debit at just <strong>$0.47</strong> (against $0.69 for the calm-market calendar on the same inputs), and if the stock pins the strike the position is worth <strong>$5.97</strong> — a headline <strong>1,277%</strong>. Any screener would flag it as an outstanding opportunity.</span>
+  </p>
+  <p>
+    <span class="zh">但这个数字建立在一个隐藏假设上：<strong>远月的 IV 一直保持 55%</strong>。而恐慌之所以是恐慌，就在于它会结束。把远月 IV 从 55% 调回常态的 25%，同一个头寸的账面峰值从 $5.97 塌到 <strong>$2.55</strong>；更要命的是两侧的盈亏——股价上下 15% 时，原本还赚 $1.53 和 $0.72 的两个点位，双双变成<strong>亏损</strong>（−$0.07 和 −$0.44）。</span>
+    <span class="en">But that figure rests on a hidden assumption: <strong>the far leg's IV stays at 55%</strong>. And what makes a panic a panic is that it ends. Return the far leg's IV to a normal 25% and the same position's peak collapses from $5.97 to <strong>$2.55</strong> — and worse, the wings flip: at ±15% the position went from making $1.53 and $0.72 to <strong>losing</strong> $0.07 and $0.44.</span>
+  </p>
+  <p>
+    <span class="zh">请自己把上面那张图的"远月当前 IV"滑块从 55% 拖到 25%，看着那条实线整体下沉、两侧翻负。<strong>这就是恐慌期日历价差的真实处境：你需要股价一动不动，而这恰恰是恐慌中最不可能发生的事；同时你还在赌远月 IV 不会回落，而它几乎一定会回落。</strong>两个条件都必须成立，而它们互相矛盾。</span>
+    <span class="en">Drag the "far-leg IV now" slider on the chart above from 55% down to 25% and watch the solid line sink and its wings go negative. <strong>This is the real situation of a panic calendar: you need the stock to sit perfectly still — the least likely thing in a panic — while simultaneously betting the far leg's IV won't normalise, which it almost certainly will.</strong> Both conditions must hold, and they contradict each other.</span>
+  </p>
+  <p>
+    <span class="zh">简化声明："自 2006 年以来 VIX 曲线约 19% 的交易日处于倒挂"，以及 2020 年 2–3 月的倒挂事实，为公开统计。<strong>本案例的所有 IV（近月 75%/25%、远月 55%→25%）与由此导出的权利金均为示意值</strong>，用于展示机制的量级，不对应任何具体标的的实际报价。引擎按各腿 IV 静态定价，不模拟 IV 随股价变化的联动（真实市场中股价下跌通常伴随 IV 上升）。</span>
+    <span class="en">Stated simplification: "the VIX curve has been inverted on about 19% of trading days since 2006" and the February–March 2020 inversion are public statistics. <strong>Every IV in this case (near 75%/25%, far 55%→25%) and the premiums derived from them are illustrative</strong>, shown to convey the magnitude of the mechanism, not quotes on any specific underlying. The engine prices each leg at a static IV and does not model IV moving with spot (in real markets a falling stock usually lifts IV).</span>
+  </p>
+  <p class="verdict loss"><span class="zh">亏损减少：同一个恐慌期日历价差，若远月 IV 维持 55%，±15% 处仍赚 $1.53 / $0.72 → IV 回落至 25% 后变为亏 $0.07 / $0.44；把"IV 不回落"写进假设，代价就是这两个符号</span><span class="en">Loss avoided: the same panic calendar makes $1.53 / $0.72 at ±15% if far IV holds at 55% → loses $0.07 / $0.44 once it normalises to 25%. Assuming "IV won't fall" costs exactly those two signs</span></p>
+</div>
+
+<div class="note">
+  <span class="note-tag"><span class="zh">日历价差真正的用武之地</span><span class="en">Where calendars genuinely belong</span></span>
+  <p>
+    <span class="zh">上面的分析不是说日历价差没用，而是说<strong>它的适用条件比看上去窄得多</strong>。它真正的舒适区是：<strong>近月有一个已知的、会自行消失的事件溢价，而远月没有</strong>——最典型的就是财报。卖出财报周的合约、买入财报后的合约，你卖掉的是第 6 章那块"结构性必然蒸发"的事件溢价，而买入的那条腿几乎不含这块溢价。<strong>这是一个有明确到期日的信息优势，而不是对 IV 走向的猜测。</strong>与恐慌期的倒挂相比，这个场景里"近月贵"的原因是已知且有日期的。</span>
+    <span class="en">None of that says calendars are useless — it says <strong>their window is much narrower than it looks</strong>. Their genuine comfort zone is this: <strong>the near month carries a known event premium that will destroy itself, and the far month doesn't</strong> — earnings being the archetype. Sell the contract expiring in earnings week and buy the one after, and what you sold is Chapter 6's structurally-doomed event premium while the leg you bought barely contains it. <strong>That is an informational edge with a date attached, not a guess about where IV is heading.</strong> Unlike a panic inversion, here the reason the near month is expensive is known and calendared.</span>
+  </p>
+</div>
+
+<!-- ============ 11.4 ============ -->
+<h2><span class="zh">11.4 Diagonal 与 PMCC：把两个维度一起用</span><span class="en">11.4 Diagonals and the PMCC: Using Both Axes at Once</span></h2>
+
+<p>
+  <span class="zh">既然可以改 Strike（垂直），也可以改到期日（水平），那就没有理由不同时改——这就是 <a class="term" href="../glossary.html#diagonal">Diagonal Spread</a>（对角价差）。它最流行的形态有一个很直白的名字：<a class="term" href="../glossary.html#pmcc">Poor Man's Covered Call</a>（穷人的备兑看涨，简称 PMCC）。</span>
+  <span class="en">If you can vary the strike (vertical) and the expiry (horizontal), nothing stops you doing both at once — that is a <a class="term" href="../glossary.html#diagonal">diagonal spread</a>. Its most popular form has a blunt name: the <a class="term" href="../glossary.html#pmcc">poor man's covered call</a>, or PMCC.</span>
+</p>
+
+<p>
+  <span class="zh">做法：不买 100 股正股，而是买入一张深度价内的长期 Call（<a class="term" href="../glossary.html#leaps">LEAPS</a>）当作股票的替身，然后照常每月卖出价外 Call 收租。因为第 10 章已经证明"深度价内 Call ≈ 正股"，这个替换在<strong>形状上</strong>是成立的。省下的资金非常可观：</span>
+  <span class="en">Instead of buying 100 shares you buy one deep-ITM long-dated call (<a class="term" href="../glossary.html#leaps">LEAPS</a>) as a stock substitute, then sell monthly OTM calls against it as usual. Since Chapter 10 established that a deep-ITM call behaves like the stock, the substitution works <strong>in shape</strong>. The capital saved is dramatic:</span>
+</p>
+
+<dl class="spec">
+  <div><dt><span class="zh">传统 Covered Call</span><span class="en">Classic covered call</span></dt><dd><span class="zh">$10,000（100 股 @ $100）</span><span class="en">$10,000 (100 shares @ $100)</span></dd></div>
+  <div><dt>PMCC</dt><dd class="pos"><span class="zh">约 $2,635（一年期 $80 Call）</span><span class="en">≈ $2,635 (1-year $80 call)</span></dd></div>
+  <div><dt><span class="zh">月度租金</span><span class="en">Monthly premium</span></dt><dd><span class="zh">两者都约 $66</span><span class="en">≈ $66 for both</span></dd></div>
+  <div><dt><span class="zh">资金收益率</span><span class="en">Yield on capital</span></dt><dd><span class="zh">0.66% → 2.49%</span><span class="en">0.66% → 2.49%</span></dd></div>
+</dl>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>PMCC <span class="zh">买一年期 $80 Call + 卖 30 天 $110 Call</span><span class="en">long 1-year $80 call + short 30-day $110 call</span></p>
+  <div id="pf-pmcc"></div>
+</div>
+
+<p>
+  <span class="zh">同样的租金、四分之一的资金、将近四倍的资金收益率。这就是 PMCC 被大量推广的理由，而以上算术<strong>完全正确</strong>。问题在于这段推广通常到此为止，而它省略掉的那一半，需要一次真实的崩盘才能看清。</span>
+  <span class="en">Same rent, a quarter of the capital, nearly four times the yield on capital. That is why the PMCC is promoted so heavily, and every line of that arithmetic is <strong>correct</strong>. The trouble is that the pitch usually stops there, and the half it omits takes a real crash to see.</span>
+</p>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2022-04</p>
+  <h3><span class="zh">Netflix 的一夜：当"股票替身"不再像股票</span><span class="en">Netflix's One Night: When the Stock Substitute Stops Behaving Like Stock</span></h3>
+  <p>
+    <span class="zh">2022 年 4 月 19 日盘后，Netflix 公布一季报：付费用户<strong>十年来首次净流失</strong>（约 20 万），并预告二季度将再流失 200 万。次日 4 月 20 日，NFLX 收盘 <strong>$226.19</strong>，较前一日的 $348.61 下跌 <strong>35.1%</strong>——公司史上最大单日跌幅，一夜蒸发约 <strong>544 亿美元</strong>市值。</span>
+    <span class="en">After the close on April 19, 2022, Netflix reported Q1: paid subscribers had <strong>declined for the first time in a decade</strong> (about 200,000), with another 2 million loss guided for Q2. The next day NFLX closed at <strong>$226.19</strong>, down <strong>35.1%</strong> from $348.61 — the largest single-day fall in its history, erasing roughly <strong>$54.4 billion</strong> of market value overnight.</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>NFLX · 2022-04 <span class="zh">（收盘价，约值）</span><span class="en">(closes, approx.)</span></p>
+    <div id="case-nflx"></div>
+  </div>
+  <p>
+    <span class="zh">Counterfactual：两位投资者在 4 月 19 日都对 Netflix 温和看多，都决定收租。<strong>A 用传统 Covered Call</strong>：买 100 股（$34,861），卖出一张 30 天 $380 Call。<strong>B 用 PMCC</strong>：买一张 2023 年 1 月到期的 $250 Call，卖出同一张 $380 Call。</span>
+    <span class="en">Counterfactual: two investors on April 19 are both mildly bullish on Netflix and both want income. <strong>A runs a classic covered call</strong>: buy 100 shares ($34,861) and sell a 30-day $380 call. <strong>B runs a PMCC</strong>: buy one January-2023 $250 call and sell the same $380 call.</span>
+  </p>
+  <dl class="spec">
+    <div><dt>A · Covered Call</dt><dd><span class="zh">占用 $33,236 → 亏 $10,619（<strong>−31.9%</strong>）</span><span class="en">$33,236 committed → −$10,619 (<strong>−31.9%</strong>)</span></dd></div>
+    <div><dt>B · PMCC</dt><dd class="neg"><span class="zh">占用 $10,442 → 亏 $6,200（<strong>−59.4%</strong>）</span><span class="en">$10,442 committed → −$6,200 (<strong>−59.4%</strong>)</span></dd></div>
+    <div><dt><span class="zh">正股本身</span><span class="en">The stock itself</span></dt><dd>−35.1%</dd></div>
+  </dl>
+  <p>
+    <span class="zh">乍看之下 B 亏得更少（$6,200 对 $10,619），PMCC 似乎还赢了。<strong>但这是在比较两笔规模不同的交易。</strong>PMCC 的全部卖点就是"同样的租金只要 $10,442"——那么一个真正利用了这个优势的人，会用同样的 $33,236 开出 <strong>3.2 张</strong>。按同资金口径重算：</span>
+    <span class="en">At first glance B lost less ($6,200 against $10,619) and the PMCC seems to have won. <strong>But that compares two trades of different size.</strong> The PMCC's entire selling point is "the same rent for only $10,442" — so anyone actually exploiting that advantage would put the same $33,236 to work across <strong>3.2 contracts</strong>. On equal capital:</span>
+  </p>
+  <div class="spec">
+    <div style="grid-column:1/-1;padding:1rem .9rem;text-align:center;font-family:var(--mono);font-size:.95rem">
+      <span class="zh">同样 $33,236：Covered Call 亏 $10,619 · PMCC 亏 $19,735</span>
+      <span class="en">Same $33,236: covered call −$10,619 · PMCC −$19,735</span>
+    </div>
+  </div>
+  <p>
+    <span class="zh"><strong>同样的资金、同一个看多判断、同一只股票、同一天——PMCC 的亏损是传统 Covered Call 的 1.86 倍。</strong>原因是第 10 章那个等价关系有个前提：深度价内 Call 只有在<strong>保持</strong>深度价内时才像股票。$250 的 Call 在 NFLX 报 $348 时 Delta 接近 0.9，行为几乎与正股无异；股价砸到 $226 后它变成价外，Delta 塌向 0.2，此时它已经不再是"股票替身"，而是一张正在归零的彩票。<strong>省下的 74% 资金不是免费的，它是杠杆，而杠杆在两个方向上同样忠实。</strong></span>
+    <span class="en"><strong>Same capital, same bullish view, same stock, same day — and the PMCC lost 1.86× what the covered call did.</strong> The reason is that Chapter 10's equivalence carries a precondition: a deep-ITM call behaves like stock only while it <strong>stays</strong> deep ITM. At $348 the $250 call had a delta near 0.9 and was all but indistinguishable from the shares; after the drop to $226 it was out of the money with delta collapsing toward 0.2, no longer a stock substitute but a decaying lottery ticket. <strong>The 74% of capital you saved was never free — it was leverage, and leverage is equally faithful in both directions.</strong></span>
+  </p>
+  <p>
+    <span class="zh">简化声明：NFLX 的股价、跌幅、市值损失与订户数据为真实历史。<strong>两条腿的 IV（LEAPS 55%→65%、短腿 70%→60%）为示意值</strong>，按财报前后的合理水平设定；所有权利金由这些 IV 经 Black-Scholes 导出，非实际成交价。"3.2 张"为按资金等量折算，忽略了合约不可拆分与保证金规则。</span>
+    <span class="en">Stated simplification: NFLX's prices, the percentage drop, the market-cap loss and the subscriber figures are real history. <strong>The two legs' IVs (LEAPS 55%→65%, short leg 70%→60%) are illustrative</strong>, set at plausible pre- and post-earnings levels; all premiums are Black-Scholes values derived from them, not fills. The "3.2 contracts" is a capital-equivalence calculation ignoring contract indivisibility and margin rules.</span>
+  </p>
+  <p class="verdict loss"><span class="zh">亏损减少：同样 $33,236 的资金、同一个看多判断，PMCC 亏 $19,735 → 传统 Covered Call 亏 $10,619，少亏约 46%</span><span class="en">Loss reduced: on the same $33,236 of capital and the same bullish view, the PMCC lost $19,735 → the classic covered call lost $10,619, about 46% less</span></p>
+</div>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">PMCC 的推广总是强调"资金收益率从 0.66% 提高到 2.49%"。这个数字完全真实。<strong>但如果把分母从"占用资金"换成"最坏情况下可能损失的金额"，这两个策略的收益率还有差别吗？</strong>把这个问题和第 9 章的第 ④ 条（跳空 30% 我亏多少）放在一起：<strong>当一个策略的卖点是"占用资金更少"时，它到底降低了风险，还是只降低了分母？</strong></span>
+  <span class="en">PMCC pitches always emphasise raising the yield on capital from 0.66% to 2.49%. That number is entirely real. <strong>But if you swap the denominator from "capital committed" to "amount that can be lost in the worst case," do the two strategies still differ?</strong> Hold this next to Chapter 9's question ④ — how much do I lose on a 30% gap: <strong>when a strategy's selling point is "it ties up less capital," has it reduced the risk, or only the denominator?</strong></span>
+</div>
+
+<!-- ============ 11.5 Quiz ============ -->
+<h2><span class="zh">11.5 本章测验</span><span class="en">11.5 Chapter Quiz</span></h2>
+<p><span class="zh">点击选项即可作答，答案与解析即时显示。</span><span class="en">Click an option to answer; the correct answer and explanation appear immediately.</span></p>
+
+<div class="quiz-set">
+
+<div class="quiz" data-answer="c">
+  <p class="q"><span class="zh">日历价差的盈亏图上，那条实线代表什么？</span><span class="en">On a calendar spread's chart, what does the solid line represent?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">远月腿到期时的盈亏</span><span class="en">P/L when the far leg expires</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">和前面章节一样，是最终到期盈亏</span><span class="en">Final expiry P/L, same as earlier chapters</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">近月腿到期那一刻的估值，此时远月腿还活着</span><span class="en">A valuation at the moment the near leg expires, with the far leg still alive</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">买入时的成本线</span><span class="en">The cost basis at entry</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>C。</b>这是本章唯一一处打破全书阅读约定的地方。前十章的实线是<strong>合同保证的到期结果</strong>——全部由直线段和折点组成；日历价差的实线是<strong>拱形</strong>，因为它是中途快照：近月归零了，远月还剩 30 天时间价值。<strong>实际后果是那个峰值不是你能锁定的数字，而是一个依赖远月 IV 假设的估值。</strong>A 错在远月到期时近月早已不存在，那只是一条单腿曲线。</span>
+    <span class="en"><b>C.</b> This is the one place in the book that breaks its own reading convention. For ten chapters the solid line was a <strong>contractually guaranteed expiry outcome</strong>, made of straight segments and kinks. A calendar's solid line is <strong>curved</strong> because it is a mid-flight snapshot: the near leg is at zero while the far leg still holds 30 days of time value. <strong>The practical consequence is that the peak is not lockable — it is a valuation resting on an assumption about the far leg's IV.</strong> A is wrong because by the far leg's expiry the near leg is long gone, leaving a single-leg curve.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">期限结构倒挂（近月 IV 高于远月）时买入日历价差，主要风险是什么？</span><span class="en">Buying a calendar while the term structure is inverted (near IV above far) carries what main risk?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">没有风险，因为你卖贵买便宜</span><span class="en">None — you sold expensive and bought cheap</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">你需要股价不动，而倒挂恰恰意味着市场在剧烈波动；同时远月 IV 回落会侵蚀长腿</span><span class="en">You need the stock still, but inversion means it's moving violently — and normalising far IV erodes the long leg</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">手续费太高</span><span class="en">Commissions are too high</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">倒挂时无法开仓</span><span class="en">You can't open the position while inverted</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>两个条件必须同时成立，而它们互相矛盾：<strong>日历价差要求股价停在 Strike 附近，而期限结构倒挂本身就是市场剧烈波动的信号</strong>。此外，本章用引擎演示过，把远月 IV 从 55% 调回 25%，峰值从 $5.97 塌到 $2.55，±15% 两个点位从盈利翻成亏损。A 正是这个陷阱的诱饵——1,525% 的账面回报建立在"远月 IV 不回落"这个几乎必然不成立的假设上。</span>
+    <span class="en"><b>B.</b> Two conditions must both hold and they contradict each other: <strong>a calendar needs the stock pinned near the strike, while an inverted term structure is itself the signal that the market is convulsing.</strong> Beyond that, this chapter demonstrated with the engine that returning far IV from 55% to 25% collapses the peak from $5.97 to $2.55 and flips both ±15% points from profit to loss. A is precisely the bait: that 1,525% headline rests on "far IV won't fall," which it almost certainly will.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="d">
+  <p class="q"><span class="zh">PMCC 用 $2,635 替代了 $10,000 的股票仓位，收取同样的租金。这意味着什么？</span><span class="en">A PMCC replaces a $10,000 share position with $2,635 and collects the same rent. That means:</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">风险降低了 74%</span><span class="en">Risk fell by 74%</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">这是一个免费的效率提升</span><span class="en">It's a free efficiency gain</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">收益和风险都不变</span><span class="en">Return and risk are both unchanged</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">这是杠杆：资金收益率提高约四倍，同资金口径下的亏损也放大</span><span class="en">It's leverage: roughly 4× the yield on capital, and magnified losses on equal capital</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>D。</b>NFLX 案例给了确切数字：<strong>同样 $33,236 的资金，PMCC 亏 $19,735，传统 Covered Call 亏 $10,619——1.86 倍。</strong>A 混淆了"占用资金少"和"风险小"，这正是本章思考题要拆穿的：换分母不等于降风险。B 忽略了第 10 章那个等价关系的前提——深度价内 Call 只在<strong>保持</strong>深度价内时才像股票，NFLX 一夜跌 35.1% 后它的 Delta 从约 0.9 塌到约 0.2，替身失效。</span>
+    <span class="en"><b>D.</b> The NFLX case gives the exact figures: <strong>on the same $33,236, the PMCC lost $19,735 against the covered call's $10,619 — 1.86×.</strong> A confuses "ties up less capital" with "is less risky," which is exactly what this chapter's Think question dismantles: changing the denominator is not reducing risk. B ignores the precondition on Chapter 10's equivalence — a deep-ITM call behaves like stock only while it <strong>stays</strong> deep ITM, and after NFLX fell 35.1% overnight its delta collapsed from about 0.9 to about 0.2, so the substitute stopped substituting.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="a">
+  <p class="q"><span class="zh">日历价差最合理的应用场景是？</span><span class="en">The most defensible use case for a calendar spread is:</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">卖出含财报事件溢价的近月、买入财报后的远月</span><span class="en">Sell the near month carrying earnings event premium, buy the month after</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">市场恐慌、期限结构倒挂时</span><span class="en">During a panic, when the term structure inverts</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">强趋势行情中</span><span class="en">In a strong trending market</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">任何时候，因为它是定义风险的</span><span class="en">Any time — it's defined risk</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>A。</b>近月贵的原因必须是<strong>已知的、有日期的、且会自行消失的</strong>——财报事件溢价正好三条全中（第 6 章证明过它的蒸发是结构性的）。B 的倒挂虽然也让近月更贵，但原因是市场在剧烈波动，而那正好摧毁日历价差需要的"股价不动"。C 更糟：趋势行情直接把股价推离 Strike。D 混淆了"最大亏损有限"和"这笔交易划算"——第 4 章已经说过，定义风险不等于低风险。</span>
+    <span class="en"><b>A.</b> The near month's richness must be <strong>known, dated, and self-destructing</strong> — earnings event premium is all three (Chapter 6 showed its evaporation is structural). B's inversion also makes the near month expensive, but the reason is a convulsing market, which destroys the stillness a calendar requires. C is worse: a trend drives the stock away from the strike. D confuses "the maximum loss is bounded" with "this trade is worth taking" — Chapter 4 already established that defined risk is not low risk.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="c">
+  <p class="q"><span class="zh">为什么日历价差的"最大收益"不像垂直价差那样是一个确定的数字？</span><span class="en">Why isn't a calendar's "maximum gain" a definite number the way a vertical's is?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">因为它有四条腿</span><span class="en">Because it has four legs</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">因为券商不提供报价</span><span class="en">Because brokers don't quote it</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">因为它取决于近月到期时远月腿的 IV，而那个数字开仓时无法知道</span><span class="en">Because it depends on the far leg's IV at the near leg's expiry, unknowable at entry</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">因为股价无法预测</span><span class="en">Because the stock price is unpredictable</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>C。</b>垂直价差的最大收益是"宽度 − 净借记"，两项在开仓时都已确定，是<strong>合同保证</strong>的。日历价差的峰值发生在近月到期、远月仍存活的那一刻，其价值必须用<strong>那一刻的远月 IV</strong> 折算——而没有人能提前知道它。本章的演示就是证据：仅仅把远月 IV 从 55% 改成 25%，"最大收益"就从 $5.97 变成 $2.55。D 说的是所有策略的共性，答不到点上：垂直价差同样无法预测股价，但它的最大收益依然是确定的。</span>
+    <span class="en"><b>C.</b> A vertical's maximum gain is "width − net debit," both fixed at entry and <strong>contractually guaranteed</strong>. A calendar's peak occurs when the near leg expires and the far leg lives on, so its value must be marked at <strong>the far leg's IV at that moment</strong> — which nobody knows in advance. This chapter's demonstration is the proof: changing far IV from 55% to 25% alone moves "maximum gain" from $5.97 to $2.55. D states something true of every strategy and misses the point: a vertical's stock price is equally unpredictable, yet its maximum gain is still definite.</span>
+  </div>
+</div>
+
+</div>
+
+<!-- ============ takeaways ============ -->
+<h2><span class="zh">本章要点</span><span class="en">Key Takeaways</span></h2>
+<p>
+  <span class="zh">放开"所有腿同一到期日"这条约束，交易的对象就从"股价走到哪里"变成了"<strong>时间价值在两个日期之间的差异</strong>"。这带来了本书唯一一次阅读约定的破例：<strong>日历价差的实线不是到期盈亏图，而是近月到期那一刻的估值快照</strong>——它是拱形的，因为远月腿还活着，而那也意味着它的"最大收益"不是合同保证的数字，只是一个依赖远月 IV 假设的估值。把远月 IV 从 55% 调到 25%，峰值就从 $5.97 塌到 $2.55，两侧从盈利翻成亏损。所以恐慌中那个 1,277% 的账面回报是个陷阱：<strong>它要求股价一动不动，而期限结构倒挂本身就是市场在剧烈波动的证据</strong>；日历价差真正的舒适区是财报这种<strong>已知的、有日期的、会自行蒸发的</strong>近月溢价。至于 PMCC，它的资金效率完全真实——同样的租金只要四分之一的钱——但 NFLX 在 2022 年 4 月 20 日一夜下跌 35.1% 给出了另一半账单：<strong>同样 $33,236 的资金、同一个看多判断，PMCC 亏 $19,735，传统 Covered Call 亏 $10,619。</strong>深度价内 Call 只在保持深度价内时才像股票，而"省下的资金"从来不是效率，它是杠杆。</span>
+  <span class="en">Drop the "one expiry for all legs" constraint and what you trade stops being where the stock goes and becomes <strong>the difference in time value between two dates</strong>. That brings the book's only break in its own reading convention: <strong>a calendar's solid line is not an expiry payoff but a valuation snapshot at the near leg's expiry</strong> — curved, because the far leg is still alive, which also means its "maximum gain" is not a guaranteed number but an estimate resting on an assumption about far-leg IV. Move that IV from 55% to 25% and the peak falls from $5.97 to $2.55 while both wings flip from profit to loss. So the 1,277% headline in a panic is a trap: <strong>it requires the stock to sit perfectly still, and an inverted term structure is itself evidence the market is convulsing.</strong> A calendar's genuine comfort zone is a near-month premium that is known, dated and self-destructing — earnings. As for the PMCC, its capital efficiency is entirely real — the same rent for a quarter of the money — but Netflix's 35.1% overnight fall on April 20, 2022 presented the other half of the bill: <strong>on the same $33,236 and the same bullish view, the PMCC lost $19,735 against the covered call's $10,619.</strong> A deep-ITM call resembles stock only while it stays deep ITM, and the capital you "saved" was never efficiency — it was leverage.</span>
+</p>
+
+<nav class="chap-nav">
+  <a href="10-parity-synthetics.html">← <span class="zh">第 10 章 平价关系与合成头寸</span><span class="en">Ch.10 Parity &amp; Synthetics</span></a>
+  <a href="../glossary.html">Glossary →</a>
+</nav>
+
+</main>
+
+<script src="../assets/i18n.js"></script>
+<script src="../assets/payoff.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  // The far leg carries BOTH `iv` (entry — fixes what we paid) and `ivNow`
+  // (today — prices the curve). The slider moves only ivNow, so dragging it
+  // shows vol normalising AFTER entry rather than rewriting the entry cost.
+  Payoff.mount('pf-calendar', {
+    spot0: 100, rate: 0.04, elapsed: 0,
+    legs: [
+      { kind: 'call', side: -1, strike: 100, iv: 0.35, dte: 30 },
+      { kind: 'call', side: 1, strike: 100, iv: 0.28, ivNow: 0.28, dte: 60 }
+    ],
+    range: [80, 120],
+    controls: [
+      { prop: 'elapsed', min: 0, max: 30, step: 1, label: { zh: '已过天数 Days elapsed', en: 'Days elapsed' } },
+      { leg: 1, prop: 'ivNow', min: 0.15, max: 0.6, step: 0.01, label: { zh: '远月当前 IV（拖低看它塌）', en: 'Far-leg IV now (drag down)' } }
+    ]
+  });
+
+  Payoff.mount('pf-pmcc', {
+    spot0: 100, rate: 0.04, elapsed: 0,
+    legs: [
+      { kind: 'call', side: 1, strike: 80, iv: 0.32, dte: 365 },
+      { kind: 'call', side: -1, strike: 110, iv: 0.30, dte: 30 }
+    ],
+    range: [65, 135],
+    controls: [
+      { prop: 'elapsed', min: 0, max: 30, step: 1, label: { zh: '已过天数 Days elapsed', en: 'Days elapsed' } },
+      { leg: 0, prop: 'strike', min: 60, max: 100, step: 1, label: { zh: 'LEAPS Strike（越低越像股票）', en: 'LEAPS strike (lower = more stock-like)' } }
+    ]
+  });
+
+  CaseChart.mount('case-termstruct', {
+    labels: ['7d', '30d', '60d', '90d', '180d', '365d'],
+    series: [
+      { name: { zh: '平静', en: 'Calm' }, color: '#3CDFA3', data: [22, 25, 26.5, 27.5, 28.5, 29] },
+      { name: { zh: '恐慌', en: 'Panic' }, color: '#FF6A55', data: [80, 75, 68, 62, 52, 45] }
+    ],
+    yfmt: function (v) { return v.toFixed(0) + '%'; }
+  });
+
+  CaseChart.mount('case-nflx', {
+    labels: ['04-11', '04-19', '04-20', '04-21', '04-26', '05-11'],
+    series: [
+      { name: { zh: 'NFLX', en: 'NFLX' }, color: '#FF6A55', data: [341, 348.61, 226.19, 218.22, 200.4, 178.6] }
+    ],
+    events: [{ i: 1, text: { zh: '盘后财报', en: 'Earnings AMC' } }],
+    yfmt: function (v) { return '$' + v.toFixed(0); }
+  });
+
+});
+</script>
+</body>
+</html>

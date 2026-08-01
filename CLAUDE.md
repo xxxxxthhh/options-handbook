@@ -4,9 +4,22 @@
 
 ## 项目状态
 
-- **9 章全部完成并已发布**：https://xxxxxthhh.github.io/options-handbook/ （GitHub Pages, main 分支根目录）
+- **Vol.1（第 1–9 章）+ Vol.2 前两章（第 10–11 章）已完成**：https://xxxxxthhh.github.io/options-handbook/ （GitHub Pages, main 分支根目录）
 - 质量基准仍为 chapters/02-single-leg.html（样章）
 - 目录进度 badge 已随全书完成而移除；新增章节时只需在 index.html 目录加链接，并接好前后章 `.chap-nav`
+
+### Vol.2 待写章节（backlog，按建议顺序）
+
+已做过案例可行性评估，**动手前先读下面的否决/注意事项**，不要重新推导：
+
+1. **蝶式与结构工程**（Butterfly / Broken-Wing / Ratio / Backspread）——现引擎已支持任意腿数，零改动。注意 1x2 Ratio 隐含裸卖属性，需接第 8 章
+2. **对冲的工程学**（尾部对冲成本、VIX 产品作为保险）——⚠️ JHEQX 已在第 10.5 节用掉；⚠️ "50 Cent"（VIX 大户）对 Ruffer 的归因属媒体推测、从未被证实，**只可定性引用交易形态，不得指名机构、不得给量化 verdict**（与软银 Whale 同类问题）
+3. **管理与运维**（Roll 的诚实算法、50% 止盈 / 21 DTE、除息提前指派、Pin Risk、SPX vs SPY）——0DTE **写成 `.warn` 而非策略章节**（现占 SPX 成交量过半，略过会让书过时，但不等于该教它）；美国 1256 税务**只写一句 + 免责声明**，展开就是跨辖区维护噩梦
+4. **证据素养**（CBOE BXM / PUT / CNDR 三十年基准）——全章零虚构价格，最符合本书数据洁癖。⚠️ 这些是**指数**收益而非可投资基金收益，BXM 与真实 buy-write 基金的费后差距**本身就是课程内容**，不是脚注
+
+**不建议加**：奇异期权（散户碰不到）、Vanna/Volga 专章（在 skew 里定性带过即可）、个股推荐（毁掉教育向立场）、深度税务。
+
+**候选池**：2020 软银 Nasdaq Whale（同上，只可定性）、2015-08-24 ETF 闪崩、Barings/Leeson 1995、2010-05-06 闪崩。
 
 ## 硬性约定（违反即返工）
 
@@ -30,6 +43,8 @@
   - Ch07 MSFT 2020 崩盘中被指派 · INTC 2022 Wheel
   - Ch08 XIV/Volmageddon 2018-02 · optionsellers.com 2018-11 · 黑色星期一 1987-10
   - Ch09 LTCM 1998 · 巴菲特 1969 清盘合伙企业
+  - Ch10 1R0NYMAN box spread 2019-01（UVXY 美式提前行权）· JPM JHEQX 季度 collar
+  - Ch11 期限结构倒挂（示意 IV 演示）· NFLX 2022-04-20 PMCC 杠杆
 - 候选池（尚未使用）：2020 软银 Nasdaq Whale（**注意：公开数字为媒体报道且被软银部分否认，只可定性引用，不要给量化 verdict**）、1998 长期资本以外的对冲基金爆仓、2015-08-24 ETF 闪崩、Barings/Leeson 1995、2010-05-06 闪崩
 
 ### 图表
@@ -37,6 +52,25 @@
 - 历史走势图：`CaseChart.mount(id, { labels, series:[{name:{zh,en}, color, data}], events })`；亏损/裸持仓线用 `#FF6A55`，盈利/对冲线用 `#3CDFA3`
 - 图表一律包在 `.panel`（深色仪表面板）中，`panel-title` 用 mono 大写
 - 多腿新策略（spread/condor）直接用现有 legs 数组表达，引擎已支持任意腿数；若需新控件类型才改 payoff.js，并保持向后兼容
+
+### Vol.2 引擎词汇（第 10 章起）
+
+Vol.1 的腿写 `premium`（作者给定，只画到期折线）。**Vol.2 的腿改写 `iv` + `dte`，权利金由引擎从 `cfg.spot0` 用 Black-Scholes 反推**——这样正文引用的权利金和曲线不可能对不上（Vol.1 那种"图文各算一遍"的漂移在这里结构性地不存在）。
+
+```js
+Payoff.mount('id', {
+  spot0: 100, rate: 0.04, elapsed: 0,          // spot0 + iv 才会画 T+0 虚线
+  legs: [{ kind:'call', side:-1, strike:100, iv:0.35, dte:30 },
+         { kind:'call', side:1,  strike:100, iv:0.28, ivNow:0.28, dte:60 }],
+  controls: [{ prop:'elapsed', ... },           // 省略 leg 即作用于 cfg 本身
+             { leg:1, prop:'ivNow', ... }]      // ivNow 只改估值，不改入场成本
+});
+```
+
+- `iv` = **入场**波动率，锁定你付出的权利金；`ivNow` = **当前**波动率，只用于给 T+0 曲线和存活腿定价，默认等于 `iv`。要演示"开仓后 IV 变化"必须用 `ivNow`，否则拖动滑块会连入场成本一起改写
+- 多到期结构（Calendar）的实线画在**最近腿到期**时刻，存活腿按 `ivNow` 定价——**那已经不是"到期盈亏图"而是中途估值，章节里必须显式说明**（见 11.2 的 `.warn`）
+- 全书唯一一份 Black-Scholes 实现在 payoff.js，Node 校验脚本应从该文件 `eval` 出来用，**不要另写一份**
+- 所有 Vol.1 配置零改动：`node --check` + 546→651 点回归全等已验证；**不要回填 Vol.1 图表**（需要凭空补 spot0/dte，且 Ch4 `pf-bear-put` 的 $7 权利金低于内在价值，本就无法承载 T+0 线）
 
 ### 章节结构（照抄 02 章的骨架）
 1. eyebrow + h1 + lede

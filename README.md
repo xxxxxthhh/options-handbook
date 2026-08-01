@@ -17,6 +17,8 @@ chapters/
   07-wheel.html              Wheel 系统：CSP → 指派 → Covered Call
   08-cautionary-tales.html   反面教材：裸卖、杠杆与波动率的墓碑
   09-sizing-discipline.html  仓位与纪律：Regime、资金管理与"不交易"
+  10-parity-synthetics.html  平价关系与合成头寸：期权世界的守恒律
+  11-time-structures.html    时间维度：Calendar · Diagonal · PMCC
 assets/
   style.css             设计系统 + print CSS（Ctrl+P 导出 PDF）
   i18n.js               中英切换（localStorage 记忆语言，#en hash 可作分享链接的显式覆盖）

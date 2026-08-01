@@ -160,6 +160,38 @@
     <span class="zh">同时买卖不同 Strike 或到期日的期权，把风险和收益都框定在一个区间内。第 4 章的主角。</span>
     <span class="en">Simultaneously buying and selling options at different strikes or expiries, boxing both risk and reward into a range. The subject of Chapter 4.</span></td></tr>
 
+  <tr id="parity"><td class="t">Put-Call Parity</td><td class="c">平价关系</td><td>
+    <span class="zh">C − P = S − K·e<sup>−rT</sup>。<strong>套利恒等式，不是模型</strong>——右边没有波动率，不依赖任何关于股价行为的假设。它推出"同 Strike 的 Call 与 Put 必然同 IV"，也解释了为什么不同 Strike 之间可以有<a class="term" href="#skew">偏斜</a>。严格形式要求欧式行权。见第 10 章。</span>
+    <span class="en">C − P = S − K·e<sup>−rT</sup>. <strong>An arbitrage identity, not a model</strong> — no volatility on the right-hand side and no assumption about how the stock behaves. It implies a call and put at one strike must share an IV, and explains why <a class="term" href="#skew">skew</a> across strikes is permitted. The strict form requires European exercise. See Chapter 10.</span></td></tr>
+
+  <tr id="synthetic"><td class="t">Synthetic Position</td><td class="c">合成头寸</td><td>
+    <span class="zh">用期权腿复制另一个头寸的盈亏形状。由平价关系可得：+C −P = 持股，持股 +P = 合成 Call，而 <strong>Covered Call ≡ Short Put</strong>（差一个等于现金利息的常数）。选哪种表达是成本问题，不是风险问题。</span>
+    <span class="en">Replicating one position's payoff with option legs. From parity: +C −P is long stock, stock +P is a synthetic call, and <strong>a covered call ≡ a short put</strong> (differing by a constant equal to the interest on the cash). Which expression to use is a cost question, not a risk one.</span></td></tr>
+
+  <tr id="box"><td class="t">Box Spread</td><td class="c">箱体价差</td><td>
+    <span class="zh">在两个 Strike 上分别建合成多头与合成空头。到期价值恒等于宽度、与股价无关——<strong>它是一张零息债券</strong>：买入即放贷，卖出即借款。用美式期权做会因<a class="term" href="#early-exercise">提前行权</a>而失效，2019 年 1R0NYMAN 即因此爆仓。</span>
+    <span class="en">A synthetic long at one strike and a synthetic short at another. Its expiry value equals the width regardless of the stock — <strong>it is a zero-coupon bond</strong>: buying lends, selling borrows. Built with American options it breaks via <a class="term" href="#early-exercise">early exercise</a>, which is how 1R0NYMAN blew up in 2019.</span></td></tr>
+
+  <tr id="early-exercise"><td class="t">Early Exercise</td><td class="c">提前行权</td><td>
+    <span class="zh">美式期权持有人在到期前主动行权。对买方通常不划算，但深度价内或除息日前是例外——<strong>而它一旦发生，任何依赖"所有腿同时到期"的结构都会被拆开一条腿</strong>。与<a class="term" href="#assignment">指派</a>是同一件事的两端。</span>
+    <span class="en">An American option's holder exercising before expiry. Usually suboptimal for the buyer, with deep-ITM positions and ex-dividend dates as the exceptions — <strong>and when it happens, any structure relying on "all legs settle together" loses a leg</strong>. It is the other end of <a class="term" href="#assignment">assignment</a>.</span></td></tr>
+
+  <tr id="term-structure"><td class="t">Term Structure</td><td class="c">期限结构</td><td>
+    <span class="zh">同一 Strike 下 IV 随到期日变化的曲线。平静时向上倾斜（<a class="term" href="#contango">contango</a>），恐慌时整体倒挂。自 2006 年以来 VIX 曲线仅约 19% 的交易日处于倒挂，且几乎全在 2008–09 与 2020 年 3 月。见第 11.3 节。</span>
+    <span class="en">How IV varies across expiries at one strike. It slopes up in calm markets (<a class="term" href="#contango">contango</a>) and inverts wholesale in panics. Since 2006 the VIX curve has been inverted on only about 19% of trading days, nearly all in 2008–09 and March 2020. See §11.3.</span></td></tr>
+
+  <tr id="diagonal"><td class="t">Diagonal Spread</td><td class="c">对角价差</td><td>
+    <span class="zh">同时改变 Strike 与到期日的两腿结构——垂直价差与<a class="term" href="#calendar">日历价差</a>的合体。最流行的形态是 <a class="term" href="#pmcc">PMCC</a>。</span>
+    <span class="en">A two-leg structure varying both strike and expiry — a vertical and a <a class="term" href="#calendar">calendar</a> combined. Its most popular form is the <a class="term" href="#pmcc">PMCC</a>.</span></td></tr>
+
+  <tr id="pmcc"><td class="t">PMCC</td><td class="c">穷人的备兑看涨</td><td>
+    <span class="zh">Poor Man's Covered Call：用深度价内的长期 Call（<a class="term" href="#leaps">LEAPS</a>）替代 100 股正股，再卖出价外月度 Call 收租。资金占用可降约 74%，但<strong>那不是效率，是杠杆</strong>——2022 年 4 月 NFLX 一夜跌 35.1%，同资金口径下 PMCC 的亏损是传统 Covered Call 的 1.86 倍。见第 11.4 节。</span>
+    <span class="en">Poor man's covered call: substitute a deep-ITM long-dated call (<a class="term" href="#leaps">LEAPS</a>) for 100 shares, then sell monthly OTM calls against it. Capital can fall about 74% — but <strong>that is leverage, not efficiency</strong>: when NFLX fell 35.1% overnight in April 2022, on equal capital the PMCC lost 1.86× what a classic covered call did. See §11.4.</span></td></tr>
+
+  <tr id="leaps"><td class="t">LEAPS</td><td class="c">长期期权</td><td>
+    <span class="zh">到期日在一年以上的期权。<a class="term" href="#vega">Vega</a> 大、<a class="term" href="#gamma">Gamma</a> 小、每日 Theta 损耗慢，因此常被用作正股替身——<strong>但这个替身只在保持深度价内时才成立</strong>。</span>
+    <span class="en">Options expiring more than a year out. High <a class="term" href="#vega">vega</a>, low <a class="term" href="#gamma">gamma</a> and slow daily theta make them a common stock substitute — <strong>a substitution that only holds while they stay deep ITM</strong>.</span></td></tr>
+
   <tr id="vertical"><td class="t">Vertical Spread</td><td class="c">垂直价差</td><td>
     <span class="zh">同标的、同到期日、同类型、方向相反、Strike 不同的两条腿。"垂直"来自期权链上同一到期日的合约纵向排列。第 4 章的主题。</span>
     <span class="en">Two legs on the same underlying, same expiry, same type, opposite directions, different strikes. "Vertical" because one expiry's contracts run down an option chain. The subject of Chapter 4.</span></td></tr>
@@ -260,7 +292,7 @@
 </table>
 
 <nav class="chap-nav">
-  <a href="chapters/09-sizing-discipline.html">← <span class="zh">第 9 章 仓位与纪律</span><span class="en">Ch.9 Sizing and Discipline</span></a>
+  <a href="chapters/11-time-structures.html">← <span class="zh">第 11 章 时间维度</span><span class="en">Ch.11 The Time Dimension</span></a>
   <a href="index.html"><span class="zh">目录 →</span><span class="en">Contents →</span></a>
 </nav>
 
