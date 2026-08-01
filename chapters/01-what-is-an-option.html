@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.01 期权的本质 What an Option Is · Options Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../index.html"><b>OPTIONS</b>/HANDBOOK</a>
+  <div class="spacer"></div>
+  <nav>
+    <a href="../index.html"><span class="zh">目录</span><span class="en">Contents</span></a>
+    <a href="../glossary.html">Glossary</a>
+  </nav>
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button data-lang="zh" aria-pressed="true">中</button>
+    <button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main class="page">
+
+<p class="eyebrow">Chapter 01 · What an Option Is</p>
+<h1><span class="zh">期权的本质：权利、义务与定价直觉</span><span class="en">What an Option Is: Rights, Obligations, and Pricing Intuition</span></h1>
+<p class="lede">
+  <span class="zh">期权不是一种复杂的金融衍生品，它是一份两千六百年前就有人签过的合同：<strong>我先付你一笔钱，换取将来按某个价格成交的权利——但我可以不用它。</strong>这一章把这句话拆开，直到你能从零推出期权的价格该受什么影响。</span>
+  <span class="en">An option isn't an exotic derivative. It's a contract someone already signed twenty-six centuries ago: <strong>I pay you now for the right to transact later at a set price — and I may simply walk away.</strong> This chapter takes that sentence apart until you can derive, from nothing, what an option's price ought to depend on.</span>
+</p>
+
+<!-- ============ 1.1 ============ -->
+<h2><span class="zh">1.1 从一台橄榄榨油机说起</span><span class="en">1.1 It Starts With an Olive Press</span></h2>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · <span class="zh">约公元前 600 年</span><span class="en">c. 600 BCE</span></p>
+  <h3><span class="zh">泰勒斯的榨油机：有记载的第一份 Call</span><span class="en">Thales's Presses: The First Recorded Call</span></h3>
+  <p>
+    <span class="zh">亚里士多德在《政治学》里记下了这个故事。米利都的泰勒斯被人嘲笑：哲学有什么用？于是他做了一件事——冬天，橄榄还没开花，他凭观星判断当年会大丰收。他没有买下米利都和希俄斯所有的橄榄榨油机（他也买不起），而是付了一小笔<strong>定金</strong>，取得在收获季<strong>按约定价格优先使用</strong>它们的权利。</span>
+    <span class="en">Aristotle records the story in the <em>Politics</em>. Thales of Miletus was mocked — what is philosophy good for? So he did something about it. In winter, before the olives had even flowered, his reading of the stars told him the harvest would be enormous. He did not buy every olive press in Miletus and Chios (he could not have afforded to). He paid a small <strong>deposit</strong> for the right to use them at an agreed price when harvest came.</span>
+  </p>
+  <p>
+    <span class="zh">收获季果然大丰收，榨油机供不应求。泰勒斯手握全部使用权，按自己的价格转租出去。<strong>请注意这份合同的每一个零件，它们两千六百年没有变过：</strong>定金就是 <a class="term" href="../glossary.html#premium">Premium</a>；约定的使用价格就是 <a class="term" href="../glossary.html#strike">Strike</a>；收获季就是 <a class="term" href="../glossary.html#expiration">Expiration</a>；榨油机就是<a class="term" href="../glossary.html#underlying">标的</a>。而最关键的零件是那个"可以不用"——如果那年歉收、榨油机无人问津，泰勒斯的损失<strong>止步于定金</strong>，他没有义务真的去租下任何一台。</span>
+    <span class="en">The harvest was indeed enormous and presses were scarce. Thales, holding the rights to all of them, sublet at his own price. <strong>Notice every component of this contract — none of them has changed in twenty-six centuries:</strong> the deposit is the <a class="term" href="../glossary.html#premium">premium</a>; the agreed usage price is the <a class="term" href="../glossary.html#strike">strike</a>; harvest is <a class="term" href="../glossary.html#expiration">expiration</a>; the presses are the <a class="term" href="../glossary.html#underlying">underlying</a>. And the decisive component is that he <em>could decline</em> — had the crop failed and the presses sat idle, Thales's loss would have <strong>stopped at the deposit</strong>. He was under no obligation to rent a single one.</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>THALES · <span class="zh">把这份租约画成盈亏图</span><span class="en">the lease, drawn as a payoff</span></p>
+    <div id="pf-thales"></div>
+  </div>
+  <p>
+    <span class="zh">量化说明：亚里士多德只留下了故事，<strong>没有留下任何数字</strong>——所以下面的比例是<strong>示意值</strong>，用来展示机制而非还原史实。假设定金是买断一台榨油机价格的十分之一。丰收年榨油机的使用价值涨了一倍：直接买断产能的人，投入 100 收回 200，回报 +100%；泰勒斯投入 10 拿到同样那 100 的增值，回报接近 +1000%。<strong>同样的判断，同样的丰收，回报差了一个数量级——差别只来自"他没有买下机器，只买下了机会"。</strong></span>
+    <span class="en">On the numbers: Aristotle left the story and <strong>no figures at all</strong> — so the ratios below are <strong>illustrative</strong>, meant to show the mechanism rather than reconstruct history. Suppose the deposit is one tenth of a press's outright purchase price. In a bumper year the use-value of a press doubles: whoever bought the capacity outright puts in 100 and takes out 200, a +100% return. Thales puts in 10 and captures the same 100 of appreciation — close to +1000%. <strong>Same judgment, same harvest, an order of magnitude apart in return — purely because he never bought the machines, only the opportunity.</strong></span>
+  </p>
+  <p class="verdict gain"><span class="zh">利润扩大：同一个丰收判断，买断产能约 +100% → 租约约 +1000%（示意比例）</span><span class="en">Profit amplified: the same harvest call, ≈ +100% outright → ≈ +1000% via the lease (illustrative ratio)</span></p>
+</div>
+
+<p>
+  <span class="zh">这个故事里藏着期权全部魅力和全部危险的来源：<strong>不对称</strong>。向上，你参与全部；向下，你的损失被定金封死。但请立刻记住硬币的另一面——<strong>把定金收走的那个人，承担的正是被封死的那一侧</strong>。榨油机主人收了定金，就必须在收获季把机器交出来，无论那时市价多高。这本书剩下的所有内容，都是在讨论你想站在这份合同的哪一边、以及为此付出什么代价。</span>
+  <span class="en">The story contains the source of everything attractive and everything dangerous about options: <strong>asymmetry</strong>. On the upside you participate fully; on the downside your loss is sealed at the deposit. But remember the other face immediately — <strong>whoever collected that deposit is carrying the side that was sealed off</strong>. The press owner, having taken the money, must hand over the machines at harvest no matter what they are then worth. Everything else in this book is a discussion of which side of that contract you want to stand on, and what it costs you to stand there.</span>
+</p>
+
+<!-- ============ 1.2 ============ -->
+<h2><span class="zh">1.2 一份合约的解剖</span><span class="en">1.2 Anatomy of a Contract</span></h2>
+
+<p>
+  <span class="zh">现代的期权合约把泰勒斯那份口头约定标准化成了五个字段。任何一张期权，无论多复杂的策略，都由这五个字段唯一确定：</span>
+  <span class="en">A modern option standardizes Thales's handshake into five fields. Any option, inside any strategy however complex, is uniquely determined by these five:</span>
+</p>
+
+<dl class="spec">
+  <div><dt><span class="zh">标的</span><span class="en">Underlying</span></dt><dd>AAPL</dd></div>
+  <div><dt><span class="zh">类型</span><span class="en">Type</span></dt><dd><a class="term" href="../glossary.html#call">Call</a> / <a class="term" href="../glossary.html#put">Put</a></dd></div>
+  <div><dt>Strike</dt><dd>$190</dd></div>
+  <div><dt><span class="zh">到期日</span><span class="en">Expiration</span></dt><dd>2026-01-16</dd></div>
+  <div><dt><span class="zh">乘数</span><span class="en">Multiplier</span></dt><dd>× 100</dd></div>
+</dl>
+
+<p>
+  <span class="zh">券商界面上你会看到这样一串代码：<strong><code>AAPL 260116C00190000</code></strong>。它就是上面五个字段的拼接——标的 <code>AAPL</code>、到期日 <code>260116</code>（2026 年 1 月 16 日）、类型 <code>C</code>（Call）、行权价 <code>00190000</code>（$190.000，后三位是小数）。学会读它，你就再也不会下错单。</span>
+  <span class="en">Your broker will show you a string like <strong><code>AAPL 260116C00190000</code></strong>. It is exactly those fields concatenated: underlying <code>AAPL</code>, expiry <code>260116</code> (16 Jan 2026), type <code>C</code> (call), strike <code>00190000</code> ($190.000, the last three digits being decimals). Learn to read it and you will never mis-enter an order again.</span>
+</p>
+
+<div class="warn">
+  <span class="warn-tag"><span class="zh">第一个也是最贵的新手错误</span><span class="en">The first and most expensive beginner error</span></span>
+  <p>
+    <span class="zh"><a class="term" href="../glossary.html#multiplier">合约乘数</a>是 100。屏幕上写着 Premium 是 <code>3.20</code>，意味着这张合约要花你 <strong>$320</strong>，不是 $3.20。同样，"卖出一张 $190 的 Put"意味着你可能需要拿出 <strong>$19,000</strong> 去接 100 股。每年都有人因为忽略这个 100 而在第一周就把账户打穿——<strong>下单前，把屏幕上的数字乘以 100 再看一眼。</strong></span>
+    <span class="en">The <a class="term" href="../glossary.html#multiplier">contract multiplier</a> is 100. A premium displayed as <code>3.20</code> costs you <strong>$320</strong>, not $3.20. Likewise, "sell one $190 put" means you may need <strong>$19,000</strong> to take delivery of 100 shares. Every year people blow up an account in week one by overlooking that 100 — <strong>before you submit, multiply the number on screen by 100 and look again.</strong></span>
+  </p>
+</div>
+
+<!-- ============ 1.3 ============ -->
+<h2><span class="zh">1.3 权利与义务：不对称的两端</span><span class="en">1.3 Rights and Obligations: The Two Asymmetric Ends</span></h2>
+
+<p>
+  <span class="zh">一份期权永远有两方，而且他们的处境<strong>完全不对称</strong>。买方付出确定的小钱，买到不确定的大可能；卖方收到确定的小钱，卖出不确定的大义务。把两张盈亏图并排放在一起，这种不对称一眼可见：</span>
+  <span class="en">An option always has two sides, and their situations are <strong>completely asymmetric</strong>. The buyer pays a certain small sum for an uncertain large possibility; the seller collects a certain small sum and sells an uncertain large obligation. Put the two payoff diagrams side by side and the asymmetry is immediate:</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>BUYER · LONG CALL <span class="zh">损失有底，收益无顶</span><span class="en">floored loss, open-ended gain</span></p>
+  <div id="pf-buyer"></div>
+</div>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>SELLER · SHORT CALL <span class="zh">收益有顶，损失无底</span><span class="en">capped gain, open-ended loss</span></p>
+  <div id="pf-seller"></div>
+</div>
+
+<p>
+  <span class="zh">这两张图是同一笔交易的两面——把它们叠起来，处处相加为零。期权市场是<strong>零和</strong>的：买方赚的每一分钱，都来自卖方的口袋，反之亦然。（注意上面卖方图的"最大亏损"数字是被显示区间截断的，真实的裸卖 Call 在数学上没有下限。）</span>
+  <span class="en">The two charts are two faces of one trade — lay them on top of each other and they sum to zero everywhere. The options market is <strong>zero-sum</strong>: every cent the buyer makes comes out of the seller's pocket, and vice versa. (Note the seller chart's "max loss" figure is truncated by the display range; a genuinely naked short call has no mathematical floor.)</span>
+</p>
+
+<p>
+  <span class="zh">那么为什么还有人愿意做卖方？因为<strong>零和的是钱，不是效用</strong>。榨油机主人拿到定金时，把一个不确定的收获季变成了确定的现金；保险公司卖保单时，明知偶尔要赔付，但收上来的保费足以覆盖。卖方赚的不是"对手更蠢"，而是<strong>承担不确定性的报酬</strong>——前提是他真的有能力承担。这个前提一旦不成立，就是第 8 章的全部内容。</span>
+  <span class="en">So why would anyone sell? Because <strong>the money is zero-sum, the utility is not</strong>. The press owner, taking the deposit, converts an uncertain harvest into certain cash. An insurer writing policies knows it will occasionally pay out, but the premiums collected cover it. The seller's edge isn't that the counterparty is dumber — it is <strong>compensation for carrying uncertainty</strong>, conditional on actually being able to carry it. When that condition fails, you get Chapter 8.</span>
+</p>
+
+<dl class="spec">
+  <div><dt><span class="zh">买方付出</span><span class="en">Buyer pays</span></dt><dd class="neg">Premium</dd></div>
+  <div><dt><span class="zh">买方获得</span><span class="en">Buyer gets</span></dt><dd class="pos"><span class="zh">权利（可以不用）</span><span class="en">A right (declinable)</span></dd></div>
+  <div><dt><span class="zh">卖方收到</span><span class="en">Seller receives</span></dt><dd class="pos">Premium</dd></div>
+  <div><dt><span class="zh">卖方承担</span><span class="en">Seller owes</span></dt><dd class="neg"><span class="zh">义务（无法拒绝）</span><span class="en">An obligation (non-declinable)</span></dd></div>
+</dl>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">保险公司和期权卖方做的是同一件事吗？两者都是"收保费、承担赔付"。但保险公司可以卖出十万份互不相关的车险，而一个卖出一百张 SPY Put 的人，手里的一百份"保单"会在同一天同时出事。<strong>这个差别叫什么，它应该如何改变你的仓位？</strong></span>
+  <span class="en">Are an insurance company and an option seller doing the same thing? Both collect premium and carry the payout risk. But an insurer can write a hundred thousand largely uncorrelated auto policies, whereas someone short a hundred SPY puts holds a hundred "policies" that all go bad on the very same day. <strong>What is that difference called, and how should it change your position size?</strong></span>
+</div>
+
+<!-- ============ 1.4 ============ -->
+<h2><span class="zh">1.4 Premium 的两半：内在价值与时间价值</span><span class="en">1.4 The Two Halves of Premium: Intrinsic and Time Value</span></h2>
+
+<p>
+  <span class="zh">期权的价格可以被干净地劈成两半，而且这个拆分是<strong>定义性的、没有争议的</strong>：</span>
+  <span class="en">An option's price splits cleanly in two, and the split is <strong>definitional, not a matter of opinion</strong>:</span>
+</p>
+
+<dl class="spec">
+  <div><dt>Premium</dt><dd><span class="zh">= 内在价值 + 时间价值</span><span class="en">= intrinsic + time value</span></dd></div>
+  <div><dt><a class="term" href="../glossary.html#intrinsic"><span class="zh">内在价值</span><span class="en">Intrinsic</span></a></dt><dd><span class="zh">立刻行权值多少</span><span class="en">Worth if exercised now</span></dd></div>
+  <div><dt><a class="term" href="../glossary.html#time-value"><span class="zh">时间价值</span><span class="en">Time value</span></a></dt><dd><span class="zh">"还可能发生什么"的价格</span><span class="en">The price of "what might still happen"</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">股价 $105，一张 Strike $100 的 Call 报价 $8。内在价值是 $5（立刻行权，$100 买入 $105 卖出）。剩下的 $3 就是时间价值——市场为"到期前它还可能涨得更多"这件事收的钱。如果这张 Call 的 Strike 是 $110，内在价值为零，那么它的价格<strong>全部</strong>是时间价值。</span>
+  <span class="en">Stock at $105, a $100-strike call quoted at $8. Intrinsic value is $5 (exercise now: buy at $100, sell at $105). The remaining $3 is time value — what the market charges for "it might still go higher before expiry." If that call were struck at $110, intrinsic would be zero and its price would be <strong>entirely</strong> time value.</span>
+</p>
+
+<p>
+  <span class="zh">这里有一个必须现在就建立的直觉：<strong>到期那一刻，时间价值必然归零</strong>。没有"还可能发生什么"了，一切都已发生。所以到期盈亏图的那条折线，画的就是<strong>内在价值曲线整体向下平移了一个 Premium</strong>——你付出的时间价值，是你必须靠股价的实际移动赚回来的部分。这就是 <a class="term" href="../glossary.html#breakeven">Breakeven</a> 永远比 Strike 更远一步的原因。</span>
+  <span class="en">One intuition to build right now: <strong>at expiry, time value is necessarily zero</strong>. There is no longer anything that "might still happen" — everything has happened. So the kinked line on an expiry payoff diagram is simply <strong>the intrinsic-value curve shifted down by one premium</strong>. The time value you paid is the part you must earn back through actual movement in the stock. This is why <a class="term" href="../glossary.html#breakeven">breakeven</a> always sits one step beyond the strike.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>INTERACTIVE · <span class="zh">拖动 Premium：整条曲线只是上下平移</span><span class="en">drag premium: the whole curve just shifts</span></p>
+  <div id="pf-intrinsic"></div>
+</div>
+
+<div class="note">
+  <span class="note-tag"><span class="zh">一个立刻能用的检查</span><span class="en">A check you can use immediately</span></span>
+  <p>
+    <span class="zh">买入任何期权之前，先算出它的时间价值占 Premium 的比例。买一张深度 <a class="term" href="../glossary.html#itm">ITM</a> 的 Call，时间价值可能只占 5%——你买的基本是股票的替代品。买一张远 <a class="term" href="../glossary.html#itm">OTM</a> 的周期权，时间价值占 100%——<strong>你买的是一张彩票，而且它每天都在自动撕掉一角</strong>。两者没有对错，但你必须知道自己买的是哪一种。</span>
+    <span class="en">Before buying any option, work out what fraction of the premium is time value. A deep <a class="term" href="../glossary.html#itm">ITM</a> call might be 5% time value — you're essentially buying a stock substitute. A far <a class="term" href="../glossary.html#itm">OTM</a> weekly is 100% time value — <strong>you're buying a lottery ticket that tears off a corner of itself every day</strong>. Neither is wrong, but you must know which one you're holding.</span>
+  </p>
+</div>
+
+<!-- ============ 1.5 ============ -->
+<h2><span class="zh">1.5 定价直觉：三个旋钮</span><span class="en">1.5 Pricing Intuition: Three Dials</span></h2>
+
+<p>
+  <span class="zh">你不需要会推导 Black-Scholes 才能交易期权，但你必须知道时间价值受什么支配。<strong>从零开始想：一份"将来可以按 $100 买入"的权利，什么情况下更值钱？</strong>答案只有三条，而且你能自己想出来。</span>
+  <span class="en">You don't need to derive Black-Scholes to trade options, but you must know what governs time value. <strong>Reason from scratch: when is the right to buy at $100 later worth more?</strong> There are only three answers, and you can find them yourself.</span>
+</p>
+
+<p>
+  <span class="zh"><strong>① 距离。</strong>股价离 Strike 越近，"到达"越容易，权利越值钱。这是最直觉的一条。<strong>② 时间。</strong><a class="term" href="../glossary.html#dte">剩余天数</a>越多，可能发生的事越多，权利越值钱——90 天的权利一定比 7 天的贵。<strong>③ 波动率。</strong>这条最不直觉，也最重要：<strong>同样是 $100 的股票、同样 30 天、同样 $110 的 Strike，一只每天晃 1% 的公用事业股和一只每天晃 6% 的生物科技股，后者的 Call 可以贵好几倍。</strong>因为期权买的不是"会涨"，而是"能跑多远"。</span>
+  <span class="en"><strong>① Distance.</strong> The closer the stock is to the strike, the easier it is to get there and the more the right is worth. That one is obvious. <strong>② Time.</strong> More <a class="term" href="../glossary.html#dte">days remaining</a> means more things can happen, so the right is worth more — a 90-day right always costs more than a 7-day one. <strong>③ Volatility.</strong> The least obvious and most important: <strong>same $100 stock, same 30 days, same $110 strike — a utility that moves 1% a day and a biotech that moves 6% a day will not have similarly priced calls; the biotech's can cost several times more.</strong> Because an option isn't buying "it will rise," it's buying "how far it can travel."</span>
+</p>
+
+<p>
+  <span class="zh">把这三条压成一句话，它会跟着你走完整本书：<strong>方向是免费的，范围是收费的。</strong>市场从不因为你"看涨"而向你多收钱——它收的是标的<a class="term" href="../glossary.html#iv">可能走出的范围</a>。两个人可以同时看涨同一只股票，但只有认为它会<em>大幅</em>上涨的那个人，才该去买期权。</span>
+  <span class="en">Compress the three into one sentence and it will follow you through the whole book: <strong>direction is free, range is expensive.</strong> The market never charges you more for being bullish — it charges for <a class="term" href="../glossary.html#iv">the range the underlying might cover</a>. Two people can be bullish on the same stock, but only the one who expects a <em>large</em> move should be buying options.</span>
+</p>
+
+<p>
+  <span class="zh">第三个旋钮有一个可以直接观察的代理指标：VIX——标普 500 未来 30 天隐含波动率的市场共识。下面这张图是 2019 到 2020 年的 VIX 月末收盘（约值）。<strong>请把它读成"保单价格指数"</strong>：2019 年 12 月 VIX 约 13.8，2020 年 3 月约 53.5。同一张 SPY 保单，在这两个时点的报价可以差三到四倍——标的没换，条款没换，只有第三个旋钮转了。</span>
+  <span class="en">The third dial has a directly observable proxy: the VIX — the market's consensus on the S&P 500's implied volatility over the next 30 days. Below are month-end VIX closes for 2019–2020 (approx.). <strong>Read it as an insurance price index</strong>: December 2019 near 13.8, March 2020 near 53.5. The very same SPY policy could be quoted three or four times apart at those two moments. Same underlying, same terms — only the third dial turned.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>VIX · 2019–2020 <span class="zh">（月末收盘，约值）</span><span class="en">(month-end closes, approx.)</span></p>
+  <div id="case-vix"></div>
+</div>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">2020 年 3 月，你确信市场会反弹。此时 VIX 约 53，期权贵得离谱。<strong>"看对方向"和"买对时机"在这里第一次分家：</strong>如果你在 3 月 23 日买入 Call，市场确实从那天开始反弹，但 VIX 也从 60 一路回落到 25。哪一股力量赢了？如果你不确定，第 3 章的 Vega 会给你答案。</span>
+  <span class="en">March 2020: you're convinced the market will bounce. The VIX is near 53 and options are brutally expensive. <strong>This is where "right on direction" and "right on timing" first part company:</strong> buy calls on March 23 and the market does rally from that very day — but the VIX also slides from 60 down toward 25. Which force wins? If you're unsure, Chapter 3's vega has your answer.</span>
+</div>
+
+<!-- ============ 1.6 ============ -->
+<h2><span class="zh">1.6 条款也是风险：美式与欧式</span><span class="en">1.6 The Fine Print Is Risk Too: American vs. European</span></h2>
+
+<p>
+  <span class="zh">最后一个字段，也是最容易被忽略的一个：<a class="term" href="../glossary.html#american-european">行权方式</a>。<strong>美式</strong>期权可以在到期日之前的任何时候行权；<strong>欧式</strong>期权只能在到期日当天行权。美股个股期权基本都是美式，而指数期权（如 SPX）多为欧式。</span>
+  <span class="en">One last field, and the most frequently ignored: <a class="term" href="../glossary.html#american-european">exercise style</a>. An <strong>American</strong> option can be exercised at any time up to expiry; a <strong>European</strong> option only on the expiration date itself. US single-stock options are essentially all American; index options (SPX, for instance) are typically European.</span>
+</p>
+
+<p>
+  <span class="zh">对买方，这个差别通常无关紧要（提前行权几乎总是不划算，卖掉合约更好）。对<strong>卖方，这个差别可以是生与死</strong>——它决定了在你最脆弱的那一天，别人能不能敲你的门。</span>
+  <span class="en">For buyers the distinction rarely matters (early exercise is almost always worse than simply selling the contract). For <strong>sellers it can be the difference between surviving and not</strong> — it determines whether anyone can knock on your door on your worst day.</span>
+</p>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2004–2018</p>
+  <h3><span class="zh">伯克希尔的超长期指数 Put：一个条款值多少钱</span><span class="en">Berkshire's Ultra-Long Index Puts: What One Clause Was Worth</span></h3>
+  <p>
+    <span class="zh">2004 到 2008 年间，伯克希尔·哈撒韦卖出了一批极不寻常的合约：名义本金约 <strong>370 亿美元</strong>的股指 Put，标的是四个主要股指（含标普 500），一次性收取权利金约 <strong>49 亿美元</strong>，到期日分布在 <strong>2018 至 2026 年</strong>。而最关键的条款是：<strong>全部为欧式</strong>——只能在到期日行权。</span>
+    <span class="en">Between 2004 and 2008, Berkshire Hathaway sold a highly unusual book of contracts: index puts with a notional of roughly <strong>$37 billion</strong> across four major indices (the S&P 500 among them), for an up-front premium of about <strong>$4.9 billion</strong>, with expiries spread across <strong>2018 to 2026</strong>. The decisive clause: <strong>all of them European</strong> — exercisable only at expiration.</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>S&amp;P 500 · 2006–2018 <span class="zh">（关键点位，约值）</span><span class="en">(key levels, approx.)</span></p>
+    <div id="case-spx"></div>
+  </div>
+  <p>
+    <span class="zh">2008 年金融危机中，会计准则要求这些合约按市价计入负债，伯克希尔因此记下了巨额账面亏损，媒体宣布巴菲特这次错了。2009 年 3 月 9 日，标普 500 收在约 <strong>677 点</strong>——相对于写单时约 1,400–1,500 的指数水平，缺口约 <strong>-53%</strong>。如果这些是<strong>美式</strong>合约，对手方完全可以在那一天要求履约，而那一天恰恰是伯克希尔最需要现金的时候。</span>
+    <span class="en">Through the 2008 crisis, accounting rules required these contracts to be carried at market value, so Berkshire booked enormous paper losses and the press declared Buffett wrong. On March 9, 2009 the S&P 500 closed near <strong>677</strong> — a gap of roughly <strong>-53%</strong> against the 1,400–1,500 index levels prevailing when the contracts were written. Had they been <strong>American</strong>, counterparties could have demanded performance that very day — the day Berkshire most needed its cash.</span>
+  </p>
+  <p>
+    <span class="zh">但它们是欧式的。2009 年 3 月的点位<strong>在合同意义上完全不存在</strong>，唯一算数的是 2018 年及以后到期日当天的指数。到 2018 年，标普 500 约 <strong>2,507 点</strong>，远高于写单时的水平；这批合约绝大多数到期时毫无价值，49 亿美元权利金全额留存——而且它在此前十几年里一直可以用于投资。</span>
+    <span class="en">But they were European. The March 2009 level <strong>simply did not exist contractually</strong>; the only number that counted was the index on each expiration date in 2018 and beyond. By 2018 the S&P 500 was near <strong>2,507</strong>, far above where the contracts were written; the great majority expired worthless and the $4.9 billion of premium stayed put — having been available to invest for more than a decade in the meantime.</span>
+  </p>
+  <p>
+    <span class="zh">简化声明：指数点位为真实历史收盘约值。"写单时约 1,400–1,500"是根据 2004–2008 年的指数区间给出的<strong>示意区间</strong>，伯克希尔从未逐笔披露具体 Strike，且这批合约跨越四个不同股指。本案例说明的是条款的作用，不是复现该交易的精确损益。</span>
+    <span class="en">Stated simplification: index levels are approximate real closes. The "1,400–1,500 when written" is an <strong>illustrative range</strong> inferred from 2004–2008 index levels; Berkshire never disclosed contract-level strikes, and the book spanned four different indices. This case demonstrates what the clause did, not a reconstruction of the trade's exact P&L.</span>
+  </p>
+  <p class="verdict gain"><span class="zh">亏损减少：同一笔交易，美式条款下的 677 点索赔 → 欧式条款下的 2,507 点到期，权利金全额留存</span><span class="en">Loss avoided: same trade — a claim at 677 under American terms → expiry at 2,507 under European terms, premium kept in full</span></p>
+</div>
+
+<div class="warn">
+  <span class="warn-tag"><span class="zh">别抄错作业</span><span class="en">Don't copy the wrong homework</span></span>
+  <p>
+    <span class="zh">这个案例最容易被误读成"卖 Put 很安全"。它成立依赖三个条件，缺一不可：<strong>① 欧式条款</strong>——没人能在最坏的那天敲门；<strong>② 十年以上的期限</strong>——时间足够让指数的长期上行发挥作用；<strong>③ 伯克希尔的资产负债表</strong>——它不需要为这些合约缴纳日常保证金，账面浮亏不会触发强制平仓。你在券商账户里卖出的是<strong>美式、短期、且每天盯市的</strong> Put。三个条件全都不成立。<strong>同一个结构，在不同的条款和资本条件下是完全不同的两笔交易。</strong></span>
+    <span class="en">The easiest way to misread this case is as "selling puts is safe." It rests on three conditions, all required: <strong>① European terms</strong> — nobody can knock on the worst day; <strong>② a decade-plus horizon</strong> — long enough for the index's long-run drift to do its work; <strong>③ Berkshire's balance sheet</strong> — it posted no routine collateral on these, so paper losses could not force liquidation. What you sell in a retail account is an <strong>American, short-dated, daily-marked</strong> put. None of the three conditions holds. <strong>The same structure, under different terms and different capital, is a completely different trade.</strong></span>
+  </p>
+</div>
+
+<!-- ============ 1.7 Quiz ============ -->
+<h2><span class="zh">1.7 本章测验</span><span class="en">1.7 Chapter Quiz</span></h2>
+<p><span class="zh">点击选项即可作答，答案与解析即时显示。</span><span class="en">Click an option to answer; the correct answer and explanation appear immediately.</span></p>
+
+<div class="quiz-set">
+
+<div class="quiz" data-answer="c">
+  <p class="q"><span class="zh">屏幕上一张 Call 的报价是 3.20。你买入一张，实际支付多少？</span><span class="en">A call is quoted on screen at 3.20. You buy one contract. What do you actually pay?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span>$3.20</button>
+    <button data-opt="b"><span class="key">B</span>$32</button>
+    <button data-opt="c"><span class="key">C</span>$320</button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">取决于 Strike</span><span class="en">It depends on the strike</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>C。</b>美股期权的合约乘数是 100，报价是"每股"价格。3.20 × 100 = $320。Strike 决定这张合约值不值，但不影响"报价 × 100"这个换算（D 错）。<strong>这是本手册里唯一一道纯记忆题，也是最省钱的一道。</strong></span>
+    <span class="en"><b>C.</b> US equity options carry a multiplier of 100 and quotes are per share: 3.20 × 100 = $320. The strike determines whether the contract is worth anything, but not the quote × 100 conversion (so not D). <strong>This is the only pure-recall question in the handbook, and the one that saves the most money.</strong></span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">股价 $105，Strike $100 的 Call 报价 $8。其中的时间价值是？</span><span class="en">Stock at $105, the $100-strike call is quoted at $8. How much of that is time value?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span>$5</button>
+    <button data-opt="b"><span class="key">B</span>$3</button>
+    <button data-opt="c"><span class="key">C</span>$8</button>
+    <button data-opt="d"><span class="key">D</span>$0</button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>内在价值 = max(105 − 100, 0) = $5，那是 A。Premium $8 减去内在价值 $5，剩下 $3 就是时间价值。C（全部是时间价值）只在期权 OTM 时成立；D 只在到期那一刻成立。</span>
+    <span class="en"><b>B.</b> Intrinsic = max(105 − 100, 0) = $5, which is answer A. Premium $8 minus $5 intrinsic leaves $3 of time value. C (all time value) is true only for an OTM option; D is true only at the instant of expiry.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="d">
+  <p class="q"><span class="zh">两只股票都是 $100，同样 30 天到期、同样 $110 的 Strike，但 A 公司的 Call 比 B 公司贵三倍。最可能的原因是？</span><span class="en">Two stocks both trade at $100; same 30 days, same $110 strike — yet company A's call costs three times company B's. The most likely reason:</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">A 公司的基本面更好</span><span class="en">A has better fundamentals</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">更多人看涨 A 公司</span><span class="en">More people are bullish on A</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">A 公司的股价更高</span><span class="en">A's share price is higher</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">A 公司的波动率更高</span><span class="en">A is more volatile</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>D。</b>三个定价旋钮里，距离和时间在题干中被固定住了，只剩波动率。这正是"方向是免费的，范围是收费的"——市场不为"看好"收费（A、B 错），它为"能跑多远"收费。C 是干扰项：两只股票同价。</span>
+    <span class="en"><b>D.</b> Of the three dials, distance and time are held identical by the question, leaving only volatility. This is "direction is free, range is expensive" — the market charges nothing for optimism (so not A or B), it charges for how far the stock can travel. C is a distractor: both stocks are at the same price.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="a">
+  <p class="q"><span class="zh">你卖出一张 Put 收取 $3。以下哪句话准确描述了你的处境？</span><span class="en">You sell a put and collect $3. Which statement accurately describes your position?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">最多赚 $3，最多亏 Strike − $3</span><span class="en">Gain capped at $3, loss up to strike − $3</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">最多赚 $3，最多亏 $3</span><span class="en">Gain capped at $3, loss capped at $3</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">最多赚 Strike，最多亏 $3</span><span class="en">Gain up to the strike, loss capped at $3</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">盈亏都无限</span><span class="en">Both gain and loss unlimited</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>A。</b>卖方的收益永远封顶在收到的 Premium——这是卖方处境的定义。亏损则一直延伸到股价归零，即 Strike − $3。B 把买方的"亏损有限"错安到了卖方身上；D 忽略了股价不能跌破零（Short Call 才是真正的无限亏损）。<strong>不对称的方向，是买方和卖方最根本的分界线。</strong></span>
+    <span class="en"><b>A.</b> A seller's gain is forever capped at the premium received — that is what being the seller means. The loss runs all the way to a zero share price, i.e. strike − $3. B misapplies the buyer's bounded loss to the seller; D forgets that a stock cannot go below zero (it's the short <em>call</em> whose loss is truly unbounded). <strong>The direction of the asymmetry is the fundamental dividing line between the two sides.</strong></span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="c">
+  <p class="q"><span class="zh">2009 年 3 月标普 500 跌到约 677 点时，伯克希尔卖出的那批指数 Put 为什么没有被要求赔付？</span><span class="en">When the S&P 500 fell to about 677 in March 2009, why was Berkshire not called on to pay on its index puts?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">因为它们是 OTM 的</span><span class="en">Because they were OTM</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">因为伯克希尔资金充足，可以拒绝</span><span class="en">Because Berkshire had enough cash to refuse</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">因为它们是欧式的，只能在到期日行权</span><span class="en">Because they were European — exercisable only at expiry</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">因为监管暂停了衍生品行权</span><span class="en">Because regulators suspended derivative exercise</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>C。</b>677 点相对写单水平是深度 ITM（A 错），资金充足也不能拒绝履行合约义务（B 错——义务的定义就是不能拒绝），D 是虚构的。唯一的原因是条款：欧式期权在到期日之前不存在行权这件事。<strong>这道题真正要问的是：你现在会去看自己卖出的合约是美式还是欧式了吗？</strong></span>
+    <span class="en"><b>C.</b> At 677 the puts were deeply ITM relative to where they were written (so not A); having cash never lets you decline an obligation (not B — being unable to decline is what "obligation" means); D is fabricated. The only reason is the clause: for a European option, exercise does not exist before the expiration date. <strong>The real question here: will you now check whether the contract you're selling is American or European?</strong></span>
+  </div>
+</div>
+
+</div>
+
+<!-- ============ takeaways ============ -->
+<h2><span class="zh">本章要点</span><span class="en">Key Takeaways</span></h2>
+<p>
+  <span class="zh">期权是一份被标准化的古老合同：买方付出 Premium 换取一个<strong>可以不用</strong>的权利，卖方收下 Premium 换取一个<strong>无法拒绝</strong>的义务，两者的盈亏处处相加为零。它的价格干净地分成内在价值和时间价值两半，而时间价值只由三件事支配——距离、时间、波动率。把这三条压成一句可以随身携带的话：<strong>方向是免费的，范围是收费的</strong>；市场从不为你的乐观收费，只为标的可能走出的范围收费。最后，那批让巴菲特安然度过 2008 年的合约提醒我们一件容易被忽略的事：<strong>决定一笔期权交易生死的，常常不是你看对没看对，而是合约条款、期限和你的资本能不能让你活到看对的那一天。</strong>接下来的第 2 章会把这四个零件组装成最实用的四种单腿策略。</span>
+  <span class="en">An option is a standardized version of a very old contract: the buyer pays premium for a right they <strong>may decline</strong>, the seller takes premium for an obligation they <strong>cannot</strong>, and the two P/Ls sum to zero everywhere. Its price splits cleanly into intrinsic and time value, and time value is governed by exactly three things — distance, time, volatility. Compress them into one portable sentence: <strong>direction is free, range is expensive</strong>. The market never charges for your optimism, only for the range the underlying might cover. Finally, the contracts that carried Buffett through 2008 point at something easy to overlook: <strong>what decides an option trade is often not whether you were right, but whether the contract terms, the horizon, and your capital let you live long enough to be right.</strong> Chapter 2 assembles these four components into the most practical single-leg strategies.</span>
+</p>
+
+<nav class="chap-nav">
+  <a href="../index.html">← <span class="zh">目录</span><span class="en">Contents</span></a>
+  <a href="02-single-leg.html"><span class="zh">第 2 章 单腿策略 →</span><span class="en">Ch.2 Single-Leg Strategies →</span></a>
+</nav>
+
+</main>
+
+<script src="../assets/i18n.js"></script>
+<script src="../assets/payoff.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  Payoff.mount('pf-thales', {
+    legs: [{ kind: 'call', side: 1, strike: 100, premium: 10 }],
+    range: [70, 160],
+    xlabel: '收获季价格 Price at harvest',
+    ylabel: '每台盈亏 P/L per press',
+    controls: [
+      { leg: 0, prop: 'premium', min: 2, max: 30, step: 1, label: { zh: '定金 Deposit', en: 'Deposit (premium)' } }
+    ]
+  });
+
+  Payoff.mount('pf-buyer', {
+    legs: [{ kind: 'call', side: 1, strike: 100, premium: 5 }],
+    range: [75, 135],
+    controls: [
+      { leg: 0, prop: 'premium', min: 1, max: 12, step: 0.5, label: { zh: 'Premium 买方付出', en: 'Premium paid' } }
+    ]
+  });
+
+  Payoff.mount('pf-seller', {
+    legs: [{ kind: 'call', side: -1, strike: 100, premium: 5 }],
+    range: [75, 135],
+    controls: [
+      { leg: 0, prop: 'premium', min: 1, max: 12, step: 0.5, label: { zh: 'Premium 卖方收到', en: 'Premium received' } }
+    ]
+  });
+
+  Payoff.mount('pf-intrinsic', {
+    legs: [{ kind: 'call', side: 1, strike: 100, premium: 3 }],
+    range: [80, 130],
+    controls: [
+      { leg: 0, prop: 'premium', min: 0, max: 15, step: 0.5, label: { zh: 'Premium（0 = 纯内在价值）', en: 'Premium (0 = pure intrinsic)' } },
+      { leg: 0, prop: 'strike',  min: 85, max: 120, step: 1, label: { zh: 'Strike 行权价', en: 'Strike' } }
+    ]
+  });
+
+  CaseChart.mount('case-vix', {
+    labels: ['19-01', '19-04', '19-07', '19-10', '20-01', '20-02', '20-03', '20-06', '20-09', '20-12'],
+    series: [
+      { name: { zh: 'VIX', en: 'VIX' }, color: '#D99A3D', data: [16.6, 13.1, 16.1, 12.3, 18.8, 40.1, 53.5, 30.4, 26.4, 22.8] }
+    ],
+    events: [{ i: 6, text: { zh: '保单最贵', en: 'Peak price' } }],
+    yfmt: function (v) { return v.toFixed(0); }
+  });
+
+  CaseChart.mount('case-spx', {
+    labels: ['2006', '2007', '2008', '09-03', '2010', '2012', '2014', '2016', '2018'],
+    series: [
+      { name: { zh: '标普 500', en: 'S&P 500' }, color: '#3CDFA3', data: [1418, 1468, 903, 677, 1258, 1426, 2059, 2239, 2507] },
+      { name: { zh: 'Strike 区间', en: 'Strike zone' }, color: '#FF6A55', data: [1450, 1450, 1450, 1450, 1450, 1450, 1450, 1450, 1450] }
+    ],
+    events: [{ i: 3, text: { zh: '危机低点', en: 'Crisis low' } }],
+    yfmt: function (v) { return (v / 1000).toFixed(1) + 'k'; }
+  });
+
+});
+</script>
+</body>
+</html>

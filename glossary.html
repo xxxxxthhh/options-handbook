@@ -40,6 +40,14 @@
   </tr></thead>
   <tbody>
 
+  <tr id="underlying"><td class="t">Underlying</td><td class="c">标的</td><td>
+    <span class="zh">期权合约所指向的资产——股票、ETF 或指数。期权的价值完全派生于它，这也是"衍生品"一词的由来。</span>
+    <span class="en">The asset a contract points at — a stock, ETF, or index. An option's value is derived entirely from it, which is where "derivative" comes from.</span></td></tr>
+
+  <tr id="multiplier"><td class="t">Contract Multiplier</td><td class="c">合约乘数</td><td>
+    <span class="zh">美股期权固定为 100：一张合约对应 100 股，报价也是"每股"价格。报价 3.20 意味着实付 $320。新手最贵的一个疏忽。</span>
+    <span class="en">Fixed at 100 for US equity options: one contract covers 100 shares and quotes are per share. A quote of 3.20 costs $320. The most expensive beginner oversight there is.</span></td></tr>
+
   <tr id="call"><td class="t">Call</td><td class="c">看涨期权</td><td>
     <span class="zh">在到期日前以 Strike 价格<strong>买入</strong>标的的权利。股价涨得越高，Call 越值钱。</span>
     <span class="en">The right to <strong>buy</strong> the underlying at the strike before expiration. The higher the stock goes, the more the call is worth.</span></td></tr>
@@ -111,6 +119,10 @@
   <tr id="exercise"><td class="t">Exercise</td><td class="c">行权</td><td>
     <span class="zh">买方主动使用权利。美式期权（多数个股期权）到期前任何时候都可行权；实践中多数人选择直接卖出合约而非行权。</span>
     <span class="en">The buyer invoking the right. American-style options (most equity options) can be exercised any time before expiry; in practice most holders sell the contract instead.</span></td></tr>
+
+  <tr id="american-european"><td class="t">American / European</td><td class="c">美式 / 欧式</td><td>
+    <span class="zh">行权方式。美式可在到期日之前任何时候行权（美股个股期权基本都是），欧式只能在到期日当天（多数指数期权，如 SPX）。对买方通常无关紧要，对卖方决定了"最坏的那天别人能不能敲门"。</span>
+    <span class="en">Exercise style. American options can be exercised any time before expiry (essentially all US single-stock options); European ones only on the expiration date (most index options, e.g. SPX). Rarely matters to buyers; for sellers it decides whether anyone can knock on the worst day.</span></td></tr>
 
   <tr id="covered-call"><td class="t">Covered Call</td><td class="c">备兑看涨</td><td>
     <span class="zh">持有 100 股 + 卖出 1 张 Call。用 Strike 之上的上涨空间换取确定的 Premium。见第 2.4 节。</span>
