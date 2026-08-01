@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.06 事件交易 Event Trading · Options Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../index.html"><b>OPTIONS</b>/HANDBOOK</a>
+  <div class="spacer"></div>
+  <nav>
+    <a href="../index.html"><span class="zh">目录</span><span class="en">Contents</span></a>
+    <a href="../glossary.html">Glossary</a>
+  </nav>
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button data-lang="zh" aria-pressed="true">中</button>
+    <button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main class="page">
+
+<p class="eyebrow">Chapter 06 · Event Trading</p>
+<h1><span class="zh">事件交易：财报、IV Crush 与价差的用法</span><span class="en">Event Trading: Earnings, IV Crush, and Spread Design</span></h1>
+<p class="lede">
+  <span class="zh">财报是散户最爱的期权场景，也是亏钱最快的场景。原因不是他们看错了公司，而是他们没有意识到：<strong>在事件交易里，你面对的从来不是"公司会怎样"，而是"公司会不会比市场已经定好的预期更极端"。</strong>这一章把这个差距拆到分毫。</span>
+  <span class="en">Earnings is retail's favorite options setting and the fastest place to lose money. Not because people read the company wrong, but because they miss this: <strong>in event trading you never face "what will the company do," you face "will the company be more extreme than the expectation already priced."</strong> This chapter takes that gap apart to the cent.</span>
+</p>
+
+<!-- ============ 6.1 ============ -->
+<h2><span class="zh">6.1 事件的三段结构</span><span class="en">6.1 The Three Phases of an Event</span></h2>
+
+<p>
+  <span class="zh">每一次已知日期的事件——财报、FDA 审批、议息、公投——期权价格都会走出同一个形状，三段分明：</span>
+  <span class="en">Every event with a known date — earnings, an FDA decision, a rate meeting, a referendum — drives option prices through the same three-phase shape:</span>
+</p>
+
+<dl class="spec">
+  <div><dt><span class="zh">① 堆积</span><span class="en">① Build-up</span></dt><dd><span class="zh">IV 缓慢上升，事件溢价累积</span><span class="en">IV grinds up, premium accrues</span></dd></div>
+  <div><dt><span class="zh">② 落地</span><span class="en">② Resolution</span></dt><dd><span class="zh">结果公布，股价跳空</span><span class="en">Result lands, the stock gaps</span></dd></div>
+  <div><dt><span class="zh">③ 蒸发</span><span class="en">③ Evaporation</span></dt><dd class="neg"><span class="zh">IV 在数分钟内塌回常态</span><span class="en">IV collapses to baseline in minutes</span></dd></div>
+</dl>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>TYPICAL EARNINGS WEEK · IV <span class="zh">（典型形态示意）</span><span class="en">(illustrative shape)</span></p>
+  <div id="case-ivcrush"></div>
+</div>
+
+<p>
+  <span class="zh">第三段是关键，也是最被低估的一段。<a class="term" href="../glossary.html#iv-crush">IV Crush</a> 不是"有时会发生的意外"，它是<strong>结构性的、几乎必然的</strong>：事件溢价存在的唯一理由是不确定性，结果一公布，不确定性就消失了，溢价没有任何理由继续存在。<strong>你可以把它当成一件已知会在某个时刻发生的事来规划——而绝大多数亏钱的人，是把它当成运气不好。</strong></span>
+  <span class="en">The third phase is decisive and the most underrated. <a class="term" href="../glossary.html#iv-crush">IV crush</a> isn't an occasional accident; it is <strong>structural and very nearly certain</strong>: event premium exists only because of uncertainty, and the moment results are published the uncertainty is gone, leaving the premium no reason to exist. <strong>You can plan around it as a scheduled event — and most people who lose money treat it as bad luck.</strong></span>
+</p>
+
+<div class="note">
+  <span class="note-tag"><span class="zh">关于本章的所有期权价格</span><span class="en">About every option price in this chapter</span></span>
+  <p>
+    <span class="zh">股价、日期和事件均为真实历史数据。<strong>期权价格由 Black-Scholes 计算</strong>，输入的 IV 已按当时市场公开引用的<a class="term" href="../glossary.html#expected-move">预期波动幅度</a>反向校准（例如 META 校准到约 144% 的事件 IV，以复现市场当时报出的 ±8.5%）。它们是模型值而非成交回报单；真实链上的偏斜会让具体数字有出入，但量级和结论成立。</span>
+    <span class="en">Share prices, dates and events are real history. <strong>Option prices are Black-Scholes values</strong>, with the IV input reverse-calibrated to the <a class="term" href="../glossary.html#expected-move">expected move</a> the market publicly quoted at the time (META, for instance, calibrates to about 144% event IV to reproduce the ±8.5% then being quoted). They are model figures, not fills; skew on a real chain shifts the exact numbers, but the magnitudes and conclusions hold.</span>
+  </p>
+</div>
+
+<!-- ============ 6.2 ============ -->
+<h2><span class="zh">6.2 IV Crush 的解剖</span><span class="en">6.2 Anatomy of an IV Crush</span></h2>
+
+<p>
+  <span class="zh">第 3 章给过 IV Crush 一个精确的定义：<strong>Vega 乘以一个很大的负数</strong>。现在把它算出来。一张财报前的期权，其价格中包含着一块"事件溢价"——它等于 Vega × (事件 IV − 常态 IV)。财报后，这一块<strong>整块消失</strong>，与股价往哪走无关。</span>
+  <span class="en">Chapter 3 gave IV crush an exact definition: <strong>vega times a large negative number</strong>. Now compute it. A pre-earnings option's price contains a block of "event premium" equal to vega × (event IV − baseline IV). After the report that block <strong>vanishes entirely</strong>, regardless of which way the stock went.</span>
+</p>
+
+<p>
+  <span class="zh">这产生了买方必须跨过的一道门槛：<strong>股价的实际移动，必须大到足以补偿这块必然蒸发的溢价</strong>。而市场定价的<a class="term" href="../glossary.html#expected-move">预期波动幅度</a>，恰恰就是这道门槛的高度。第 5 章的 ATM Straddle 估法在这里再次派上用场：<strong>股价 $200，财报前跨式 $16，那么 ±8% 就是你的及格线</strong>——不是"涨就赚"，是"涨超过 8% 才赚"。</span>
+  <span class="en">This creates a threshold buyers must clear: <strong>the stock's actual move must be large enough to compensate for premium that is guaranteed to evaporate</strong>. And the market's <a class="term" href="../glossary.html#expected-move">expected move</a> is exactly the height of that threshold. Chapter 5's ATM-straddle estimate applies again: <strong>stock at $200 with a $16 pre-earnings straddle makes ±8% your passing grade</strong> — not "up means profit," but "up more than 8% means profit."</span>
+</p>
+
+<p>
+  <span class="zh">于是事件交易变成了一道干净的判断题，只有三个可能的答案：</span>
+  <span class="en">Event trading therefore reduces to a clean question with only three possible answers:</span>
+</p>
+
+<dl class="spec">
+  <div><dt><span class="zh">我认为会超出预期幅度</span><span class="en">More than priced</span></dt><dd class="pos"><span class="zh">做买方</span><span class="en">Be the buyer</span></dd></div>
+  <div><dt><span class="zh">我认为会小于预期幅度</span><span class="en">Less than priced</span></dt><dd class="pos"><span class="zh">做卖方（定义风险）</span><span class="en">Be the seller (defined risk)</span></dd></div>
+  <div><dt><span class="zh">我不知道</span><span class="en">I don't know</span></dt><dd><span class="zh">不交易</span><span class="en">No trade</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">请注意第三个答案和前两个是<strong>平等的</strong>。它不是懦弱，它是这道判断题的一个合法解——事实上是最常见的正解。绝大多数财报，你并不比市场知道得更多。</span>
+  <span class="en">Note the third answer is the <strong>equal</strong> of the first two. It isn't timidity, it's a legitimate solution to the question — in fact the most common correct one. For the vast majority of earnings, you do not know more than the market.</span>
+</p>
+
+<!-- ============ 6.3 ============ -->
+<h2><span class="zh">6.3 当尾部真的超出定价</span><span class="en">6.3 When the Tail Really Does Exceed the Price</span></h2>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2022-02</p>
+  <h3><span class="zh">Meta 的一夜：-26.4%，是定价的三倍</span><span class="en">Meta's One Night: −26.4%, Three Times the Price</span></h3>
+  <p>
+    <span class="zh">2022 年 2 月 2 日盘后，Meta 公布 2021 年四季报。财报本身并不惨烈，但两件事击穿了市场：<strong>Facebook 日活用户出现史上第一次环比下降</strong>，以及远低于预期的下季度指引。2 月 2 日收盘 <strong>$323.00</strong>，2 月 3 日收盘 <strong>$237.76</strong>——单日 <strong>-26.4%</strong>，蒸发约 <strong>2,320 亿美元</strong>市值，当时美股史上最大的单日市值损失。</span>
+    <span class="en">After the close on February 2, 2022, Meta reported Q4 2021. The quarter itself wasn't a disaster, but two things broke the market: <strong>Facebook's daily active users declined sequentially for the first time ever</strong>, alongside guidance far below expectations. February 2 closed at <strong>$323.00</strong>; February 3 closed at <strong>$237.76</strong> — <strong>−26.4%</strong> in a session, erasing roughly <strong>$232 billion</strong> of market value, then the largest single-day loss in US market history.</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>META · FEB 2022 <span class="zh">（收盘价）</span><span class="en">(closes)</span></p>
+    <div id="case-meta"></div>
+  </div>
+  <p>
+    <span class="zh">财报前，期权市场报出的预期波动幅度约为 <strong>±8.5%</strong>。实际走了 <strong>-26.4%</strong>——<strong>约为定价的 3.1 倍</strong>。这是第 5 章 Brexit 案例的完美反面：那一次史上最大的单日跌幅只是刚好够到定价，这一次实际结果把定价远远甩在身后。</span>
+    <span class="en">Going in, the option market quoted an expected move of roughly <strong>±8.5%</strong>. The realized move was <strong>−26.4%</strong> — about <strong>3.1× the price</strong>. This is the perfect inverse of Chapter 5's Brexit case: there, a record one-day fall only just reached the price; here, reality left the price far behind.</span>
+  </p>
+  <p>
+    <span class="zh">三种表达同一个看空判断的方式，结果如下（按上述模型口径）：</span>
+    <span class="en">Three ways of expressing the same bearish view produced the following (on the model basis stated above):</span>
+  </p>
+  <dl class="spec">
+    <div><dt><span class="zh">做空正股</span><span class="en">Short the stock</span></dt><dd class="pos">+26.4%</dd></div>
+    <div><dt><span class="zh">买 $300 Put</span><span class="en">Long $300 put</span></dt><dd class="pos">$4.79 → $62.24 = <strong>+1,199%</strong></dd></div>
+    <div><dt><span class="zh">买 300/270 Put 价差</span><span class="en">300/270 put spread</span></dt><dd class="pos">$4.19 → $30.00 = <strong>+616%</strong></dd></div>
+  </dl>
+  <p>
+    <span class="zh">这是第 4 章那个"封顶的代价"第一次真正咬人的场景。价差的成本只比裸买 Put 低 12%，但它把收益锁死在 $30——而实际的内在价值走到了 $62。<strong>当尾部真的发生时，价差交出了一半的收益。</strong>第 4 章说"只有在你没预料到的爆发式行情里才明显吃亏"，这一次就是那个"没预料到"。</span>
+    <span class="en">This is the first time Chapter 4's "cost of the cap" genuinely bites. The spread cost only 12% less than the outright put, but sealed the payoff at $30 while intrinsic value ran to $62. <strong>When the tail actually arrives, the spread hands back half the return.</strong> Chapter 4 said spreads only clearly lose "in the explosive move you didn't foresee" — this was that move.</span>
+  </p>
+  <p class="verdict gain"><span class="zh">利润扩大：同一个看空判断，做空正股 +26.4% → 买入 $300 Put +1,199%</span><span class="en">Profit amplified: the same bearish view, +26.4% short the stock → +1,199% via the $300 put</span></p>
+</div>
+
+<div class="warn">
+  <span class="warn-tag"><span class="zh">别把结果当成方法</span><span class="en">Don't mistake the outcome for the method</span></span>
+  <p>
+    <span class="zh">+1,199% 这个数字有毒。它诱使人得出"财报前买价外期权"这个结论，而这恰恰是最赔钱的习惯之一。<strong>请记住这张 $300 Put 的另一面：如果 Meta 那晚只跌了 8%（正是市场定价的幅度），它到期时值 $0，归零。</strong>能让它值 $62 的，是一个约为定价三倍的尾部事件——按定义，这种事很少发生。买入事件期权的正确心态不是"这次会大动"，而是<strong>"我认为市场对幅度的定价系统性偏低，并且我愿意为这个判断反复付出小额归零"</strong>。第 5 章的 Brexit 案例就是同一枚硬币的另一面：那一次，尾部发生了，买方依然没赚到钱。</span>
+    <span class="en">That +1,199% is toxic. It tempts people into "buy OTM options before earnings," one of the most reliably expensive habits there is. <strong>Remember the other face of that $300 put: had Meta fallen only 8% — exactly what was priced — it would have expired at $0.</strong> What made it worth $62 was a tail roughly three times the price, and by definition that is rare. The correct mentality for buying event options isn't "this one will move big," it's <strong>"I believe the market systematically underprices magnitude here, and I accept repeatedly paying small amounts that go to zero."</strong> Chapter 5's Brexit case is the same coin's other side: there the tail did arrive, and buyers still made nothing.</span>
+  </p>
+</div>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>META 300/270 PUT SPREAD <span class="zh">·  平顶就是交出去的那一半</span><span class="en">· the flat roof is the half handed back</span></p>
+  <div id="pf-meta-spread"></div>
+</div>
+
+<!-- ============ 6.4 ============ -->
+<h2><span class="zh">6.4 好消息也能亏钱</span><span class="en">6.4 Good News Can Still Lose You Money</span></h2>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2021-01</p>
+  <h3><span class="zh">苹果史上最好的一个季度，和它次日的 -3.5%</span><span class="en">Apple's Best Quarter Ever, and the −3.5% That Followed</span></h3>
+  <p>
+    <span class="zh">2021 年 1 月 27 日盘后，苹果公布了公司历史上最好的一份财报：单季营收 <strong>1,114 亿美元</strong>，<strong>史上第一次单季突破千亿</strong>，同比增长约 21%，每股收益超出预期。任何一个只看基本面的人都会说这是碾压式的胜利。</span>
+    <span class="en">After the close on January 27, 2021, Apple reported the best quarter in its history: <strong>$111.4 billion</strong> of revenue, the <strong>first quarter ever above $100 billion</strong>, up roughly 21% year over year, with EPS above expectations. Anyone reading only the fundamentals would call it a rout.</span>
+  </p>
+  <p>
+    <span class="zh">次日，1 月 28 日，苹果收在 <strong>$137.09</strong>，较前一日的 $142.06 下跌 <strong>-3.5%</strong>。</span>
+    <span class="en">The next day, January 28, Apple closed at <strong>$137.09</strong>, down <strong>−3.5%</strong> from the prior day's $142.06.</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>AAPL · JAN 2021 <span class="zh">（收盘价）</span><span class="en">(closes)</span></p>
+    <div id="case-aapl-earn"></div>
+  </div>
+  <p>
+    <span class="zh">为什么？因为<strong>市场早就知道了</strong>。苹果在财报前一个月已经从约 $122 涨到约 $143，涨幅本身就是市场在为这份好财报定价；而公司当时并未提供下季度指引。财报前的预期波动幅度约 <strong>±5.6%</strong>，实际只走了 -3.5%——<strong>波动落在了定价区间之内</strong>。对期权买方来说，这是最坏的组合：方向不利，幅度不足，IV 还塌了。</span>
+    <span class="en">Because <strong>the market already knew</strong>. Apple had run from about $122 to about $143 in the month before the report — that run <em>was</em> the market pricing the good quarter — and the company gave no forward guidance. The pre-earnings expected move was about <strong>±5.6%</strong>, and the realized move was just −3.5%: <strong>inside the priced range</strong>. For an option buyer that is the worst possible combination: wrong direction, insufficient magnitude, and a collapsing IV on top.</span>
+  </p>
+  <p>
+    <span class="zh">三个同样"看多苹果"的人，一夜之后的处境：</span>
+    <span class="en">Three people, all bullish on Apple, the morning after:</span>
+  </p>
+  <dl class="spec">
+    <div><dt><span class="zh">直接持股</span><span class="en">Held the stock</span></dt><dd class="neg">−3.5%</dd></div>
+    <div><dt><span class="zh">卖 138/130 Put 价差</span><span class="en">Sold 138/130 put spread</span></dt><dd class="neg"><span class="zh">约 −12%（按风险计）</span><span class="en">≈ −12% on risk</span></dd></div>
+    <div><dt><span class="zh">裸买 $142 Call</span><span class="en">Bought the $142 call</span></dt><dd class="neg">$4.04 → $0.76 = <strong>−81%</strong></dd></div>
+  </dl>
+  <p>
+    <span class="zh"><strong>同一个正确的公司判断，三种结构，亏损相差 23 倍。</strong>那张 Call 的亏损里，约 40% 直接来自 IV 从 45% 塌到 30%——即使股价原地不动，它也会亏掉三分之一。这就是"方向对了还亏钱"的完整机制：<strong>你买的从来不只是方向，你同时买了一份在结果公布那一刻必然作废的不确定性。</strong></span>
+    <span class="en"><strong>One correct read on the company, three structures, a 23-fold difference in loss.</strong> About 40% of that call's loss came directly from IV falling 45% to 30% — with the stock frozen it would still have lost a third. This is the full mechanism behind "right on direction, still down money": <strong>you never bought direction alone, you also bought a piece of uncertainty that was guaranteed to be voided the instant results were published.</strong></span>
+  </p>
+  <p class="verdict loss"><span class="zh">亏损减少：同一个看多苹果的判断，裸买财报前 Call −81% → 直接持股 −3.5%</span><span class="en">Loss reduced: the same bullish view, −81% buying the pre-earnings call → −3.5% simply holding shares</span></p>
+</div>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">苹果那份财报无可挑剔，股价却跌了。假设你在财报前<strong>准确预知</strong>了营收会突破千亿——这个信息能让你赚钱吗？如果答案是"不能"，那么<strong>财报交易里真正有价值的信息到底是什么形状的</strong>？提示：它一定不是"公司会好还是坏"这种形状。</span>
+  <span class="en">Apple's quarter was flawless and the stock fell. Suppose you had known <strong>with certainty</strong>, in advance, that revenue would break $100 billion — could you have made money on it? If the answer is no, then <strong>what shape does genuinely valuable information take in earnings trading</strong>? Hint: it is definitely not the shape of "will the company do well or badly."</span>
+</div>
+
+<!-- ============ 6.5 ============ -->
+<h2><span class="zh">6.5 结构选择：买、卖，还是不交易</span><span class="en">6.5 Structure Choice: Buy, Sell, or Stand Aside</span></h2>
+
+<p>
+  <span class="zh">把前面两个案例并排放，事件交易的结构选择就清楚了。它取决于一件事：<strong>你对幅度的判断，与市场定价的差在哪一边。</strong></span>
+  <span class="en">Set the two cases side by side and the structural choice becomes clear. It turns on one thing: <strong>which side of the market's price your own view of magnitude falls on.</strong></span>
+</p>
+
+<p>
+  <span class="zh"><strong>认为会超出定价（买方）。</strong>买裸期权而不是价差——META 的案例说明，当尾部真的发生时，价差会交出一半收益。但请把仓位控制在"归零也不影响你"的水平，因为这类判断的胜率天然很低。<strong>认为会小于定价（卖方）。</strong>务必用<a class="term" href="../glossary.html#defined-risk">定义风险</a>的结构——<a class="term" href="../glossary.html#iron-condor">Iron Condor</a> 或贷记价差，永远不要裸卖。财报的尾部就是 META 那样的 3.1 倍，而裸卖方在那种夜晚没有底。</span>
+  <span class="en"><strong>You think it exceeds the price (buy).</strong> Buy the outright option rather than the spread — the Meta case shows the spread surrenders half the return when the tail truly arrives. But size it so that a total loss doesn't matter, because this kind of call has an inherently low win rate. <strong>You think it falls short of the price (sell).</strong> Use a <a class="term" href="../glossary.html#defined-risk">defined-risk</a> structure without exception — an <a class="term" href="../glossary.html#iron-condor">iron condor</a> or a credit spread, never a naked short. The tail on earnings looks like Meta's 3.1×, and a naked seller has no floor on that kind of night.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>AAPL 138/130 BULL PUT SPREAD <span class="zh">·  卖方视角的同一个看多观点</span><span class="en">· the same bullish view, from the seller's side</span></p>
+  <div id="pf-aapl-bps"></div>
+</div>
+
+<p>
+  <span class="zh">还有第三条路，常被忽略：<a class="term" href="../glossary.html#calendar">Calendar Spread</a>（日历价差）。卖出财报当周的合约、买入下一周或下个月的同 Strike 合约。它的逻辑很精巧：<strong>近月的事件溢价最高、塌得最狠，远月塌得轻</strong>，所以你卖掉塌得最狠的那个。这是专门为"我确信 IV 会塌，但不想赌方向"这个观点设计的结构。代价是它需要股价停在 Strike 附近——一次 META 式的跳空同样会伤到它。</span>
+  <span class="en">There's a third path people overlook: the <a class="term" href="../glossary.html#calendar">calendar spread</a>. Sell the contract expiring in earnings week and buy the same strike a week or a month out. The logic is neat: <strong>the near-dated contract holds the most event premium and crushes hardest, the far-dated one crushes less</strong>, so you sell the one that collapses most. It is purpose-built for "I'm confident IV collapses but I don't want a directional bet." Its cost is needing the stock to stay near the strike — a Meta-style gap damages it too.</span>
+</p>
+
+<div class="note">
+  <span class="note-tag"><span class="zh">与实盘的连接</span><span class="en">Bridge to live trading</span></span>
+  <p>
+    <span class="zh"><strong>① 财报日期要自己核对。</strong>公司会改期，而一次改期能让你的"事件期权"变成一张纯粹的时间损耗票。<strong>② 盘后不要试图平仓。</strong>财报后的盘后时段，期权买卖价差可以宽到毫无意义，你会在极差的价格上成交；有计划的做法是持有到次日开盘后流动性恢复。<strong>③ 用第 5 章那个除法。</strong>下单前算一次 ATM Straddle 总价 ÷ 股价，把这个百分比写下来。<strong>如果你说不出自己的判断在这个数字的哪一边，你就没有交易理由——这时"不交易"不是放弃，是这道题的正确答案。</strong></span>
+    <span class="en"><strong>① Verify the earnings date yourself.</strong> Companies reschedule, and one reschedule turns your "event option" into a pure time-decay ticket. <strong>② Don't try to close after hours.</strong> In the post-earnings session option spreads can widen to the point of meaninglessness and you will get a terrible fill; the planned approach is to hold until liquidity returns after the next open. <strong>③ Do Chapter 5's division.</strong> Before entering, compute the ATM straddle total ÷ share price and write that percentage down. <strong>If you can't say which side of that number your view falls on, you have no reason to trade — and "no trade" isn't giving up, it's this question's correct answer.</strong></span>
+  </p>
+</div>
+
+<!-- ============ 6.6 Quiz ============ -->
+<h2><span class="zh">6.6 本章测验</span><span class="en">6.6 Chapter Quiz</span></h2>
+<p><span class="zh">点击选项即可作答，答案与解析即时显示。</span><span class="en">Click an option to answer; the correct answer and explanation appear immediately.</span></p>
+
+<div class="quiz-set">
+
+<div class="quiz" data-answer="c">
+  <p class="q"><span class="zh">苹果公布了史上最好的季报，股价次日却跌 3.5%。最合理的解释是？</span><span class="en">Apple posts its best-ever quarter and the stock falls 3.5% the next day. The most reasonable explanation:</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">市场是非理性的</span><span class="en">The market is irrational</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">财报里有隐藏的坏消息</span><span class="en">There was hidden bad news in the report</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">好消息在财报前已被股价计入</span><span class="en">The good news was already in the price</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">做市商压低了股价</span><span class="en">Market makers pushed the price down</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>C。</b>苹果在财报前一个月已从约 $122 涨到约 $143——那段涨幅本身就是市场在给这份好财报定价。股价反应的从来不是"消息好不好"，而是<strong>"消息比已经被计入的预期好多少"</strong>。A 是无法证伪的托词；B 与事实不符（该季各项指标均超预期）；D 是阴谋论。</span>
+    <span class="en"><b>C.</b> Apple had already run from about $122 to about $143 in the preceding month — that run <em>was</em> the market pricing the good quarter. Prices never react to "is the news good," they react to <strong>"how much better is the news than what was already priced."</strong> A is an unfalsifiable excuse; B is false (every line beat); D is conspiracy.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">财报前 ATM Straddle 报价 $12，股价 $150。财报后股价上涨 5%。买入 ATM Call 的人大概率？</span><span class="en">A pre-earnings ATM straddle is $12 with the stock at $150. After earnings the stock rises 5%. The ATM call buyer most likely:</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">大赚，因为方向对了</span><span class="en">Profits well — the direction was right</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">亏钱，因为 5% 小于定价的 8%</span><span class="en">Loses money — 5% is less than the 8% priced</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">打平</span><span class="en">Breaks even</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">无法判断</span><span class="en">Impossible to say</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>$12 ÷ $150 = 8%，这是市场定价的预期波动幅度，也是买方的及格线。实际走了 5%，<strong>落在定价区间之内</strong>——涨幅带来的内在价值不足以补偿必然蒸发的事件溢价。这正是苹果 2021 年 1 月那个案例的机制。A 是本章要根治的直觉；D 不成立，题目已经给全了两个必要数字。</span>
+    <span class="en"><b>B.</b> $12 ÷ $150 = 8%, the market's expected move and the buyer's passing grade. The realized 5% fell <strong>inside the priced range</strong> — the intrinsic value gained doesn't cover the event premium that was always going to evaporate. This is precisely the mechanism of Apple's January 2021 case. A is the intuition this chapter exists to cure; D fails because both necessary numbers are given.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="a">
+  <p class="q"><span class="zh">Meta 那晚跌了定价的 3.1 倍。为什么裸买 Put（+1,199%）远胜 Put 价差（+616%）？</span><span class="en">Meta fell 3.1× the priced move. Why did the outright put (+1,199%) so far outrun the put spread (+616%)?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">价差的收益被下腿封顶，而实际跌幅穿透了它</span><span class="en">The spread's payoff was capped by its lower leg, and the move blew through it</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">价差的成本更高</span><span class="en">The spread cost more</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">价差受 IV Crush 影响更大</span><span class="en">The spread suffers more from IV crush</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">价差不能在财报中使用</span><span class="en">Spreads can't be used around earnings</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>A。</b>300/270 价差的最大收益就是宽度 $30；股价跌到 $237.76 时，裸 Put 的内在价值已是 $62.24。<strong>多出来的 $32 全部被下腿吃掉了。</strong>B 说反了（价差 $4.19 比裸买 $4.79 便宜）；C 也说反了——价差的净 Vega 更小，受 IV Crush 影响<em>更轻</em>，这正是它平时的优点；D 与事实不符。<strong>这道题的价值在于：第 4 章说的"封顶代价"不是理论，它有一个具体的名字叫 $32。</strong></span>
+    <span class="en"><b>A.</b> The 300/270 spread's maximum is its $30 width; at $237.76 the outright put held $62.24 of intrinsic value. <strong>The extra $32 was consumed entirely by the lower leg.</strong> B is backwards (the spread cost $4.19 against $4.79). C is backwards too — a spread's smaller net vega makes it <em>less</em> exposed to IV crush, which is normally its advantage. D is false. <strong>The value of this question: Chapter 4's "cost of the cap" isn't theory — here it has a specific name, and that name is $32.</strong></span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="d">
+  <p class="q"><span class="zh">你判断某公司财报后的波动会小于市场定价。最合适的做法是？</span><span class="en">You believe a company will move less than the market has priced. The most appropriate action:</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">裸卖 Straddle，收最多的权利金</span><span class="en">Sell a naked straddle for maximum premium</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">买入 Put 对冲</span><span class="en">Buy puts as a hedge</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">买入 Straddle</span><span class="en">Buy the straddle</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">卖出 Iron Condor 或贷记价差</span><span class="en">Sell an iron condor or a credit spread</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>D。</b>观点本身（波动小于定价）指向卖方，这排除了 B、C。但 A 是这一章最危险的选项：<strong>财报的尾部就是 Meta 那样的 3.1 倍</strong>，裸卖 Straddle 在那种夜晚没有底——一次就足以结束账户。定义风险的结构把最坏结果在开仓时就固定下来，这是在事件面前做卖方的<strong>唯一</strong>负责任的方式。</span>
+    <span class="en"><b>D.</b> The view itself (less movement than priced) points to selling, ruling out B and C. But A is this chapter's most dangerous option: <strong>the tail on earnings looks like Meta's 3.1×</strong>, and a naked straddle has no floor on that night — one is enough to end an account. A defined-risk structure fixes the worst case at entry, which is the <strong>only</strong> responsible way to be a seller into an event.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="c">
+  <p class="q"><span class="zh">财报后你想立刻在盘后平掉获利的 Put。为什么这通常是个坏主意？</span><span class="en">You want to close a winning put in the after-hours session right after earnings. Why is that usually a bad idea?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">盘后不能交易期权</span><span class="en">Options can't be traded after hours</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">盘后成交要交额外的税</span><span class="en">After-hours fills incur extra tax</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">盘后期权流动性极差，买卖价差可能宽到吃掉大部分利润</span><span class="en">After-hours option liquidity is terrible and the spread can eat most of the profit</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">利润会自动结算</span><span class="en">Profits settle automatically anyway</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>C。</b>美股期权本身在常规时段之外基本没有流动性，正股盘后波动剧烈时做市商会把双边报价拉得极宽——你可能在远低于理论价值的位置成交，把辛苦赚到的尾部收益还回去一大块。A 措辞过于绝对但方向接近：真正的问题不是"不能"，而是"能，但价格极差"。有计划的做法是等次日开盘流动性恢复。</span>
+    <span class="en"><b>C.</b> US equity options have essentially no liquidity outside regular hours, and when the underlying is swinging after the bell market makers widen quotes dramatically — you can fill far below theoretical value and give back a large slice of the tail gain you just earned. A overstates it but points the right way: the problem isn't that you can't, it's that you can at a terrible price. The planned approach is to wait for liquidity at the next open.</span>
+  </div>
+</div>
+
+</div>
+
+<!-- ============ takeaways ============ -->
+<h2><span class="zh">本章要点</span><span class="en">Key Takeaways</span></h2>
+<p>
+  <span class="zh">事件交易只有一个真问题：<strong>实际波动会大于还是小于市场已经定好的价格</strong>，而那个价格就明明白白写在 ATM Straddle 的报价里。Meta 在 2022 年 2 月走出了定价 3.1 倍的跌幅，让一张 $300 的 Put 变成 12 倍；苹果在 2021 年 1 月交出史上最好的财报，却让一张 ATM Call 亏掉 81%——两件事都不是运气，它们是同一道除法题的两个答案。IV Crush 不是意外而是日程表上的事项：事件溢价存在的唯一理由是不确定性，结果公布，理由消失。所以站在买方要接受高频率的归零，站在卖方必须用定义风险的结构——因为财报的尾部就长着 Meta 那副样子。<strong>而当你算完那个百分比却说不出自己站在它的哪一边时，"不交易"就是这道题的正确答案，和另外两个答案完全平等。</strong></span>
+  <span class="en">Event trading poses exactly one real question: <strong>will the realized move be larger or smaller than the price already set</strong> — and that price is written plainly in the ATM straddle's quote. Meta fell 3.1× its priced move in February 2022, turning a $300 put into a twelve-bagger; Apple delivered the best quarter in its history in January 2021 and an ATM call still lost 81%. Neither was luck; they are two answers to the same division problem. IV crush isn't an accident but a calendar item: event premium exists only because of uncertainty, and when results publish the reason disappears. So buyers must accept frequent total losses, and sellers must use defined-risk structures — because the tail on earnings is shaped exactly like Meta's. <strong>And when you've done the division and still can't say which side you're on, "no trade" is this question's correct answer, fully equal to the other two.</strong></span>
+</p>
+
+<nav class="chap-nav">
+  <a href="05-volatility.html">← <span class="zh">第 5 章 波动率策略</span><span class="en">Ch.5 Volatility Structures</span></a>
+  <a href="07-wheel.html"><span class="zh">第 7 章 Wheel 系统 →</span><span class="en">Ch.7 The Wheel →</span></a>
+</nav>
+
+</main>
+
+<script src="../assets/i18n.js"></script>
+<script src="../assets/payoff.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  CaseChart.mount('case-ivcrush', {
+    labels: ['T-10', 'T-7', 'T-5', 'T-3', 'T-1', 'T+0', 'T+1', 'T+3'],
+    series: [
+      { name: { zh: '隐含波动率', en: 'Implied vol' }, color: '#D99A3D', data: [38, 42, 48, 56, 68, 74, 34, 32] },
+      { name: { zh: '常态水平', en: 'Baseline' }, color: '#3CDFA3', data: [32, 32, 32, 32, 32, 32, 32, 32] }
+    ],
+    events: [{ i: 5, text: { zh: '财报公布', en: 'Report' } }],
+    yfmt: function (v) { return v.toFixed(0) + '%'; }
+  });
+
+  CaseChart.mount('case-meta', {
+    labels: ['01-26', '01-31', '02-01', '02-02', '02-03', '02-04', '02-08', '02-14'],
+    series: [
+      { name: { zh: 'META', en: 'META' }, color: '#FF6A55', data: [294.64, 313.26, 319, 323, 237.76, 237.09, 220.18, 217.7] }
+    ],
+    events: [{ i: 3, text: { zh: '盘后财报', en: 'Earnings AMC' } }],
+    yfmt: function (v) { return '$' + v.toFixed(0); }
+  });
+
+  CaseChart.mount('case-aapl-earn', {
+    labels: ['01-20', '01-25', '01-26', '01-27', '01-28', '01-29', '02-05'],
+    series: [
+      { name: { zh: 'AAPL', en: 'AAPL' }, color: '#FF6A55', data: [132.03, 142.92, 143.16, 142.06, 137.09, 131.96, 136.76] }
+    ],
+    events: [{ i: 3, text: { zh: '创纪录财报', en: 'Record quarter' } }],
+    yfmt: function (v) { return '$' + v.toFixed(0); }
+  });
+
+  Payoff.mount('pf-meta-spread', {
+    legs: [
+      { kind: 'put', side: 1, strike: 300, premium: 4.79 },
+      { kind: 'put', side: -1, strike: 270, premium: 0.6 }
+    ],
+    range: [230, 340],
+    controls: [
+      { leg: 1, prop: 'strike', min: 230, max: 295, step: 5, label: { zh: '下腿 Strike（决定天花板）', en: 'Lower strike (sets the ceiling)' } }
+    ]
+  });
+
+  Payoff.mount('pf-aapl-bps', {
+    legs: [
+      { kind: 'put', side: -1, strike: 138, premium: 1.9 },
+      { kind: 'put', side: 1, strike: 130, premium: 0.27 }
+    ],
+    range: [120, 152],
+    controls: [
+      { leg: 0, prop: 'strike', min: 132, max: 145, step: 1, label: { zh: '短腿 Strike 防线', en: 'Short strike (the line)' } },
+      { leg: 1, prop: 'strike', min: 120, max: 131, step: 1, label: { zh: '长腿 Strike 保护', en: 'Long strike (protection)' } }
+    ]
+  });
+
+});
+</script>
+</body>
+</html>
