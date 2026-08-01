@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.08 反面教材 Cautionary Tales · Options Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../index.html"><b>OPTIONS</b>/HANDBOOK</a>
+  <div class="spacer"></div>
+  <nav>
+    <a href="../index.html"><span class="zh">目录</span><span class="en">Contents</span></a>
+    <a href="../glossary.html">Glossary</a>
+  </nav>
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button data-lang="zh" aria-pressed="true">中</button>
+    <button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main class="page">
+
+<p class="eyebrow">Chapter 08 · Cautionary Tales</p>
+<h1><span class="zh">反面教材：裸卖、杠杆与波动率的墓碑</span><span class="en">Cautionary Tales: Naked Shorts, Leverage, and Volatility's Graveyard</span></h1>
+<p class="lede">
+  <span class="zh">这一章的三个案例有一个共同点，而且这个共同点会让你不舒服：<strong>他们中没有一个人是因为判断错误而死的。</strong>他们的模型是对的，历史回测是漂亮的，纪律是严格的，多数人还连续正确了好几年。他们死于同一件事——最坏情况没有下限，而他们的仓位是按"最坏情况不会发生"配置的。</span>
+  <span class="en">The three cases in this chapter share something uncomfortable: <strong>not one of them died from being wrong.</strong> Their models were sound, their backtests handsome, their discipline real, and most of them were right for years running. They died of the same thing — a worst case with no floor, sized as though the worst case would not arrive.</span>
+</p>
+
+<!-- ============ 8.1 ============ -->
+<h2><span class="zh">8.1 为什么反面教材更值钱</span><span class="en">8.1 Why the Failures Teach More</span></h2>
+
+<p>
+  <span class="zh">前七章的案例大多在讲某个结构如何扩大利润或减少亏损。但那些案例有一个共同的取样偏差：<strong>它们都是幸存下来的故事。</strong>一个策略连续正确五年，然后在第六年归零，前五年的所有回测数据都会告诉你它很优秀——直到最后一个数据点出现。</span>
+  <span class="en">The cases in the first seven chapters mostly show how a structure amplified profit or contained loss. They share a sampling bias: <strong>they are all stories that survived.</strong> A strategy that is right for five straight years and goes to zero in the sixth will show five years of excellent backtest data — right up until the final data point.</span>
+</p>
+
+<p>
+  <span class="zh">所以这一章的读法和前面不同。<strong>不要问"他们做错了什么"，要问"如果我在当时，我的做法和他们有什么实质区别"。</strong>如果答案是"我的仓位更小"，那你学到了这一章唯一要教的东西。如果答案是"我会看得更准"，那你还没有读懂。</span>
+  <span class="en">So read this chapter differently. <strong>Don't ask "what did they do wrong," ask "had I been there, how would my approach have differed materially."</strong> If the answer is "my position would have been smaller," you've learned the one thing this chapter teaches. If the answer is "I'd have seen it coming," you haven't.</span>
+</p>
+
+<!-- ============ 8.2 ============ -->
+<h2><span class="zh">8.2 墓碑一：一夜蒸发 96% 的 XIV</span><span class="en">8.2 Headstone One: XIV, −96% Overnight</span></h2>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2018-02-05</p>
+  <h3><span class="zh">Volmageddon：连续正确五年，然后用一个晚上还清</span><span class="en">Volmageddon: Five Years of Being Right, Repaid in One Night</span></h3>
+  <p>
+    <span class="zh">XIV 是瑞士信贷发行的一只<a class="term" href="../glossary.html#etn">交易所交易票据</a>，目标是提供 VIX 短期期货指数<strong>每日反向 1 倍</strong>的收益。翻译过来：<strong>它是一个打包好的、可以像股票一样买卖的<a class="term" href="../glossary.html#short-vol">做空波动率</a>头寸。</strong></span>
+    <span class="en">XIV was an <a class="term" href="../glossary.html#etn">exchange-traded note</a> issued by Credit Suisse, designed to deliver <strong>−1× the daily return</strong> of a short-term VIX futures index. Translated: <strong>a packaged <a class="term" href="../glossary.html#short-vol">short-volatility</a> position you could buy and sell like a stock.</strong></span>
+  </p>
+  <p>
+    <span class="zh">而它<strong>非常有效</strong>。VIX 期货长期处于<a class="term" href="../glossary.html#contango">contango</a>（远月贵于近月），做空它就等于持续收取一笔结构性的展期收益。在第 5 章描述的那个史上最平静的 2017 年，XIV 上涨了约 <strong>188%</strong>。到 2018 年 1 月，它的规模已接近 <strong>19 亿美元</strong>，价格逼近 $145。<strong>五年的优异表现，把它从一个小众工具变成了散户账户里的常客。</strong></span>
+    <span class="en">And it <strong>worked extremely well</strong>. VIX futures sit in persistent <a class="term" href="../glossary.html#contango">contango</a> (later months priced above nearer ones), so shorting them harvests a structural roll yield. Through the record-calm 2017 described in Chapter 5, XIV rose about <strong>188%</strong>. By January 2018 it held close to <strong>$1.9 billion</strong> and traded near $145. <strong>Five years of excellence had turned a niche instrument into a fixture of retail accounts.</strong></span>
+  </p>
+  <p>
+    <span class="zh">2018 年 2 月 5 日，标普 500 下跌 4.10%，<a class="term" href="../glossary.html#vix">VIX</a> 单日上涨 115.6% 至 37.32——史上最大的单日涨幅。XIV 当日收盘 $99.00，但真正的清算发生在盘后：VIX 期货继续飙升，XIV 的指示价值在几小时内跌到约 <strong>$4.22</strong>，<strong>约 -96%</strong>。次日它开在约 $7.35。</span>
+    <span class="en">On February 5, 2018 the S&P 500 fell 4.10% and the <a class="term" href="../glossary.html#vix">VIX</a> rose 115.6% to 37.32 — its largest single-day gain ever. XIV closed the session at $99.00, but the real liquidation happened after hours: VIX futures kept surging and XIV's indicative value fell within hours to roughly <strong>$4.22</strong>, about <strong>−96%</strong>. It opened near $7.35 the following morning.</span>
+  </p>
+  <p>
+    <span class="zh">这里出现了第 1 章那个教训的回声：<strong>条款。</strong>XIV 的招募文件里写着一条"加速赎回"条款——若单日指示价值下跌 80% 以上，发行方有权提前终止。瑞士信贷在 2 月 6 日行使了它。<strong>持有者甚至没有等待反弹的机会：这只票据于 2 月 21 日以 $5.99 清算，永久消失。</strong>波动率后来确实均值回归了，但那时已经没有 XIV 可以受益于此。</span>
+    <span class="en">Here Chapter 1's lesson echoes: <strong>the fine print.</strong> XIV's prospectus contained an "acceleration" clause — if indicative value fell 80% or more in a day, the issuer could terminate early. Credit Suisse exercised it on February 6. <strong>Holders were not even given the chance to wait for a bounce: the note was liquidated at $5.99 on February 21 and ceased to exist.</strong> Volatility did mean-revert afterwards, but there was no longer any XIV to benefit from it.</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span><span class="zh">同一个 -96%，两种仓位（组合价值，起点 100）</span><span class="en">the same −96%, two position sizes (portfolio value, base 100)</span></p>
+    <div id="case-xiv"></div>
+  </div>
+  <p>
+    <span class="zh">现在做这一章唯一重要的那道算术题。<strong>两个人对波动率均值回归的判断完全相同，都买了 XIV，都经历了同一个 -96%。</strong>唯一的区别是仓位：</span>
+    <span class="en">Now do the only arithmetic that matters in this chapter. <strong>Two people held identical views on volatility mean-reversion, both bought XIV, both lived through the same −96%.</strong> The only difference was size:</span>
+  </p>
+  <dl class="spec">
+    <div><dt><span class="zh">全仓</span><span class="en">All in</span></dt><dd class="neg"><span class="zh">100 → 峰值 389 → <strong>20</strong></span><span class="en">100 → peak 389 → <strong>20</strong></span></dd></div>
+    <div><dt><span class="zh">5% 仓位</span><span class="en">5% position</span></dt><dd><span class="zh">100 → 峰值 114 → <strong>95.8</strong></span><span class="en">100 → peak 114 → <strong>95.8</strong></span></dd></div>
+    <div><dt><span class="zh">判断</span><span class="en">The view</span></dt><dd><span class="zh">完全相同</span><span class="en">Identical</span></dd></div>
+    <div><dt><span class="zh">工具</span><span class="en">The instrument</span></dt><dd><span class="zh">完全相同</span><span class="en">Identical</span></dd></div>
+  </dl>
+  <p>
+    <span class="zh">全仓的人被永久淘汰出局，5% 的人第二天照常吃早饭。<strong>他们对市场的看法一字不差，区别只在一个数字。</strong>请注意这个案例<strong>不需要任何期权定价假设</strong>——上面的两条曲线是把真实的 XIV 价格直接乘以仓位比例得到的，是纯粹的算术。</span>
+    <span class="en">The all-in trader was permanently removed from the game; the 5% trader ate breakfast as usual the next morning. <strong>Their views on the market were word-for-word identical. One number separated them.</strong> Note this case <strong>requires no option-pricing assumptions whatsoever</strong> — the two curves are real XIV prices multiplied by a position weight. Pure arithmetic.</span>
+  </p>
+  <p>
+    <span class="zh">简化声明：XIV 价格与 VIX 数据为真实历史约值。两条组合曲线由真实价格按 100% 与 5% 权重直接计算，假设期间不再买卖、其余 95% 资金不产生收益——这是为了突出仓位这一个变量而做的<strong>刻意简化</strong>。</span>
+    <span class="en">Stated simplification: XIV prices and VIX data are approximate real history. The two portfolio curves are computed directly from those prices at 100% and 5% weights, assuming no trading in between and no return on the other 95% — a <strong>deliberate simplification</strong> to isolate position size as the single variable.</span>
+  </p>
+  <p class="verdict loss"><span class="zh">亏损减少：同一个工具、同一个 -96%，全仓组合 100 → 20，5% 仓位组合 100 → 95.8——唯一的变量是仓位，不是判断</span><span class="en">Loss reduced: same instrument, same −96% — all-in went 100 → 20, a 5% position went 100 → 95.8. The only variable was size, not judgment</span></p>
+</div>
+
+<!-- ============ 8.3 ============ -->
+<h2><span class="zh">8.3 墓碑二：亏损超过 100% 是可能的</span><span class="en">8.3 Headstone Two: Losing More Than 100% Is Possible</span></h2>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2018-11</p>
+  <h3><span class="zh">裸卖天然气期权：客户不仅归零，还倒欠券商</span><span class="en">Naked Natural Gas: Clients Didn't Just Lose Everything, They Owed More</span></h3>
+  <p>
+    <span class="zh">OptionSellers.com 是一家管理约 <strong>1.5 亿美元</strong>、服务约 <strong>290 位客户</strong>的资产管理公司。它的策略非常直白，甚至写在公司名字里：<strong>在商品市场上裸卖期权</strong>，收取权利金。这套做法运转了很多年。</span>
+    <span class="en">OptionSellers.com managed roughly <strong>$150 million</strong> for about <strong>290 clients</strong>. Its strategy was so plain it was in the company's name: <strong>sell naked options on commodities</strong> and collect the premium. It had worked for years.</span>
+  </p>
+  <p>
+    <span class="zh">2018 年 11 月，天然气价格失控。11 月 1 日前月合约约 <strong>$3.23</strong>；到 11 月 14 日，它冲到约 <strong>$4.84</strong>——两周约 <strong>+50%</strong>，其中 11 月 14 日单日盘中涨幅接近 18%。客户账户里是大量的<strong>裸卖看涨期权</strong>。</span>
+    <span class="en">In November 2018 natural gas went vertical. The front-month contract was near <strong>$3.23</strong> on November 1; by November 14 it reached about <strong>$4.84</strong> — roughly <strong>+50%</strong> in two weeks, with nearly 18% of that intraday on November 14 alone. The client accounts were full of <strong>naked short calls</strong>.</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>NATURAL GAS · NOV 2018 <span class="zh">（前月合约，$/MMBtu，约值）</span><span class="en">(front month, $/MMBtu, approx.)</span></p>
+    <div id="case-natgas"></div>
+  </div>
+  <p>
+    <span class="zh">结果不是"亏了很多"。<strong>结果是客户账户的亏损超过了账户里的全部资金</strong>——他们收到追加保证金通知，并且在清算之后<strong>倒欠清算券商一笔钱</strong>。创始人录制了一段流着泪的道歉视频，公司随后关闭。</span>
+    <span class="en">The outcome wasn't "large losses." <strong>The losses exceeded the entire equity in the accounts</strong> — clients received margin calls and, after liquidation, <strong>owed money to the clearing broker</strong>. The founder recorded a tearful video apology and the firm shut down.</span>
+  </p>
+  <p>
+    <span class="zh">这是第 1 章那句话最昂贵的一次演示：<strong>买方的最大亏损是已付出的 Premium，卖方没有这个上限。</strong>把它画出来看：</span>
+    <span class="en">This is the most expensive demonstration of Chapter 1's sentence: <strong>a buyer's maximum loss is the premium paid; a seller has no such ceiling.</strong> Draw it:</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>NAKED SHORT CALL <span class="zh">·  图右侧还在继续往下，永远画不完</span><span class="en">· the right side keeps falling, forever</span></p>
+    <div id="pf-naked"></div>
+  </div>
+  <p>
+    <span class="zh">图表引擎报出的"最大亏损"依然是被画框截断的数字。这不是缺陷，而是这一章的全部主题：<strong>裸卖头寸的最坏情况根本不在图里，它在图的外面，而你的账户余额并不知道这一点。</strong></span>
+    <span class="en">The engine's reported "max loss" is again truncated by the frame. That isn't a flaw, it is this chapter's entire theme: <strong>a naked short's worst case is not in the picture, it's outside the picture — and your account balance is unaware of the distinction.</strong></span>
+  </p>
+  <p>
+    <span class="zh">Counterfactual：同一个"天然气涨不到 $4"的判断，加上一条保护腿会怎样？以下期权价格是按当时行情给出的<strong>示意值</strong>（天然气期权合约乘数为 10,000 MMBtu）：</span>
+    <span class="en">Counterfactual: same view — "gas won't reach $4" — with a protective leg added. The option prices below are <strong>illustrative</strong> values for the conditions of the time (a natural gas option contract covers 10,000 MMBtu):</span>
+  </p>
+  <dl class="spec">
+    <div><dt><span class="zh">裸卖 $4.00 Call</span><span class="en">Naked $4.00 call</span></dt><dd class="neg"><span class="zh">收 $0.10；气价 $4.84 时每张亏 <strong>$7,400</strong>，且无上限</span><span class="en">Collect $0.10; at $4.84 that's <strong>−$7,400</strong> per contract, with no ceiling</span></dd></div>
+    <div><dt><span class="zh">加买 $4.50 Call</span><span class="en">Add a long $4.50 call</span></dt><dd><span class="zh">付 $0.04；最大亏损锁死在每张 <strong>$4,400</strong></span><span class="en">Pay $0.04; worst case sealed at <strong>$4,400</strong> per contract</span></dd></div>
+  </dl>
+  <p>
+    <span class="zh">在 $4.84 这个点上，两者的差距只有 40%——看起来保护腿并不值钱。<strong>但真正的区别不在 $4.84，而在 $4.84 之后。</strong>如果天然气继续涨到 $6，裸卖版本每张亏 $19,900 并继续扩大；而价差版本无论涨到 $6、$10 还是 $100，每张<strong>永远是 $4,400</strong>。<strong>那条腿买的不是收益，是"账户不会变成负数"这件事。</strong></span>
+    <span class="en">At $4.84 the gap is only about 40% — the wing looks like poor value. <strong>But the real difference isn't at $4.84, it's beyond it.</strong> Had gas run to $6, the naked version loses $19,900 per contract and keeps going; the spread loses <strong>$4,400 per contract at $6, at $10, at $100</strong>. <strong>That leg didn't buy return. It bought the fact that the account cannot go negative.</strong></span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span><span class="zh">加一条 $4.50 保护腿之后</span><span class="en">the same trade with a $4.50 wing</span></p>
+    <div id="pf-natgas-spread"></div>
+  </div>
+  <p>
+    <span class="zh">简化声明：天然气价格与该公司的规模、客户数、结局为真实历史事实。<strong>上述两个期权的价格（$0.10 与 $0.04）为示意假设，不是实际报价</strong>，也不是对该公司实际持仓 Strike 的还原——2018 年 11 月的天然气期权流动性有限，本手册不据此推测任何具体客户的损益。这组数字用于说明"有保护腿"与"无保护腿"在结构上的差别。</span>
+    <span class="en">Stated simplification: the gas prices and the firm's size, client count and fate are real. <strong>The two option prices ($0.10 and $0.04) are illustrative assumptions, not quotes</strong>, and not a reconstruction of the firm's actual strikes — November 2018 natural gas options were thinly traded, and this handbook infers no specific client's P/L from them. The figures exist to show the structural difference between having a wing and not having one.</span>
+  </p>
+  <p class="verdict loss"><span class="zh">亏损减少：裸卖版本在气价 $4.84 时每张亏约 $7,400 且无上限（客户最终倒欠券商）→ 加一条保护腿后，无论涨到哪里，每张最大亏损固定为约 $4,400</span><span class="en">Loss capped: naked, −$7,400 per contract at $4.84 and no ceiling (clients ended up owing the broker) → with one protective leg, a fixed $4,400 per contract no matter how high gas goes</span></p>
+</div>
+
+<!-- ============ 8.4 ============ -->
+<h2><span class="zh">8.4 墓碑三：合成的保险不是保险</span><span class="en">8.4 Headstone Three: Synthetic Insurance Isn't Insurance</span></h2>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 1987-10-19</p>
+  <h3><span class="zh">黑色星期一：当保单需要你自己去执行</span><span class="en">Black Monday: When the Policy Requires You to Execute It</span></h3>
+  <p>
+    <span class="zh">1987 年 10 月 19 日，道琼斯工业指数单日下跌 <strong>22.61%</strong>（508 点），标普 500 下跌 <strong>20.47%</strong>。这至今仍是美股历史上最大的单日跌幅，没有之一。</span>
+    <span class="en">On October 19, 1987 the Dow Jones Industrial Average fell <strong>22.61%</strong> (508 points) and the S&P 500 fell <strong>20.47%</strong>. It remains, to this day, the largest single-day decline in US market history.</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>DJIA · OCT 1987 <span class="zh">（收盘点位）</span><span class="en">(closes)</span></p>
+    <div id="case-1987"></div>
+  </div>
+  <p>
+    <span class="zh">当时市场上流行一种叫<a class="term" href="../glossary.html#portfolio-insurance">Portfolio Insurance</a>（组合保险）的策略，据估计覆盖了数百亿美元的资产。它的想法在数学上完全正确：<strong>不去市场上买 Put，而是通过"随着市场下跌、动态卖出股指期货"来<em>复制</em>一份 Put 的收益曲线</strong>。理论上这能省下保费；毕竟 Put 的价格里包含着卖方的利润。</span>
+    <span class="en">A strategy called <a class="term" href="../glossary.html#portfolio-insurance">portfolio insurance</a> was then in vogue, covering tens of billions of dollars by most estimates. Its idea is mathematically correct: <strong>rather than buying puts, <em>replicate</em> a put's payoff by dynamically selling stock index futures as the market falls</strong>. In theory this saves the premium — after all, a put's price contains the seller's profit.</span>
+  </p>
+  <p>
+    <span class="zh">复制需要一个前提：<strong>你必须能够在下跌过程中持续地、按接近模型的价格卖出。</strong>而 10 月 19 日，这个前提消失了。所有采用该策略的机构在同一时刻收到同一个卖出信号，卖压压垮了流动性；期货相对现货出现巨大折价，模型要求的成交价根本不存在。更糟的是，这些机械的卖单本身<strong>加剧了下跌，从而触发了更多卖单</strong>。事后的布雷迪报告把组合保险认定为当日跌势的主要放大器之一。</span>
+    <span class="en">Replication depends on one precondition: <strong>you must be able to keep selling, throughout the decline, at something close to model prices.</strong> On October 19 that precondition vanished. Every institution running the strategy received the same sell signal at the same moment, the selling overwhelmed liquidity, futures traded at enormous discounts to cash, and the prices the model assumed simply did not exist. Worse, the mechanical selling <strong>deepened the decline, which generated further sell signals</strong>. The subsequent Brady Commission report identified portfolio insurance as a principal amplifier of the day's crash.</span>
+  </p>
+  <p>
+    <span class="zh">这里是本章最深的一课，而且它直接回到第 1 章的定义。<strong>一份真正的 Put 是一份合约：对手方有法律义务履行，无论那天流动性如何、无论他有多不情愿。</strong>而一个复制策略只是<strong>你自己的交易能力</strong>——它在市场平静时与 Put 无异，在市场崩溃时一文不值。<strong>而这两种情形的区别，恰恰只在你需要它的那一天才显现。</strong></span>
+    <span class="en">Here is the chapter's deepest lesson, and it returns directly to Chapter 1's definitions. <strong>A real put is a contract: the counterparty is legally obliged to perform, whatever the liquidity that day and however little they'd like to.</strong> A replication strategy is merely <strong>your own ability to trade</strong> — indistinguishable from a put in calm markets, worthless in a collapse. <strong>And the difference between the two only ever reveals itself on the one day you need it.</strong></span>
+  </p>
+  <p>
+    <span class="zh">Counterfactual：一位在 1987 年 10 月初买入真 Put 的投资者。1987 年之前指数期权几乎不存在<a class="term" href="../glossary.html#skew">波动率偏斜</a>，价外 Put 相当便宜——按当时条件，一份三个月、行权价在现价下方 5% 的指数 Put，保费约为组合市值的 1.5%（<strong>示意值</strong>）。10 月 19 日之后：裸持仓单日 <strong>-20.47%</strong>；持有真 Put 的组合在 -5% 处止损，扣除约 1.5% 保费后约 <strong>-6.5%</strong>。而组合保险的使用者，得到的既不是 -6.5% 也不是 -20.47%，而是"模型说我应该被保护，但成交回报单说我没有"。</span>
+    <span class="en">Counterfactual: an investor who bought real puts in early October 1987. Before 1987, index options carried almost no <a class="term" href="../glossary.html#skew">volatility skew</a> and OTM puts were genuinely cheap — under the conditions of the time, a three-month index put struck 5% below spot cost roughly 1.5% of portfolio value (an <strong>illustrative</strong> figure). After October 19: unhedged, <strong>−20.47%</strong> on the day; with real puts, the loss floors at −5% and, net of the ~1.5% premium, lands near <strong>−6.5%</strong>. Portfolio-insurance users got neither −6.5% nor −20.47%, but rather "the model says I was hedged and the fills say I wasn't."</span>
+  </p>
+  <p>
+    <span class="zh">简化声明：指数跌幅、组合保险的规模量级与布雷迪报告的结论为真实历史。<strong>1.5% 的保费为示意值</strong>，用以说明"真 Put"与"合成 Put"在结果上的量级差异；1987 年的期权市场数据有限，此处不声称还原任何具体合约的价格。此外，一天之内的这场崩盘也会让真 Put 的持有者面临结算与对手方风险——只是当时的清算体系最终顶住了。</span>
+    <span class="en">Stated simplification: the index declines, the order of magnitude of portfolio-insurance assets, and the Brady Commission's conclusion are real history. <strong>The 1.5% premium is illustrative</strong>, used to convey the magnitude of the gap between a real put and a synthetic one; 1987 options data is sparse and no specific contract price is claimed here. Note too that a one-day crash of this size also exposed real-put holders to settlement and counterparty risk — the clearing system merely happened to hold.</span>
+  </p>
+  <p class="verdict loss"><span class="zh">亏损减少：-20.47%（裸持仓）→ 约 -6.5%（真 Put，含约 1.5% 示意保费）；而合成复制在流动性消失的那一天根本无法执行</span><span class="en">Loss reduced: −20.47% unhedged → about −6.5% with real puts (including a ~1.5% illustrative premium) — while the synthetic replication simply could not be executed on the day liquidity vanished</span></p>
+</div>
+
+<div class="note">
+  <span class="note-tag"><span class="zh">1987 年留给今天的遗产</span><span class="en">What 1987 left behind</span></span>
+  <p>
+    <span class="zh">这一天永久改变了期权市场的形状。1987 年之前，指数期权在不同 Strike 上的 IV 大致相同；此后，<strong>价外 Put 的 IV 永久性地高于价外 Call</strong>——市场从此为下跌保险索取额外的价格。这就是第 3 章提到的<a class="term" href="../glossary.html#skew">波动率偏斜</a>，它不是某个数学性质，而是<strong>一整代交易员对同一天的记忆被刻进了价格里</strong>。你今天买一份 SPY 保护性 Put 时多付的那部分钱，付的就是 1987 年 10 月 19 日。</span>
+    <span class="en">That day permanently changed the shape of the options market. Before 1987, index option IV was roughly uniform across strikes; afterwards, <strong>OTM puts have permanently carried higher IV than OTM calls</strong> — the market has charged extra for downside insurance ever since. This is Chapter 3's <a class="term" href="../glossary.html#skew">volatility skew</a>, and it is not a mathematical property but <strong>an entire generation of traders' memory of a single day, encoded into prices</strong>. The extra you pay for a protective SPY put today is a payment toward October 19, 1987.</span>
+  </p>
+</div>
+
+<!-- ============ 8.5 ============ -->
+<h2><span class="zh">8.5 三块墓碑上的同一句话</span><span class="en">8.5 The Same Sentence on All Three Headstones</span></h2>
+
+<p>
+  <span class="zh">把三个案例并排，共同点清晰得刺眼。<strong>它们都不是判断错误。</strong>XIV 的持有者相信波动率会均值回归——他们是对的，波动率确实回归了，只是 XIV 已经被清算。裸卖天然气的人相信气价会留在区间内——多年来他们都是对的。组合保险的使用者相信可以用动态对冲复制 Put——在数学上他们完全正确。</span>
+  <span class="en">Set the three side by side and the commonality is glaring. <strong>None of them was a failure of judgment.</strong> XIV's holders believed volatility mean-reverts — they were right, it did, only XIV had already been liquidated. The naked gas sellers believed prices would stay in range — for years they were right. Portfolio insurance's users believed a put could be replicated by dynamic hedging — mathematically they were entirely correct.</span>
+</p>
+
+<dl class="spec">
+  <div><dt><span class="zh">共同点 ①</span><span class="en">In common ①</span></dt><dd class="neg"><span class="zh">最坏情况没有下限</span><span class="en">A worst case with no floor</span></dd></div>
+  <div><dt><span class="zh">共同点 ②</span><span class="en">In common ②</span></dt><dd class="neg"><span class="zh">长期正确养大了仓位</span><span class="en">Long success grew the size</span></dd></div>
+  <div><dt><span class="zh">共同点 ③</span><span class="en">In common ③</span></dt><dd class="neg"><span class="zh">出事那天流动性消失</span><span class="en">Liquidity vanished on the day</span></dd></div>
+  <div><dt><span class="zh">共同点 ④</span><span class="en">In common ④</span></dt><dd class="neg"><span class="zh">没有活到自己被证明正确</span><span class="en">Didn't survive to be proven right</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">第 ② 条最值得停下来想。<strong>连续的成功不是风险的减少，它是仓位的放大器。</strong>2017 年 XIV 涨了 188%，这个数字本身就在说服每一个持有者加仓；OptionSellers 多年的平稳收益，正是它能募集到 1.5 亿美元的原因。<strong>换句话说，这些策略的崩溃规模，恰恰与它们此前的成功程度成正比。</strong>这不是巧合，是结构。</span>
+  <span class="en">The second deserves a pause. <strong>A run of success isn't a reduction in risk, it's an amplifier of size.</strong> XIV's 188% in 2017 was itself an argument to every holder for adding more; OptionSellers' years of smooth returns are exactly why it could raise $150 million. <strong>Put differently: the scale of these blow-ups was proportional to how successful they had previously been.</strong> That's not a coincidence, it's the structure.</span>
+</p>
+
+<div class="warn">
+  <span class="warn-tag"><span class="zh">"这次不一样"的正确用法</span><span class="en">The correct use of "this time is different"</span></span>
+  <p>
+    <span class="zh">读完这一章，很容易得出"永远不要做卖方"的结论。<strong>那是过度纠正，而且是错的。</strong>本手册第 2 章的 Covered Call 和 CSP 都是卖方策略，第 4 章的贷记价差、第 5 章的 Iron Condor 也是——它们全都有抵押或有保护腿。这一章反对的从来不是"卖方"，而是<strong>三个具体的东西：没有抵押、没有上限、没有仓位纪律</strong>。区分它们的方法只有一个问题，而且这个问题在开仓前一分钟就能回答：<strong>"如果标的明天跳空 30%，我会亏多少？"如果你答不出一个具体的数字，你就不该开这个仓。</strong></span>
+    <span class="en">It's easy to finish this chapter concluding "never be a seller." <strong>That's an overcorrection, and it's wrong.</strong> Chapter 2's covered calls and CSPs are selling strategies, as are Chapter 4's credit spreads and Chapter 5's iron condors — every one of them collateralized or winged. This chapter never argued against selling; it argued against <strong>three specific things: no collateral, no ceiling, no size discipline</strong>. One question separates them, and it can be answered a minute before you enter: <strong>"if the underlying gaps 30% tomorrow, how much do I lose?" If you can't produce a specific number, don't open the position.</strong></span>
+  </p>
+</div>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">2017 年底，一位持有 XIV 的投资者已经连续正确了五年，账户翻了数倍。<strong>在那个时点，有什么证据能说服他减仓？</strong>他的回测是漂亮的，他的逻辑是对的，市场每天都在奖励他。如果"过往表现"和"逻辑正确"都无法提供减仓的理由——<strong>那么仓位的上限究竟应该由什么决定？</strong>第 9 章会正面回答这个问题。</span>
+  <span class="en">At the end of 2017, an XIV holder had been right for five straight years and multiplied their account. <strong>At that moment, what evidence could have persuaded them to cut?</strong> The backtest was beautiful, the logic was sound, the market rewarded them daily. If neither past performance nor correct reasoning can supply a reason to reduce — <strong>then what should determine the size limit at all?</strong> Chapter 9 answers that directly.</span>
+</div>
+
+<!-- ============ 8.6 Quiz ============ -->
+<h2><span class="zh">8.6 本章测验</span><span class="en">8.6 Chapter Quiz</span></h2>
+<p><span class="zh">点击选项即可作答，答案与解析即时显示。</span><span class="en">Click an option to answer; the correct answer and explanation appear immediately.</span></p>
+
+<div class="quiz-set">
+
+<div class="quiz" data-answer="d">
+  <p class="q"><span class="zh">XIV 的持有者对"波动率会均值回归"的判断，事后看是对是错？</span><span class="en">In hindsight, were XIV's holders right or wrong that volatility mean-reverts?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">错的，波动率并没有回归</span><span class="en">Wrong — volatility never came back down</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">错的，做空波动率本身就不成立</span><span class="en">Wrong — shorting volatility is invalid in principle</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">对的，所以他们其实没有亏钱</span><span class="en">Right — so they didn't really lose money</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">对的，但 XIV 已被清算，他们没能活到那一天</span><span class="en">Right — but XIV was liquidated and they didn't survive to see it</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>D。</b>波动率确实在此后几周回归了常态，判断完全正确。但"加速赎回"条款让这只票据在 2 月 21 日以 $5.99 永久清算——<strong>持有者连等待的资格都没有。</strong>这就是这一章的核心：<strong>正确但没能活下来，与错误在结果上没有区别。</strong>C 混淆了"判断对"和"赚到钱"，这正是最危险的混淆。</span>
+    <span class="en"><b>D.</b> Volatility did revert to normal within weeks — the view was entirely correct. But the acceleration clause liquidated the note permanently at $5.99 on February 21: <strong>holders were never even granted the right to wait.</strong> This is the chapter's core: <strong>being right without surviving is outcome-identical to being wrong.</strong> C conflates "correct view" with "made money," which is precisely the most dangerous confusion available.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">期权买方最多亏掉全部 Premium。裸卖期权的人最多亏多少？</span><span class="en">An option buyer can lose at most the premium. What's the most a naked seller can lose?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">收到的 Premium</span><span class="en">The premium received</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">可能超过账户全部资金，形成对券商的欠款</span><span class="en">Possibly more than the entire account, leaving a debt to the broker</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">账户里的全部资金，但不会更多</span><span class="en">The whole account, but no more</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">Strike × 100</span><span class="en">Strike × 100</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>这不是理论推演，OptionSellers.com 的约 290 位客户在 2018 年 11 月真实经历了这一幕：亏损超过账户净值，清算后<strong>倒欠清算券商</strong>。C 是最普遍也最危险的误解——"最多亏光"这个直觉来自股票（股价不会低于零），但裸卖 Call 的亏损跟着股价一起上不封顶。D 只对裸卖 Put 成立（股价归零时），Call 没有这个上限。</span>
+    <span class="en"><b>B.</b> This isn't a thought experiment: roughly 290 OptionSellers.com clients lived it in November 2018 — losses exceeded account equity and, after liquidation, they <strong>owed the clearing broker</strong>. C is the most widespread and most dangerous misconception; the "worst case is zero" instinct comes from stocks (whose price has a floor), but a naked call's loss rises with the stock without limit. D holds only for a naked put (at a zero share price); calls have no such ceiling.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="c">
+  <p class="q"><span class="zh">1987 年组合保险失效的根本原因是什么？</span><span class="en">What fundamentally caused portfolio insurance to fail in 1987?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">数学模型算错了</span><span class="en">The mathematical model was wrong</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">使用者没有严格执行纪律</span><span class="en">Users failed to follow the discipline</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">复制策略依赖持续成交，而崩盘时流动性消失了</span><span class="en">Replication requires continuous execution, and liquidity vanished</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">Put 的价格太贵了</span><span class="en">Puts had become too expensive</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>C。</b>模型本身是正确的（A 错），使用者也确实按信号机械执行了（B 错——问题恰恰是<em>所有人同时</em>执行）。真正的裂缝在于一个隐含假设：<strong>"我随时能以接近模型的价格卖出"</strong>。10 月 19 日这个假设失效了。<strong>一份真 Put 是合约，对手方有法律义务履行；一个复制策略只是你自己的交易能力——而这个区别只在你最需要它的那一天才显现。</strong></span>
+    <span class="en"><b>C.</b> The model was correct (not A), and users did execute the signals mechanically (not B — the problem was that <em>everyone</em> executed simultaneously). The fracture was in an unstated assumption: <strong>"I can always sell near model prices."</strong> On October 19 that assumption failed. <strong>A real put is a contract whose counterparty is legally bound; a replication is merely your own ability to trade — and the difference only appears on the day you need it most.</strong></span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="a">
+  <p class="q"><span class="zh">两个人对 XIV 的判断完全相同，一个全仓一个 5% 仓位。2018 年 2 月 5 日之后，本质区别是什么？</span><span class="en">Two people held identical views on XIV; one went all in, the other used 5%. After February 5, 2018, what's the essential difference?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">一个被永久淘汰，一个还能继续交易</span><span class="en">One was permanently removed from the game, the other could keep trading</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">5% 仓位的那个人判断更准确</span><span class="en">The 5% trader had a more accurate view</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">5% 仓位的那个人没有亏钱</span><span class="en">The 5% trader didn't lose money</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">没有本质区别，都亏了 96%</span><span class="en">No essential difference — both lost 96%</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>A。</b>组合价值 100 → 20 vs 100 → 95.8。B 明确错误——题干说两人判断完全相同，仓位不是判断。C 也不对：5% 的人确实亏了，只是亏了约 4 个百分点。D 混淆了<strong>工具的收益率</strong>（两人都是 -96%）和<strong>组合的收益率</strong>（-80% vs -4.2%）——这正是仓位管理全部的意义所在。</span>
+    <span class="en"><b>A.</b> Portfolio values went 100 → 20 versus 100 → 95.8. B is plainly wrong — the question states their views were identical; size is not judgment. C is also wrong: the 5% trader did lose, about four points of it. D confuses <strong>the instrument's return</strong> (−96% for both) with <strong>the portfolio's return</strong> (−80% vs −4.2%) — and that distinction is the entire point of position sizing.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">读完这一章，最恰当的结论是？</span><span class="en">The most appropriate conclusion to draw from this chapter is:</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">永远不要做期权卖方</span><span class="en">Never sell options</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">卖方必须有抵押或保护腿，并且仓位要按最坏情况配置</span><span class="en">Sellers need collateral or a wing, and must size for the worst case</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">只要回测足够长就可以放心加仓</span><span class="en">A long enough backtest justifies adding size</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">波动率策略不可行</span><span class="en">Volatility strategies don't work</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>A 和 D 是过度纠正：本手册第 2、4、5、7 章的核心策略都是卖方，区别在于它们全都有抵押或有保护腿。C 恰恰是这一章要根治的思维——<strong>2017 年的 XIV 有着教科书般漂亮的回测，而漂亮的回测正是仓位失控的原因，不是安全的证据</strong>。判别标准只有一个可操作的问题："如果明天跳空 30%，我亏多少？"能报出具体数字，就是 B；报不出，就是这一章的三块墓碑。</span>
+    <span class="en"><b>B.</b> A and D are overcorrections: the core strategies of Chapters 2, 4, 5 and 7 are all selling strategies — the difference is that each is collateralized or winged. C is exactly the thinking this chapter exists to cure: <strong>XIV's 2017 backtest was textbook-beautiful, and a beautiful backtest is what causes size to run away, not evidence of safety</strong>. One operational question separates them: "if it gaps 30% tomorrow, how much do I lose?" A specific number means B. No number means one of this chapter's three headstones.</span>
+  </div>
+</div>
+
+</div>
+
+<!-- ============ takeaways ============ -->
+<h2><span class="zh">本章要点</span><span class="en">Key Takeaways</span></h2>
+<p>
+  <span class="zh">三块墓碑上刻着同一句话，而它不是"他们判断错了"。XIV 的持有者对波动率均值回归的判断是对的，只是"加速赎回"条款让他们没能活到回归发生；裸卖天然气的人对价格区间的判断多年都是对的，只是 2018 年 11 月的那一次让亏损穿透了账户底部、变成了对券商的欠款；组合保险在数学上完全正确，只是它依赖一个在崩盘日必然失效的前提——<strong>你能持续以模型价格成交</strong>。把它们拼在一起，得到的是一条比任何策略都重要的规律：<strong>连续的成功不是风险变小的证据，它是仓位的放大器</strong>，所以崩溃的规模总是与此前的成功程度成正比。这一章反对的从来不是做卖方——本手册一半的策略都是卖方——它反对的是三件具体的事：<strong>没有抵押、没有上限、没有仓位纪律</strong>。而区分它们只需要一个能在下单前一分钟回答的问题：<strong>如果明天跳空 30%，我亏多少？答不出具体数字，就不要开这个仓。</strong></span>
+  <span class="en">All three headstones carry the same sentence, and it isn't "they were wrong." XIV's holders were right that volatility mean-reverts; an acceleration clause simply ensured they weren't around when it did. The naked gas sellers were right about the price range for years; November 2018 merely pushed the loss through the floor of the account and turned it into a debt to the broker. Portfolio insurance was mathematically correct; it just rested on a precondition guaranteed to fail on a crash day — <strong>that you can keep transacting at model prices</strong>. Assembled, they yield a rule more important than any strategy: <strong>a run of success is not evidence that risk has fallen, it is an amplifier of size</strong> — which is why the scale of a blow-up is always proportional to the success that preceded it. This chapter never argued against selling; half the strategies in this handbook are selling strategies. It argues against three specific things: <strong>no collateral, no ceiling, no size discipline</strong>. And one question, answerable a minute before you enter, separates them: <strong>if it gaps 30% tomorrow, how much do I lose? No specific number means no position.</strong></span>
+</p>
+
+<nav class="chap-nav">
+  <a href="07-wheel.html">← <span class="zh">第 7 章 Wheel 系统</span><span class="en">Ch.7 The Wheel</span></a>
+  <a href="09-sizing-discipline.html"><span class="zh">第 9 章 仓位与纪律 →</span><span class="en">Ch.9 Sizing and Discipline →</span></a>
+</nav>
+
+</main>
+
+<script src="../assets/i18n.js"></script>
+<script src="../assets/payoff.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  CaseChart.mount('case-xiv', {
+    labels: ['17-01', '17-06', '17-12', '18-01', '02-02', '02-05', '02-06', '02-21'],
+    series: [
+      { name: { zh: '全仓', en: 'All in' }, color: '#FF6A55', data: [100, 214, 333, 389, 319, 275, 20, 17] },
+      { name: { zh: '5% 仓位', en: '5% size' }, color: '#3CDFA3', data: [100, 105.7, 111.7, 114.4, 111, 108.8, 96, 95.8] }
+    ],
+    events: [{ i: 6, text: { zh: '一夜 -96%', en: '−96% overnight' } }],
+    yfmt: function (v) { return v.toFixed(0); }
+  });
+
+  Payoff.mount('pf-naked', {
+    legs: [{ kind: 'call', side: -1, strike: 4, premium: 0.1 }],
+    range: [3, 6],
+    xlabel: '天然气价格 Natural gas price',
+    ylabel: '每单位盈亏 P/L per unit',
+    controls: [
+      { leg: 0, prop: 'strike', min: 3.5, max: 5.5, step: 0.1, label: { zh: 'Strike 行权价', en: 'Strike' } }
+    ]
+  });
+
+  Payoff.mount('pf-natgas-spread', {
+    legs: [
+      { kind: 'call', side: -1, strike: 4, premium: 0.1 },
+      { kind: 'call', side: 1, strike: 4.5, premium: 0.04 }
+    ],
+    range: [3, 6],
+    xlabel: '天然气价格 Natural gas price',
+    ylabel: '每单位盈亏 P/L per unit',
+    controls: [
+      { leg: 1, prop: 'strike', min: 4.1, max: 5.5, step: 0.1, label: { zh: '保护腿 Strike（决定亏损上限）', en: 'Wing strike (sets the loss ceiling)' } }
+    ]
+  });
+
+  CaseChart.mount('case-natgas', {
+    labels: ['11-01', '11-07', '11-12', '11-13', '11-14', '11-15', '11-30'],
+    series: [
+      { name: { zh: '天然气', en: 'Nat gas' }, color: '#FF6A55', data: [3.23, 3.55, 3.72, 4.05, 4.84, 4.44, 4.61] }
+    ],
+    events: [{ i: 4, text: { zh: '单日 +18%', en: '+18% in a day' } }],
+    yfmt: function (v) { return '$' + v.toFixed(1); }
+  });
+
+  CaseChart.mount('case-1987', {
+    labels: ['10-05', '10-09', '10-14', '10-15', '10-16', '10-19', '10-20', '10-21'],
+    series: [
+      { name: { zh: '道指', en: 'DJIA' }, color: '#FF6A55', data: [2640, 2482, 2413, 2355, 2246.74, 1738.74, 1841.01, 2027.85] }
+    ],
+    events: [{ i: 5, text: { zh: '黑色星期一', en: 'Black Monday' } }],
+    yfmt: function (v) { return (v / 1000).toFixed(1) + 'k'; }
+  });
+
+});
+</script>
+</body>
+</html>
