@@ -112,6 +112,26 @@
     <span class="zh">IV 每变动 1 个百分点，期权价格变动多少。财报前买期权就是在做多 Vega——而 IV Crush 正是 Vega 的反噬。</span>
     <span class="en">Option price change per one-point move in IV. Buying pre-earnings options is a long-vega bet — and IV crush is vega's revenge.</span></td></tr>
 
+  <tr id="skew"><td class="t">Volatility Skew</td><td class="c">波动率偏斜</td><td>
+    <span class="zh">同一到期日、不同 Strike 的 IV 并不相同。股指期权的价外 Put 的 IV 通常显著高于价外 Call——市场为下跌保险付的钱更多。1987 年黑色星期一之后才形成的现象。</span>
+    <span class="en">IV differs across strikes at the same expiry. In index options, OTM puts carry markedly higher IV than OTM calls — the market pays more for downside insurance. The pattern only emerged after Black Monday 1987.</span></td></tr>
+
+  <tr id="delta-hedge"><td class="t">Delta Hedging</td><td class="c">Delta 对冲</td><td>
+    <span class="zh">通过买卖正股把头寸的 Delta 抵消至零，从而只保留波动率暴露。做市商的日常工作；也是 <a class="term" href="#gamma-squeeze">Gamma Squeeze</a> 中被迫买入的那股力量。</span>
+    <span class="en">Buying or selling the underlying to cancel a position's delta, leaving only volatility exposure. A market maker's daily job — and the forced buying behind a <a class="term" href="#gamma-squeeze">gamma squeeze</a>.</span></td></tr>
+
+  <tr id="vix"><td class="t">VIX</td><td class="c">波动率指数</td><td>
+    <span class="zh">由标普 500 期权价格反推的未来 30 天预期波动率，俗称"恐慌指数"。把它读成<strong>保单价格指数</strong>更准确：长期均值约 19，2020 年 3 月曾收在 82.69。</span>
+    <span class="en">Expected 30-day S&P 500 volatility implied by option prices — the "fear index." More accurately read as an <strong>insurance price index</strong>: long-run average near 19, with a 82.69 close in March 2020.</span></td></tr>
+
+  <tr id="realized-vol"><td class="t">Realized Volatility</td><td class="c">实际波动率</td><td>
+    <span class="zh">标的<em>已经</em>走出的波动幅度（历史数据算出）。与 IV 的差额是期权卖方的真实利润来源：卖方赚钱的条件是 IV &gt; 实际波动率，而不是"股价不动"。</span>
+    <span class="en">How much the underlying <em>actually</em> moved, computed from history. The gap against IV is an option seller's true source of profit: sellers win when IV exceeds realized volatility, not when the stock stands still.</span></td></tr>
+
+  <tr id="iv-rank"><td class="t">IV Rank / Percentile</td><td class="c">IV 分位</td><td>
+    <span class="zh">当前 IV 在过去一年区间中的相对位置（0–100）。回答"现在的期权是贵还是便宜"——绝对的 IV 数字在不同标的间不可比，分位数可以。</span>
+    <span class="en">Where current IV sits within its own trailing-year range (0–100). It answers "are options expensive right now" — absolute IV is not comparable across underlyings, but the rank is.</span></td></tr>
+
   <tr id="assignment"><td class="t">Assignment</td><td class="c">行权指派</td><td>
     <span class="zh">卖方被要求履行义务：Short Put 被指派要按 Strike 买入 100 股，Short Call 被指派要按 Strike 交出 100 股。</span>
     <span class="en">The seller being called to perform: an assigned short put must buy 100 shares at the strike; an assigned short call must deliver 100 shares at the strike.</span></td></tr>

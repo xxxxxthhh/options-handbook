@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.03 Greeks · Options Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../index.html"><b>OPTIONS</b>/HANDBOOK</a>
+  <div class="spacer"></div>
+  <nav>
+    <a href="../index.html"><span class="zh">目录</span><span class="en">Contents</span></a>
+    <a href="../glossary.html">Glossary</a>
+  </nav>
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button data-lang="zh" aria-pressed="true">中</button>
+    <button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main class="page">
+
+<p class="eyebrow">Chapter 03 · The Greeks</p>
+<h1><span class="zh">Greeks：读懂期权的仪表盘</span><span class="en">The Greeks: Reading the Instrument Panel</span></h1>
+<p class="lede">
+  <span class="zh">第 1 章说期权价格由三个旋钮支配：距离、时间、波动率。Greeks 就是这三个旋钮的<strong>刻度表</strong>——它们回答的不是"会涨吗"，而是"每转动一格，我的仓位会动多少"。看不懂仪表盘的人，是在盲飞。</span>
+  <span class="en">Chapter 1 said an option's price is governed by three dials: distance, time, volatility. The Greeks are those dials' <strong>gauges</strong> — they answer not "will it go up" but "how much does my position move per notch." Fly without reading them and you are flying blind.</span>
+</p>
+
+<!-- ============ 3.1 ============ -->
+<h2><span class="zh">3.1 仪表盘的意义：Greeks 是灵敏度，不是预测</span><span class="en">3.1 What the Panel Is For: Sensitivities, Not Forecasts</span></h2>
+
+<p>
+  <span class="zh">最常见的误解，是把 Greeks 当成信号。"Delta 高所以要买"、"Theta 为正所以稳赚"——这两句话都错得很彻底。<strong>Greeks 不预测任何事，它们只描述"如果某件事发生，你的仓位会怎样"。</strong>Delta 0.6 不代表股价会涨，它只说：<em>如果</em>股价涨 $1，你的期权大约涨 $0.60。</span>
+  <span class="en">The most common misreading is to treat the Greeks as signals. "High delta, so buy" or "positive theta, so it's free money" are both thoroughly wrong. <strong>The Greeks forecast nothing; they describe what happens to your position <em>if</em> something happens.</strong> A 0.6 delta does not say the stock will rise — it says: <em>if</em> the stock rises $1, your option gains roughly $0.60.</span>
+</p>
+
+<p>
+  <span class="zh">这个区别有实际后果。仪表盘的正确用法是<strong>在开仓前做压力测试</strong>：股价跌 5% 我亏多少？IV 回落 10 个点我亏多少？放一周不动我亏多少？这三个问题分别由 Delta、Vega、Theta 回答，而且能在下单之前算出来。<strong>期权交易里绝大多数"意外"，都是本来可以在开仓前用四个数字算清楚的事。</strong></span>
+  <span class="en">The distinction has practical consequences. The right use of the panel is to <strong>stress-test before you enter</strong>: what do I lose if the stock drops 5%? If IV falls 10 points? If I simply hold for a week? Delta, vega, and theta answer those three, and all of them can be computed before you click buy. <strong>Nearly every "surprise" in options trading was something four numbers could have told you in advance.</strong></span>
+</p>
+
+<dl class="spec">
+  <div><dt><a class="term" href="../glossary.html#delta">Delta</a></dt><dd><span class="zh">股价动 $1 → 期权动多少</span><span class="en">Per $1 of stock</span></dd></div>
+  <div><dt><a class="term" href="../glossary.html#gamma">Gamma</a></dt><dd><span class="zh">股价动 $1 → Delta 动多少</span><span class="en">Per $1, how delta moves</span></dd></div>
+  <div><dt><a class="term" href="../glossary.html#theta">Theta</a></dt><dd><span class="zh">过一天 → 期权动多少</span><span class="en">Per day elapsed</span></dd></div>
+  <div><dt><a class="term" href="../glossary.html#vega">Vega</a></dt><dd><span class="zh">IV 动 1 点 → 期权动多少</span><span class="en">Per 1 IV point</span></dd></div>
+</dl>
+
+<div class="note">
+  <span class="note-tag"><span class="zh">关于本章的所有曲线</span><span class="en">About every curve in this chapter</span></span>
+  <p>
+    <span class="zh">下面的 Greeks 曲线均由 Black-Scholes 模型计算，输入已固定为：Strike $100、波动率 30%、无风险利率 4%、不含分红，横轴为股价。<strong>它们是模型输出，不是市场报价</strong>——真实期权链会因为<a class="term" href="../glossary.html#skew">波动率偏斜</a>、分红和流动性而偏离。但形状是对的，而形状正是这一章要教的东西。</span>
+    <span class="en">Every Greek curve below is computed from the Black-Scholes model with fixed inputs: $100 strike, 30% volatility, 4% risk-free rate, no dividend, with spot price on the horizontal axis. <strong>These are model outputs, not market quotes</strong> — a real chain will deviate because of <a class="term" href="../glossary.html#skew">volatility skew</a>, dividends and liquidity. But the shapes are right, and the shapes are what this chapter teaches.</span>
+  </p>
+</div>
+
+<!-- ============ 3.2 Delta ============ -->
+<h2><span class="zh">3.2 Delta：一个数字，两重身份</span><span class="en">3.2 Delta: One Number, Two Identities</span></h2>
+
+<dl class="spec">
+  <div><dt><span class="zh">Call 范围</span><span class="en">Call range</span></dt><dd class="pos">0 → +1</dd></div>
+  <div><dt><span class="zh">Put 范围</span><span class="en">Put range</span></dt><dd class="neg">−1 → 0</dd></div>
+  <div><dt><span class="zh">身份一</span><span class="en">Identity 1</span></dt><dd><span class="zh">方向暴露（等效股数）</span><span class="en">Directional exposure</span></dd></div>
+  <div><dt><span class="zh">身份二</span><span class="en">Identity 2</span></dt><dd><span class="zh">到期 ITM 的粗略概率</span><span class="en">Rough odds of finishing ITM</span></dd></div>
+  <div><dt><span class="zh">股票的 Delta</span><span class="en">Stock's delta</span></dt><dd>1.00</dd></div>
+</dl>
+
+<p>
+  <span class="zh">Delta 的第一重身份是<strong>方向暴露</strong>。一张 0.60 Delta 的 Call 对应 100 股，等效于持有 60 股正股——这句话让你可以把期权和股票放进同一个尺子里衡量。手里有 300 股 AAPL 加上三张 0.40 Delta 的 Call？你的实际方向暴露是 300 + 120 = 420 股。<strong>这是唯一正确的"我到底承担了多少方向风险"的算法。</strong></span>
+  <span class="en">Delta's first identity is <strong>directional exposure</strong>. One 0.60-delta call covers 100 shares and is equivalent to holding 60 — which lets you measure options and stock on one ruler. Hold 300 AAPL shares plus three 0.40-delta calls? Your real directional exposure is 300 + 120 = 420 shares. <strong>This is the only correct way to answer "how much directional risk am I actually carrying."</strong></span>
+</p>
+
+<p>
+  <span class="zh">第二重身份是<strong>概率代理</strong>：0.30 Delta 的期权，大致有 30% 的概率在到期时是 <a class="term" href="../glossary.html#itm">ITM</a> 的。这个近似不精确（它其实对应模型里的另一个量），但足够好用——它是你判断"这张 Put 有多大概率被指派"的第一手工具。第 4 章说的"短腿放在 0.15–0.30 Delta"，用的就是这重身份。</span>
+  <span class="en">The second identity is a <strong>probability proxy</strong>: a 0.30-delta option has roughly a 30% chance of finishing <a class="term" href="../glossary.html#itm">ITM</a>. The approximation isn't exact (it actually corresponds to a slightly different quantity in the model) but it's good enough to use — it's your first-line tool for "how likely is this put to be assigned." Chapter 4's "place the short leg at 0.15–0.30 delta" is this identity at work.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>DELTA <span class="zh">（Call，横轴为股价，Strike $100）</span><span class="en">(call, spot on x-axis, $100 strike)</span></p>
+  <div id="case-delta"></div>
+</div>
+
+<p>
+  <span class="zh">请仔细看这两条线的差别，它是本章后面一切的种子。60 天的 Delta 是一条<strong>平缓的 S 形</strong>：股价从 $90 到 $110，Delta 从 0.23 走到 0.82，一路渐变。7 天的 Delta 却几乎是一个<strong>台阶</strong>：$95 时才 0.12，$100 时 0.52，$105 时已经 0.89。<strong>同一张合约，临近到期时对股价的反应从"渐变"变成了"开关"。</strong>这个从平滑到陡峭的转变，有一个名字。</span>
+  <span class="en">Look carefully at the difference between these two lines — it is the seed of everything that follows. The 60-day delta is a <strong>gentle S-curve</strong>: from $90 to $110 it travels from 0.23 to 0.82, gradually. The 7-day delta is very nearly a <strong>step</strong>: 0.12 at $95, 0.52 at $100, already 0.89 at $105. <strong>The same contract, near expiry, stops responding to the stock like a dimmer and starts responding like a switch.</strong> That transition from smooth to steep has a name.</span>
+</p>
+
+<!-- ============ 3.3 Gamma ============ -->
+<h2><span class="zh">3.3 Gamma：Delta 的加速度</span><span class="en">3.3 Gamma: The Acceleration of Delta</span></h2>
+
+<dl class="spec">
+  <div><dt><span class="zh">定义</span><span class="en">Definition</span></dt><dd><span class="zh">Delta 的变化率</span><span class="en">Rate of change of delta</span></dd></div>
+  <div><dt><span class="zh">最大处</span><span class="en">Peaks at</span></dt><dd><span class="zh">ATM，且临近到期</span><span class="en">ATM, near expiry</span></dd></div>
+  <div><dt><span class="zh">买方</span><span class="en">Buyer</span></dt><dd class="pos"><span class="zh">Gamma 为正（朋友）</span><span class="en">Long gamma (friend)</span></dd></div>
+  <div><dt><span class="zh">卖方</span><span class="en">Seller</span></dt><dd class="neg"><span class="zh">Gamma 为负（敌人）</span><span class="en">Short gamma (enemy)</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">如果 Delta 是速度，Gamma 就是加速度。它衡量"股价再动 $1，我的 Delta 会变成多少"。买方永远是 Gamma 为正的一方：<strong>股价朝你走，你的 Delta 自动变大，赚得越来越快；股价背你而去，Delta 自动缩小，亏得越来越慢。</strong>这个"自动加仓、自动减仓"的特性，是期权买方最珍贵的东西，也是那笔 Premium 真正买到的东西。</span>
+  <span class="en">If delta is speed, gamma is acceleration: how much your delta changes per further $1 in the stock. Buyers are always long gamma: <strong>when the stock moves your way your delta grows on its own, so you make money faster; when it moves against you your delta shrinks, so you lose more slowly.</strong> This automatic scaling in and out is the most valuable property an option buyer has — and it is what the premium actually bought.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>GAMMA <span class="zh">（×100，注意 7 天曲线的尖峰）</span><span class="en">(×100 — note the 7-day spike)</span></p>
+  <div id="case-gamma"></div>
+</div>
+
+<p>
+  <span class="zh">这张图解释了期权世界里最危险的现象之一。60 天的 Gamma 峰值约 3.3，分布得很宽；7 天的 Gamma 在 ATM 处飙到约 <strong>9.6</strong>，几乎是三倍，但只集中在 Strike 附近很窄的一段。<strong>这就是"到期周的 ATM 期权像手榴弹"的数学解释</strong>：股价一个小小的波动，就能让 Delta 从 0.3 翻到 0.7。对买方这是天堂，对卖方——尤其是<a class="term" href="../glossary.html#naked">裸卖</a>方——这是最容易把小亏变成大亏的地带。</span>
+  <span class="en">This chart explains one of the most dangerous phenomena in options. At 60 days gamma peaks near 3.3 and is spread wide; at 7 days it spikes to about <strong>9.6</strong> at the money — nearly triple — but concentrated in a narrow band around the strike. <strong>This is the mathematics behind "expiry-week ATM options are hand grenades"</strong>: a small wiggle in the stock can take delta from 0.3 to 0.7. For buyers that's heaven; for sellers — especially <a class="term" href="../glossary.html#naked">naked</a> ones — it is the zone where small losses most easily become large ones.</span>
+</p>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2021-01</p>
+  <h3><span class="zh">GameStop：当 Gamma 开始自我实现</span><span class="en">GameStop: When Gamma Becomes Self-Fulfilling</span></h3>
+  <p>
+    <span class="zh">2021 年 1 月 4 日，GME 收盘 $17.25。1 月 27 日，它收在 $347.51；次日盘中触及 $483。18 个交易日，<strong>+1,915%</strong>。这不是一个基本面故事，而是一个 Gamma 故事。</span>
+    <span class="en">On January 4, 2021, GME closed at $17.25. On January 27 it closed at $347.51, and touched $483 intraday the next day. Eighteen sessions, <strong>+1,915%</strong>. This was not a fundamentals story. It was a gamma story.</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>GME · JAN 2021 <span class="zh">（收盘价）</span><span class="en">(closes)</span></p>
+    <div id="case-gme"></div>
+  </div>
+  <p>
+    <span class="zh">机制是这样的：散户大量买入价外 Call。<strong>卖出这些 Call 的做市商并不想赌方向</strong>——他们通过买入相应比例的正股来<a class="term" href="../glossary.html#delta-hedge">对冲 Delta</a>。而 Delta 会随股价上升而上升，所以股价每涨一点，做市商就必须<strong>再买一点股票</strong>；这些买盘推高股价，又进一步抬升 Delta，又需要买更多。<strong>正反馈闭合了。</strong></span>
+    <span class="en">The mechanism: retail bought out-of-the-money calls in volume. <strong>The market makers selling those calls did not want a directional bet</strong> — they <a class="term" href="../glossary.html#delta-hedge">hedged the delta</a> by buying a matching fraction of the shares. But delta rises as the stock rises, so every uptick forced the market makers to <strong>buy more stock</strong>; that buying pushed the price higher, which lifted delta again, which required still more buying. <strong>The feedback loop closed.</strong></span>
+  </p>
+  <p>
+    <span class="zh">用数字看这个闭环。取一张 30 天到期、Strike $60 的 GME Call，按当时极端的 IV（约 150%）计算：股价 $40 时 Delta 约 <strong>0.23</strong>，$60 时 <strong>0.59</strong>，$80 时 <strong>0.81</strong>，$150 时 <strong>0.99</strong>。做市商若卖出 1 万张这样的合约（对应 100 万股），仅仅从 $40 涨到 $80 这一段，就必须从对冲 23 万股加仓到对冲 81 万股——<strong>在一只流通盘本就紧张的股票上，被迫买入 58 万股</strong>。买入推高股价，股价再抬 Delta，循环继续。这就是 <a class="term" href="../glossary.html#gamma-squeeze">Gamma Squeeze</a>。</span>
+    <span class="en">Put numbers on the loop. Take a 30-day GME call struck at $60, priced at the extreme IV of the time (about 150%): at a $40 stock its delta is roughly <strong>0.23</strong>; at $60, <strong>0.59</strong>; at $80, <strong>0.81</strong>; at $150, <strong>0.99</strong>. A market maker short 10,000 such contracts (one million shares) must, over the move from $40 to $80 alone, go from hedging 230,000 shares to hedging 810,000 — <strong>forced to buy 580,000 shares in a stock whose float was already tight</strong>. The buying lifts the price, the price lifts delta, and round it goes. That is a <a class="term" href="../glossary.html#gamma-squeeze">gamma squeeze</a>.</span>
+  </p>
+  <p>
+    <span class="zh">简化声明：GME 收盘价为真实历史数据。Delta 数值由 Black-Scholes 按 IV 150%、30 天到期计算，是<strong>说明机制的模型值</strong>；"1 万张合约"为示意规模，用于展示对冲买盘的量级，不是对任何一家做市商实际持仓的描述。</span>
+    <span class="en">Stated simplification: the GME closes are real. The delta figures are Black-Scholes values at 150% IV and 30 days — <strong>model numbers illustrating the mechanism</strong>; the "10,000 contracts" is an illustrative size used to show the order of magnitude of hedging demand, not a description of any actual market maker's book.</span>
+  </p>
+  <p class="verdict gain"><span class="zh">利润扩大：正股 +1,915%，而同一张 Call 的 Delta 从 0.23 升到 0.99——敏感度翻了四倍，非线性正来自 Gamma</span><span class="en">Profit amplified: the stock +1,915%, while the same call's delta ran 0.23 → 0.99 — sensitivity quadrupled, and the nonlinearity is gamma</span></p>
+</div>
+
+<div class="warn">
+  <span class="warn-tag"><span class="zh">Gamma 是一把双刃剑，而且反面更常见</span><span class="en">Gamma cuts both ways, and the reverse is more common</span></span>
+  <p>
+    <span class="zh">GameStop 让人记住了 Gamma 的爆发力，却容易让人忘记它的常态。<strong>Gamma 为正的代价是 Theta 为负</strong>——买方每天都在为这份加速度付租金。绝大多数买入 OTM 周期权的人，等不到 Gamma 发威就已经被 Theta 磨光了。反过来，卖方拿的是 Theta 的租金，付的是 Gamma 的保险：99 天平安无事，第 100 天股价跳空，负 Gamma 会在几分钟内把前面 99 天的收益一次还清。<strong>2021 年 1 月站在 GME Call 卖方的人，赚了几个月的 Theta，输了一个星期的 Gamma。</strong></span>
+    <span class="en">GameStop makes people remember gamma's explosiveness and forget its ordinary state. <strong>The price of positive gamma is negative theta</strong> — buyers pay daily rent for that acceleration. Most people buying OTM weeklies are ground down by theta long before gamma ever gets to work. Inverted: the seller collects theta's rent and pays gamma's insurance — 99 quiet days, then a gap on the hundredth, and negative gamma repays all 99 days of income in minutes. <strong>Whoever was short GME calls in January 2021 earned months of theta and lost a single week of gamma.</strong></span>
+  </p>
+</div>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">Gamma Squeeze 需要三个条件同时成立：大量集中的 OTM Call 买盘、做市商机械地对冲、以及标的流通盘不足以吸收对冲买入。<strong>这三个条件里，哪一个是散户可以制造的，哪一个不是？</strong>如果只有一个能被制造，那么"复制 GameStop"这件事的真实成功率是多少？</span>
+  <span class="en">A gamma squeeze needs three conditions at once: heavy concentrated OTM call buying, mechanical dealer hedging, and a float too small to absorb the hedge. <strong>Which of the three can retail actually manufacture, and which cannot?</strong> If only one can, what is the real success rate of "recreating GameStop"?</span>
+</div>
+
+<!-- ============ 3.4 Theta ============ -->
+<h2><span class="zh">3.4 Theta：每天流逝的租金</span><span class="en">3.4 Theta: The Rent That Runs Every Day</span></h2>
+
+<dl class="spec">
+  <div><dt><span class="zh">定义</span><span class="en">Definition</span></dt><dd><span class="zh">每过一天损失的价值</span><span class="en">Value lost per day</span></dd></div>
+  <div><dt><span class="zh">买方</span><span class="en">Buyer</span></dt><dd class="neg"><span class="zh">负（每天付租）</span><span class="en">Negative (pays rent)</span></dd></div>
+  <div><dt><span class="zh">卖方</span><span class="en">Seller</span></dt><dd class="pos"><span class="zh">正（每天收租）</span><span class="en">Positive (collects rent)</span></dd></div>
+  <div><dt><span class="zh">加速点</span><span class="en">Accelerates</span></dt><dd><span class="zh">最后 30 天</span><span class="en">Final 30 days</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">Theta 是唯一一个<strong>确定会发生</strong>的 Greek。股价可能涨可能跌，IV 可能升可能降，但时间只朝一个方向走。所以 Theta 是期权里唯一不需要预测的东西——也正因为如此，它是卖方策略的全部收入来源。</span>
+  <span class="en">Theta is the only Greek that is <strong>certain to happen</strong>. The stock may rise or fall, IV may expand or collapse, but time runs one way only. So theta is the one thing in options that requires no forecast — which is precisely why it is the entire revenue line of every selling strategy.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>THETA <span class="zh">（期权价值随剩余天数衰减，股价固定 $100）</span><span class="en">(option value vs. days left, spot pinned at $100)</span></p>
+  <div id="case-theta"></div>
+</div>
+
+<p>
+  <span class="zh">两件事值得从这张图里读出来。<strong>第一，衰减是加速的，不是线性的。</strong>那张 ATM 的 Call 在 90 天时值 $6.41，每天流失约 $0.038；到只剩 10 天时，每天流失约 <strong>$0.104</strong>——速度快了近三倍。所谓"最后 30 天最凶险"不是江湖传说，是曲线的形状。</span>
+  <span class="en">Two things to read off this chart. <strong>First, decay accelerates; it is not linear.</strong> That ATM call is worth $6.41 at 90 days and bleeds about $0.038 a day; with 10 days left it bleeds roughly <strong>$0.104</strong> a day — nearly three times faster. "The last 30 days are the cruel ones" isn't folklore, it's the shape of the curve.</span>
+</p>
+
+<p>
+  <span class="zh"><strong>第二，OTM 期权的衰减比 ATM 残酷得多。</strong>从 90 天走到 30 天，ATM 的 Call 保住了原值的 <strong>56%</strong>，而 $110 的 OTM Call 只剩 <strong>24%</strong>——在股价<em>完全没动</em>的前提下。这就是"买彩票"策略的真实成本结构：你不仅需要方向对，还需要它<strong>快点对</strong>。等待本身就是一项持续支出。</span>
+  <span class="en"><strong>Second, OTM options decay far more brutally than ATM ones.</strong> Going from 90 days to 30, the ATM call retains <strong>56%</strong> of its value while the $110 OTM call retains just <strong>24%</strong> — with the stock <em>not moving at all</em>. That is the true cost structure of the lottery-ticket trade: you need to be right, and you need to be right <strong>soon</strong>. Waiting is itself an ongoing expense.</span>
+</p>
+
+<div class="note">
+  <span class="note-tag"><span class="zh">Theta 陷阱：正的 Theta 不等于正的期望</span><span class="en">The theta trap: positive theta ≠ positive expectancy</span></span>
+  <p>
+    <span class="zh">"我的组合每天收 $50 Theta"是新手最容易上瘾的一句话。但请把它和第 4 章的赔率算术放在一起看：<strong>Theta 是你收到的租金，Gamma 是你承担的风险，市场大致把两者定价成公平交换。</strong>每天稳定收租的账户，正在积累一个不显示在日报表上的负债。真正的问题从来不是"我收了多少 Theta"，而是"如果明天跳空 8%，我要还回去多少天的 Theta"。</span>
+    <span class="en">"My book collects $50 of theta a day" is the sentence beginners get addicted to. Put it next to Chapter 4's payoff arithmetic: <strong>theta is the rent you receive, gamma is the risk you carry, and the market prices the two as roughly a fair swap.</strong> An account collecting steady rent is accumulating a liability that never appears on the daily statement. The real question is never "how much theta did I collect" but "if tomorrow gaps 8%, how many days of theta do I hand back?"</span>
+  </p>
+</div>
+
+<!-- ============ 3.5 Vega ============ -->
+<h2><span class="zh">3.5 Vega：你真正在交易的东西</span><span class="en">3.5 Vega: What You Are Actually Trading</span></h2>
+
+<dl class="spec">
+  <div><dt><span class="zh">定义</span><span class="en">Definition</span></dt><dd><span class="zh">IV 每变动 1 点的价格变化</span><span class="en">Price change per 1 IV point</span></dd></div>
+  <div><dt><span class="zh">买方</span><span class="en">Buyer</span></dt><dd class="pos"><span class="zh">做多波动率</span><span class="en">Long volatility</span></dd></div>
+  <div><dt><span class="zh">卖方</span><span class="en">Seller</span></dt><dd class="neg"><span class="zh">做空波动率</span><span class="en">Short volatility</span></dd></div>
+  <div><dt><span class="zh">最大处</span><span class="en">Largest at</span></dt><dd><span class="zh">ATM，且到期日越远越大</span><span class="en">ATM, and grows with time</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">这是本章最重要的一节。多数人以为自己在交易方向，实际上他们在交易波动率。<strong>当你买入一张期权，你同时下了两个赌注：股价往哪走（Delta），以及市场对"能走多远"的预期会怎么变（Vega）。</strong>第二个赌注常常比第一个大——尤其在事件前后。</span>
+  <span class="en">This is the most important section in the chapter. Most people think they are trading direction; they are in fact trading volatility. <strong>When you buy an option you place two bets at once: where the stock goes (delta), and how the market's expectation of how far it can go will change (vega).</strong> The second bet is frequently larger than the first — especially around events.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>VEGA <span class="zh">（时间越短，Vega 越小——保护也越"纯"）</span><span class="en">(less time, less vega — protection gets "purer")</span></p>
+  <div id="case-vega"></div>
+</div>
+
+<p>
+  <span class="zh">注意 Vega 与 Gamma 的<strong>相反关系</strong>：Gamma 在临近到期时飙升，Vega 却在临近到期时萎缩（ATM 处从 60 天的 0.161 降到 7 天的 0.055）。这个对比给出一条极实用的规则——<strong>想赌方向和爆发，买近月（高 Gamma、低 Vega）；想赌波动率本身，买远月（高 Vega、低 Gamma）。</strong>买错了期限，你就在赌一个自己没打算赌的东西。</span>
+  <span class="en">Note that vega and gamma run <strong>opposite</strong>: gamma spikes into expiry while vega shrinks into it (at the money, from 0.161 at 60 days to 0.055 at 7). That contrast yields a very practical rule — <strong>to bet on direction and explosiveness, buy near-dated (high gamma, low vega); to bet on volatility itself, buy longer-dated (high vega, low gamma).</strong> Choose the wrong tenor and you are betting on something you never intended to bet on.</span>
+</p>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2024-08</p>
+  <h3><span class="zh">日元套息平仓夜：方向对了，仓位亏了 42%</span><span class="en">The Yen Carry Unwind: Right on Direction, Down 42%</span></h3>
+  <p>
+    <span class="zh">2024 年 8 月 5 日是近年最纯粹的一堂 Vega 课。日本央行 7 月 31 日加息，叠加 8 月 2 日疲弱的美国就业数据，触发了日元套息交易的集中平仓。日经 225 当日暴跌 <strong>12.4%</strong>（-4,451 点，该指数历史上最大的单日点数跌幅）；标普 500 下跌 <strong>3.0%</strong>；VIX 从 8 月 2 日收盘的 <strong>23.39</strong> 盘中一度冲到约 <strong>65</strong>，收在 <strong>38.57</strong>。</span>
+    <span class="en">August 5, 2024 was the purest vega lesson in recent memory. A Bank of Japan hike on July 31, compounded by a weak US jobs report on August 2, triggered a concentrated unwind of the yen carry trade. The Nikkei 225 fell <strong>12.4%</strong> that day (−4,451 points, the largest single-day point decline in its history); the S&P 500 dropped <strong>3.0%</strong>; the VIX went from a <strong>23.39</strong> close on August 2 to roughly <strong>65</strong> intraday, settling at <strong>38.57</strong>.</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>VIX · AUG 2024 <span class="zh">（收盘，约值）</span><span class="en">(closes, approx.)</span></p>
+    <div id="case-vix2024"></div>
+  </div>
+  <p>
+    <span class="zh">现在跟着一个在 8 月 5 日恐慌中买入保护的人走一遍。他买入一张 30 天到期的 ATM SPY Put（SPY 约 $517.5，IV 约 38.6%），成本约 <strong>$21.74</strong>。次日，8 月 6 日：SPY 只反弹了约 1.1% 到 $523，但 VIX 从 38.57 塌到 27.71。同一张 Put 的价值变成约 <strong>$12.67</strong>——<strong>一夜 -42%</strong>。</span>
+    <span class="en">Now walk through someone who bought protection into the panic on August 5: one 30-day ATM SPY put (SPY around $517.5, IV about 38.6%), costing roughly <strong>$21.74</strong>. The next day, August 6: SPY recovered only about 1.1% to $523, but the VIX collapsed from 38.57 to 27.71. That same put was worth about <strong>$12.67</strong> — <strong>−42% overnight</strong>.</span>
+  </p>
+  <p>
+    <span class="zh">把亏损拆开看，结论很刺眼。这张 Put 的 Vega 约 <strong>$0.59</strong>/点，IV 跌了 10.9 个点，<strong>仅 Vega 一项就吃掉 $6.42</strong>——占全部 $9.07 亏损的约 <strong>71%</strong>。剩下的才是股价反弹和一天 Theta 的贡献。<strong>这个人对"市场处于危险中"的判断并没有错（后续两周市场仍在震荡），他只是在保险最贵的那一刻买了保险。</strong></span>
+    <span class="en">Decompose the loss and the conclusion stings. That put's vega was about <strong>$0.59</strong> per point; IV fell 10.9 points, so <strong>vega alone accounts for $6.42</strong> — roughly <strong>71%</strong> of the total $9.07 loss. The stock's bounce and one day of theta explain the rest. <strong>This person was not wrong that the market was in danger — it kept churning for another two weeks. They simply bought insurance at the exact moment insurance was most expensive.</strong></span>
+  </p>
+  <p>
+    <span class="zh">Counterfactual：同样一份 30 天 ATM 保护，在 8 月 2 日（VIX 23.39，SPY 约 $532.9）买入，成本约 <strong>$13.16</strong>，占标的市值 <strong>2.5%</strong>；8 月 5 日买入则占 <strong>4.2%</strong>。<strong>晚了三天，同一份保护贵了约 65%。</strong>这与第 2 章 COVID 案例的结论完全一致，只是这次我们能把它拆成一个 Greek：<strong>保险要在着火前买，因为着火时你付的是 Vega。</strong></span>
+    <span class="en">Counterfactual: the same 30-day ATM protection bought on August 2 (VIX 23.39, SPY around $532.9) cost about <strong>$13.16</strong>, or <strong>2.5%</strong> of the underlying's value; bought on August 5 it cost <strong>4.2%</strong>. <strong>Three days later, the same protection cost about 65% more.</strong> This is exactly Chapter 2's COVID conclusion, except now we can name the Greek responsible: <strong>buy insurance before the fire, because during the fire what you are paying for is vega.</strong></span>
+  </p>
+  <p>
+    <span class="zh">简化声明：VIX、日经、标普与 SPY 的价格为真实历史约值。期权价格与 Vega 由 Black-Scholes 按上述输入计算（利率 5%、无分红），是<strong>模型值</strong>而非实际成交报价；真实 SPY 期权链存在偏斜，ATM Put 的报价会与此有出入。</span>
+    <span class="en">Stated simplification: VIX, Nikkei, S&P and SPY levels are approximate real history. The option prices and vega are Black-Scholes values computed from those inputs (5% rate, no dividend) — <strong>model figures, not actual fills</strong>; a real SPY chain carries skew, so the quoted ATM put would differ somewhat.</span>
+  </p>
+  <p class="verdict gain"><span class="zh">亏损减少：同一份 30 天保护，恐慌前买入占市值 2.5%，恐慌中买入占 4.2%——提前三天，成本低约 39%</span><span class="en">Loss reduced: the same 30-day protection cost 2.5% of spot before the panic vs. 4.2% during it — three days earlier, about 39% cheaper</span></p>
+</div>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">如果这个人买的不是 30 天的 Put，而是 5 天的 Put，Vega 会小得多（回看上面的 Vega 曲线），IV 塌缩造成的伤害也会小得多。<strong>那么"恐慌中买短期期权"是不是一个好办法？</strong>在你回答之前，先看一眼 Gamma 那张图——你躲开了 Vega，接住了什么？</span>
+  <span class="en">Had this person bought a 5-day put instead of a 30-day one, vega would have been far smaller (look again at the vega curves) and the IV collapse would have hurt far less. <strong>So is "buy short-dated during a panic" a good answer?</strong> Before you say yes, glance back at the gamma chart — you dodged vega, but what did you catch?</span>
+</div>
+
+<!-- ============ 3.6 ============ -->
+<h2><span class="zh">3.6 把四个表盘一起读</span><span class="en">3.6 Reading All Four Gauges Together</span></h2>
+
+<p>
+  <span class="zh">单独看一个 Greek 没有意义，因为它们是被<strong>捆绑出售</strong>的。市场不允许你只买 Gamma 不付 Theta，也不允许你只收 Theta 不担 Gamma。每一个头寸都是这四个数字的一个特定组合，而<strong>你选择的策略，本质上就是在选择这个组合</strong>。</span>
+  <span class="en">Reading one Greek in isolation is meaningless, because they are <strong>sold as a bundle</strong>. The market will not let you buy gamma without paying theta, nor collect theta without carrying gamma. Every position is one particular combination of these four numbers, and <strong>choosing a strategy is precisely choosing that combination</strong>.</span>
+</p>
+
+<p>
+  <span class="zh">拿第 2 章的 Covered Call 做例子：持有 100 股（Delta +1.00、其余 Greeks 为零）并卖出一张 0.35 Delta 的 Call。整体的仪表盘读数是：</span>
+  <span class="en">Take Chapter 2's covered call: hold 100 shares (delta +1.00, all other Greeks zero) and sell one 0.35-delta call. The combined panel reads:</span>
+</p>
+
+<dl class="spec">
+  <div><dt>Delta</dt><dd class="pos">+0.65 <span class="zh">（还是多头）</span><span class="en">(still long)</span></dd></div>
+  <div><dt>Gamma</dt><dd class="neg"><span class="zh">负（怕跳空）</span><span class="en">Negative (fears gaps)</span></dd></div>
+  <div><dt>Theta</dt><dd class="pos"><span class="zh">正（每天收租）</span><span class="en">Positive (collects rent)</span></dd></div>
+  <div><dt>Vega</dt><dd class="neg"><span class="zh">负（盼 IV 下降）</span><span class="en">Negative (wants IV to fall)</span></dd></div>
+</dl>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>COVERED CALL <span class="zh">·  Delta 就是这条线的斜率</span><span class="en">· delta is the slope of this line</span></p>
+  <div id="pf-greeks-combo"></div>
+</div>
+
+<p>
+  <span class="zh">这四个数字合起来是一句完整的话：<strong>"我温和看多，我希望市场平静，我怕跳空，我靠时间赚钱。"</strong>——这正是 Covered Call 的全部内容，只不过用 Greeks 说了一遍。反过来，当你说不清一个头寸的四个 Greek 符号时，你其实说不清自己在赌什么。</span>
+  <span class="en">Together those four numbers form one complete sentence: <strong>"I'm mildly long, I want calm, I fear gaps, and I get paid by time."</strong> — which is the entire content of a covered call, restated in Greeks. Conversely, when you can't name the signs of a position's four Greeks, you can't actually say what you're betting on.</span>
+</p>
+
+<p>
+  <span class="zh">最后一件实用的事：把上面那张盈亏图的<strong>斜率</strong>看一遍。$100 附近斜率接近 1（Delta 高），$115 之后曲线变平（Delta 趋近 0）。<strong>到期盈亏图的斜率就是 Delta，斜率的变化就是 Gamma。</strong>你在第 2 章和第 4 章看过的每一张图，其实都已经把这两个 Greek 画出来了——只是当时你还没有名字可以称呼它们。</span>
+  <span class="en">One last practical thing: look at the <strong>slope</strong> of the payoff diagram above. Near $100 it's close to 1 (high delta); past $115 it flattens (delta approaching 0). <strong>The slope of an expiry payoff diagram is delta, and the change in that slope is gamma.</strong> Every chart you've seen in Chapters 2 and 4 had both Greeks drawn on it already — you simply had no names for them yet.</span>
+</p>
+
+<!-- ============ 3.7 Quiz ============ -->
+<h2><span class="zh">3.7 本章测验</span><span class="en">3.7 Chapter Quiz</span></h2>
+<p><span class="zh">点击选项即可作答，答案与解析即时显示。</span><span class="en">Click an option to answer; the correct answer and explanation appear immediately.</span></p>
+
+<div class="quiz-set">
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">你持有 200 股 AAPL，另外买入 3 张 Delta 0.5 的 Call。你的方向暴露相当于多少股？</span><span class="en">You hold 200 AAPL shares plus three 0.5-delta calls. Your directional exposure is equivalent to how many shares?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span>203</button>
+    <button data-opt="b"><span class="key">B</span>350</button>
+    <button data-opt="c"><span class="key">C</span>500</button>
+    <button data-opt="d"><span class="key">D</span>200</button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>每张 Call 对应 100 股，Delta 0.5 意味着等效 50 股；三张就是 150 股。200 + 150 = 350。A 忘了合约乘数 100（这是第 1 章的教训）；C 把 Call 当成了满仓的 300 股，那只有 Delta = 1 时才成立。</span>
+    <span class="en"><b>B.</b> Each call covers 100 shares, and a 0.5 delta makes it equivalent to 50; three calls are 150. 200 + 150 = 350. A forgets the 100 multiplier (Chapter 1's lesson); C treats the calls as a full 300 shares, which would require delta = 1.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="c">
+  <p class="q"><span class="zh">同样是 ATM 的 Call，7 天到期的和 60 天到期的相比，哪个说法正确？</span><span class="en">Comparing two ATM calls, one with 7 days to expiry and one with 60, which statement is correct?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">7 天的 Gamma 更小、Vega 更大</span><span class="en">The 7-day has less gamma and more vega</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">两者的 Gamma 和 Vega 都差不多</span><span class="en">Their gamma and vega are about the same</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">7 天的 Gamma 更大、Vega 更小</span><span class="en">The 7-day has more gamma and less vega</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">7 天的 Gamma 和 Vega 都更大</span><span class="en">The 7-day has more of both</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>C。</b>这是本章最实用的一条对立关系：<strong>临近到期，Gamma 飙升而 Vega 萎缩</strong>。本章曲线里 ATM Gamma 从 60 天的约 3.3 升到 7 天的约 9.6，同时 Vega 从 0.161 降到 0.055。实践含义：赌爆发买近月，赌波动率买远月。</span>
+    <span class="en"><b>C.</b> This is the chapter's most useful opposition: <strong>into expiry, gamma spikes while vega shrinks</strong>. In the curves above, ATM gamma rises from about 3.3 at 60 days to about 9.6 at 7, while vega falls from 0.161 to 0.055. Practical consequence: buy near-dated for explosiveness, longer-dated for volatility.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="d">
+  <p class="q"><span class="zh">财报后股价<strong>没动</strong>，你的 Long Call 却亏了 45%。最主要的原因是哪个 Greek？</span><span class="en">After earnings the stock <strong>didn't move</strong>, yet your long call is down 45%. Which Greek is chiefly responsible?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span>Delta</button>
+    <button data-opt="b"><span class="key">B</span>Gamma</button>
+    <button data-opt="c"><span class="key">C</span>Theta</button>
+    <button data-opt="d"><span class="key">D</span>Vega</button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>D。</b>股价没动，Delta 和 Gamma 就没有贡献（A、B 排除）。Theta 一夜的消耗远达不到 45%（回看衰减曲线：ATM 期权在最后 10 天每天也只流失约 $0.10 / 2 美元级的价值）。只剩 Vega：财报落地，事件溢价消失，IV 骤降——这就是 <a class="term" href="../glossary.html#iv-crush">IV Crush</a>，而 IV Crush 只是"Vega 乘以一个很大的负数"的通俗叫法。</span>
+    <span class="en"><b>D.</b> With the stock still, delta and gamma contribute nothing (rules out A and B). One night of theta comes nowhere near 45% (revisit the decay curve: even in its last 10 days the ATM option sheds only about $0.10 a day on a ~$2 price). That leaves vega: the event premium vanishes when results land and IV collapses. That is <a class="term" href="../glossary.html#iv-crush">IV crush</a>, which is simply the popular name for "vega times a large negative number."</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="a">
+  <p class="q"><span class="zh">"我的组合每天收 $80 的 Theta，所以这是一个稳定盈利的系统。"这句话的问题在哪？</span><span class="en">"My book collects $80 of theta a day, so it's a steadily profitable system." What's wrong with that?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">正 Theta 必然伴随负 Gamma，租金是风险的对价</span><span class="en">Positive theta necessarily means negative gamma — the rent is payment for risk</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">Theta 的计算通常不准确</span><span class="en">Theta figures are usually inaccurate</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">Theta 只在到期日才实现</span><span class="en">Theta is only realized at expiry</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">应该看 Delta 而不是 Theta</span><span class="en">You should look at delta instead</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>A。</b>Greeks 是捆绑出售的：市场不会让你只收租不担风险。每天进账的 $80，对应的是一个不出现在日报表上的负 Gamma 负债——它会在某个跳空的早晨一次性结算。<strong>这就是"缓慢上升 + 悬崖式下跌"型账户曲线的成因</strong>。B 与事实不符（Theta 是模型的确定输出）；C 错在时间价值每天都在实实在在地流失；D 答非所问。</span>
+    <span class="en"><b>A.</b> The Greeks come bundled: the market won't let you collect rent without carrying risk. That $80 a day corresponds to a negative-gamma liability that never shows on the daily statement — and settles all at once on some gapping morning. <strong>This is what produces the "slow climb, sudden cliff" equity curve.</strong> B is false (theta is a definite model output); C is wrong because time value bleeds every single day; D doesn't address the claim.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">2024 年 8 月 5 日 VIX 冲上 38，你确信市场还会跌，于是买入 30 天的 SPY Put。第二天 SPY 只涨了 1%，你却亏了 42%。这说明什么？</span><span class="en">On August 5, 2024 with the VIX at 38, you're sure the market will fall further and buy a 30-day SPY put. The next day SPY rises just 1% and you're down 42%. What does this show?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">你的方向判断是错的</span><span class="en">Your directional call was wrong</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">你同时在赌方向和波动率，而后者的赌注更大</span><span class="en">You bet on direction and volatility at once, and the second bet was bigger</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">Put 的定价出了错</span><span class="en">The put was mispriced</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">应该买更多张来摊薄成本</span><span class="en">You should buy more contracts to average down</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>拆开那 $9.07 的亏损：Vega 贡献了约 $6.42（71%），股价和 Theta 只占其余。方向判断是否正确在这里几乎无关紧要（A 错）——市场此后两周确实继续震荡。价格也没有错（C 错）：$21.74 是 IV 38.6% 下的公允价，你只是<strong>在 IV 38.6% 的时候买了它</strong>。至于 D，在一个由 Vega 主导亏损的头寸上加仓，是把同一个错误做大。</span>
+    <span class="en"><b>B.</b> Decompose the $9.07 loss: vega contributed about $6.42 (71%), with the stock and theta making up the rest. Whether the directional view was right barely matters here (so not A) — the market did keep churning for two more weeks. Nor was the option mispriced (not C): $21.74 is fair at 38.6% IV; you simply <strong>bought it at 38.6% IV</strong>. As for D, adding to a position whose loss is vega-driven is enlarging the same mistake.</span>
+  </div>
+</div>
+
+</div>
+
+<!-- ============ takeaways ============ -->
+<h2><span class="zh">本章要点</span><span class="en">Key Takeaways</span></h2>
+<p>
+  <span class="zh">Greeks 不是信号，是灵敏度——它们让你在开仓<em>之前</em>就能回答"如果……我会怎样"。Delta 同时是方向暴露和概率代理，让期权和股票可以放在同一把尺子上量；Gamma 是 Delta 的加速度，它在到期周的 ATM 处飙到平时的三倍，既是买方非线性收益的来源，也是卖方最容易被一夜清算的地带；Theta 是唯一确定发生的 Greek，也因此是所有卖方策略的收入来源，但它加速衰减，且对 OTM 期权格外残酷；Vega 则是大多数人在不知情的情况下押下的那个更大的赌注——2024 年 8 月 5 日那张亏了 42% 的 Put，有 71% 的亏损与股价无关。最关键的一点是：<strong>这四个数字是捆绑出售的</strong>。正 Gamma 必须付 Theta，正 Theta 必须担 Gamma，市场把这笔交换定价得相当公平。所以真正的问题从来不是"哪个 Greek 好"，而是<strong>你想承担哪一组风险，以及你选的期限和 Strike 是否真的表达了那个意思</strong>。</span>
+  <span class="en">The Greeks are sensitivities, not signals — they let you answer "what if…" <em>before</em> you enter. Delta is at once directional exposure and a probability proxy, putting options and shares on one ruler. Gamma is delta's acceleration; it triples at the money in expiry week, making it both the source of a buyer's nonlinear payoff and the zone where sellers get liquidated overnight. Theta is the only Greek certain to occur, and therefore the revenue line of every selling strategy — but it accelerates, and it is especially brutal to OTM options. Vega is the larger bet most people place without knowing it: of that put that lost 42% on August 5, 2024, 71% of the loss had nothing to do with the stock. Above all: <strong>the four numbers are sold as a bundle</strong>. Long gamma must pay theta, long theta must carry gamma, and the market prices that swap about fairly. So the question is never "which Greek is good," it is <strong>which set of risks you want to carry, and whether the tenor and strike you chose actually say that</strong>.</span>
+</p>
+
+<nav class="chap-nav">
+  <a href="02-single-leg.html">← <span class="zh">第 2 章 单腿策略</span><span class="en">Ch.2 Single-Leg Strategies</span></a>
+  <a href="04-vertical-spreads.html"><span class="zh">第 4 章 垂直价差 →</span><span class="en">Ch.4 Vertical Spreads →</span></a>
+</nav>
+
+</main>
+
+<script src="../assets/i18n.js"></script>
+<script src="../assets/payoff.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  var S = ['$70', '$75', '$80', '$85', '$90', '$95', '$100', '$105', '$110', '$115', '$120', '$125', '$130'];
+
+  CaseChart.mount('case-delta', {
+    labels: S,
+    series: [
+      { name: { zh: '60 天', en: '60 DTE' }, color: '#3CDFA3', data: [0.002, 0.012, 0.043, 0.111, 0.226, 0.379, 0.546, 0.697, 0.816, 0.897, 0.947, 0.974, 0.988] },
+      { name: { zh: '7 天', en: '7 DTE' }, color: '#D99A3D', data: [0, 0, 0, 0, 0.006, 0.116, 0.516, 0.888, 0.99, 1, 1, 1, 1] }
+    ],
+    yfmt: function (v) { return v.toFixed(2); }
+  });
+
+  CaseChart.mount('case-gamma', {
+    labels: S,
+    series: [
+      { name: { zh: '60 天', en: '60 DTE' }, color: '#3CDFA3', data: [0.089, 0.348, 0.935, 1.83, 2.748, 3.294, 3.258, 2.734, 1.991, 1.283, 0.743, 0.392, 0.191] },
+      { name: { zh: '7 天', en: '7 DTE' }, color: '#FF6A55', data: [0, 0, 0, 0.006, 0.473, 4.947, 9.595, 4.379, 0.574, 0.026, 0, 0, 0] }
+    ],
+    yfmt: function (v) { return v.toFixed(1); }
+  });
+
+  CaseChart.mount('case-theta', {
+    labels: ['90d', '80d', '70d', '60d', '50d', '40d', '30d', '20d', '10d', '0d'],
+    series: [
+      { name: { zh: 'ATM $100', en: 'ATM $100' }, color: '#3CDFA3', data: [6.41, 6.02, 5.61, 5.17, 4.69, 4.17, 3.59, 2.91, 2.03, 0] },
+      { name: { zh: 'OTM $110', en: 'OTM $110' }, color: '#FF6A55', data: [2.73, 2.41, 2.07, 1.73, 1.37, 1.01, 0.66, 0.32, 0.06, 0] }
+    ],
+    yfmt: function (v) { return '$' + v.toFixed(0); }
+  });
+
+  CaseChart.mount('case-vega', {
+    labels: S,
+    series: [
+      { name: { zh: '60 天', en: '60 DTE' }, color: '#3CDFA3', data: [0.002, 0.01, 0.029, 0.065, 0.11, 0.147, 0.161, 0.149, 0.119, 0.084, 0.053, 0.03, 0.016] },
+      { name: { zh: '7 天', en: '7 DTE' }, color: '#D99A3D', data: [0, 0, 0, 0, 0.002, 0.026, 0.055, 0.028, 0.004, 0, 0, 0, 0] }
+    ],
+    yfmt: function (v) { return v.toFixed(2); }
+  });
+
+  CaseChart.mount('case-gme', {
+    labels: ['01-04', '01-13', '01-19', '01-22', '01-25', '01-26', '01-27', '01-28'],
+    series: [
+      { name: { zh: 'GME', en: 'GME' }, color: '#3CDFA3', data: [17.25, 31.4, 39.36, 65.01, 76.79, 147.98, 347.51, 193.6] }
+    ],
+    events: [{ i: 5, text: { zh: '挤压加速', en: 'Squeeze on' } }],
+    yfmt: function (v) { return '$' + v.toFixed(0); }
+  });
+
+  CaseChart.mount('case-vix2024', {
+    labels: ['07-31', '08-01', '08-02', '08-05', '08-06', '08-08', '08-13', '08-16'],
+    series: [
+      { name: { zh: 'VIX', en: 'VIX' }, color: '#FF6A55', data: [16.36, 18.59, 23.39, 38.57, 27.71, 23.79, 17.6, 14.8] }
+    ],
+    events: [{ i: 3, text: { zh: '套息平仓', en: 'Carry unwind' } }],
+    yfmt: function (v) { return v.toFixed(0); }
+  });
+
+  Payoff.mount('pf-greeks-combo', {
+    legs: [
+      { kind: 'stock', basis: 100 },
+      { kind: 'call', side: -1, strike: 110, premium: 3 }
+    ],
+    range: [80, 130],
+    controls: [
+      { leg: 1, prop: 'strike', min: 100, max: 125, step: 1, label: { zh: 'Call Strike（越低 Delta 越小）', en: 'Call strike (lower = less delta)' } }
+    ]
+  });
+
+});
+</script>
+</body>
+</html>
