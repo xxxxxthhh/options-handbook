@@ -56,6 +56,10 @@
     <span class="zh">买方为权利支付、卖方因义务收取的价格。由内在价值 + 时间价值构成。</span>
     <span class="en">What the buyer pays for the right and the seller collects for the obligation. Composed of intrinsic value plus time value.</span></td></tr>
 
+  <tr id="breakeven"><td class="t">Breakeven</td><td class="c">盈亏平衡点</td><td>
+    <span class="zh">到期时不赚不亏的股价。买方的 Breakeven 总是比 Strike 更远一个 Premium——这就是"方向对了还亏钱"的算术来源。</span>
+    <span class="en">The price at expiry where you neither gain nor lose. A buyer's breakeven always sits one premium beyond the strike — the arithmetic behind "right on direction, still down money."</span></td></tr>
+
   <tr id="expiration"><td class="t">Expiration</td><td class="c">到期日</td><td>
     <span class="zh">合约失效的日期。美股期权通常为周五。到期时 OTM 的期权价值归零。</span>
     <span class="en">The date the contract ceases to exist — usually a Friday for US equity options. OTM options expire worthless.</span></td></tr>
@@ -123,6 +127,22 @@
   <tr id="spread"><td class="t">Spread</td><td class="c">价差组合</td><td>
     <span class="zh">同时买卖不同 Strike 或到期日的期权，把风险和收益都框定在一个区间内。第 4 章的主角。</span>
     <span class="en">Simultaneously buying and selling options at different strikes or expiries, boxing both risk and reward into a range. The subject of Chapter 4.</span></td></tr>
+
+  <tr id="vertical"><td class="t">Vertical Spread</td><td class="c">垂直价差</td><td>
+    <span class="zh">同标的、同到期日、同类型、方向相反、Strike 不同的两条腿。"垂直"来自期权链上同一到期日的合约纵向排列。第 4 章的主题。</span>
+    <span class="en">Two legs on the same underlying, same expiry, same type, opposite directions, different strikes. "Vertical" because one expiry's contracts run down an option chain. The subject of Chapter 4.</span></td></tr>
+
+  <tr id="debit-credit"><td class="t">Debit / Credit Spread</td><td class="c">借记 / 贷记价差</td><td>
+    <span class="zh">开仓时净付出权利金的是 Debit（借记，如 Bull Call Spread、Bear Put Spread）；净收到权利金的是 Credit（贷记，如 Bull Put Spread、Bear Call Spread）。前者 Theta 为负，后者为正。</span>
+    <span class="en">A debit spread pays premium to open (bull call, bear put); a credit spread receives it (bull put, bear call). Debit spreads carry negative theta, credit spreads positive.</span></td></tr>
+
+  <tr id="width"><td class="t">Width</td><td class="c">价差宽度</td><td>
+    <span class="zh">两条腿 Strike 之间的差额。它决定了结构的总空间：借记价差最大盈利 = 宽度 − 净借记；贷记价差最大亏损 = 宽度 − 净贷记。</span>
+    <span class="en">The gap between the two strikes — the structure's total space. Debit spread max gain = width − net debit; credit spread max loss = width − net credit.</span></td></tr>
+
+  <tr id="defined-risk"><td class="t">Defined Risk</td><td class="c">定义风险</td><td>
+    <span class="zh">最坏结果在开仓那一刻就已确定且有限的结构。价差、Iron Condor 都属此类；<a class="term" href="#naked">Naked Short</a> 不属于。定义风险不等于低风险——它只保证你知道上限是多少。</span>
+    <span class="en">A structure whose worst case is known and finite at entry. Spreads and iron condors qualify; a <a class="term" href="#naked">naked short</a> does not. Defined risk is not low risk — it only guarantees you know the ceiling.</span></td></tr>
 
   <tr id="straddle"><td class="t">Straddle / Strangle</td><td class="c">跨式 / 宽跨式</td><td>
     <span class="zh">同时买入（或卖出）Call 和 Put，做多（或做空）波动本身而不押方向。Strike 相同为 Straddle，分开为 Strangle。</span>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.04 垂直价差 Vertical Spreads · Options Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../index.html"><b>OPTIONS</b>/HANDBOOK</a>
+  <div class="spacer"></div>
+  <nav>
+    <a href="../index.html"><span class="zh">目录</span><span class="en">Contents</span></a>
+    <a href="../glossary.html">Glossary</a>
+  </nav>
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button data-lang="zh" aria-pressed="true">中</button>
+    <button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main class="page">
+
+<p class="eyebrow">Chapter 04 · Vertical Spreads</p>
+<h1><span class="zh">垂直价差：把观点做成有限风险的结构</span><span class="en">Vertical Spreads: Turning a View into Defined Risk</span></h1>
+<p class="lede">
+  <span class="zh">单腿是一个观点。价差是一个观点<strong>加一个边界</strong>。加上第二条腿，你放弃了尾部的收益，换来三样东西：更低的成本、更小的波动率敏感度，以及一个在下单之前就已经知道的最坏结果。</span>
+  <span class="en">A single leg is a view. A spread is a view <strong>plus a boundary</strong>. Adding a second leg forfeits the tail, and buys three things in return: lower cost, lower sensitivity to volatility, and a worst case you already know before you click the button.</span>
+</p>
+
+<!-- ============ 4.1 ============ -->
+<h2><span class="zh">4.1 为什么要加第二条腿</span><span class="en">4.1 Why a Second Leg</span></h2>
+
+<p>
+  <span class="zh">第 2 章的 Long Call 有一个隐藏的假设：你为<strong>全部</strong>上涨空间付了钱。股价涨到 $200、$500、$1000 的可能性都被打包进你付出的 <a class="term" href="../glossary.html#premium">Premium</a> 里——哪怕你自己都不相信它能涨到那儿。在 <a class="term" href="../glossary.html#iv">IV</a> 高企的时候，这部分"你并不相信的尾部"可能占了权利金的一大半。</span>
+  <span class="en">The long call in Chapter 2 carries a hidden assumption: you paid for <strong>all</strong> of the upside. The chance of the stock reaching $200, $500, $1,000 is bundled into the <a class="term" href="../glossary.html#premium">premium</a> you handed over — even the part you don't believe in yourself. When <a class="term" href="../glossary.html#iv">IV</a> is elevated, that unbelieved tail can be most of what you're paying for.</span>
+</p>
+
+<p>
+  <span class="zh"><a class="term" href="../glossary.html#vertical">Vertical Spread</a>（垂直价差）的做法很直接：<strong>把你不相信的那段卖掉</strong>。同一个标的、同一个到期日、方向相反的两条腿，只有 <a class="term" href="../glossary.html#strike">Strike</a> 不同——这就是"垂直"的含义（在期权链上，同一到期日的合约纵向排列）。</span>
+  <span class="en">A <a class="term" href="../glossary.html#vertical">vertical spread</a> does something blunt: <strong>it sells the part you don't believe in</strong>. Two legs on the same underlying, same expiration, opposite directions, differing only in <a class="term" href="../glossary.html#strike">strike</a> — which is what "vertical" means (on an option chain, one expiry's contracts run down the page).</span>
+</p>
+
+<dl class="spec">
+  <div><dt><span class="zh">同一标的</span><span class="en">Same underlying</span></dt><dd><span class="zh">必须</span><span class="en">Required</span></dd></div>
+  <div><dt><span class="zh">同一到期日</span><span class="en">Same expiry</span></dt><dd><span class="zh">必须</span><span class="en">Required</span></dd></div>
+  <div><dt><span class="zh">同一类型</span><span class="en">Same type</span></dt><dd><span class="zh">两条都是 Call 或都是 Put</span><span class="en">Both calls or both puts</span></dd></div>
+  <div><dt><span class="zh">方向</span><span class="en">Direction</span></dt><dd><span class="zh">一买一卖</span><span class="en">One long, one short</span></dd></div>
+  <div><dt>Strike</dt><dd><span class="zh">不同——差额即"宽度"</span><span class="en">Different — the gap is the width</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">第二条腿带来三个变化，值得逐个记住：</span>
+  <span class="en">The second leg changes three things, each worth committing to memory:</span>
+</p>
+
+<p>
+  <span class="zh"><strong>① 成本下降。</strong>卖出的那条腿收回一部分权利金，净支出（<a class="term" href="../glossary.html#debit-credit">Net Debit</a>，净借记）通常只有裸买的 50%–70%。成本下降直接把<a class="term" href="../glossary.html#breakeven">盈亏平衡点</a>拉近，也把"完全归零"的金额变小。<strong>② Vega 下降。</strong>你同时买入和卖出了波动率，两条腿的 <a class="term" href="../glossary.html#vega">Vega</a> 大部分互相抵消——这意味着<a class="term" href="../glossary.html#iv-crush">IV Crush</a> 对你的伤害小得多。<strong>③ 收益封顶。</strong>这是代价：无论股价涨到哪里，你的收益都停在"宽度 − 净借记"。</span>
+  <span class="en"><strong>① Cost falls.</strong> The short leg refunds part of the premium; the <a class="term" href="../glossary.html#debit-credit">net debit</a> is typically only 50–70% of the outright purchase. Lower cost pulls the <a class="term" href="../glossary.html#breakeven">breakeven</a> closer and shrinks the amount that can go to zero. <strong>② Vega falls.</strong> You are long and short volatility at once, so the two legs' <a class="term" href="../glossary.html#vega">vega</a> largely cancels — meaning <a class="term" href="../glossary.html#iv-crush">IV crush</a> hurts you far less. <strong>③ Upside is capped.</strong> That's the price: however far the stock runs, your gain stops at "width minus net debit."</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>INTERACTIVE · <span class="zh">从单腿到价差</span><span class="en">From single leg to spread</span></p>
+  <div id="pf-continuum"></div>
+</div>
+
+<div class="note">
+  <span class="note-tag"><span class="zh">读图提示</span><span class="en">How to read it</span></span>
+  <p>
+    <span class="zh">把上图的 Short Strike 一路拖到最右端：卖出的那条腿远到几乎不可能被触及，曲线就趋近于一条 Long Call——<strong>单腿是价差的极限情况</strong>。但请注意图表引擎的一个简化：滑块只改变 Strike，不会重新为期权定价。真实市场里 Strike 越远，收到的 Premium 越少，净借记会回升。这张图展示的是<strong>结构</strong>，不是报价。</span>
+    <span class="en">Drag the short strike all the way right: the short leg moves so far out that it's effectively unreachable, and the curve approaches a plain long call — <strong>a single leg is the limiting case of a spread</strong>. Note one simplification in the chart engine: the slider changes the strike but does not reprice the option. In a real market, a more distant strike returns less premium and the net debit climbs back up. This chart shows <strong>structure</strong>, not quotes.</span>
+  </p>
+</div>
+
+<!-- ============ 4.2 Bull Call Spread ============ -->
+<h2><span class="zh">4.2 Bull Call Spread：温和看涨的标准表达</span><span class="en">4.2 Bull Call Spread: The Standard Expression of Moderate Bullishness</span></h2>
+
+<dl class="spec">
+  <div><dt><span class="zh">观点</span><span class="en">Outlook</span></dt><dd class="pos"><span class="zh">温和看涨</span><span class="en">Moderately bullish</span></dd></div>
+  <div><dt><span class="zh">结构</span><span class="en">Structure</span></dt><dd><span class="zh">买低 Strike Call + 卖高 Strike Call</span><span class="en">Long lower call + short higher call</span></dd></div>
+  <div><dt>Max gain</dt><dd class="pos"><span class="zh">宽度 − 净借记</span><span class="en">Width − net debit</span></dd></div>
+  <div><dt>Max loss</dt><dd class="neg"><span class="zh">净借记</span><span class="en">Net debit</span></dd></div>
+  <div><dt>Breakeven</dt><dd><span class="zh">低 Strike + 净借记</span><span class="en">Lower strike + net debit</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">买入 $100 的 Call 花 $5，同时卖出 $110 的 Call 收 $2，净支出 $3。这笔交易在说：<strong>"我认为它会涨，但涨不过 $110；就算涨过了，$110 以上的部分我也愿意让给别人。"</strong> 宽度 $10 减去成本 $3，最大收益 $7；最大亏损就是那 $3。风险与回报的比例（1 : 2.33）在下单那一刻已经完全确定。</span>
+  <span class="en">Buy the $100 call for $5, sell the $110 call for $2: net outlay $3. The trade says: <strong>"I think it goes up, but not past $110 — and if it does, I'm content to hand the rest to someone else."</strong> A $10 width minus $3 of cost gives $7 of maximum gain; maximum loss is that same $3. The risk-reward ratio (1 : 2.33) is fully determined the moment you enter.</span>
+</p>
+
+<p>
+  <span class="zh"><strong>适用场景：</strong>① 你看涨，但目标价是具体的而非无限的（"财报后回到 $110 附近"比"我看好它"更适合价差）；② IV 处于高位，裸买 Call 贵得离谱——第二条腿让你以同样高的 IV <em>卖出</em>，把贵变成中性；③ 你想控制单笔交易占组合的比例，而净借记正好是一个可以精确控制的数字。</span>
+  <span class="en"><strong>When to use it:</strong> ① You're bullish toward a specific target rather than an open-ended one ("back to around $110 after earnings" fits a spread far better than "I like this name"); ② IV is elevated and an outright call is painfully expensive — the second leg lets you <em>sell</em> at that same rich IV, neutralizing the problem; ③ you want to control the position's weight in the portfolio, and the net debit is exactly the number you can control precisely.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>INTERACTIVE · BULL CALL SPREAD <span class="zh">拖动上腿 Strike 观察上限</span><span class="en">Drag the upper strike to move the cap</span></p>
+  <div id="pf-bull-call"></div>
+</div>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2020-11</p>
+  <h3><span class="zh">疫苗日的航空股：高 IV 环境下价差的胜利</span><span class="en">Vaccine Day Airlines: A Spread's Edge in High IV</span></h3>
+  <p>
+    <span class="zh">2020 年 11 月 9 日盘前，辉瑞与 BioNTech 公布三期中期分析：疫苗有效率超过 90%。当天市场剧烈轮动——标普 500 上涨约 1.2%，纳斯达克反而下跌约 1.5%，而受疫情打击最深的航空股集体暴涨。Delta Air Lines（DAL）从 11 月 6 日收盘约 $32 跳到 11 月 9 日收盘约 $37.8，单日约 +18%。</span>
+    <span class="en">Before the open on November 9, 2020, Pfizer and BioNTech released a Phase 3 interim analysis: the vaccine was more than 90% effective. The market rotated violently — the S&P 500 rose about 1.2% while the Nasdaq fell about 1.5%, and the airlines, hit hardest by the pandemic, went vertical. Delta Air Lines (DAL) jumped from roughly $32 at the November 6 close to about $37.8 on November 9, some +18% in a session.</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>DAL · NOV 2020 – JAN 2021 <span class="zh">（收盘价，约值）</span><span class="en">(closes, approx.)</span></p>
+    <div id="case-dal"></div>
+  </div>
+  <p>
+    <span class="zh">关键背景是当时航空股期权的 IV 长期停留在 60% 以上（约值）——市场知道会有大新闻，只是不知道方向。Counterfactual：一位在 11 月 6 日就判断"重启交易会来，但 DAL 也回不到疫情前的 $60"的投资者，有两种表达方式。</span>
+    <span class="en">The crucial context: airline option IV was parked above 60% (approx.) — the market knew big news was coming, it just didn't know the direction. Counterfactual: an investor who on November 6 believed "the reopening trade is coming, but DAL isn't going back to its pre-pandemic $60" had two ways to say it.</span>
+  </p>
+  <dl class="spec">
+    <div><dt><span class="zh">裸买 Call</span><span class="en">Outright call</span></dt><dd><span class="zh">$35 Call，成本 $2.80</span><span class="en">$35 call, cost $2.80</span></dd></div>
+    <div><dt><span class="zh">价差</span><span class="en">Spread</span></dt><dd><span class="zh">买 $35 / 卖 $45，净 $2.00</span><span class="en">Long $35 / short $45, net $2.00</span></dd></div>
+    <div><dt><span class="zh">到期日</span><span class="en">Expiry</span></dt><dd>2021-01-15</dd></div>
+    <div><dt><span class="zh">到期股价</span><span class="en">Price at expiry</span></dt><dd><span class="zh">约 $40</span><span class="en">≈ $40</span></dd></div>
+  </dl>
+  <p>
+    <span class="zh">到期时 DAL 约 $40：裸 Call 拿到 $5 内在价值，扣掉 $2.80 成本，回报 <strong>+79%</strong>；价差同样拿到 $5（$45 那条腿到期无价值），扣掉 $2.00 成本，回报 <strong>+150%</strong>。<strong>同一个判断，同一个方向，同一次正确，回报差了近一倍——差别全部来自那 $0.80 的成本节省。</strong></span>
+    <span class="en">At expiry DAL was near $40. The outright call captured $5 of intrinsic value against its $2.80 cost: <strong>+79%</strong>. The spread captured the same $5 (the $45 leg expired worthless) against $2.00: <strong>+150%</strong>. <strong>Same judgment, same direction, same correctness — nearly double the return, entirely from saving $0.80 of cost.</strong></span>
+  </p>
+  <p>
+    <span class="zh">简化声明：DAL 的股价为真实历史约值；上表两个期权的价格是按当时 IV 水平推算的<strong>示意值</strong>，不是实际成交报价，也忽略了手续费与双边点差。</span>
+    <span class="en">Stated simplification: the DAL prices are approximate real history; the two option prices in the table are <strong>illustrative values</strong> derived from the prevailing IV level, not actual fills, and they ignore commissions and bid-ask spreads.</span>
+  </p>
+  <p class="verdict gain"><span class="zh">利润扩大：同一个看涨判断，+79% → +150%</span><span class="en">Profit amplified: the same bullish call, +79% → +150%</span></p>
+</div>
+
+<div class="warn">
+  <span class="warn-tag"><span class="zh">上限的代价什么时候真的疼</span><span class="en">When the cap actually hurts</span></span>
+  <p>
+    <span class="zh">价差的天花板不是免费的，但它疼得比多数人想象的晚。沿用上面的示意结构：到期股价 $50 时，裸 Call 回报约 +436%，价差封顶在 +400%——几乎打平，因为价差的成本本来就低。真正拉开差距要等到 $70：裸 Call 约 +1150%，价差<strong>仍然是 +400%</strong>。<strong>结论是：在温和到中等的行情里价差几乎总是更优，只有在你没预料到的爆发式行情里才明显吃亏。</strong>所以选择价差的真正问题不是"我会不会少赚"，而是"我的判断里有没有爆发式行情这一项"。</span>
+    <span class="en">The ceiling isn't free, but it bites later than most people assume. Using the same illustrative structure: at $50 the outright call returns about +436% and the spread caps at +400% — effectively a tie, because the spread cost less to begin with. The gap only opens at $70: the outright returns roughly +1150% while the spread is <strong>still +400%</strong>. <strong>So spreads win in mild-to-moderate moves and only clearly lose in the explosive move you didn't foresee.</strong> The real question isn't "will I leave money on the table," it's "does my thesis actually contain an explosive move?"</span>
+  </p>
+</div>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">如果 2020 年 11 月 6 日你的判断是"疫苗一旦成功，DAL 会一路回到疫情前的 $60"，价差还是正确的结构吗？换个问法：<strong>你的目标价，是从基本面推导出来的，还是从"我希望赚多少"倒推出来的？</strong>这两者会指向完全不同的 Strike。</span>
+  <span class="en">If on November 6, 2020 your view had been "once a vaccine works, DAL goes all the way back to its pre-pandemic $60," would the spread still be the right structure? Put differently: <strong>is your target price derived from the fundamentals, or reverse-engineered from how much you'd like to make?</strong> Those two roads lead to very different strikes.</span>
+</div>
+
+<!-- ============ 4.3 Bear Put Spread ============ -->
+<h2><span class="zh">4.3 Bear Put Spread：把保险费砍到三分之一</span><span class="en">4.3 Bear Put Spread: Cutting the Insurance Bill by Two Thirds</span></h2>
+
+<dl class="spec">
+  <div><dt><span class="zh">观点</span><span class="en">Outlook</span></dt><dd class="neg"><span class="zh">温和看跌 / 有限对冲</span><span class="en">Moderately bearish / bounded hedge</span></dd></div>
+  <div><dt><span class="zh">结构</span><span class="en">Structure</span></dt><dd><span class="zh">买高 Strike Put + 卖低 Strike Put</span><span class="en">Long higher put + short lower put</span></dd></div>
+  <div><dt>Max gain</dt><dd class="pos"><span class="zh">宽度 − 净借记</span><span class="en">Width − net debit</span></dd></div>
+  <div><dt>Max loss</dt><dd class="neg"><span class="zh">净借记</span><span class="en">Net debit</span></dd></div>
+  <div><dt>Breakeven</dt><dd><span class="zh">高 Strike − 净借记</span><span class="en">Higher strike − net debit</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">Bear Put Spread 是 Bull Call Spread 的镜像，但它最常见的身份不是投机，而是<strong>预算受限的保险</strong>。第 2 章的 <a class="term" href="../glossary.html#protective-put">Protective Put</a> 有一个现实问题：真正需要保险的时候（市场紧张、IV 高企），保费也最贵。卖掉一个更低的 Strike，等于对保险公司说：<strong>"我只要覆盖前 20% 的跌幅，再往下的世界末日情形我自己扛。"</strong>保费因此可以砍到三分之一左右。</span>
+  <span class="en">The bear put spread mirrors the bull call spread, but its most common role isn't speculation — it's <strong>insurance on a budget</strong>. Chapter 2's <a class="term" href="../glossary.html#protective-put">protective put</a> has a practical problem: exactly when you want coverage (nervous market, elevated IV), coverage is most expensive. Selling a lower strike tells the insurer: <strong>"cover me for the first 20% down; below that, the end-of-the-world scenario is mine to carry."</strong> That can cut the bill to roughly a third.</span>
+</p>
+
+<p>
+  <span class="zh"><strong>适用场景：</strong>① 你想对冲，但认为最可能的情形是"回调 15%–25%"而不是"崩盘 50%"；② IV 已经很高，全额保险的成本会吃掉太多组合收益；③ 你有一个明确的下方支撑位判断，卖出的 Strike 就放在那里。</span>
+  <span class="en"><strong>When to use it:</strong> ① You want a hedge but believe the likely case is a 15–25% pullback, not a 50% collapse; ② IV is already high and full coverage would eat too much of the portfolio's return; ③ you have a specific view of downside support, and the short strike goes there.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>INTERACTIVE · BEAR PUT SPREAD <span class="zh">下腿 Strike 就是保险的"地板"</span><span class="en">The lower strike is the floor of the coverage</span></p>
+  <div id="pf-bear-put"></div>
+</div>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2021-11</p>
+  <h3><span class="zh">ARKK 的下坡路：一份打折保单能挡多少</span><span class="en">ARKK's Descent: What a Discount Policy Covered</span></h3>
+  <p>
+    <span class="zh">ARK Innovation ETF（ARKK）在 2021 年 2 月见顶于约 $159，随后进入长达一年的下坡。2021 年 11 月初它约在 $124；到 2022 年 1 月下旬，随着利率预期急转，它跌到约 $71——两个半月约 <strong>-43%</strong>。</span>
+    <span class="en">The ARK Innovation ETF (ARKK) peaked near $159 in February 2021 and then spent a year going downhill. In early November 2021 it traded around $124; by late January 2022, as rate expectations turned sharply, it was near $71 — roughly <strong>-43%</strong> in two and a half months.</span>
+  </p>
+  <p>
+    <span class="zh">Counterfactual：一位在 2021 年 11 月 1 日持有 100 股 ARKK、不愿卖出但担心回调的投资者。当时 ARKK 的 IV 在 50% 以上，一张 $110 的 Put 要价 $7（示意值）——占持仓市值的 5.6%，很贵。改用价差：买 $110 Put 付 $7，卖 $90 Put 收 $2.50，<strong>净成本 $4.50</strong>，保护区间是 $110 到 $90 这 $20。</span>
+    <span class="en">Counterfactual: an investor holding 100 ARKK shares on November 1, 2021, unwilling to sell but worried about a drawdown. ARKK's IV was above 50%; a $110 put was asking $7 (illustrative) — 5.6% of position value, expensive. As a spread instead: pay $7 for the $110 put, collect $2.50 for the $90 put, <strong>net cost $4.50</strong>, covering the $20 between $110 and $90.</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>ARKK · NOV 2021 – JAN 2022 <span class="zh">（约值，到期内在价值口径）</span><span class="en">(approx., valued at intrinsic)</span></p>
+    <div id="case-arkk"></div>
+  </div>
+  <p>
+    <span class="zh">到 1 月下旬 ARKK 约 $71，价差已经打满：收益 $20 − 成本 $4.50 = <strong>+$15.50/股</strong>。裸持仓每股亏 $53（-43%）；带价差的组合每股亏 $37.50，<strong>约 -30%</strong>。图中绿线在 $90 之下变平——那就是你自己承担的部分开始的地方。</span>
+    <span class="en">By late January ARKK was near $71 and the spread was fully in the money: $20 of payoff minus $4.50 of cost = <strong>+$15.50 per share</strong>. The unhedged position lost $53 per share (-43%); the spread-hedged position lost $37.50, <strong>about -30%</strong>. The green line flattening below $90 is precisely where your own risk resumes.</span>
+  </p>
+  <p>
+    <span class="zh">诚实的对照：这一次<strong>裸买 Put 的结果更好</strong>——$110 Put 到期内在价值 $39，扣 $7 成本净赚 $32，组合只亏约 -17%。因为跌幅（-43%）远远击穿了价差的地板。但把跌幅换成 $100（-19%）再算一次：价差组合亏 -14.9%，裸 Put 组合亏 -16.9%，<strong>价差反而更优</strong>。这就是价差的全部真相——<strong>它用尾部换成本，在温和行情里赢，在极端行情里输</strong>。你选的不是"更好的结构"，而是"你认为哪种行情更可能发生"。</span>
+    <span class="en">The honest comparison: this time <strong>the outright put did better</strong> — the $110 put finished with $39 of intrinsic value, netting $32 after its $7 cost, holding the portfolio to about -17%. The decline (-43%) blew clean through the spread's floor. But rerun it with ARKK at $100 (-19%): the spread-hedged portfolio loses 14.9%, the outright-put portfolio loses 16.9%, and <strong>the spread wins</strong>. That is the whole truth about spreads — <strong>they trade the tail for cost, winning in moderate moves and losing in extreme ones</strong>. You aren't picking "the better structure," you're picking which kind of move you think is coming.</span>
+  </p>
+  <p>
+    <span class="zh">简化声明：ARKK 价格为真实历史约值；两个 Put 的价格为按当时 IV 推算的示意值。组合曲线按到期内在价值口径计算，忽略了中途的时间价值与提前平仓的可能。</span>
+    <span class="en">Stated simplification: ARKK prices are approximate real history; both put prices are illustrative values derived from the prevailing IV. The portfolio curve is computed at intrinsic value, ignoring interim time value and the option to close early.</span>
+  </p>
+  <p class="verdict gain"><span class="zh">亏损减少：-43% → 约 -30%，保费仅为全额保险的约 64%</span><span class="en">Loss reduced: -43% → about -30%, at roughly 64% of full-coverage cost</span></p>
+</div>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">如果你把卖出的 Strike 从 $90 一路下移到 $60，保护范围变大，但保费也回升到接近裸买 Put。<strong>存在一个"最优"的下腿 Strike 吗？</strong>如果不存在，是什么决定了你该放在哪里——你对跌幅的预测，还是你能承受的保费预算？</span>
+  <span class="en">Push the short strike from $90 down to $60 and coverage widens — but the cost climbs back toward an outright put. <strong>Is there an "optimal" lower strike?</strong> If not, what actually decides where you put it — your forecast of the decline, or the premium budget you can live with?</span>
+</div>
+
+<!-- ============ 4.4 Credit Spreads ============ -->
+<h2><span class="zh">4.4 贷记价差：把同一个结构反过来卖</span><span class="en">4.4 Credit Spreads: Selling the Same Structure Backwards</span></h2>
+
+<dl class="spec">
+  <div><dt>Bull Put Spread</dt><dd><span class="zh">卖高 Put + 买低 Put（看不跌）</span><span class="en">Short higher put + long lower put (not-down)</span></dd></div>
+  <div><dt>Bear Call Spread</dt><dd><span class="zh">卖低 Call + 买高 Call（看不涨）</span><span class="en">Short lower call + long higher call (not-up)</span></dd></div>
+  <div><dt>Max gain</dt><dd class="pos"><span class="zh">净贷记（收到的权利金）</span><span class="en">Net credit received</span></dd></div>
+  <div><dt>Max loss</dt><dd class="neg"><span class="zh">宽度 − 净贷记</span><span class="en">Width − net credit</span></dd></div>
+  <div><dt><span class="zh">时间是敌是友</span><span class="en">Time decay</span></dt><dd class="pos"><span class="zh">友（Theta 为正）</span><span class="en">Friend (positive theta)</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">把 4.3 的两条腿方向对调：卖出 $100 的 Put 收 $4，买入 $90 的 Put 付 $1.50，净<strong>收到</strong> $2.50。这叫 <a class="term" href="../glossary.html#debit-credit">Credit Spread</a>（贷记价差）。它表达的观点不是"我看涨"，而是更弱的一句话——<strong>"我认为它不会跌破 $100"</strong>。股价横盘、小涨、甚至小跌到 $100 以上，你都赢。</span>
+  <span class="en">Flip the two legs of §4.3: sell the $100 put for $4, buy the $90 put for $1.50, and you <strong>receive</strong> $2.50 net. This is a <a class="term" href="../glossary.html#debit-credit">credit spread</a>. Its view isn't "I'm bullish" but something weaker — <strong>"I don't think it breaks $100."</strong> Sideways, up a little, even down a little while staying above $100: you win.</span>
+</p>
+
+<p>
+  <span class="zh">这是本书第一次出现<strong>卖方的定义风险版本</strong>。第 2 章的 CSP 需要锁定 $10,000 现金去接货；同样的 $100 Put，配上一条 $90 的保护腿，最大亏损锁死在 $750，占用的资金也降到那个数量级。<a class="term" href="../glossary.html#defined-risk">Defined Risk</a>（定义风险）不是修辞——那条买入的腿是一张真实的合约，在最坏的日子里替你封住了下方。</span>
+  <span class="en">This is the book's first <strong>defined-risk version of a short</strong>. Chapter 2's CSP requires $10,000 of cash set aside to take delivery; the same $100 put paired with a $90 protective leg caps the worst case at $750, and the capital tied up drops to that order of magnitude. <a class="term" href="../glossary.html#defined-risk">Defined risk</a> isn't rhetoric — the long leg is a real contract that closes the floor on the worst day.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>INTERACTIVE · BULL PUT SPREAD <span class="zh">（贷记）注意最大收益与最大亏损的不对称</span><span class="en">(credit) note the asymmetry of max gain vs. max loss</span></p>
+  <div id="pf-bull-put"></div>
+</div>
+
+<div class="warn">
+  <span class="warn-tag"><span class="zh">胜率幻觉：80% 的胜率不等于赚钱</span><span class="en">The win-rate illusion: 80% right ≠ profitable</span></span>
+  <p>
+    <span class="zh">上面那个价差：赢的时候赚 $2.50，输的时候亏 $7.50。要让期望值为零，胜率必须达到 <strong>75%</strong>（7.5 ÷ 10）。而市场对这张 Put 的定价，正是让它大约落在这个胜率附近——<a class="term" href="../glossary.html#delta">Delta</a> 已经把概率写在标签上了。</span>
+    <span class="en">That spread makes $2.50 when it wins and loses $7.50 when it doesn't. Break-even expectancy requires a <strong>75%</strong> win rate (7.5 ÷ 10). And the market's pricing of that put puts it right around there — <a class="term" href="../glossary.html#delta">delta</a> has already written the probability on the label.</span>
+  </p>
+  <p>
+    <span class="zh">所以"我的贷记价差 80% 都赢了"本身不是任何信息。真正的问题是：<strong>那 20% 输的时候，你是按规则认赔 $7.50，还是把它 Roll 成一个更大的头寸继续赌？</strong>贷记价差的账户曲线之所以经常呈现"缓慢上升 + 悬崖式下跌"，原因几乎从来不是胜率不够，而是输的那几次没有按结构原本的最大亏损收场。</span>
+    <span class="en">So "my credit spreads win 80% of the time" carries no information by itself. The real question is: <strong>on the 20% that lose, do you take the $7.50 by the rules — or roll it into a bigger position and keep gambling?</strong> The reason credit-spread equity curves so often look like a slow climb followed by a cliff is almost never an inadequate win rate; it's that the losses weren't allowed to end at the structure's designed maximum.</span>
+  </p>
+</div>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">同一个"我认为它不会跌破 $100"的观点，可以用 Bull Put Spread（收 $2.50，最大亏 $7.50）表达，也可以用 Bull Call Spread（付 $3，最大赚 $7）表达。两者的盈亏图形状几乎完全一样。<strong>那么它们的区别到底在哪里？</strong>提示：想想 Theta 的方向、账户里占用的资金，以及被<a class="term" href="../glossary.html#assignment">提前指派</a>的可能性。</span>
+  <span class="en">The same view — "it won't break $100" — can be expressed as a bull put spread (collect $2.50, risk $7.50) or a bull call spread (pay $3, make up to $7). Their payoff diagrams are nearly identical. <strong>So where is the real difference?</strong> Hint: consider the sign of theta, the capital the account must reserve, and the possibility of early <a class="term" href="../glossary.html#assignment">assignment</a>.</span>
+</div>
+
+<!-- ============ 4.5 width & strike ============ -->
+<h2><span class="zh">4.5 宽度与 Strike：概率和赔率的跷跷板</span><span class="en">4.5 Width and Strike: The Probability-Payoff Seesaw</span></h2>
+
+<p>
+  <span class="zh">价差只有两个自由度：<strong>放在哪里</strong>（Strike 的位置）和<strong>拉多宽</strong>（<a class="term" href="../glossary.html#width">Width</a>）。这两个旋钮控制的是同一件事的两端——概率和赔率——而且它们永远反向移动。市场不会送你既高概率又高赔率的结构；如果你觉得找到了，通常是漏算了某个风险。</span>
+  <span class="en">A spread has only two degrees of freedom: <strong>where you put it</strong> (strike placement) and <strong>how wide you make it</strong> (<a class="term" href="../glossary.html#width">width</a>). Those two knobs control the two ends of one thing — probability and payoff — and they always move in opposite directions. The market does not hand out structures that are both high-probability and high-payoff; if you think you found one, you've usually failed to price some risk.</span>
+</p>
+
+<dl class="spec">
+  <div><dt><span class="zh">Strike 更靠近现价</span><span class="en">Strikes near spot</span></dt><dd><span class="zh">赔率好，概率差</span><span class="en">Better payoff, worse odds</span></dd></div>
+  <div><dt><span class="zh">Strike 更远离现价</span><span class="en">Strikes far from spot</span></dt><dd><span class="zh">概率好，赔率差</span><span class="en">Better odds, worse payoff</span></dd></div>
+  <div><dt><span class="zh">宽度更大</span><span class="en">Wider</span></dt><dd><span class="zh">潜在收益大，占用资金多</span><span class="en">More upside, more capital</span></dd></div>
+  <div><dt><span class="zh">宽度更小</span><span class="en">Narrower</span></dt><dd><span class="zh">成本低，点差摩擦占比高</span><span class="en">Cheap, but friction bites harder</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">一个实用的定位工具是 Delta。0.30 Delta 的短腿，粗略意味着约 30% 的概率在到期时变成 <a class="term" href="../glossary.html#itm">ITM</a>。多数系统化的贷记价差做法把短腿放在 0.15–0.30 Delta 之间——不是因为这个区间有魔力，而是因为再往外走，收到的权利金会小到无法覆盖点差和偶尔的大亏。<strong>宽度则主要由资金决定</strong>：$5 宽的价差最大亏损 $500 减去权利金，$10 宽的就是两倍，这直接决定了你一次能开几张。</span>
+  <span class="en">A practical placement tool is delta. A 0.30-delta short leg roughly means a 30% chance of finishing <a class="term" href="../glossary.html#itm">ITM</a>. Most systematic credit-spread programs place the short leg between 0.15 and 0.30 delta — not because that band is magic, but because further out the premium shrinks below what can cover spreads and the occasional full loss. <strong>Width is mostly a capital decision</strong>: a $5-wide spread risks $500 minus the credit, a $10-wide one risks twice that, and that arithmetic decides how many you can hold at once.</span>
+</p>
+
+<div class="note">
+  <span class="note-tag"><span class="zh">与实盘的连接</span><span class="en">Bridge to live trading</span></span>
+  <p>
+    <span class="zh">三件在纸上看不见、在实盘每天遇到的事。<strong>① 双边点差是两倍的。</strong>价差有两条腿，你要穿过两次买卖价差；流动性差的标的上，这项摩擦可以吃掉全部理论优势——只在期权链密集、点差是几分钱的标的上做价差。<strong>② 用组合单，不要分腿下。</strong>券商的 spread order 会把两条腿作为一个整体成交；分两次下单意味着中间那几秒你是裸露的。<strong>③ 短腿可能被提前指派。</strong>美式期权的 Short Put 在深度 ITM 或除息日前可能被提前指派，你会突然持有 100 股正股；这不改变最大亏损（长腿还在），但会占用资金并制造一天的方向暴露。</span>
+    <span class="en">Three things invisible on paper and unavoidable in a live account. <strong>① You cross the spread twice.</strong> Two legs means two bid-ask crossings; on illiquid names that friction can consume the entire theoretical edge — only trade spreads where the chain is dense and quotes are pennies wide. <strong>② Use a combo order, never leg in.</strong> A broker's spread order fills both legs as one unit; entering them separately leaves you naked for those few seconds. <strong>③ The short leg can be assigned early.</strong> An American-style short put deep ITM, or one facing an ex-dividend date, may be assigned early and leave you suddenly holding 100 shares. That doesn't change your maximum loss (the long leg is still there), but it does tie up capital and create a day of directional exposure.</span>
+  </p>
+</div>
+
+<!-- ============ 4.6 Quiz ============ -->
+<h2><span class="zh">4.6 本章测验</span><span class="en">4.6 Chapter Quiz</span></h2>
+<p><span class="zh">点击选项即可作答，答案与解析即时显示。</span><span class="en">Click an option to answer; the correct answer and explanation appear immediately.</span></p>
+
+<div class="quiz-set">
+
+<div class="quiz" data-answer="c">
+  <p class="q"><span class="zh">买入 $50 Call 付 $4，卖出 $60 Call 收 $1.50。这个价差的最大盈利是？</span><span class="en">You buy the $50 call for $4 and sell the $60 call for $1.50. The maximum profit of this spread is:</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">$10（宽度）</span><span class="en">$10 (the width)</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">$2.50（净借记）</span><span class="en">$2.50 (the net debit)</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">$7.50（宽度 − 净借记）</span><span class="en">$7.50 (width − net debit)</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">理论上无限</span><span class="en">Theoretically unlimited</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>C。</b>宽度 $10 是两条腿之间的总空间，但你为进入这个结构付了 $2.50，所以净收益上限是 $7.50。$2.50 是你的<strong>最大亏损</strong>（B 描述的是亏损而非盈利）；"无限"属于没有上腿的裸买 Call。</span>
+    <span class="en"><b>C.</b> The $10 width is the total space between the legs, but you paid $2.50 to enter, so the net cap is $7.50. The $2.50 is your <strong>maximum loss</strong> (B describes the loss, not the gain); "unlimited" belongs to an outright call with no upper leg.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">在 IV 处于历史高位时，价差相对裸买期权的最大优势是什么？</span><span class="en">When IV is at historic highs, the biggest advantage of a spread over an outright option is:</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">价差的胜率更高</span><span class="en">Spreads have a higher win rate</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">卖出的腿也按高 IV 定价，抵消了买入腿的昂贵</span><span class="en">The short leg is also priced at the high IV, offsetting the expensive long leg</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">价差不受 Theta 影响</span><span class="en">Spreads are unaffected by theta</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">价差可以在到期前无成本平仓</span><span class="en">Spreads can be closed before expiry at no cost</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>高 IV 让你买的腿变贵，但同时也让你卖的腿变贵——两者大部分抵消，净 Vega 被压得很低，IV Crush 的伤害也随之变小。A 混淆了结构与胜率（同样 Strike 的价差胜率并不天然更高）；C 错在价差只是<em>净</em> Theta 更小，两条腿都仍在衰减；D 忽略了平仓同样要穿过两条腿的点差。</span>
+    <span class="en"><b>B.</b> High IV makes the leg you buy expensive — and the leg you sell expensive too. They largely cancel, net vega collapses, and IV crush does far less damage. A confuses structure with probability (a spread at the same strike has no inherently better win rate); C is wrong because a spread only has smaller <em>net</em> theta — both legs still decay; D ignores that closing also means crossing two bid-ask spreads.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="d">
+  <p class="q"><span class="zh">一个宽度 $10、收到 $2 权利金的贷记价差，长期不亏钱所需的最低胜率约是？</span><span class="en">A $10-wide credit spread collecting $2 needs roughly what minimum win rate to break even over time?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">50%</span><span class="en">50%</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">20%</span><span class="en">20%</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">65%</span><span class="en">65%</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">80%</span><span class="en">80%</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>D。</b>赢一次 +$2，输一次 −$8（宽度 $10 减去权利金 $2）。设胜率 p，期望值为零需要 2p = 8(1−p)，解得 p = 0.8。<strong>这正是"高胜率策略"的真相：胜率高是被赔率买来的，不是免费的优势。</strong>而市场对短腿的定价，本来就让它大致落在这个胜率附近。</span>
+    <span class="en"><b>D.</b> A win is +$2, a loss is −$8 ($10 width less the $2 credit). With win rate p, zero expectancy requires 2p = 8(1−p), so p = 0.8. <strong>This is the truth about "high-probability strategies": the high win rate was purchased with bad payoff odds, it is not free edge.</strong> And the market's pricing of the short leg puts it right around there to begin with.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="a">
+  <p class="q"><span class="zh">你确信某只股票会崩盘，可能跌 50% 以上。下面哪个结构<strong>最不适合</strong>表达这个观点？</span><span class="en">You're convinced a stock will crash, possibly more than 50%. Which structure is <strong>least</strong> suited to that view?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">Bear Put Spread</span><span class="en">A bear put spread</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">裸买 Put</span><span class="en">An outright long put</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">买入更远期的 Put</span><span class="en">A longer-dated long put</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">买入更低 Strike 的 Put</span><span class="en">A lower-strike long put</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>A。</b>价差的整个设计前提是"跌幅有限"——下腿把收益封死在宽度以内。你越确信是极端行情，封顶的代价就越大。这正是 ARKK 案例的教训：-43% 的跌幅击穿地板后，裸 Put 的表现明显更好。B/C/D 都保留了尾部收益，只是在成本和时间上做取舍。</span>
+    <span class="en"><b>A.</b> A spread is built on the premise that the move is bounded — the lower leg seals the payoff at the width. The more convinced you are of an extreme move, the more that ceiling costs. This is exactly the ARKK lesson: once the -43% blew through the floor, the outright put clearly won. B, C and D all retain tail participation and merely trade off cost against time.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">你的 Bull Put Spread 中，卖出的那条 Put 在除息日前被提前指派。发生了什么？</span><span class="en">The short put in your bull put spread is assigned early, just before an ex-dividend date. What has happened?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">最大亏损被突破了，风险不再有限</span><span class="en">The maximum loss has been breached; risk is no longer defined</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">你持有了 100 股正股，但长腿仍在，最大亏损不变</span><span class="en">You now hold 100 shares, but the long leg remains and the max loss is unchanged</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">整个价差自动平仓</span><span class="en">The entire spread automatically closes</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">券商会替你行权长腿以对冲</span><span class="en">The broker exercises your long leg to hedge</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>提前指派让你按 Strike 买入 100 股，但你买入的那条低 Strike Put 完好无损，它仍然把股价下方封死——<strong>结构的最大亏损没有改变</strong>。变化的是资金占用和一天的方向暴露。常见的正确处理是：卖掉股票并同时平掉长腿，或者直接行权长腿把股票交出去。券商不会替你做这个决定（D 错）。</span>
+    <span class="en"><b>B.</b> Early assignment means you bought 100 shares at the strike, but the lower-strike put you own is untouched and still seals the downside — <strong>the structure's maximum loss is unchanged</strong>. What changed is capital usage and a day of directional exposure. The usual correct response: sell the shares and close the long leg together, or exercise the long leg to deliver them. The broker will not make that decision for you (so not D).</span>
+  </div>
+</div>
+
+</div>
+
+<!-- ============ takeaways ============ -->
+<h2><span class="zh">本章要点</span><span class="en">Key Takeaways</span></h2>
+<p>
+  <span class="zh">垂直价差做的是一件事：<strong>用你不相信的那段行情，去补贴你相信的那段</strong>。借记价差把裸买期权的成本砍掉三到五成，代价是收益封顶；贷记价差把无抵押卖方的无限风险锁进一个矩形，代价是赢面虽大、赔率却差。两者的盈亏图可以几乎一模一样，区别在 Theta 的方向、占用的资金和被提前指派的可能——结构选择从来不只看形状。真正决定成败的仍然是那个老问题：<strong>你的判断里有没有极端行情这一项</strong>。相信有，就别封顶；相信没有，封顶反而让你在最可能发生的世界里赚得更多。至于"高胜率"，本章的算术已经说清楚了：胜率是用赔率买来的，市场从不打折出售确定性。</span>
+  <span class="en">A vertical spread does one thing: <strong>it uses the part of the move you don't believe in to subsidize the part you do</strong>. Debit spreads cut an outright option's cost by a third to a half and cap the payoff in exchange. Credit spreads lock an uncollateralized short's unlimited risk inside a rectangle, in exchange for winning often but small. Their payoff diagrams can look identical; the differences live in the sign of theta, the capital reserved, and the chance of early assignment — structure is never chosen on shape alone. What decides the outcome is the old question: <strong>does your thesis contain an extreme move?</strong> If it does, don't cap it. If it doesn't, capping earns you more in the world most likely to happen. As for "high probability," the arithmetic in this chapter settles it: win rates are purchased with payoff odds, and the market never discounts certainty.</span>
+</p>
+
+<nav class="chap-nav">
+  <a href="03-greeks.html">← <span class="zh">第 3 章 Greeks</span><span class="en">Ch.3 The Greeks</span></a>
+  <a href="05-volatility.html"><span class="zh">第 5 章 波动率策略 →</span><span class="en">Ch.5 Volatility Structures →</span></a>
+</nav>
+
+</main>
+
+<script src="../assets/i18n.js"></script>
+<script src="../assets/payoff.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  Payoff.mount('pf-continuum', {
+    legs: [
+      { kind: 'call', side: 1, strike: 100, premium: 5 },
+      { kind: 'call', side: -1, strike: 110, premium: 2 }
+    ],
+    range: [85, 145],
+    controls: [
+      { leg: 1, prop: 'strike',  min: 105, max: 145, step: 1,   label: { zh: 'Short Strike 上腿', en: 'Short strike (upper leg)' } },
+      { leg: 1, prop: 'premium', min: 0,   max: 4,   step: 0.1, label: { zh: '上腿 Premium 收入', en: 'Upper-leg premium' } }
+    ]
+  });
+
+  Payoff.mount('pf-bull-call', {
+    legs: [
+      { kind: 'call', side: 1, strike: 100, premium: 5 },
+      { kind: 'call', side: -1, strike: 110, premium: 2 }
+    ],
+    range: [85, 125],
+    controls: [
+      { leg: 1, prop: 'strike',  min: 102, max: 125, step: 1,   label: { zh: '上腿 Strike 收益上限', en: 'Upper strike (payoff cap)' } },
+      { leg: 0, prop: 'premium', min: 2,   max: 9,   step: 0.25, label: { zh: '下腿成本 Long premium', en: 'Long-leg cost' } }
+    ]
+  });
+
+  Payoff.mount('pf-bear-put', {
+    legs: [
+      { kind: 'put', side: 1, strike: 110, premium: 7 },
+      { kind: 'put', side: -1, strike: 90, premium: 2.5 }
+    ],
+    range: [70, 130],
+    controls: [
+      { leg: 1, prop: 'strike',  min: 70, max: 108, step: 1,   label: { zh: '下腿 Strike 保护地板', en: 'Lower strike (floor)' } },
+      { leg: 1, prop: 'premium', min: 0,  max: 6,   step: 0.25, label: { zh: '下腿 Premium 收入', en: 'Lower-leg premium' } }
+    ]
+  });
+
+  Payoff.mount('pf-bull-put', {
+    legs: [
+      { kind: 'put', side: -1, strike: 100, premium: 4 },
+      { kind: 'put', side: 1, strike: 90, premium: 1.5 }
+    ],
+    range: [75, 115],
+    controls: [
+      { leg: 0, prop: 'strike',  min: 92, max: 108, step: 1,   label: { zh: '短腿 Strike 防线', en: 'Short strike (the line)' } },
+      { leg: 1, prop: 'strike',  min: 75, max: 90,  step: 1,   label: { zh: '长腿 Strike 保护', en: 'Long strike (protection)' } }
+    ]
+  });
+
+  CaseChart.mount('case-dal', {
+    labels: ['11-06', '11-09', '11-20', '12-04', '12-18', '01-04', '01-15'],
+    series: [
+      { name: { zh: 'DAL 收盘', en: 'DAL close' }, color: '#3CDFA3', data: [32, 37.8, 36.5, 39.5, 41, 40.5, 40] }
+    ],
+    events: [{ i: 1, text: { zh: '疫苗公布', en: 'Vaccine news' } }],
+    yfmt: function (v) { return '$' + v.toFixed(0); }
+  });
+
+  CaseChart.mount('case-arkk', {
+    labels: ['11-01', '11-15', '11-30', '12-15', '12-31', '01-10', '01-21'],
+    series: [
+      { name: { zh: '裸持仓', en: 'Unhedged' }, color: '#FF6A55', data: [124, 118, 103, 95, 94.6, 84, 71] },
+      { name: { zh: '+ 价差', en: '+ spread' }, color: '#3CDFA3', data: [119.5, 113.5, 105.5, 105.5, 105.5, 99.5, 86.5] }
+    ],
+    events: [{ i: 0, text: { zh: '买入价差', en: 'Spread on' } }],
+    yfmt: function (v) { return '$' + v.toFixed(0); }
+  });
+
+});
+</script>
+</body>
+</html>
