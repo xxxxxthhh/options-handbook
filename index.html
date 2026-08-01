@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>期权策略手册 · The Options Strategy Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="index.html"><b>OPTIONS</b>/HANDBOOK</a>
+  <div class="spacer"></div>
+  <nav><a href="glossary.html">Glossary</a></nav>
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button data-lang="zh" aria-pressed="true">中</button>
+    <button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main class="page">
+
+<div class="cover">
+  <p class="eyebrow">An Interactive Field Manual · <span class="zh">交互式实战手册</span><span class="en">ZH / EN Bilingual</span></p>
+  <h1><span class="zh">期权策略手册</span><span class="en">The Options Strategy Handbook</span></h1>
+  <p class="lede">
+    <span class="zh">从买第一张 Call 到运转一套 Wheel 系统。每个策略讲清楚三件事：它在表达什么观点、什么场景该用它、历史上它如何扩大了利润或减少了亏损。</span>
+    <span class="en">From your first call option to running a systematic Wheel. Every strategy answers three questions: what view it expresses, when to reach for it, and how it amplified profits or contained losses in real historical episodes.</span>
+  </p>
+
+  <div class="panel payoff-mark">
+    <p class="panel-title"><span class="dot"></span>INTERACTIVE · <span class="zh">试一试：拖动滑块</span><span class="en">Try it: drag the sliders</span></p>
+    <div id="pf-cover"></div>
+  </div>
+</div>
+
+<h2><span class="zh">目录</span><span class="en">Contents</span></h2>
+
+<ol class="toc">
+  <li><span class="num">01</span><span class="soon"><span class="zh">期权的本质：权利、义务与定价直觉</span><span class="en">What an Option Is: Rights, Obligations, Pricing Intuition</span></span><span class="badge"><span class="zh">撰写中</span><span class="en">Drafting</span></span></li>
+  <li><span class="num">02</span><a href="chapters/02-single-leg.html"><span class="zh">单腿策略：Long Call · Long Put · Covered Call · CSP</span><span class="en">Single-Leg Strategies: Long Call · Long Put · Covered Call · CSP</span></a><span class="badge live"><span class="zh">样章可读</span><span class="en">Sample live</span></span></li>
+  <li><span class="num">03</span><span class="soon"><span class="zh">Greeks：读懂期权的仪表盘</span><span class="en">The Greeks: Reading the Instrument Panel</span></span><span class="badge"><span class="zh">规划中</span><span class="en">Planned</span></span></li>
+  <li><span class="num">04</span><span class="soon"><span class="zh">垂直价差：把观点做成有限风险的结构</span><span class="en">Vertical Spreads: Views with Defined Risk</span></span><span class="badge"><span class="zh">规划中</span><span class="en">Planned</span></span></li>
+  <li><span class="num">05</span><span class="soon"><span class="zh">波动率策略：Straddle · Strangle · Iron Condor</span><span class="en">Volatility Structures: Straddle · Strangle · Iron Condor</span></span><span class="badge"><span class="zh">规划中</span><span class="en">Planned</span></span></li>
+  <li><span class="num">06</span><span class="soon"><span class="zh">事件交易：财报、IV Crush 与价差的用法</span><span class="en">Event Trading: Earnings, IV Crush, and Spread Design</span></span><span class="badge"><span class="zh">规划中</span><span class="en">Planned</span></span></li>
+  <li><span class="num">07</span><span class="soon"><span class="zh">Wheel 系统：CSP → 指派 → Covered Call 的闭环</span><span class="en">The Wheel: CSP → Assignment → Covered Call</span></span><span class="badge"><span class="zh">规划中</span><span class="en">Planned</span></span></li>
+  <li><span class="num">08</span><span class="soon"><span class="zh">反面教材：裸卖、杠杆与波动率的墓碑</span><span class="en">Cautionary Tales: Naked Shorts, Leverage, and Volatility's Graveyard</span></span><span class="badge"><span class="zh">规划中</span><span class="en">Planned</span></span></li>
+  <li><span class="num">09</span><span class="soon"><span class="zh">仓位与纪律：状态判断、资金管理与"不交易"</span><span class="en">Sizing and Discipline: Regimes, Risk Budgets, and "No Trade"</span></span><span class="badge"><span class="zh">规划中</span><span class="en">Planned</span></span></li>
+  <li><span class="num">§</span><a href="glossary.html"><span class="zh">附录：术语表 Glossary</span><span class="en">Appendix: Glossary</span></a><span class="badge live"><span class="zh">可读</span><span class="en">Live</span></span></li>
+</ol>
+
+<p style="color:var(--muted);font-size:.85rem">
+  <span class="zh">本手册仅为教育用途，不构成投资建议。历史案例中的价格为约值，用于说明策略结构。打印本页或任意章节（Ctrl/Cmd + P）即可导出当前语言的 PDF 版本。</span>
+  <span class="en">This handbook is for education only and is not investment advice. Prices in historical cases are approximate, used to illustrate strategy structure. Print any page (Ctrl/Cmd + P) to export a PDF in the current language.</span>
+</p>
+
+</main>
+
+<script src="assets/i18n.js"></script>
+<script src="assets/payoff.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  Payoff.mount('pf-cover', {
+    legs: [
+      { kind: 'stock', basis: 100 },
+      { kind: 'call', side: -1, strike: 110, premium: 2.5 }
+    ],
+    range: [75, 135],
+    controls: [
+      { leg: 1, prop: 'strike',  min: 100, max: 125, step: 1,  label: { zh: 'Strike 行权价', en: 'Strike' } },
+      { leg: 1, prop: 'premium', min: 0.5, max: 8, step: 0.5,  label: { zh: 'Premium 权利金', en: 'Premium' } }
+    ]
+  });
+});
+</script>
+</body>
+</html>

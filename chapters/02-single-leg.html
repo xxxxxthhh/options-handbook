@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.02 单腿策略 Single-Leg Strategies · Options Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../index.html"><b>OPTIONS</b>/HANDBOOK</a>
+  <div class="spacer"></div>
+  <nav>
+    <a href="../index.html"><span class="zh">目录</span><span class="en">Contents</span></a>
+    <a href="../glossary.html">Glossary</a>
+  </nav>
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button data-lang="zh" aria-pressed="true">中</button>
+    <button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main class="page">
+
+<p class="eyebrow">Chapter 02 · Single-Leg Strategies</p>
+<h1><span class="zh">单腿策略：一份合约能做什么</span><span class="en">Single-Leg Strategies: What One Contract Can Do</span></h1>
+<p class="lede">
+  <span class="zh">所有复杂的期权组合，拆开都是四种基本头寸的排列。这一章讲清楚其中最实用的四种用法：买保险、买杠杆、收租金、挂低价买单。</span>
+  <span class="en">Every complex options structure decomposes into four primitive positions. This chapter covers the four most practical uses: buying insurance, buying leverage, collecting rent, and placing a limit order that pays you to wait.</span>
+</p>
+
+<!-- ============ 2.1 ============ -->
+<h2><span class="zh">2.1 四个基本头寸</span><span class="en">2.1 The Four Primitives</span></h2>
+
+<p>
+  <span class="zh">一份期权合约里永远有两方：买方付出 <a class="term" href="../glossary.html#premium">Premium</a>（权利金）获得权利，卖方收取 Premium 承担义务。Call 与 Put、买方与卖方，两两组合出四个基本头寸：</span>
+  <span class="en">Every option contract has two sides: the buyer pays a <a class="term" href="../glossary.html#premium">premium</a> for a right; the seller collects the premium and takes on an obligation. Call vs. put, long vs. short — that gives four primitives:</span>
+</p>
+
+<dl class="spec">
+  <div><dt>Long Call</dt><dd><span class="zh">看涨的权利</span><span class="en">Right to buy</span> <span class="pos">↑</span></dd></div>
+  <div><dt>Long Put</dt><dd><span class="zh">看跌的权利</span><span class="en">Right to sell</span> <span class="neg">↓</span></dd></div>
+  <div><dt>Short Call</dt><dd><span class="zh">被买走的义务</span><span class="en">Obligation to sell</span></dd></div>
+  <div><dt>Short Put</dt><dd><span class="zh">被卖给的义务</span><span class="en">Obligation to buy</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">裸卖期权（Naked Short）风险极高，我们放到第 8 章"反面教材"里专门讲。本章讲的四种策略里，两种是买方（Long Call / Long Put），两种是<strong>有抵押的卖方</strong>——Covered Call 用股票做抵押，Cash-Secured Put 用现金做抵押。这四种是绝大多数投资者应该最先掌握、也最常用到的。</span>
+  <span class="en">Naked shorts are extremely risky — we save them for Chapter 8, the cautionary-tales chapter. This chapter covers two long strategies (long call / long put) and two <strong>collateralized</strong> short strategies — the covered call (backed by shares) and the cash-secured put (backed by cash). These four are what most investors should learn first and use most.</span>
+</p>
+
+<!-- ============ 2.2 Long Call ============ -->
+<h2><span class="zh">2.2 Long Call：用小钱撬动上涨</span><span class="en">2.2 Long Call: Leveraged Upside, Defined Cost</span></h2>
+
+<dl class="spec">
+  <div><dt><span class="zh">观点</span><span class="en">Outlook</span></dt><dd class="pos"><span class="zh">强烈看涨</span><span class="en">Strongly bullish</span></dd></div>
+  <div><dt>Max gain</dt><dd class="pos">∞</dd></div>
+  <div><dt>Max loss</dt><dd class="neg">Premium</dd></div>
+  <div><dt>Breakeven</dt><dd>Strike + Premium</dd></div>
+  <div><dt><span class="zh">时间是敌是友</span><span class="en">Time decay</span></dt><dd class="neg"><span class="zh">敌（Theta 为负）</span><span class="en">Enemy (negative theta)</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">Long Call 的本质是<strong>把"看涨"这个观点浓缩成一笔有限的支出</strong>。你花一笔 Premium，换取在 <a class="term" href="../glossary.html#expiration">Expiration</a>（到期日）之前以 <a class="term" href="../glossary.html#strike">Strike</a>（行权价）买入股票的权利。涨得多，收益按倍数放大；判断错了，最多亏掉 Premium——亏损上限在下单那一刻就锁死了。</span>
+  <span class="en">A long call <strong>compresses a bullish view into a fixed, known cost</strong>. You pay a premium for the right to buy the stock at the <a class="term" href="../glossary.html#strike">strike</a> any time before <a class="term" href="../glossary.html#expiration">expiration</a>. If the stock runs, your gain multiplies; if you're wrong, you lose at most the premium — the downside is capped the moment you enter.</span>
+</p>
+
+<p>
+  <span class="zh"><strong>适用场景：</strong>① 你对某个催化剂（财报、发布会、政策）有强方向判断，且愿意为"判断错就归零"付费；② 你想参与上涨但不想占用买 100 股的资金；③ 替代追高——用 Call 锁定买入价，涨了行权，跌了只损失 Premium。</span>
+  <span class="en"><strong>When to use it:</strong> ① You have a strong directional view on a catalyst (earnings, product launch, policy) and accept that a wrong call means the premium goes to zero; ② you want upside exposure without committing capital for 100 shares; ③ as an alternative to chasing a breakout — the call locks in your entry price, and a failed breakout costs only the premium.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>INTERACTIVE · LONG CALL PAYOFF <span class="zh">拖动滑块观察盈亏曲线</span><span class="en">Drag the sliders</span></p>
+  <div id="pf-long-call"></div>
+</div>
+
+<div class="warn">
+  <span class="warn-tag"><span class="zh">买方的两个隐形税</span><span class="en">The two hidden taxes on option buyers</span></span>
+  <p>
+    <span class="zh">① <a class="term" href="../glossary.html#theta">Theta</a>：每天醒来，你的期权都比昨天便宜一点，临近到期加速。② <a class="term" href="../glossary.html#iv-crush">IV Crush</a>：财报等事件落地后，<a class="term" href="../glossary.html#iv">Implied Volatility</a> 骤降，哪怕股价小涨，期权价格也可能不涨反跌。买方赚钱需要"方向对 + 幅度够 + 时间内"三者同时成立。</span>
+    <span class="en">① <a class="term" href="../glossary.html#theta">Theta</a>: your option is worth a little less every morning, and the decay accelerates near expiry. ② <a class="term" href="../glossary.html#iv-crush">IV crush</a>: after an event like earnings, <a class="term" href="../glossary.html#iv">implied volatility</a> collapses — the stock can drift up while your call loses value. Buyers need direction, magnitude, <em>and</em> timing to all be right.</span>
+  </p>
+</div>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2023-05</p>
+  <h3><span class="zh">NVIDIA 财报夜：一次教科书级的 Long Call</span><span class="en">NVIDIA's Earnings Night: A Textbook Long Call</span></h3>
+  <p>
+    <span class="zh">2023 年 5 月 24 日盘后，NVIDIA 公布财报并给出远超预期的 AI 需求指引，次日股价从约 $305 跳空到约 $379，单日 +24%——大市值股票史上罕见的跳空。财报前买入下周到期、Strike $320 的 OTM Call 大约只需 $4 出头；财报后该合约内在价值已接近 $60，<strong>回报约 13 倍</strong>，而同期正股持有者赚 24%。</span>
+    <span class="en">After the close on May 24, 2023, NVIDIA reported earnings with AI-demand guidance far above expectations. The next day the stock gapped from roughly $305 to $379 — +24% in a session, a historic gap for a mega-cap. Before earnings, an OTM call at the $320 strike expiring that week cost around $4; after the report it carried nearly $60 of intrinsic value — <strong>roughly a 13× return</strong> versus +24% for shareholders.</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>NVDA · MAY 2023 <span class="zh">（收盘价，约值）</span><span class="en">(closes, approx.)</span></p>
+    <div id="case-nvda"></div>
+  </div>
+  <p>
+    <span class="zh">这就是 Long Call 的"扩大利润"一面：<strong>方向、幅度、时间三者全对时，收益是非线性的</strong>。但反面同样成立——如果那晚指引平淡，股价原地踏步，这张 $4 的 Call 会因 IV Crush 和临近到期在两天内归零。财报博弈是硬币的两面，第 6 章会讲如何用价差结构把这枚硬币变得不那么极端。</span>
+    <span class="en">This is the profit-amplifying face of the long call: <strong>when direction, magnitude, and timing all align, the payoff is nonlinear</strong>. The reverse is equally true — with in-line guidance and a flat stock, that $4 call would have gone to zero within two days from IV crush and expiry. Earnings are a two-sided coin; Chapter 6 shows how spreads make that coin less extreme.</span>
+  </p>
+  <p class="verdict gain"><span class="zh">利润扩大：+24% 的股价 → 约 +1300% 的期权回报</span><span class="en">Profit amplified: a +24% stock move → ≈ +1300% option return</span></p>
+</div>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">同样是看涨 NVIDIA 财报，买 Strike $310（更贵、更容易赚）和买 Strike $350（更便宜、更像彩票）的 Call，分别隐含了什么样的判断？如果只允许你动用组合 1% 的资金，你会怎么选？</span>
+  <span class="en">Both express a bullish earnings view — but what different judgments are implied by buying the $310 call (expensive, likelier to pay) versus the $350 call (cheap, lottery-like)? If you could only risk 1% of your portfolio, which would you choose, and why?</span>
+</div>
+
+<!-- ============ 2.3 Long Put ============ -->
+<h2><span class="zh">2.3 Long Put：给持仓买保险</span><span class="en">2.3 Long Put: Insurance for Your Portfolio</span></h2>
+
+<dl class="spec">
+  <div><dt><span class="zh">观点</span><span class="en">Outlook</span></dt><dd class="neg"><span class="zh">看跌 / 防跌</span><span class="en">Bearish / protective</span></dd></div>
+  <div><dt>Max gain</dt><dd class="pos">Strike − Premium</dd></div>
+  <div><dt>Max loss</dt><dd class="neg">Premium</dd></div>
+  <div><dt>Breakeven</dt><dd>Strike − Premium</dd></div>
+  <div><dt><span class="zh">常见用法</span><span class="en">Typical use</span></dt><dd><span class="zh">Protective Put（保护性买入）</span><span class="en">Protective put</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">Long Put 有两种人格。投机人格：看跌某只股票，用有限成本做空。<strong>保险人格</strong>更重要：持有股票的同时买入 Put（即 Protective Put），相当于给持仓上了一份"跌破 Strike 全额理赔"的保单——Premium 就是保费，Strike 就是免赔线。</span>
+  <span class="en">The long put has two personalities. The speculative one: a limited-cost way to short a stock. The <strong>insurance</strong> one matters more: holding shares and buying a put against them (a protective put) is a policy that pays out in full below the strike — the premium is your insurance cost, the strike is your deductible line.</span>
+</p>
+
+<p>
+  <span class="zh"><strong>适用场景：</strong>① 长期仓位不想卖（税务、基本面信仰），但担心短期系统性风险；② 浮盈很大，想锁住大部分利润又保留上行空间；③ 事件前的定向对冲（财报、加息决议）。保险不是常态配置——长期持续买 Put 的成本会显著侵蚀收益，它是<strong>特定时期的战术工具</strong>。</span>
+  <span class="en"><strong>When to use it:</strong> ① You hold a long-term position you don't want to sell (taxes, conviction) but fear near-term systemic risk; ② you're sitting on large gains and want to lock in most of them while keeping upside; ③ targeted hedging ahead of an event (earnings, a rate decision). Insurance is not a permanent allocation — buying puts continuously is a serious drag on returns. It's a <strong>tactical tool for specific windows</strong>.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>INTERACTIVE · PROTECTIVE PUT <span class="zh">股票 + Long Put 的组合盈亏</span><span class="en">Stock + long put, combined P/L</span></p>
+  <div id="pf-protective-put"></div>
+</div>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2020-02</p>
+  <h3><span class="zh">COVID 崩盘：一张 Put 的价值</span><span class="en">The COVID Crash: What One Put Was Worth</span></h3>
+  <p>
+    <span class="zh">2020 年 2 月 19 日，SPY 创下约 $337 的历史新高。此后五周，疫情引发史上最快的熊市，3 月 23 日 SPY 最低触及约 $218，高点回撤超过 -34%。</span>
+    <span class="en">On February 19, 2020, SPY printed an all-time high near $337. Over the next five weeks the pandemic triggered the fastest bear market in history; on March 23 SPY touched roughly $218 — a drawdown of more than -34% from the peak.</span>
+  </p>
+  <p>
+    <span class="zh">Counterfactual：假设你持有 100 股 SPY，在 2 月 21 日（市场刚开始松动、恐慌尚未定价时）花约 $5/股买入 3 月底到期、Strike $330 的 Protective Put。此后无论 SPY 跌到哪里，你的组合价值被锁定在约 $325/股（$330 理赔线 − $5 保费）。<strong>裸持仓最深亏 -34%，戴保险的持仓最深亏约 -4%。</strong></span>
+    <span class="en">Counterfactual: suppose you held 100 SPY shares and on February 21 — when the market had just begun to wobble but panic wasn't yet priced in — paid about $5/share for a protective put, strike $330, expiring end of March. From then on, no matter how far SPY fell, your portfolio was floored at roughly $325/share ($330 payout line minus the $5 premium). <strong>The unhedged position drew down -34%; the insured one, about -4%.</strong></span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>SPY · FEB–MAR 2020 <span class="zh">（周收盘，约值，每股口径）</span><span class="en">(weekly closes, approx., per share)</span></p>
+    <div id="case-spy"></div>
+  </div>
+  <p>
+    <span class="zh">注意时点的重要性：2 月 21 日 IV 还未飙升，这张保单是"便宜"的；等到 3 月中旬 VIX 超过 80 时，同样的保护要贵出数倍——<strong>保险要在着火前买</strong>。这也是为什么 Protective Put 是战术工具：它的性价比取决于你是否在市场自满时买入。</span>
+    <span class="en">Timing was everything: on February 21, IV had not yet exploded and this policy was cheap. By mid-March, with the VIX above 80, the same protection cost several times more — <strong>you buy insurance before the fire</strong>. This is why the protective put is a tactical tool: its value-for-money depends on buying while the market is still complacent.</span>
+  </p>
+  <p class="verdict gain"><span class="zh">亏损减少：-34% 回撤 → 约 -4%，代价是约 1.5% 的保费</span><span class="en">Loss reduced: a -34% drawdown → about -4%, for a premium cost of ≈1.5%</span></p>
+</div>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">如果这场崩盘没有发生，SPY 横盘到 3 月底，这 $5 的保费就白花了。连续 12 个月每月都买这样的保险，年化成本大约多少？这个数字如何改变你对"要不要常年戴保险"的答案？</span>
+  <span class="en">If the crash had never come and SPY drifted sideways into late March, that $5 premium would simply be gone. If you bought this insurance every month for a year, roughly what would it cost annually? How does that number change your answer to "should I stay hedged all the time"?</span>
+</div>
+
+<!-- ============ 2.4 Covered Call ============ -->
+<h2><span class="zh">2.4 Covered Call：用持仓收租</span><span class="en">2.4 Covered Call: Renting Out Your Shares</span></h2>
+
+<dl class="spec">
+  <div><dt><span class="zh">观点</span><span class="en">Outlook</span></dt><dd><span class="zh">中性偏多 / 温和看涨</span><span class="en">Neutral to mildly bullish</span></dd></div>
+  <div><dt>Max gain</dt><dd class="pos">(Strike − <span class="zh">成本</span><span class="en">basis</span>) + Premium</dd></div>
+  <div><dt>Max loss</dt><dd class="neg"><span class="zh">正股跌幅 − Premium</span><span class="en">Stock decline − premium</span></dd></div>
+  <div><dt>Breakeven</dt><dd><span class="zh">持股成本 − Premium</span><span class="en">Basis − premium</span></dd></div>
+  <div><dt><span class="zh">时间是敌是友</span><span class="en">Time decay</span></dt><dd class="pos"><span class="zh">友（Theta 为正）</span><span class="en">Friend (positive theta)</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">持有 100 股，同时卖出一张 Call——你把"股价涨过 Strike 之后的收益"卖给了别人，换来一笔确定的 Premium。它不改变你的下跌风险（股票该跌还是跌，只是有 Premium 垫着），改变的是收益的<strong>形状</strong>：牺牲不确定的大涨，换取确定的现金流。</span>
+  <span class="en">Hold 100 shares, sell one call against them — you've sold someone the upside beyond the strike in exchange for certain cash today. It doesn't change your downside (the stock falls just the same, cushioned only by the premium); it changes the <strong>shape</strong> of your return: trading uncertain large gains for certain income.</span>
+</p>
+
+<p>
+  <span class="zh"><strong>适用场景：</strong>① 判断标的将横盘或缓涨，愿意在某个价位减仓；② 长期持仓想增强现金流；③ 震荡下行的市场里给持仓"垫缓冲"。核心问题只有一个：<strong>Strike 就是你的预设卖出价</strong>——如果你不愿意在 Strike 卖掉股票，就不要在那个价位卖 Call。</span>
+  <span class="en"><strong>When to use it:</strong> ① You expect the stock to chop sideways or grind up, and you'd be content to trim at some price; ② you want cash flow from a long-term holding; ③ you want a cushion in a choppy, declining market. There is really only one question: <strong>the strike is your pre-committed sale price</strong> — if you wouldn't be happy selling shares at the strike, don't sell the call there.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>INTERACTIVE · COVERED CALL <span class="zh">100 股 + Short Call</span><span class="en">100 shares + short call</span></p>
+  <div id="pf-covered-call"></div>
+</div>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2022</p>
+  <h3><span class="zh">2022 熊市：Covered Call 的缓冲垫</span><span class="en">The 2022 Bear: The Covered-Call Cushion</span></h3>
+  <p>
+    <span class="zh">2022 年是标准的"卖方之年"：AAPL 全年从约 $178 跌至约 $130（约 -27%），期间没有单边暴涨，IV 持续偏高。Counterfactual：持有 100 股 AAPL 不动 vs 每月滚动卖出约 5% OTM 的月度 Call、每月收取约 $2.2/股的 Premium（约值）。到年底，纯持股亏约 27%，Covered Call 组合累计收取约 $26/股的租金，亏损收窄到约 -13%。</span>
+    <span class="en">2022 was a textbook seller's year: AAPL fell from about $178 to about $130 (≈ -27%) with no runaway rallies and persistently elevated IV. Counterfactual: hold 100 AAPL shares untouched vs. rolling a monthly call about 5% OTM, collecting roughly $2.2/share of premium each month (approx.). By year-end the buy-and-hold position was down ~27%, while the covered-call version had collected ~$26/share in rent, narrowing the loss to about -13%.</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>AAPL · 2022 <span class="zh">（月收盘 + 累计租金，约值/简化）</span><span class="en">(monthly closes + cumulative premium, approx./simplified)</span></p>
+    <div id="case-aapl"></div>
+  </div>
+  <p>
+    <span class="zh">简化说明：图中假设每月都能顺利滚动、股票从未被 <a class="term" href="../glossary.html#assignment">Assignment</a>（行权指派）——现实中 7–8 月的反弹段大概率需要 Roll 或接受被 call 走。但方向性结论成立：<strong>在震荡下行市，Covered Call 的租金是实打实的减亏项</strong>。</span>
+    <span class="en">Simplification: the chart assumes clean monthly rolls with no <a class="term" href="../glossary.html#assignment">assignment</a> — in reality the July–August rally would likely have forced a roll or a call-away. But the directional conclusion holds: <strong>in a grinding-down market, covered-call premium is a real loss reducer</strong>.</span>
+  </p>
+  <p class="verdict gain"><span class="zh">亏损减少：-27% → 约 -13%，来自 12 个月的持续收租</span><span class="en">Loss reduced: -27% → about -13%, from twelve months of steady rent</span></p>
+</div>
+
+<div class="warn">
+  <span class="warn-tag"><span class="zh">硬币的另一面：2023 年的 NVDA</span><span class="en">The other side of the coin: NVDA in 2023</span></span>
+  <p>
+    <span class="zh">把同样的策略搬到 2023 年的 NVIDIA 上就是灾难性的机会成本：正股全年 +239%，而每月卖 5% OTM Call 的组合会在 5 月财报跳空那一刻被按 Strike 收走股票，错过其后的绝大部分涨幅。Covered Call 的隐性成本不是亏钱，而是<strong>在单边牛市里"赚小钱、丢大钱"</strong>。策略没有好坏，只有与市场状态（Regime）的匹配与错配。</span>
+    <span class="en">Run the same playbook on NVIDIA in 2023 and it becomes a catastrophic opportunity cost: the stock returned +239% for the year, while a monthly 5%-OTM covered call would have had the shares called away at the strike the moment of the May earnings gap, missing most of what followed. The hidden cost of covered calls isn't losing money — it's <strong>earning small money while forfeiting big money in a one-way bull market</strong>. Strategies aren't good or bad; they're matched or mismatched to the regime.</span>
+  </p>
+</div>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">"我永远不会在这个价位卖出这只股票"和"我在这只股票上卖 Covered Call"，这两句话能同时成立吗？如果你发现自己在被指派后感到愤怒，说明你在开仓那一刻遗漏了什么判断？</span>
+  <span class="en">Can "I would never sell this stock at that price" and "I sell covered calls on this stock" both be true at once? If you find yourself angry after an assignment, what judgment did you skip at the moment you opened the trade?</span>
+</div>
+
+<!-- ============ 2.5 Cash-Secured Put ============ -->
+<h2><span class="zh">2.5 Cash-Secured Put：付费等你的价格</span><span class="en">2.5 Cash-Secured Put: Getting Paid to Wait for Your Price</span></h2>
+
+<dl class="spec">
+  <div><dt><span class="zh">观点</span><span class="en">Outlook</span></dt><dd><span class="zh">中性偏多，愿意接货</span><span class="en">Neutral-bullish, happy to own</span></dd></div>
+  <div><dt>Max gain</dt><dd class="pos">Premium</dd></div>
+  <div><dt>Max loss</dt><dd class="neg"><span class="zh">Strike − Premium（跌到 0）</span><span class="en">Strike − premium (to zero)</span></dd></div>
+  <div><dt>Breakeven</dt><dd>Strike − Premium</dd></div>
+  <div><dt><span class="zh">抵押</span><span class="en">Collateral</span></dt><dd><span class="zh">Strike × 100 的现金</span><span class="en">Cash for strike × 100</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">卖出一张 Put，同时锁定足额现金准备接货。它是 Covered Call 的镜像：Covered Call 是"持股者的预设卖单"，CSP 是<strong>"想买者的预设买单"——而且这张买单是别人付钱请你挂的</strong>。股价跌破 Strike，你按 Strike 接货（实际成本 = Strike − Premium，比直接挂限价单便宜）；没跌破，Premium 落袋，下月再来。</span>
+  <span class="en">Sell one put and set aside the full cash to buy the shares if assigned. It's the mirror of the covered call: a covered call is a shareholder's pre-committed sell order; a CSP is <strong>a buyer's pre-committed buy order — one that someone pays you to place</strong>. If the stock falls through the strike, you buy at the strike (effective cost = strike − premium, cheaper than a plain limit order); if it doesn't, you keep the premium and do it again next month.</span>
+</p>
+
+<p>
+  <span class="zh"><strong>适用场景：</strong>① 想买某只股票，但觉得现价偏贵，愿意在更低的价格接；② 系统化收租（CSP → 被指派 → 转 Covered Call，就是第 7 章的 Wheel）。前提永远只有一个：<strong>Strike 是你真心愿意持有这家公司的价格</strong>，Premium 只是耐心的利息，不是策略的目的。为了肥美的 Premium 去卖你根本不想接的股票的 Put，是这个策略最常见的死法。</span>
+  <span class="en"><strong>When to use it:</strong> ① You want a stock but find today's price rich, and would happily buy lower; ② systematic income (CSP → assignment → covered call is the Wheel, Chapter 7). There is exactly one precondition: <strong>the strike must be a price at which you genuinely want to own the business</strong>. The premium is interest on your patience, not the point. Selling puts on stocks you'd hate to own, because the premium looks juicy, is this strategy's most common cause of death.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>INTERACTIVE · CASH-SECURED PUT</p>
+  <div id="pf-csp"></div>
+</div>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 1993-04</p>
+  <h3><span class="zh">巴菲特的可口可乐 Put：机构级 CSP</span><span class="en">Buffett's Coca-Cola Puts: A CSP at Institutional Scale</span></h3>
+  <p>
+    <span class="zh">1993 年 4 月，巴菲特想继续增持可口可乐，但认为当时约 $39 的股价不够便宜。他没有挂限价单干等，而是卖出了 5 万张（对应 500 万股）当年 12 月到期、Strike $35 的 Put，每股收取 $1.50——<strong>一次性入账约 750 万美元</strong>。</span>
+    <span class="en">In April 1993, Buffett wanted to add to Berkshire's Coca-Cola stake but considered the ~$39 price not cheap enough. Instead of parking a limit order, he sold 50,000 put contracts (covering 5 million shares), December expiry, strike $35, collecting $1.50 per share — <strong>roughly $7.5 million of premium up front</strong>.</span>
+  </p>
+  <p>
+    <span class="zh">两种结局对他都是赢：股价跌破 $35，他以实际成本 $33.50 买入他本来就想要的公司；股价不跌（实际结局），$750 万权利金无成本落袋。这笔交易把 CSP 的本质说得再清楚不过：<strong>它不是做空波动率的投机，而是把"我愿意在什么价格买入"这个决策货币化</strong>。</span>
+    <span class="en">Both outcomes were wins by construction: below $35, he'd buy a business he already wanted at an effective $33.50; above it (what actually happened), $7.5M of premium was banked at no cost. The trade states the essence of the CSP perfectly: <strong>it's not a volatility short — it's the monetization of a decision you've already made about the price you'd pay</strong>.</span>
+  </p>
+  <p class="verdict gain"><span class="zh">利润扩大：等待本身产生了 $750 万现金流</span><span class="en">Profit created: the act of waiting itself produced $7.5M of cash flow</span></p>
+</div>
+
+<div class="note">
+  <span class="note-tag"><span class="zh">与实盘的连接</span><span class="en">Bridge to live trading</span></span>
+  <p>
+    <span class="zh">CSP 的绝大多数亏损不是发生在管理端，而是发生在<strong>开仓那一刻</strong>：在错误的市场状态（Regime）下、对错误的标的、以错误的理由（只看 Premium 年化）卖出 Put。第 7 章的 Wheel 系统会专门讨论入场纪律：状态过滤、"不交易"作为合法输出、以及被指派后的成本核算。</span>
+    <span class="en">Most CSP losses don't happen in position management — they happen <strong>at entry</strong>: selling puts in the wrong regime, on the wrong underlying, for the wrong reason (annualized premium yield alone). Chapter 7's Wheel system covers entry discipline in depth: regime filters, "no trade" as a valid output, and true cost-basis accounting after assignment.</span>
+  </p>
+</div>
+
+<!-- ============ 2.6 Quiz ============ -->
+<h2><span class="zh">2.6 本章测验</span><span class="en">2.6 Chapter Quiz</span></h2>
+<p><span class="zh">点击选项即可作答，答案与解析即时显示。</span><span class="en">Click an option to answer; the correct answer and explanation appear immediately.</span></p>
+
+<div class="quiz-set">
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">你买入一张 Premium 为 $3、Strike 为 $100 的 Call。你的最大亏损是？</span><span class="en">You buy a call for a $3 premium at a $100 strike. Your maximum loss is:</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">$100（Strike）</span><span class="en">$100 (the strike)</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">$3（Premium）</span><span class="en">$3 (the premium)</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">$103（Strike + Premium）</span><span class="en">$103 (strike + premium)</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">理论上无限</span><span class="en">Theoretically unlimited</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>期权买方的最大亏损永远是已付出的 Premium。$103 是你的盈亏平衡点（Breakeven），不是亏损上限；"无限亏损"属于无抵押的卖方。</span>
+    <span class="en"><b>B.</b> An option buyer's maximum loss is always the premium paid. $103 is your breakeven, not your loss cap; "unlimited loss" belongs to uncovered sellers.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="c">
+  <p class="q"><span class="zh">Protective Put 中，Strike 的作用最接近保险合同里的哪个概念？</span><span class="en">In a protective put, the strike is closest to which insurance concept?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">保费</span><span class="en">The premium you pay</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">保险期限</span><span class="en">The policy term</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">理赔起付线</span><span class="en">The deductible line where coverage kicks in</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">保险公司</span><span class="en">The insurer</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>C。</b>跌破 Strike 的部分由 Put 全额"理赔"，Strike 之上的浮亏自己承担——正如免赔线。Premium 对应保费，Expiration 对应保险期限。</span>
+    <span class="en"><b>C.</b> Losses below the strike are fully "paid out" by the put; losses above it are yours — exactly like a deductible. The premium maps to the insurance premium, expiration to the policy term.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="a">
+  <p class="q"><span class="zh">卖出 Covered Call 的本质交换是？</span><span class="en">The essential trade in a covered call is:</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">放弃 Strike 之上的上涨，换取确定的 Premium</span><span class="en">Giving up upside beyond the strike for certain premium</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">放弃下跌保护，换取确定的 Premium</span><span class="en">Giving up downside protection for certain premium</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">用 Premium 完全对冲下跌风险</span><span class="en">Fully hedging downside with the premium</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">锁定股票的卖出与买回价差</span><span class="en">Locking in a buy-sell spread on the shares</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>A。</b>Covered Call 本来就没有下跌保护可放弃（B 错），Premium 只是薄薄的缓冲垫而非对冲（C 错）。你卖掉的是尾部的上行收益，买家付钱买走了它。</span>
+    <span class="en"><b>A.</b> There was never downside protection to give up (so not B), and the premium is a thin cushion, not a hedge (so not C). What you sold is the right tail of the upside — the buyer paid you for it.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="d">
+  <p class="q"><span class="zh">卖出 Cash-Secured Put 前，最必须成立的前提是？</span><span class="en">Before selling a cash-secured put, the one precondition that must hold is:</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">这只股票的 IV 处于历史高位</span><span class="en">The stock's IV is at historic highs</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">Premium 的年化收益率超过 20%</span><span class="en">The annualized premium yield exceeds 20%</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">股价近期处于上升趋势</span><span class="en">The stock is in a recent uptrend</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">你真心愿意以 Strike 价格持有这家公司</span><span class="en">You genuinely want to own the business at the strike price</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>D。</b>高 IV 和高年化会让 Premium 更肥，但那往往正是市场在为真实风险定价。愿意接货是 CSP 的定义性前提——其余都是加分项，唯独它是必要条件。</span>
+    <span class="en"><b>D.</b> High IV and juicy annualized yields fatten the premium — but that's usually the market pricing real risk. Willingness to own at the strike is the defining precondition of the CSP; everything else is a bonus, only this one is necessary.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">财报前你买入一张 Call。财报后股价小涨 +2%，但你的 Call 反而跌了 40%。最可能的原因是？</span><span class="en">You buy a call before earnings. The stock inches up +2% after the report, yet your call drops 40%. The most likely cause:</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">做市商操纵了期权价格</span><span class="en">Market makers manipulated the option price</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">IV Crush：事件落地后隐含波动率骤降</span><span class="en">IV crush: implied volatility collapsed once the event passed</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">Theta 在一夜之间消耗了 40% 的时间价值</span><span class="en">Theta burned 40% of the time value overnight</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">Strike 设置得太低了</span><span class="en">The strike was set too low</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>财报前期权价格里含有大量"事件波动率溢价"，结果公布的瞬间不确定性消失，IV 塌缩，时间价值被瞬间抽走——+2% 的股价涨幅远不足以弥补。这是 Vega 的一课，不是 Theta（一夜的 Theta 消耗远达不到 40%）。</span>
+    <span class="en"><b>B.</b> Pre-earnings, the option price carries a large event-volatility premium. The instant results are out, uncertainty vanishes, IV collapses, and extrinsic value is vacuumed away — a +2% move can't compensate. This is a vega lesson, not theta (one night of theta comes nowhere near 40%).</span>
+  </div>
+</div>
+
+</div>
+
+<!-- ============ takeaways ============ -->
+<h2><span class="zh">本章要点</span><span class="en">Key Takeaways</span></h2>
+<p>
+  <span class="zh">买方（Long Call / Long Put）用有限的 Premium 换取非线性的收益，但同时被 Theta 和 IV Crush 双重征税，需要方向、幅度、时间三者全对。有抵押的卖方（Covered Call / CSP）把时间变成朋友，用确定的现金流换取尾部收益或承接义务——它们本质上都是<strong>把你"愿意在什么价格买卖"的决策货币化</strong>。策略本身没有优劣：2020 年属于 Put 买方，2022 年属于 Call 卖方，2023 年属于 Call 买方。判断当下的市场状态，永远先于选择策略。</span>
+  <span class="en">Buyers (long calls and puts) exchange a bounded premium for nonlinear payoffs, taxed all the while by theta and IV crush — direction, magnitude, and timing must all be right. Collateralized sellers (covered calls and CSPs) make time an ally, exchanging tail upside or an obligation to buy for certain cash flow — at heart, both <strong>monetize a decision you've already made about the prices at which you'd buy or sell</strong>. No strategy is inherently superior: 2020 belonged to put buyers, 2022 to call sellers, 2023 to call buyers. Reading the regime always precedes choosing the strategy.</span>
+</p>
+
+<nav class="chap-nav">
+  <a href="../index.html">← <span class="zh">目录</span><span class="en">Contents</span></a>
+  <a href="../glossary.html">Glossary →</a>
+</nav>
+
+</main>
+
+<script src="../assets/i18n.js"></script>
+<script src="../assets/payoff.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  Payoff.mount('pf-long-call', {
+    legs: [{ kind: 'call', side: 1, strike: 105, premium: 3 }],
+    range: [80, 130],
+    controls: [
+      { leg: 0, prop: 'strike',  min: 90, max: 120, step: 1,   label: { zh: 'Strike 行权价', en: 'Strike' } },
+      { leg: 0, prop: 'premium', min: 0.5, max: 10, step: 0.5, label: { zh: 'Premium 权利金', en: 'Premium' } }
+    ]
+  });
+
+  Payoff.mount('pf-protective-put', {
+    legs: [
+      { kind: 'stock', basis: 100 },
+      { kind: 'put', side: 1, strike: 95, premium: 3 }
+    ],
+    range: [70, 130],
+    controls: [
+      { leg: 1, prop: 'strike',  min: 80, max: 110, step: 1,   label: { zh: 'Put Strike 保护线', en: 'Put strike (floor)' } },
+      { leg: 1, prop: 'premium', min: 0.5, max: 10, step: 0.5, label: { zh: 'Premium 保费', en: 'Premium (insurance cost)' } }
+    ]
+  });
+
+  Payoff.mount('pf-covered-call', {
+    legs: [
+      { kind: 'stock', basis: 100 },
+      { kind: 'call', side: -1, strike: 110, premium: 3 }
+    ],
+    range: [75, 135],
+    controls: [
+      { leg: 1, prop: 'strike',  min: 100, max: 125, step: 1,   label: { zh: 'Call Strike 预设卖价', en: 'Call strike (sale price)' } },
+      { leg: 1, prop: 'premium', min: 0.5, max: 8,  step: 0.5,  label: { zh: 'Premium 租金', en: 'Premium (rent)' } }
+    ]
+  });
+
+  Payoff.mount('pf-csp', {
+    legs: [{ kind: 'put', side: -1, strike: 95, premium: 3 }],
+    range: [70, 120],
+    controls: [
+      { leg: 0, prop: 'strike',  min: 80, max: 110, step: 1,   label: { zh: 'Strike 预设买价', en: 'Strike (buy price)' } },
+      { leg: 0, prop: 'premium', min: 0.5, max: 10, step: 0.5, label: { zh: 'Premium 耐心的利息', en: 'Premium (interest on patience)' } }
+    ]
+  });
+
+  CaseChart.mount('case-nvda', {
+    labels: ['05-19', '05-22', '05-23', '05-24', '05-25', '05-26', '05-30', '05-31'],
+    series: [
+      { name: { zh: 'NVDA 收盘价', en: 'NVDA close' }, color: '#3CDFA3', data: [312, 306, 302, 305, 379, 389, 401, 378] }
+    ],
+    events: [{ i: 3, text: { zh: '盘后财报', en: 'Earnings AMC' } }],
+    yfmt: function (v) { return '$' + v.toFixed(0); }
+  });
+
+  CaseChart.mount('case-spy', {
+    labels: ['02-14', '02-21', '02-28', '03-06', '03-13', '03-20', '03-27'],
+    series: [
+      { name: { zh: '裸持仓', en: 'Unhedged' }, color: '#FF6A55', data: [337, 333, 296, 297, 270, 229, 253] },
+      { name: { zh: '持仓 + Put', en: 'With put' }, color: '#3CDFA3', data: [332, 328, 325, 325, 325, 325, 325] }
+    ],
+    events: [{ i: 1, text: { zh: '买入保护', en: 'Put bought' } }],
+    yfmt: function (v) { return '$' + v.toFixed(0); }
+  });
+
+  CaseChart.mount('case-aapl', {
+    labels: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+    series: [
+      { name: { zh: '纯持股', en: 'Buy & hold' }, color: '#FF6A55', data: [175, 165, 175, 158, 149, 137, 162, 157, 138, 153, 148, 130] },
+      { name: { zh: '持股 + 月度 CC', en: 'With monthly CC' }, color: '#3CDFA3', data: [177.2, 169.4, 181.6, 166.8, 160, 150.2, 177.4, 174.6, 157.8, 175, 172.2, 156.4] }
+    ],
+    yfmt: function (v) { return '$' + v.toFixed(0); }
+  });
+
+});
+</script>
+</body>
+</html>

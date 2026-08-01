@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glossary 术语表 · Options Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="index.html"><b>OPTIONS</b>/HANDBOOK</a>
+  <div class="spacer"></div>
+  <nav><a href="index.html"><span class="zh">目录</span><span class="en">Contents</span></a></nav>
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button data-lang="zh" aria-pressed="true">中</button>
+    <button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main class="page">
+
+<p class="eyebrow">Appendix · Glossary</p>
+<h1><span class="zh">术语表</span><span class="en">Glossary</span></h1>
+<p class="lede">
+  <span class="zh">正文中所有英文术语的中文对照与白话解释。手册正文保留英文原词——这是你在券商软件、财经媒体和实盘交流中实际会遇到的形态。</span>
+  <span class="en">Chinese equivalents and plain-language explanations for every term used in the handbook. The main text keeps the English terms — the form you'll actually meet in broker platforms, financial media, and trading conversations.</span>
+</p>
+
+<input class="gloss-search" id="gloss-search" type="search"
+  placeholder="搜索术语 / Search terms…" aria-label="Search glossary">
+
+<table class="gloss">
+  <thead><tr>
+    <th>Term</th>
+    <th><span class="zh">中文名</span><span class="en">Chinese</span></th>
+    <th><span class="zh">解释</span><span class="en">Explanation</span></th>
+  </tr></thead>
+  <tbody>
+
+  <tr id="call"><td class="t">Call</td><td class="c">看涨期权</td><td>
+    <span class="zh">在到期日前以 Strike 价格<strong>买入</strong>标的的权利。股价涨得越高，Call 越值钱。</span>
+    <span class="en">The right to <strong>buy</strong> the underlying at the strike before expiration. The higher the stock goes, the more the call is worth.</span></td></tr>
+
+  <tr id="put"><td class="t">Put</td><td class="c">看跌期权</td><td>
+    <span class="zh">在到期日前以 Strike 价格<strong>卖出</strong>标的的权利。股价跌得越深，Put 越值钱。</span>
+    <span class="en">The right to <strong>sell</strong> the underlying at the strike before expiration. The lower the stock goes, the more the put is worth.</span></td></tr>
+
+  <tr id="strike"><td class="t">Strike</td><td class="c">行权价</td><td>
+    <span class="zh">合约约定的买卖价格。对卖方而言，它是你"预先承诺"的成交价——卖 Call 是预设卖价，卖 Put 是预设买价。</span>
+    <span class="en">The contracted transaction price. For sellers, it's your pre-committed price — a short call sets your sale price, a short put your purchase price.</span></td></tr>
+
+  <tr id="premium"><td class="t">Premium</td><td class="c">权利金</td><td>
+    <span class="zh">买方为权利支付、卖方因义务收取的价格。由内在价值 + 时间价值构成。</span>
+    <span class="en">What the buyer pays for the right and the seller collects for the obligation. Composed of intrinsic value plus time value.</span></td></tr>
+
+  <tr id="expiration"><td class="t">Expiration</td><td class="c">到期日</td><td>
+    <span class="zh">合约失效的日期。美股期权通常为周五。到期时 OTM 的期权价值归零。</span>
+    <span class="en">The date the contract ceases to exist — usually a Friday for US equity options. OTM options expire worthless.</span></td></tr>
+
+  <tr id="dte"><td class="t">DTE</td><td class="c">剩余天数</td><td>
+    <span class="zh">Days to Expiration，距离到期的天数。"7 DTE"即一周后到期。Theta 衰减在低 DTE 时加速。</span>
+    <span class="en">Days to expiration. "7 DTE" means one week left. Theta decay accelerates at low DTE.</span></td></tr>
+
+  <tr id="itm"><td class="t">ITM / ATM / OTM</td><td class="c">价内 / 平值 / 价外</td><td>
+    <span class="zh">In / At / Out of the Money。以 Call 为例：股价高于 Strike 为 ITM（行权有利可图），约等于为 ATM，低于为 OTM。Put 方向相反。</span>
+    <span class="en">In / at / out of the money. For a call: stock above strike is ITM (exercising is profitable), near it ATM, below it OTM. Reversed for puts.</span></td></tr>
+
+  <tr id="intrinsic"><td class="t">Intrinsic Value</td><td class="c">内在价值</td><td>
+    <span class="zh">立刻行权能拿到的价值。Call 为 max(股价 − Strike, 0)。OTM 期权的内在价值为零，价格全部是时间价值。</span>
+    <span class="en">What exercising right now would be worth: for a call, max(stock − strike, 0). OTM options have zero intrinsic value — their price is all time value.</span></td></tr>
+
+  <tr id="time-value"><td class="t">Time Value / Extrinsic</td><td class="c">时间价值</td><td>
+    <span class="zh">Premium 中超出内在价值的部分，是市场为"到期前还可能发生的事"支付的价格。随时间流逝归零。</span>
+    <span class="en">The part of the premium beyond intrinsic value — the market's price for "what might still happen before expiry." Decays to zero over time.</span></td></tr>
+
+  <tr id="iv"><td class="t">Implied Volatility (IV)</td><td class="c">隐含波动率</td><td>
+    <span class="zh">由期权市价反推出的、市场对未来波动幅度的预期。IV 越高，期权越贵。它衡量的是"预期的动荡程度"，不是方向。</span>
+    <span class="en">The future volatility implied by current option prices — the market's expectation of turbulence, not direction. Higher IV, pricier options.</span></td></tr>
+
+  <tr id="iv-crush"><td class="t">IV Crush</td><td class="c">隐波塌缩</td><td>
+    <span class="zh">重大事件（如财报）落地后 IV 骤降，期权时间价值被瞬间抽走。财报前买期权、财报后"方向对了还亏钱"的元凶。</span>
+    <span class="en">The sharp IV collapse after a major event (like earnings) resolves, vacuuming out time value. The classic reason a directionally correct earnings bet still loses money.</span></td></tr>
+
+  <tr id="delta"><td class="t">Delta</td><td class="c">德尔塔</td><td>
+    <span class="zh">股价每变动 $1，期权价格变动多少。也常被当作"到期时 ITM 的粗略概率"——0.30 Delta 的 Put 约有三成概率被指派。</span>
+    <span class="en">How much the option moves per $1 move in the stock. Also a rough proxy for the probability of expiring ITM — a 0.30-delta put has ~30% assignment odds.</span></td></tr>
+
+  <tr id="gamma"><td class="t">Gamma</td><td class="c">伽马</td><td>
+    <span class="zh">Delta 的变化速度。临近到期的 ATM 期权 Gamma 最大——价格对股价变得极其敏感，这也是 Gamma Squeeze 的燃料。</span>
+    <span class="en">The rate of change of delta. Near-expiry ATM options have the highest gamma — prices become hypersensitive to the stock. This is the fuel of a gamma squeeze.</span></td></tr>
+
+  <tr id="theta"><td class="t">Theta</td><td class="c">西塔 / 时间衰减</td><td>
+    <span class="zh">每天流逝的时间价值。买方的 Theta 为负（每天被扣钱），卖方为正（每天收租）。临近到期加速。</span>
+    <span class="en">Time value lost per day. Negative for buyers (a daily toll), positive for sellers (daily rent). Accelerates near expiry.</span></td></tr>
+
+  <tr id="vega"><td class="t">Vega</td><td class="c">维加</td><td>
+    <span class="zh">IV 每变动 1 个百分点，期权价格变动多少。财报前买期权就是在做多 Vega——而 IV Crush 正是 Vega 的反噬。</span>
+    <span class="en">Option price change per one-point move in IV. Buying pre-earnings options is a long-vega bet — and IV crush is vega's revenge.</span></td></tr>
+
+  <tr id="assignment"><td class="t">Assignment</td><td class="c">行权指派</td><td>
+    <span class="zh">卖方被要求履行义务：Short Put 被指派要按 Strike 买入 100 股，Short Call 被指派要按 Strike 交出 100 股。</span>
+    <span class="en">The seller being called to perform: an assigned short put must buy 100 shares at the strike; an assigned short call must deliver 100 shares at the strike.</span></td></tr>
+
+  <tr id="exercise"><td class="t">Exercise</td><td class="c">行权</td><td>
+    <span class="zh">买方主动使用权利。美式期权（多数个股期权）到期前任何时候都可行权；实践中多数人选择直接卖出合约而非行权。</span>
+    <span class="en">The buyer invoking the right. American-style options (most equity options) can be exercised any time before expiry; in practice most holders sell the contract instead.</span></td></tr>
+
+  <tr id="covered-call"><td class="t">Covered Call</td><td class="c">备兑看涨</td><td>
+    <span class="zh">持有 100 股 + 卖出 1 张 Call。用 Strike 之上的上涨空间换取确定的 Premium。见第 2.4 节。</span>
+    <span class="en">100 shares plus one short call. Trades upside beyond the strike for certain premium. See §2.4.</span></td></tr>
+
+  <tr id="csp"><td class="t">Cash-Secured Put (CSP)</td><td class="c">现金担保卖出看跌</td><td>
+    <span class="zh">卖出 1 张 Put 并锁定足额现金准备接货。本质是"别人付钱请你挂的限价买单"。见第 2.5 节。</span>
+    <span class="en">One short put backed by full cash to buy if assigned. Essentially a limit buy order someone pays you to place. See §2.5.</span></td></tr>
+
+  <tr id="protective-put"><td class="t">Protective Put</td><td class="c">保护性买入看跌</td><td>
+    <span class="zh">持股 + 买入 Put，给持仓上保险：Premium 是保费，Strike 是理赔起付线。见第 2.3 节。</span>
+    <span class="en">Shares plus a long put — insurance on the position: the premium is the cost, the strike is the payout line. See §2.3.</span></td></tr>
+
+  <tr id="spread"><td class="t">Spread</td><td class="c">价差组合</td><td>
+    <span class="zh">同时买卖不同 Strike 或到期日的期权，把风险和收益都框定在一个区间内。第 4 章的主角。</span>
+    <span class="en">Simultaneously buying and selling options at different strikes or expiries, boxing both risk and reward into a range. The subject of Chapter 4.</span></td></tr>
+
+  <tr id="straddle"><td class="t">Straddle / Strangle</td><td class="c">跨式 / 宽跨式</td><td>
+    <span class="zh">同时买入（或卖出）Call 和 Put，做多（或做空）波动本身而不押方向。Strike 相同为 Straddle，分开为 Strangle。</span>
+    <span class="en">Buying (or selling) both a call and a put — a bet on volatility itself, not direction. Same strike: straddle; separated strikes: strangle.</span></td></tr>
+
+  <tr id="iron-condor"><td class="t">Iron Condor</td><td class="c">铁鹰</td><td>
+    <span class="zh">同时卖出上下两个价外价差，赌股价停留在区间内。收租策略的进阶形态，风险有限但两侧都可能破。</span>
+    <span class="en">Selling an OTM spread on each side, betting the stock stays in a range. An advanced income structure — defined risk, but breachable on either wing.</span></td></tr>
+
+  <tr id="collar"><td class="t">Collar</td><td class="c">领口</td><td>
+    <span class="zh">持股 + 买 Put + 卖 Call：用卖 Call 的收入补贴买 Put 的保费，把持仓收益锁进一个区间，常可做到零成本。</span>
+    <span class="en">Shares + long put + short call: the call premium subsidizes the put, boxing the position into a range — often at zero net cost.</span></td></tr>
+
+  <tr id="roll"><td class="t">Roll</td><td class="c">移仓 / 展期</td><td>
+    <span class="zh">平掉当前合约、同时开出更远到期日（或不同 Strike）的新合约。卖方管理头寸、推迟指派的核心操作。</span>
+    <span class="en">Closing the current contract while opening a later-dated (or different-strike) one. The seller's core maneuver for managing positions and deferring assignment.</span></td></tr>
+
+  <tr id="wheel"><td class="t">The Wheel</td><td class="c">车轮策略</td><td>
+    <span class="zh">CSP 收租 → 被指派接货 → 转卖 Covered Call → 被 call 走 → 回到 CSP 的循环系统。第 7 章专讲。</span>
+    <span class="en">The cycle: CSP for rent → assignment → covered calls → called away → back to CSP. Chapter 7's subject.</span></td></tr>
+
+  <tr id="naked"><td class="t">Naked Short</td><td class="c">裸卖</td><td>
+    <span class="zh">无股票、无现金抵押地卖出期权。裸卖 Call 的理论亏损无限。本手册所有卖方策略都要求有抵押。</span>
+    <span class="en">Selling options with no shares or cash behind them. A naked call has theoretically unlimited loss. Every short strategy in this handbook is collateralized.</span></td></tr>
+
+  <tr id="margin"><td class="t">Margin</td><td class="c">保证金</td><td>
+    <span class="zh">券商要求为潜在义务预留的资金。保证金不足会触发 Margin Call，极端时券商会强制平仓——不与你商量。</span>
+    <span class="en">Capital the broker requires against potential obligations. A shortfall triggers a margin call; in extremes the broker liquidates for you — without asking.</span></td></tr>
+
+  <tr id="gamma-squeeze"><td class="t">Gamma Squeeze</td><td class="c">伽马挤压</td><td>
+    <span class="zh">大量买入 Call → 做市商买股对冲 → 股价上涨 → Delta 上升需买入更多 → 正反馈螺旋。2021 年 GameStop 的引擎。</span>
+    <span class="en">Heavy call buying → market makers hedge by buying stock → stock rises → deltas rise, forcing more buying → a feedback spiral. The engine of GameStop 2021.</span></td></tr>
+
+  <tr id="regime"><td class="t">Regime</td><td class="c">市场状态</td><td>
+    <span class="zh">当前市场所处的宏观环境类型（单边牛、震荡、趋势熊、恐慌）。同一策略在不同 Regime 下结果天差地别——先判断状态，再选策略。</span>
+    <span class="en">The prevailing market environment (one-way bull, chop, trending bear, panic). The same strategy produces wildly different outcomes across regimes — read the regime before choosing the strategy.</span></td></tr>
+
+  </tbody>
+</table>
+
+<nav class="chap-nav">
+  <a href="index.html">← <span class="zh">目录</span><span class="en">Contents</span></a>
+  <a href="chapters/02-single-leg.html"><span class="zh">第 2 章 →</span><span class="en">Chapter 2 →</span></a>
+</nav>
+
+</main>
+
+<script src="assets/i18n.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var input = document.getElementById('gloss-search');
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.gloss tbody tr'));
+  input.addEventListener('input', function () {
+    var q = input.value.trim().toLowerCase();
+    rows.forEach(function (r) {
+      r.classList.toggle('hide', q && r.textContent.toLowerCase().indexOf(q) === -1);
+    });
+  });
+});
+</script>
+</body>
+</html>
