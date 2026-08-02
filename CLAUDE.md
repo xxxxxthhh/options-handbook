@@ -4,7 +4,7 @@
 
 ## 项目状态
 
-- **Vol.1（第 1–9 章）+ Vol.2 前两章（第 10–11 章）已完成**：https://xxxxxthhh.github.io/options-handbook/ （GitHub Pages, main 分支根目录）
+- **全书 15 章已完成并发布**：https://xxxxxthhh.github.io/options-handbook/ （GitHub Pages, main 分支根目录）
 - 质量基准仍为 chapters/02-single-leg.html（样章）
 - 目录进度 badge 已随全书完成而移除；新增章节时只需在 index.html 目录加链接，并接好前后章 `.chap-nav`
 
@@ -33,7 +33,10 @@
   - Ch09 LTCM 1998 · 巴菲特 1969 清盘合伙企业
   - Ch10 1R0NYMAN box spread 2019-01（UVXY 美式提前行权）· JPM JHEQX 季度 collar
   - Ch11 期限结构倒挂（示意 IV 演示）· NFLX 2022-04-20 PMCC 杠杆
-- 候选池（尚未使用）：2020 软银 Nasdaq Whale（**注意：公开数字为媒体报道且被软银部分否认，只可定性引用，不要给量化 verdict**）、1998 长期资本以外的对冲基金爆仓、2015-08-24 ETF 闪崩、Barings/Leeson 1995、2010-05-06 闪崩
+  - Ch12 到期日钉住效应（Ni-Pearson-Poteshman, JFE 2005）· 2022-11-10 CPI 日
+  - Ch13 VXX 2009–2026（−98% vs VIX −65%）
+  - Ch14 除息日提前指派阈值 · 2015-08-24 ETF 闪崩
+  - Ch15 Cboe BXM 四十年记录 · 2022 vs 2018 两个下跌年
 
 ### 图表
 - 到期盈亏图：`Payoff.mount(id, { legs, range, controls })`；leg 形如 `{kind:'call'|'put'|'stock', side:±1, strike, premium}` 或 `{kind:'stock', basis}`；引擎自动算 breakeven/max gain/max loss，**不要**手绘 SVG 盈亏图
