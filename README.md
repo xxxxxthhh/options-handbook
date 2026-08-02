@@ -19,6 +19,10 @@ chapters/
   09-sizing-discipline.html  仓位与纪律：Regime、资金管理与"不交易"
   10-parity-synthetics.html  平价关系与合成头寸：期权世界的守恒律
   11-time-structures.html    时间维度：Calendar · Diagonal · PMCC
+  12-butterflies.html        蝶式与结构工程：腿数不平衡时会发生什么
+  13-hedging.html            对冲的工程学：尾部保险的成本核算
+  14-operations.html         管理与运维：Roll、止盈规则与到期日的坑
+  15-evidence.html           证据素养：这一切长期到底值不值得做
 tools/
   check-all.sh          一键跑完下面全部检查
   qa.js                 结构检查：双语、术语锚点、内链、图表、测验、案例
