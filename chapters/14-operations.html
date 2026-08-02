@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.14 管理与运维 Management &amp; Operations · Options Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../index.html"><b>OPTIONS</b>/HANDBOOK</a>
+  <div class="spacer"></div>
+  <nav>
+    <a href="../index.html"><span class="zh">目录</span><span class="en">Contents</span></a>
+    <a href="../glossary.html">Glossary</a>
+  </nav>
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button data-lang="zh" aria-pressed="true">中</button>
+    <button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main class="page">
+
+<p class="eyebrow">Chapter 14 · Management &amp; Operations</p>
+<h1><span class="zh">管理与运维：Roll、止盈规则与到期日的坑</span><span class="en">Management and Operations: Rolls, Exit Rules, and Expiry Hazards</span></h1>
+<p class="lede">
+  <span class="zh">前十三章讲的都是<strong>开仓之前</strong>的事：选什么结构、承担什么风险、下多大。这一章讲开仓之后——那些不出现在任何盈亏图上、却真实决定你账户结果的东西：什么时候该 Roll、什么时候该走、到期那天会发生什么、以及在流动性消失的早晨你的订单类型意味着什么。</span>
+  <span class="en">Thirteen chapters have been about what happens <strong>before</strong> you enter: which structure, which risks, what size. This one is about afterwards — the things that appear on no payoff diagram yet genuinely determine your account's outcome: when to roll, when to leave, what happens on expiration day, and what your order type means on a morning when liquidity disappears.</span>
+</p>
+
+<!-- ============ 14.1 ============ -->
+<h2><span class="zh">14.1 Roll 的诚实算法</span><span class="en">14.1 The Honest Arithmetic of a Roll</span></h2>
+
+<p>
+  <span class="zh"><a class="term" href="../glossary.html#roll">Roll</a>（展期）是卖方最常用的动作，也是最容易自欺的一个。它的诱惑在于：<strong>展期几乎总能收到一笔净贷记</strong>——账户里进了钱，感觉像是在"管理头寸"。看一个具体的例子。</span>
+  <span class="en">The <a class="term" href="../glossary.html#roll">roll</a> is a seller's most frequent action and the easiest place to deceive yourself. Its seduction: <strong>a roll almost always brings in a net credit</strong> — money arrives in the account and it feels like managing the position. Take a concrete example.</span>
+</p>
+
+<dl class="spec">
+  <div><dt><span class="zh">原仓</span><span class="en">Original</span></dt><dd><span class="zh">卖 $100 Put，收 <strong>$3.00</strong></span><span class="en">Sold the $100 put for <strong>$3.00</strong></span></dd></div>
+  <div><dt><span class="zh">现状</span><span class="en">Now</span></dt><dd class="neg"><span class="zh">股价 $92，剩 10 天</span><span class="en">Stock $92, 10 days left</span></dd></div>
+  <div><dt><span class="zh">平仓要付</span><span class="en">Cost to close</span></dt><dd class="neg"><span class="zh"><strong>$7.99</strong>（已亏 $4.99）</span><span class="en"><strong>$7.99</strong> (a $4.99 loss)</span></dd></div>
+  <div><dt><span class="zh">展到 45 天</span><span class="en">Roll to 45 days</span></dt><dd class="pos"><span class="zh">收 $8.84，<strong>净收 $0.85</strong></span><span class="en">Collect $8.84, <strong>net credit $0.85</strong></span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">注意这笔操作的两面。<strong>账面上：你收到了 $0.85，一笔"贷记展期"，很多人会把它记成一次成功的管理。</strong>而实际上：你花 $7.99 平掉了一个当初只收 $3.00 的头寸——<strong>那 $4.99 的亏损已经发生了，展期没有消除它，只是把它从这个月挪到了下个月</strong>。你收到的 $0.85 不是利润，是你为"再赌一次"收取的新保费。</span>
+  <span class="en">Note the two faces of this trade. <strong>On the statement: you received $0.85, a "credit roll," which many people record as successful management.</strong> In reality: you paid $7.99 to close a position you originally sold for $3.00 — <strong>that $4.99 loss has already happened, and the roll didn't erase it, it moved it from this month to next</strong>. The $0.85 you collected isn't profit; it's the new premium you charged for betting again.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span><span class="zh">展期后的新头寸：它是一笔全新的交易</span><span class="en">the rolled position: it is an entirely new trade</span></p>
+  <div id="pf-roll"></div>
+</div>
+
+<div class="warn">
+  <span class="warn-tag"><span class="zh">判断一次 Roll 的唯一问题</span><span class="en">The only question that judges a roll</span></span>
+  <p>
+    <span class="zh">不是"我收到了净贷记吗"，而是：<strong>如果我今天手上没有任何头寸，我会主动开出这个新仓吗？</strong>上面这个例子里，展期后的新头寸是"卖出 45 天、$100 行权价的 Put，最大亏损 $91.16"——而标的现价只有 $92，已经跌了 8%。第 7 章那三个前提还成立吗：你仍然愿意在 $100 接货吗？仓位还合适吗？</span>
+    <span class="en">Not "did I collect a credit," but: <strong>if I held nothing today, would I open this new position from scratch?</strong> In the example above, the rolled position is "short a 45-day $100 put with a maximum loss of $91.16" — while the underlying trades at $92, already down 8%. Do Chapter 7's three preconditions still hold: would you still be happy to own at $100? Is the size still right?</span>
+  </p>
+  <p>
+    <span class="zh">如果答案是否，那么这次展期<strong>不是管理，是把一个你已经不认可的判断续了一期</strong>，而且用"收到贷记"这件事替自己盖了章。第 8 章那三块墓碑上都刻着这个动作的放大版：连续正确让人加仓，而连续展期让人不必承认亏损已经发生。<strong>Roll 唯一正当的理由是"这个仓位我现在依然愿意开"，而不是"我不想认亏"。</strong></span>
+    <span class="en">If the answer is no, then this roll <strong>is not management but the renewal of a judgment you no longer hold</strong> — rubber-stamped by the fact that a credit arrived. Chapter 8's three headstones all bear the amplified version of this move: a run of success inflates size, and a run of rolls removes the need to admit a loss has occurred. <strong>The only legitimate reason to roll is "I would still open this position today," never "I don't want to book the loss."</strong></span>
+  </p>
+</div>
+
+<!-- ============ 14.2 ============ -->
+<h2><span class="zh">14.2 两条机械规则</span><span class="en">14.2 Two Mechanical Rules</span></h2>
+
+<p>
+  <span class="zh">既然自由裁量的管理很容易变成自欺，卖方社群里流行两条<strong>机械规则</strong>。它们的价值不在于最优，而在于<strong>把决策从你当下的情绪里拿走</strong>：</span>
+  <span class="en">Since discretionary management slides easily into self-deception, two <strong>mechanical rules</strong> circulate widely among sellers. Their value isn't optimality but <strong>removing the decision from your mood at the moment</strong>:</span>
+</p>
+
+<dl class="spec">
+  <div><dt><span class="zh">50% 止盈</span><span class="en">Close at 50%</span></dt><dd><span class="zh">收到的权利金赚回一半就平仓</span><span class="en">Exit once half the credit is earned</span></dd></div>
+  <div><dt><span class="zh">21 DTE 离场</span><span class="en">Exit at 21 DTE</span></dt><dd><span class="zh">剩 21 天一律平掉或展期</span><span class="en">Close or roll at 21 days left</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">两条规则背后都是第 3 章那两条曲线。<strong>50% 止盈</strong>利用的是 Theta 的形状：权利金的前一半衰减得最"划算"——你用较少的时间承担了较少的 Gamma 风险就拿到了它；继续持有，剩下那一半要用更长的时间、承担更陡的 Gamma 才能赚到。<strong>21 DTE 离场</strong>躲的正是那段最陡的 Gamma：第 3 章算过，ATM 期权的 Gamma 在到期周飙到平时的三倍，而卖方是 Gamma 为负的一方。<strong>这两条规则合起来说的是同一句话：把仓位停在收益/风险比最好的那一段，不要为了最后一点权利金去趟到期周的雷区。</strong></span>
+  <span class="en">Both rest on Chapter 3's two curves. <strong>Closing at 50%</strong> exploits theta's shape: the first half of a credit decays on the best terms — you earned it while carrying less time and less gamma; holding on means earning the remaining half over a longer stretch under steeper gamma. <strong>Exiting at 21 DTE</strong> dodges precisely that steepest stretch: Chapter 3 computed that an ATM option's gamma triples into expiry week, and a seller is the short-gamma side. <strong>Together they say one thing: park the position in the segment with the best reward-to-risk, and don't wade into expiry week for the last scrap of premium.</strong></span>
+</p>
+
+<div class="note">
+  <span class="note-tag"><span class="zh">机械规则的真正作用</span><span class="en">What a mechanical rule is really for</span></span>
+  <p>
+    <span class="zh">这两个数字（50%、21）没有什么神圣之处，换成 40% 和 25 天也不会有本质区别。<strong>它们的价值在于「事先写下」这件事本身</strong>——第 9 章那份清单的第 ④ 条要求你在开仓前说出最坏情况的具体数字，同样的道理适用于离场：<strong>在你还没有持仓、因而还没有情绪的时候决定何时离场，是唯一能保证这个决定不被浮亏污染的时刻。</strong>一条略微次优但你真的会执行的规则，胜过一条最优但你每次都会为自己找例外的规则。</span>
+    <span class="en">There is nothing sacred about 50% and 21 — 40% and 25 days would work about as well. <strong>Their value lies in having been written down in advance</strong>. Chapter 9's checklist item ④ demanded a specific number for the worst case before entering; the same logic governs the exit: <strong>deciding when to leave while you hold nothing, and therefore feel nothing, is the only moment at which that decision is uncontaminated by an unrealised loss.</strong> A slightly suboptimal rule you actually follow beats an optimal one you find exceptions to every time.</span>
+  </p>
+</div>
+
+<!-- ============ 14.3 ============ -->
+<h2><span class="zh">14.3 到期日的三个坑</span><span class="en">14.3 Three Hazards on Expiration Day</span></h2>
+
+<p>
+  <span class="zh">第 12 章提过 <a class="term" href="../glossary.html#pin-risk">Pin Risk</a>：到期时标的正贴着你的短腿行权价，而你要到下周一开盘才知道是否被指派。这是三个坑里最广为人知的一个。另外两个更机械，也更容易避免——前提是你知道它们存在。</span>
+  <span class="en">Chapter 12 introduced <a class="term" href="../glossary.html#pin-risk">pin risk</a>: at expiry the underlying sits on your short strike and you won't know until Monday's open whether you were assigned. It is the best known of the three. The other two are more mechanical and far easier to avoid — provided you know they exist.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>PIN RISK <span class="zh">到期日贴着行权价的短腿</span><span class="en">a short leg sitting on the strike at expiry</span></p>
+  <div id="pf-pin"></div>
+</div>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · <span class="zh">除息日</span><span class="en">ex-dividend</span></p>
+  <h3><span class="zh">第二个坑：一个十秒钟就能查完的除法</span><span class="en">The Second Hazard: A Division You Can Do in Ten Seconds</span></h3>
+  <p>
+    <span class="zh">美式 Call 的持有人什么时候会提前行权？答案很精确：<strong>当他放弃的时间价值小于他能拿到的股息时。</strong>行权意味着立刻买入股票、从而拿到即将派发的股息，代价是扔掉这张 Call 剩余的时间价值。所以判定规则只有一条除法：</span>
+    <span class="en">When does the holder of an American call exercise early? The answer is precise: <strong>when the time value they surrender is worth less than the dividend they capture.</strong> Exercising means buying the stock now and therefore receiving the upcoming dividend, at the cost of throwing away the call's remaining time value. So the test is a single comparison:</span>
+  </p>
+  <div class="spec">
+    <div style="grid-column:1/-1;padding:1.1rem .9rem;text-align:center;font-family:var(--mono);font-size:1rem">
+      <span class="zh">短 Call 的剩余时间价值 &lt; 股息 → 你会被提前指派</span>
+      <span class="en">short call's remaining time value &lt; the dividend → you get assigned</span>
+    </div>
+  </div>
+  <p>
+    <span class="zh">用引擎把这条规则算成具体数字（标的 $100，股息 $0.80）：</span>
+    <span class="en">Turned into concrete numbers by the engine (stock $100, dividend $0.80):</span>
+  </p>
+  <dl class="spec">
+    <div><dt>$95 Call · 30 <span class="zh">天</span><span class="en">days</span></dt><dd class="pos"><span class="zh">时间价值 <strong>$0.82</strong> → 安全</span><span class="en">time value <strong>$0.82</strong> → safe</span></dd></div>
+    <div><dt>$95 Call · 10 <span class="zh">天</span><span class="en">days</span></dt><dd class="neg"><span class="zh">时间价值 <strong>$0.18</strong> → <strong>会被指派</strong></span><span class="en">time value <strong>$0.18</strong> → <strong>assigned</strong></span></dd></div>
+    <div><dt>$90 Call · 10 <span class="zh">天</span><span class="en">days</span></dt><dd class="neg"><span class="zh">时间价值 <strong>$0.10</strong> → <strong>会被指派</strong></span><span class="en">time value <strong>$0.10</strong> → <strong>assigned</strong></span></dd></div>
+  </dl>
+  <p>
+    <span class="zh">这张表里最值得注意的是<strong>第一行和第二行的对比</strong>：同一个行权价，仅仅因为剩余天数从 30 天变成 10 天，时间价值就从 $0.82 掉到 $0.18——从"安全"变成"必被指派"。<strong>越接近到期、越深入价内的短 Call，越危险</strong>，而这两个条件恰好是备兑开仓和 Wheel 在正常运转时经常出现的状态（第 2、7 章）。</span>
+    <span class="en">The row worth staring at is <strong>the first against the second</strong>: same strike, and merely going from 30 days to 10 drops the time value from $0.82 to $0.18 — from "safe" to "certain to be assigned." <strong>The closer to expiry and the deeper in the money a short call is, the more exposed it becomes</strong> — and those two conditions are exactly where covered calls and the Wheel routinely sit in normal operation (Chapters 2 and 7).</span>
+  </p>
+  <p>
+    <span class="zh">代价是不对称的，这才是重点。<strong>被指派意味着你按行权价交出股票、并且拿不到那 $0.80 的股息；而主动避免它的成本，只是提前平掉或展期时付出的那 $0.18 时间价值。</strong>换句话说：花 $0.18 可以避免损失 $0.80 加上一次计划外的股票交割。<strong>你要做的只是在每个除息日前看一眼这个除法</strong>——这是全书成本收益比最悬殊的一个动作。</span>
+    <span class="en">The asymmetry is the point. <strong>Being assigned means delivering the shares at the strike and forgoing the $0.80 dividend; avoiding it costs only the $0.18 of time value you pay to close or roll early.</strong> Put plainly: $0.18 spent avoids $0.80 lost plus an unplanned share delivery. <strong>All you have to do is run that comparison before each ex-dividend date</strong> — the best cost-benefit ratio of any action in this book.</span>
+  </p>
+  <p>
+    <span class="zh">简化声明：期权价格与时间价值由本书引擎按 Black-Scholes 计算（标的 $100、IV 20%、利率 4%、不含分红的定价基准），为<strong>示意值</strong>；$0.80 的股息为假设值。真实市场中还需考虑利率与借券成本，且提前行权决策由对手方作出、不总是理性。此处说明的是判定规则的形状，不是对任何具体合约的预测。</span>
+    <span class="en">Stated simplification: the option prices and time values are Black-Scholes values from this book's engine (stock $100, 20% IV, 4% rate, priced without a dividend adjustment) and are <strong>illustrative</strong>; the $0.80 dividend is assumed. Real markets also involve interest and borrow costs, and the early-exercise decision belongs to the counterparty, who is not always rational. What is shown is the shape of the rule, not a prediction about any specific contract.</span>
+  </p>
+  <p class="verdict gain"><span class="zh">亏损减少：不检查则被提前指派——失去 $0.80 股息并被迫交割股票 → 花 $0.18 的剩余时间价值提前平仓或展期即可避免</span><span class="en">Loss avoided: unchecked, early assignment costs the $0.80 dividend plus an unplanned delivery → paying the $0.18 of remaining time value to close or roll early prevents it</span></p>
+</div>
+
+<p>
+  <span class="zh">第三个坑是<strong>结算方式</strong>，而它有一个干净的解法。第 1 章讲过美式与欧式的区别，这里是它在实务上的样子：</span>
+  <span class="en">The third hazard is <strong>settlement</strong>, and it has a clean solution. Chapter 1 covered American versus European; here is what that distinction looks like operationally:</span>
+</p>
+
+<dl class="spec">
+  <div><dt>SPX</dt><dd class="pos"><span class="zh"><a class="term" href="../glossary.html#american-european">欧式</a> · <a class="term" href="../glossary.html#cash-settled">现金结算</a> · 无提前指派</span><span class="en"><a class="term" href="../glossary.html#american-european">European</a> · <a class="term" href="../glossary.html#cash-settled">cash-settled</a> · no early assignment</span></dd></div>
+  <div><dt>SPY</dt><dd class="neg"><span class="zh">美式 · 实物交割 · 有提前指派与除息风险</span><span class="en">American · physically settled · early assignment and dividend risk</span></dd></div>
+  <div><dt><span class="zh">合约规模</span><span class="en">Contract size</span></dt><dd><span class="zh">SPX 约为 SPY 的 10 倍</span><span class="en">SPX ≈ 10× SPY</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">如果你交易的是指数敞口，<strong>用 SPX 这类欧式现金结算的合约，可以把本节前两个坑一次性消除</strong>：没有人能提前行权（第 1 章伯克希尔、第 10 章 1R0NYMAN 都是这条的注脚），到期日也不会突然多出一个正股头寸——盈亏直接以现金结清。代价是合约面值大得多，仓位粒度更粗。<strong>（在美国，SPX 这类合约还适用与股票期权不同的税务处理；本书不提供税务建议，这一项请咨询专业人士，且仅适用于美国纳税人。）</strong></span>
+  <span class="en">If your exposure is to an index, <strong>using European, cash-settled contracts like SPX eliminates both of this section's first two hazards at once</strong>: nobody can exercise early (Chapter 1's Berkshire and Chapter 10's 1R0NYMAN are footnotes to this), and expiration day cannot hand you an unexpected stock position — the P/L simply settles in cash. The cost is a much larger contract, and therefore coarser position sizing. <strong>(In the United States, contracts like SPX also receive different tax treatment from equity options; this book gives no tax advice — consult a professional, and note this applies to US taxpayers only.)</strong></span>
+</p>
+
+<!-- ============ 14.4 ============ -->
+<h2><span class="zh">14.4 订单类型：在流动性消失的早晨</span><span class="en">14.4 Order Types: On a Morning When Liquidity Vanishes</span></h2>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2015-08-24</p>
+  <h3><span class="zh">止损单在那天做了它被设计去做的事</span><span class="en">Stop Orders Did Exactly What They Were Built to Do</span></h3>
+  <p>
+    <span class="zh">2015 年 8 月 24 日周一开盘前，上证综指收跌 8.5%，标普 500 期货一度下跌近 <strong>7%</strong>。开盘后市场陷入混乱：<strong>约 1,278 只股票开盘跳空下跌超过 5%</strong>，交易所因此暂停了它们的交易；<strong>开盘第一个小时内，471 只证券触发熔断，其中包括 303 只 ETF</strong>。这一天成为当时史上第二活跃的交易日。</span>
+    <span class="en">Before Monday's open on August 24, 2015, the Shanghai Composite had closed down 8.5% and S&P 500 futures were down nearly <strong>7%</strong>. The open descended into chaos: <strong>roughly 1,278 stocks gapped down more than 5%</strong>, prompting the exchange to halt them, and <strong>within the first hour 471 securities were halted, 303 of them ETFs</strong>. It became the second most active trading day on record at the time.</span>
+  </p>
+  <p>
+    <span class="zh">最严重的问题出在 ETF 上：<strong>成分股大面积停牌，做市商无从知道这些 ETF 的真实净值，于是把买价整体下调约 35%</strong>。结果是部分 ETF 的成交价<strong>偏离其净值超过 40%</strong>——不是因为它们持有的资产真的跌了 40%，而是因为在那个小时里，没有人知道它们值多少钱。</span>
+    <span class="en">The worst of it hit ETFs: <strong>with constituent stocks halted en masse, market makers had no way to know an ETF's true net asset value, so they dropped their bids by roughly 35%</strong>. Some ETFs consequently traded <strong>more than 40% away from NAV</strong> — not because their holdings had fallen 40%, but because for that hour nobody knew what they were worth.</span>
+  </p>
+  <p>
+    <span class="zh">而这就是止损单的处境。<strong>一张止损单被触发后会变成市价单，按<em>下一个可成交的买价</em>成交——在那个早晨，$100 的止损可能成交在 $50 或更低。</strong>它没有失灵，它精确地执行了指令：卖掉，不问价格。几小时后，随着成分股恢复交易、净值重新可知，这些 ETF 的价格基本回到了应有的水平——<strong>但那些被止损单卖出的人已经在最坏的那一刻永久离场了。</strong></span>
+    <span class="en">Which is precisely where stop orders found themselves. <strong>A triggered stop becomes a market order and fills at <em>the next available bid</em> — on that morning, a $100 stop could fill at $50 or less.</strong> It did not malfunction; it executed its instruction exactly: sell, do not ask the price. Within hours, as constituents reopened and NAVs became knowable again, those ETFs largely returned to sensible levels — <strong>but anyone whose stop had fired was already out, permanently, at the worst possible instant.</strong></span>
+  </p>
+  <p>
+    <span class="zh">对期权交易者，这一天的教训有三条，而且都可以直接执行：<strong>① 用限价单，不用市价单</strong>——多腿结构尤其如此，第 4 章说过一次组合单要穿越两条腿的点差，而在混乱的早晨那个点差可能宽到没有意义；<strong>② 不要用止损单来管理期权头寸</strong>——期权的报价本来就比正股宽得多，一个正常的开盘波动就足以触发它；<strong>③ 开盘后的前几分钟不要交易</strong>——这一天所有极端成交都集中在开盘的第一个小时。</span>
+    <span class="en">For an options trader the day carries three directly executable lessons: <strong>① use limit orders, never market orders</strong> — especially for multi-leg structures, since Chapter 4 noted a combo crosses two spreads, and on a chaotic morning those spreads can widen past meaning; <strong>② never manage an options position with a stop order</strong> — option quotes are far wider than stock quotes to begin with, and an ordinary opening swing is enough to trigger one; <strong>③ don't trade in the opening minutes</strong> — every extreme print that day clustered in the first hour.</strong></span>
+  </p>
+  <p>
+    <span class="zh">数据来源声明：上证指数跌幅、标普期货盘前跌幅、约 1,278 只股票跳空、471 只证券（含 303 只 ETF）熔断、做市商下调买价约 35%、部分 ETF 偏离净值逾 40%，均为公开报道与监管材料中的数字。"$100 止损成交在 $50"是对该机制的<strong>说明性举例</strong>，非特定证券的实际成交记录。</span>
+    <span class="en">Source statement: the Shanghai decline, the pre-open futures drop, the roughly 1,278 gapping stocks, the 471 halted securities including 303 ETFs, the roughly 35% cut to market-maker bids and the 40%-plus deviations from NAV are all figures from public reporting and regulatory material. "A $100 stop filling at $50" is an <strong>illustrative statement of the mechanism</strong>, not the trade record of any specific security.</span>
+  </p>
+  <p class="verdict loss"><span class="zh">亏损减少：止损市价单在触发后按下一个买价成交（当日部分 ETF 偏离净值逾 40%，几小时后价格基本回归）→ 限价单不会在无人知道价格的那一小时成交，代价只是可能不成交</span><span class="en">Loss avoided: a stop becomes a market order and fills at the next bid (some ETFs traded 40%+ from NAV that day and largely recovered within hours) → a limit order simply doesn't fill during the hour when nobody knows the price, at the cost of possibly not filling at all</span></p>
+</div>
+
+<div class="warn">
+  <span class="warn-tag"><span class="zh">关于 0DTE：这本书不教它，但你必须知道它有多大</span><span class="en">On 0DTE: this book won't teach it, but you must know its scale</span></span>
+  <p>
+    <span class="zh"><a class="term" href="../glossary.html#zero-dte">0DTE</a>（当日到期期权）已经不是边缘现象。据 Cboe 公布的数据：<strong>2025 年全年，0DTE 占 SPX 期权总成交量的 59%；到 2026 年第二季度，这一比例升至 65%</strong>——也就是说，标普 500 指数期权的成交里，接近三分之二发生在当天就要到期的合约上。</span>
+    <span class="en"><a class="term" href="../glossary.html#zero-dte">0DTE</a> — options expiring the same day — is no longer a fringe phenomenon. Per Cboe's published data: <strong>across full-year 2025, 0DTE accounted for 59% of total SPX option volume; by the second quarter of 2026 that share had risen to 65%</strong> — meaning close to two thirds of S&P 500 index option trading now happens in contracts expiring that day.</span>
+  </p>
+  <p>
+    <span class="zh">本书不把它作为策略来教，原因在第 3 章那张 Gamma 图里已经写清楚了：<strong>Gamma 在到期日趋于无穷</strong>。0DTE 头寸的 Delta 可以在几分钟内从 0.2 翻到 0.8，这意味着<strong>你的方向暴露不再由你控制，而是由标的的每一次跳动重新定义</strong>；同时 Theta 收益被压缩到几个小时里，任何一次判断错误都没有时间修正。对卖方，它是本书反复警告的"负 Gamma"的极端形态；对买方，它是 Theta 归零最快的地方。<strong>知道它占了市场的三分之二是必要的（它会影响你交易的每一个指数期权的流动性与盘中波动），但那不构成参与它的理由。</strong></span>
+    <span class="en">This book does not teach it as a strategy, and Chapter 3's gamma chart already explains why: <strong>gamma tends to infinity at expiry</strong>. A 0DTE position's delta can travel from 0.2 to 0.8 in minutes, which means <strong>your directional exposure is no longer yours to set — it is redefined by every tick in the underlying</strong>; meanwhile theta's income is compressed into hours, leaving no time to correct a mistake. For sellers it is the extreme form of the negative gamma this book keeps warning about; for buyers it is where theta reaches zero fastest. <strong>Knowing it is two thirds of the market is necessary — it shapes the liquidity and intraday behaviour of every index option you trade — but that is not a reason to participate in it.</strong></span>
+  </p>
+</div>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>0DTE <span class="zh">占 SPX 期权成交量的比例（Cboe 公布数据）</span><span class="en">share of SPX option volume (Cboe published data)</span></p>
+  <div id="case-0dte"></div>
+</div>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">本章的每一条建议——限价单、不用止损、除息前查一次除法、21 天离场——<strong>都不能提高你任何一笔交易的期望收益</strong>。它们只能防止你在流程上把已经赚到的东西还回去。<strong>如果一整章的内容都不创造收益、只减少损耗，它在你的交易系统里应该排在什么位置？</strong>把它和第 9 章那句"仓位是唯一你能完全控制的变量"放在一起：<strong>这一章讲的是第二个完全由你控制的变量。</strong></span>
+  <span class="en">Every recommendation in this chapter — limit orders, no stops, run the dividend comparison, leave at 21 days — <strong>raises the expected return of exactly none of your trades</strong>. They only stop you from handing back, procedurally, what you already earned. <strong>If an entire chapter creates no return and only reduces leakage, where does it belong in your trading system?</strong> Set it beside Chapter 9's "size is the only variable you fully control": <strong>this chapter is about the second one.</strong></span>
+</div>
+
+<!-- ============ 14.5 Quiz ============ -->
+<h2><span class="zh">14.5 本章测验</span><span class="en">14.5 Chapter Quiz</span></h2>
+<p><span class="zh">点击选项即可作答，答案与解析即时显示。</span><span class="en">Click an option to answer; the correct answer and explanation appear immediately.</span></p>
+
+<div class="quiz-set">
+
+<div class="quiz" data-answer="c">
+  <p class="q"><span class="zh">你卖的 $100 Put 收 $3，现在股价 $92、平仓要付 $7.99。展期到 45 天净收 $0.85。这次展期意味着什么？</span><span class="en">You sold a $100 put for $3; the stock is now $92 and closing costs $7.99. Rolling to 45 days brings a $0.85 net credit. What does that roll mean?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">你赚了 $0.85，这是一次成功的管理</span><span class="en">You made $0.85 — successful management</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">亏损被抵消了</span><span class="en">The loss has been offset</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">$4.99 的亏损已经发生，展期只是把它带到下个月，同时开出一笔全新的交易</span><span class="en">The $4.99 loss already happened; the roll carries it forward and opens an entirely new trade</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">展期总是优于平仓</span><span class="en">Rolling always beats closing</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>C。</b>你花 $7.99 平掉了当初只收 $3.00 的头寸——<strong>那 $4.99 已经是实现亏损，展期不能消除它</strong>。收到的 $0.85 不是利润，是你为"再赌一次"收取的新保费。A 和 B 正是这个动作最危险的地方：<strong>贷记让人误以为发生了盈利，从而不必承认亏损已经发生</strong>。判断一次展期的唯一问题是："如果我今天空仓，我会主动开出这个新仓吗？"——这里新仓是"卖 45 天 $100 Put、最大亏损 $91.16"，而标的已经跌到 $92。</span>
+    <span class="en"><b>C.</b> You paid $7.99 to close a position originally sold for $3.00 — <strong>that $4.99 is a realized loss and the roll cannot erase it</strong>. The $0.85 isn't profit; it's the new premium you charged for betting again. A and B are exactly where this move gets dangerous: <strong>a credit creates the impression that a gain occurred, removing the need to admit the loss did</strong>. The only question that judges a roll: "holding nothing today, would I open this?" — and here that is "short a 45-day $100 put risking $91.16" with the stock already at $92.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">你的短 $95 Call 还剩 10 天，剩余时间价值 $0.18，标的下周除息 $0.80。会发生什么？</span><span class="en">Your short $95 call has 10 days left and $0.18 of remaining time value; the stock goes ex-dividend $0.80 next week. What happens?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">没事，还有 10 天才到期</span><span class="en">Nothing — there are still 10 days</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">大概率被提前指派：对手方放弃 $0.18 去拿 $0.80 是理性的</span><span class="en">Likely early assignment: surrendering $0.18 to capture $0.80 is rational</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">只有到期日才可能被指派</span><span class="en">Assignment can only happen at expiry</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">取决于 IV</span><span class="en">It depends on IV</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>判定规则是一个除法：<strong>剩余时间价值 &lt; 股息 → 提前行权对持有人有利</strong>。$0.18 &lt; $0.80，所以他会行权、拿走股息，而你按 $95 交出股票。C 混淆了美式与欧式（第 1 章）——美式期权任何一天都可以行权。<strong>关键在于代价的不对称：不检查会损失 $0.80 股息加一次计划外交割；主动提前平仓只需付出 $0.18 的时间价值。</strong>这是全书成本收益比最悬殊的一个动作。</span>
+    <span class="en"><b>B.</b> The test is one comparison: <strong>remaining time value &lt; dividend → early exercise favours the holder</strong>. $0.18 &lt; $0.80, so they exercise, take the dividend, and you deliver at $95. C confuses American with European (Chapter 1) — an American option can be exercised any day. <strong>The asymmetry is what matters: not checking costs the $0.80 dividend plus an unplanned delivery, while closing early costs only $0.18 of time value.</strong> It is the best cost-benefit ratio of any action in this book.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="d">
+  <p class="q"><span class="zh">2015 年 8 月 24 日，部分 ETF 成交价偏离净值超过 40%，几小时后基本回归。止损单持有者的处境是？</span><span class="en">On August 24, 2015 some ETFs traded 40%+ from NAV and largely recovered within hours. What happened to holders of stop orders?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">止损单保护了他们</span><span class="en">Their stops protected them</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">止损单失灵了</span><span class="en">The stops malfunctioned</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">止损单不会在这种行情触发</span><span class="en">Stops don't trigger in that kind of market</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">止损单精确执行了指令——变成市价单、按下一个买价成交，在最坏的一刻永久离场</span><span class="en">The stops executed exactly as designed — becoming market orders filled at the next bid, exiting permanently at the worst instant</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>D。</b>止损单没有失灵（B 错），它做了它被设计去做的事：触发后变成市价单，<strong>按下一个可成交的买价成交，不问价格</strong>。那个早晨成分股大面积停牌，做市商无从判断净值、把买价整体下调约 35%，于是"下一个买价"可能远低于任何合理价值。几小时后价格基本回归，<strong>但止损单持有者已经在最坏的那一刻永久离场</strong>——这正是 A 说反的地方：它没有保护他们，它把一次临时的报价失灵变成了永久的实现亏损。</span>
+    <span class="en"><b>D.</b> The stops did not malfunction (not B); they did exactly what they are built to do: on triggering they become market orders that fill <strong>at the next available bid, without regard to price</strong>. That morning, with constituents halted, market makers could not assess NAV and cut bids by roughly 35%, so "the next bid" could sit far below any sensible value. Prices largely recovered within hours — <strong>but stop holders were already out, permanently, at the worst instant</strong>. That is precisely what A gets backwards: the stop didn't protect them, it converted a temporary quote failure into a permanent realized loss.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="a">
+  <p class="q"><span class="zh">"50% 止盈"和"21 DTE 离场"这两条规则，最主要的价值是什么？</span><span class="en">What is the principal value of the "close at 50%" and "exit at 21 DTE" rules?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">它们是事先写下的，因而不会被持仓时的情绪污染</span><span class="en">They were written in advance, so an open position's emotions can't contaminate them</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">50% 和 21 这两个数字经过了最优化</span><span class="en">The numbers 50 and 21 are mathematically optimal</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">它们能提高每笔交易的期望收益</span><span class="en">They raise each trade's expected return</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">它们能避免所有亏损</span><span class="en">They prevent all losses</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>A。</b>这两个数字并不神圣——换成 40% 和 25 天不会有本质区别（B 错）。<strong>价值在于"事先写下"本身</strong>：在你还没有持仓、因而还没有浮亏和情绪的时候决定何时离场，是唯一能保证这个决定干净的时刻。这与第 9 章清单第 ④ 条（开仓前说出最坏情况的具体数字）是同一个原理。C 说得太满：它们主要减少的是<strong>到期周负 Gamma 的风险暴露</strong>，而不是提高期望；<strong>一条略微次优但你真的会执行的规则，胜过一条最优但你每次都为自己找例外的规则。</strong></span>
+    <span class="en"><b>A.</b> The numbers aren't sacred — 40% and 25 days would serve about as well (not B). <strong>The value lies in having written them down beforehand</strong>: deciding the exit while you hold nothing, and so feel nothing, is the only moment the decision is clean. It is the same principle as Chapter 9's checklist item ④ (state the worst case as a number before entering). C overclaims: what they mainly reduce is <strong>exposure to expiry-week negative gamma</strong>, not expectancy. <strong>A slightly suboptimal rule you actually follow beats an optimal one you find exceptions to every time.</strong></span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="c">
+  <p class="q"><span class="zh">0DTE 已占 SPX 期权成交量的约三分之二。本书对此的立场是？</span><span class="en">0DTE now accounts for roughly two thirds of SPX option volume. What is this book's position?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">既然占比这么高，应该学会交易它</span><span class="en">Given the share, you should learn to trade it</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">它不重要，可以忽略</span><span class="en">It's unimportant and can be ignored</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">必须知道它的规模（它影响流动性与盘中波动），但规模不构成参与的理由</span><span class="en">You must know its scale (it shapes liquidity and intraday behaviour), but scale is not a reason to participate</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">它比普通期权更安全，因为持有时间短</span><span class="en">It's safer than ordinary options because you hold it briefly</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>C。</b>忽略它是不行的（B 错）：占比 59%→65% 意味着它塑造了你交易的每一个指数期权的流动性与盘中波动。但"很多人在做"从来不是参与的理由。<strong>第 3 章那张 Gamma 图给出了原因：Gamma 在到期日趋于无穷，0DTE 的 Delta 可以在几分钟内从 0.2 翻到 0.8——你的方向暴露不再由你设定，而是被标的的每一次跳动重新定义。</strong>D 恰好说反了：持有时间短意味着<em>没有时间修正错误</em>，而不是风险小。</span>
+    <span class="en"><b>C.</b> Ignoring it won't do (not B): a 59%→65% share means it shapes the liquidity and intraday behaviour of every index option you trade. But "many people do it" was never a reason to. <strong>Chapter 3's gamma chart supplies the reason: gamma tends to infinity at expiry, and a 0DTE delta can go from 0.2 to 0.8 in minutes — your directional exposure stops being something you set and becomes something every tick redefines.</strong> D is backwards: a short holding period means <em>no time to correct a mistake</em>, not less risk.</span>
+  </div>
+</div>
+
+</div>
+
+<!-- ============ takeaways ============ -->
+<h2><span class="zh">本章要点</span><span class="en">Key Takeaways</span></h2>
+<p>
+  <span class="zh">开仓之后的每一个动作，都有一个诚实版本和一个自欺版本。<strong>Roll 几乎总能收到净贷记——上面那个例子收了 $0.85——但那 $4.99 的亏损在你平仓的瞬间就已经实现了，展期只是把它带进下个月，同时开出一笔全新的、最大亏损 $91.16 的交易。</strong>判断一次展期的唯一问题不是"我收到贷记了吗"，而是"如果今天空仓，我会主动开出这个仓吗"。机械规则（50% 止盈、21 DTE 离场）的价值同样不在数字本身，而在它们是<strong>在你还没有情绪的时候写下的</strong>——这与第 9 章要求开仓前说出最坏情况的具体数字，是同一个原理的两次应用。到期日有三个坑：Pin Risk 让你在周一开盘前不知道自己是否被指派；除息前的那个除法（剩余时间价值 &lt; 股息）只要十秒钟，却能用 $0.18 的成本避免 $0.80 的股息损失加一次计划外交割；而选择欧式现金结算的合约可以把前两个坑一次性消除。最后，2015 年 8 月 24 日那个早晨留下的教训不需要任何解释：<strong>止损单没有失灵，它精确地执行了"卖掉，不问价格"——在部分 ETF 偏离净值超过 40%、而几小时后价格基本回归的那一天，它把一次临时的报价失灵变成了永久的实现亏损。</strong>这一章的每一条建议都不提高任何一笔交易的期望收益，它们只防止你在流程上把已经赚到的东西还回去——<strong>而这恰恰是第 9 章之后，第二个完全由你控制的变量。</strong></span>
+  <span class="en">Every action after entry has an honest version and a self-deceiving one. <strong>A roll almost always brings a net credit — $0.85 in the example above — but the $4.99 loss was realized the instant you closed, and rolling merely carries it into next month while opening an entirely new trade risking $91.16.</strong> The only question that judges a roll isn't "did I collect a credit" but "holding nothing today, would I open this?" Mechanical rules (close at 50%, exit at 21 DTE) likewise draw their value not from the numbers but from having been <strong>written down while you felt nothing</strong> — the same principle as Chapter 9's demand for a specific worst-case number before entering, applied at the other end. Expiration day holds three hazards: pin risk leaves you not knowing until Monday whether you were assigned; the ex-dividend comparison (remaining time value &lt; dividend) takes ten seconds and spends $0.18 to avoid losing a $0.80 dividend plus an unplanned delivery; and choosing European, cash-settled contracts eliminates the first two outright. Finally, the morning of August 24, 2015 needs no gloss: <strong>the stops did not malfunction — they executed "sell, don't ask the price" exactly, and on a day when some ETFs traded 40% from NAV and largely recovered within hours, they converted a temporary quote failure into a permanent realized loss.</strong> Nothing in this chapter raises the expected return of any trade; it only stops you from handing back, procedurally, what you already earned — <strong>which makes it, after Chapter 9, the second variable entirely within your control.</strong></span>
+</p>
+
+<nav class="chap-nav">
+  <a href="13-hedging.html">← <span class="zh">第 13 章 对冲的工程学</span><span class="en">Ch.13 Hedging Engineering</span></a>
+  <a href="15-evidence.html"><span class="zh">第 15 章 证据素养 →</span><span class="en">Ch.15 Evidence Literacy →</span></a>
+</nav>
+
+</main>
+
+<script src="../assets/i18n.js"></script>
+<script src="../assets/payoff.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  // The rolled position: a brand-new 45-day short put, not a repair.
+  Payoff.mount('pf-roll', {
+    spot0: 92, rate: 0.04, elapsed: 0,
+    legs: [{ kind: 'put', side: -1, strike: 100, iv: 0.30, dte: 45 }],
+    range: [70, 115],
+    controls: [
+      { prop: 'elapsed', min: 0, max: 45, step: 1, label: { zh: '已过天数 Days elapsed', en: 'Days elapsed' } },
+      { leg: 0, prop: 'strike', min: 85, max: 105, step: 1, label: { zh: 'Strike（你仍愿意在此接货吗）', en: 'Strike (still happy to own here?)' } }
+    ]
+  });
+
+  // Pin risk: a short call with the stock sitting on the strike into expiry.
+  Payoff.mount('pf-pin', {
+    spot0: 100, rate: 0.04, elapsed: 25,
+    legs: [
+      { kind: 'stock', basis: 100 },
+      { kind: 'call', side: -1, strike: 100, iv: 0.22, dte: 30 }
+    ],
+    range: [88, 112],
+    controls: [
+      { prop: 'elapsed', min: 0, max: 30, step: 1, label: { zh: '已过天数（拖到 30 = 到期日）', en: 'Days elapsed (30 = expiry)' } }
+    ]
+  });
+
+  // 0DTE share of SPX option volume — Cboe published figures.
+  CaseChart.mount('case-0dte', {
+    labels: ['2025-02', '2025-Q3', '2025 FY', '2026-Q2'],
+    series: [
+      { name: { zh: '0DTE 占比', en: '0DTE share' }, color: '#FF6A55', data: [56, 57, 59, 65] }
+    ],
+    yfmt: function (v) { return v.toFixed(0) + '%'; }
+  });
+
+});
+</script>
+</body>
+</html>

@@ -316,6 +316,14 @@
     <span class="zh">只保护极端下跌（如 −20% 以下）而放弃日常回撤保护的做法：买深度价外 Put，便宜得多，但绝大多数回撤它根本不赔。<strong>连续对冲的成本随波动率上升八倍</strong>——平静时年化约 4.5%，恐慌时约 37.2%，所以"等出事再对冲"在算术上不可行。见第 13 章。</span>
     <span class="en">Insuring only the extreme (below, say, −20%) and forgoing everyday drawdown cover: deep OTM puts are far cheaper but pay nothing in the vast majority of declines. <strong>Continuous hedging costs rise eightfold with volatility</strong> — about 4.5% a year in calm, about 37.2% in panic — which is why "hedge once trouble starts" is arithmetically unavailable. See Chapter 13.</span></td></tr>
 
+  <tr id="zero-dte"><td class="t">0DTE</td><td class="c">当日到期期权</td><td>
+    <span class="zh">当天到期的合约。已占 SPX 期权成交量的多数（2025 全年 59%、2026 Q2 达 65%，Cboe 数据）。<strong>Gamma 在到期日趋于无穷</strong>，Delta 可在几分钟内从 0.2 翻到 0.8——方向暴露不再由你设定。本书说明其规模（它影响所有指数期权的流动性），但不作为策略教授。见第 14 章。</span>
+    <span class="en">Contracts expiring the same day. Now the majority of SPX option volume (59% for full-year 2025, 65% in Q2 2026, per Cboe). <strong>Gamma tends to infinity at expiry</strong> and delta can travel 0.2 to 0.8 in minutes — directional exposure stops being something you set. This book documents its scale (it shapes all index-option liquidity) but does not teach it as a strategy. See Chapter 14.</span></td></tr>
+
+  <tr id="cash-settled"><td class="t">Cash Settlement</td><td class="c">现金结算</td><td>
+    <span class="zh">到期按指数水平以现金结清盈亏，不交割标的。SPX 等指数期权属此类，配合<a class="term" href="#american-european">欧式</a>条款可一次性消除<a class="term" href="#early-exercise">提前行权</a>与到期日意外持股两个风险。代价是合约面值大、仓位粒度粗。</span>
+    <span class="en">P/L settles in cash against the index level at expiry, with no delivery of the underlying. Index options such as SPX work this way; combined with <a class="term" href="#american-european">European</a> terms this eliminates both <a class="term" href="#early-exercise">early exercise</a> and the risk of waking up holding shares. The cost is a large contract and coarser sizing.</span></td></tr>
+
   <tr id="regime"><td class="t">Regime</td><td class="c">市场状态</td><td>
     <span class="zh">当前市场所处的宏观环境类型（单边牛、震荡、趋势熊、恐慌）。同一策略在不同 Regime 下结果天差地别——先判断状态，再选策略。</span>
     <span class="en">The prevailing market environment (one-way bull, chop, trending bear, panic). The same strategy produces wildly different outcomes across regimes — read the regime before choosing the strategy.</span></td></tr>
