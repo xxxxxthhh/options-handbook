@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.12 蝶式与结构工程 Butterflies · Options Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../index.html"><b>OPTIONS</b>/HANDBOOK</a>
+  <div class="spacer"></div>
+  <nav>
+    <a href="../index.html"><span class="zh">目录</span><span class="en">Contents</span></a>
+    <a href="../glossary.html">Glossary</a>
+  </nav>
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button data-lang="zh" aria-pressed="true">中</button>
+    <button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main class="page">
+
+<p class="eyebrow">Chapter 12 · Butterflies &amp; Structural Engineering</p>
+<h1><span class="zh">蝶式与结构工程：腿数不平衡时会发生什么</span><span class="en">Butterflies and Structural Engineering: What Happens When the Legs Don't Balance</span></h1>
+<p class="lede">
+  <span class="zh">到目前为止，每个结构表达的都是方向或幅度："往上"、"不往下"、"会大动"。蝶式是第一个能说出<strong>"它会落在这一带"</strong>的结构。而一旦开始自由拼装腿，你也第一次有能力造出一个<strong>看起来是定义风险、实际不是</strong>的东西——本章的后半部分就是关于怎么在下单前认出它。</span>
+  <span class="en">Every structure so far has expressed direction or magnitude: "up," "not down," "a big move." The butterfly is the first that can say <strong>"it lands in this band."</strong> And once you start assembling legs freely, you also acquire — for the first time — the ability to build something that <strong>looks like defined risk and isn't</strong>. The back half of this chapter is about recognising that before you click buy.</span>
+</p>
+
+<!-- ============ 12.1 ============ -->
+<h2><span class="zh">12.1 从价差到蝶式</span><span class="en">12.1 From Spread to Butterfly</span></h2>
+
+<p>
+  <span class="zh">把第 4 章的一个牛市价差和一个熊市价差<strong>拼在同一个中间行权价上</strong>，就得到了蝶式：买入 1 张低 <a class="term" href="../glossary.html#strike">Strike</a>、卖出 2 张中 Strike、买入 1 张高 Strike。三个行权价等距，四条腿净支出很小。</span>
+  <span class="en">Join Chapter 4's bull spread and bear spread <strong>at a shared middle strike</strong> and you have a <a class="term" href="../glossary.html#butterfly">butterfly</a>: buy one low <a class="term" href="../glossary.html#strike">strike</a>, sell two at the middle, buy one high. Three equally spaced strikes, four legs, a small net outlay.</span>
+</p>
+
+<dl class="spec">
+  <div><dt><span class="zh">观点</span><span class="en">Outlook</span></dt><dd><span class="zh">到期落在中间 Strike 一带</span><span class="en">Lands near the middle strike</span></dd></div>
+  <div><dt><span class="zh">结构</span><span class="en">Structure</span></dt><dd>+1 / −2 / +1</dd></div>
+  <div><dt>Max gain</dt><dd class="pos"><span class="zh">翼宽 − 净借记</span><span class="en">Wing width − net debit</span></dd></div>
+  <div><dt>Max loss</dt><dd class="neg"><span class="zh">净借记</span><span class="en">The net debit</span></dd></div>
+  <div><dt>Breakeven</dt><dd><span class="zh">两个（中 Strike ± 净借记）</span><span class="en">Two (middle ± net debit)</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">用本章的示意参数（现价 $100、行权价 95/100/105、30 天、<a class="term" href="../glossary.html#iv">IV</a> 25%）：净借记 <strong>$1.33</strong>，若到期正好落在 $100，收益 <strong>$3.67</strong>——约 2.75 倍。两个盈亏平衡点在 <strong>$96.33</strong> 和 <strong>$103.66</strong>。</span>
+  <span class="en">With this chapter's illustrative inputs (spot $100, strikes 95/100/105, 30 days, <a class="term" href="../glossary.html#iv">IV</a> 25%): the net debit is <strong>$1.33</strong>, and finishing exactly at $100 pays <strong>$3.67</strong> — about 2.75×. The two breakevens sit at <strong>$96.33</strong> and <strong>$103.66</strong>.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>LONG BUTTERFLY 95/100/105 <span class="zh">拖动天数，看帐篷是怎么支起来的</span><span class="en">drag the days and watch the tent rise</span></p>
+  <div id="pf-butterfly"></div>
+</div>
+
+<p>
+  <span class="zh">这张图最值得玩的是"已过天数"滑块。开仓时（虚线）几乎是一条贴着零的平线——蝶式在刚建仓时<strong>什么都不是</strong>。随着天数推进，虚线一天天向上拱起，最后与实线的帐篷重合。<strong>蝶式的全部收益都来自时间，而且几乎全部集中在最后一两周</strong>：它卖出的两张中间 Strike 期权正处在第 3 章那条 Theta 曲线最陡的位置，而两只翅膀衰减得慢得多。</span>
+  <span class="en">The slider worth playing with here is days-elapsed. At entry the dashed line is nearly flat against zero — a butterfly at inception <strong>is almost nothing</strong>. As days pass it arches upward day by day until it meets the solid tent. <strong>A butterfly's entire return comes from time, and nearly all of it arrives in the final week or two</strong>: the two middle-strike options it sold sit on the steepest part of Chapter 3's decay curve, while the wings decay far more slowly.</span>
+</p>
+
+<!-- ============ 12.2 ============ -->
+<h2><span class="zh">12.2 它赌的不是一个点，是一条带</span><span class="en">12.2 It Bets on a Band, Not a Point</span></h2>
+
+<p>
+  <span class="zh">关于蝶式最常见的误解是："这是在赌股价<strong>正好</strong>停在中间行权价。"如果真是这样，它的胜率会低到没有任何意义。<strong>看一眼数字就知道不是：</strong>上面这只蝶式的盈利区间是 $96.33 到 $103.66，宽 <strong>7.33 个点</strong>，相当于标的价格的 7.3%。它赌的是一条相当宽的带。</span>
+  <span class="en">The commonest misconception about butterflies: "this is a bet that the stock lands <strong>exactly</strong> on the middle strike." If that were so, its win rate would be negligible. <strong>One glance at the numbers says otherwise:</strong> the butterfly above is profitable from $96.33 to $103.66 — a band <strong>7.33 points</strong> wide, 7.3% of the underlying. It is betting on a fairly generous range.</span>
+</p>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · <span class="zh">到期日的钉住效应</span><span class="en">expiration-day pinning</span></p>
+  <h3><span class="zh">对冲盘真的会推动股价——但它推不出你的利润</span><span class="en">Dealer Hedging Really Does Move Stocks — Just Not Into Your Profit</span></h3>
+  <p>
+    <span class="zh">Ni、Pearson 与 Poteshman 发表在《金融经济学期刊》（2005，78 卷 49–87 页）的研究给出了一个反复被引用的发现：<strong>在期权到期日，有listed期权的股票收盘价会向行权价聚集</strong>。他们把"钉住"定义为收盘价落在行权价 <strong>±$0.125</strong> 以内；在行权价按 $5 为间隔的股票中，到期日的钉住比例约 <strong>8.2%</strong>，而到期日前后的任何一天<strong>从未超过 6%</strong>。</span>
+    <span class="en">Ni, Pearson and Poteshman, writing in the <em>Journal of Financial Economics</em> (2005, vol. 78, pp. 49–87), produced a much-cited finding: <strong>on option expiration dates, the closing prices of optionable stocks cluster at strike prices</strong>. They define pinning as closing within <strong>±$0.125</strong> of a strike; among stocks whose strikes are spaced $5 apart, roughly <strong>8.2%</strong> pin on expiration days, while on the days before and after the figure is <strong>never above 6%</strong>.</span>
+  </p>
+  <p>
+    <span class="zh">机制不是巧合，而是第 3 章讲过的 <a class="term" href="../glossary.html#delta-hedge">Delta 对冲</a>：做市商为保持中性而买卖正股，在到期日临近、Gamma 飙升时，这些对冲盘把价格往行权价拽。作者估算，到期日当天期权持仓使股票收益平均改变至少 <strong>16.5 个基点</strong>，对应的市值位移量级约 <strong>90 亿美元</strong>。<strong>"期权尾巴摇动股票这条狗"不是坊间说法，它是有同行评审的测量结果。</strong></span>
+    <span class="en">The mechanism isn't coincidence but Chapter 3's <a class="term" href="../glossary.html#delta-hedge">delta hedging</a>: market makers trade the underlying to stay neutral, and as expiry nears and gamma spikes, that hedging drags price toward the strike. The authors estimate option positions alter stock returns on expiration dates by at least <strong>16.5 basis points</strong> on average, a market-capitalisation displacement on the order of <strong>$9 billion</strong>. <strong>"The options tail wags the stock dog" is not folklore; it is a peer-reviewed measurement.</strong></span>
+  </p>
+  <div class="warn">
+    <span class="warn-tag"><span class="zh">但请不要把 8.2% 当成蝶式的胜率</span><span class="en">But 8.2% is not a butterfly's win rate</span></span>
+    <p>
+      <span class="zh">这个数字很容易被误用成"买蝶式有 8.2% 的概率打满"。<strong>那是错的，而且错得可以被算术直接戳破：</strong>蝶式的满额收益约为成本的 2.75 倍，8.2% × 2.75 ≈ <strong>0.23</strong>——若真按这个口径，蝶式是一笔期望值为负四分之三的交易。</span>
+      <span class="en">It is tempting to read that figure as "a butterfly has an 8.2% chance of paying in full." <strong>That is wrong, and arithmetic disposes of it immediately:</strong> a butterfly's maximum payoff is about 2.75× its cost, and 8.2% × 2.75 ≈ <strong>0.23</strong> — on that reading a butterfly would be a trade with an expectancy of minus three quarters.</span>
+    </p>
+    <p>
+      <span class="zh">错在两个数量说的根本不是同一件事。<strong>钉住的定义是 ±$0.125 的刀锋，宽 0.25 点；蝶式的盈利区间宽 7.33 点——后者是前者的 29 倍。</strong>研究测量的是"收盘价精确落在行权价上"的频率，而蝶式需要的只是"落在两个平衡点之间"。<strong>这条研究能支持的结论只有一个：对冲盘确实在到期日推动价格。它没说、也不能说蝶式划算。</strong></span>
+      <span class="en">The error is that the two quantities describe different events. <strong>Pinning is a ±$0.125 knife-edge, 0.25 points wide; the butterfly's profitable band is 7.33 points — twenty-nine times wider.</strong> The study measures how often a close lands precisely on a strike; a butterfly only needs a close between its breakevens. <strong>The one conclusion this research supports is that hedging flows genuinely move prices on expiration dates. It does not say — and cannot say — that butterflies are good value.</strong></span>
+    </p>
+  </div>
+  <p>
+    <span class="zh">那么蝶式相对其他"押区间"的结构，优势究竟在哪？做一次<strong>等风险</strong>对比：同样表达"到期会停在 $100 附近"，用蝶式，还是用第 5 章的 Short Straddle？两者规模不同，所以把它们缩放到<strong>在 ±10% 的不利波动下亏损相同</strong>（每 1 只蝶式对应 0.311 张跨式），再看它们在各种结局下的表现：</span>
+    <span class="en">So where is the butterfly's actual advantage over other range structures? Run an <strong>equal-risk</strong> comparison: to express "it finishes near $100," use a butterfly or Chapter 5's short straddle? They are different sizes, so scale them to <strong>lose the same on a ±10% adverse move</strong> (0.311 straddles per butterfly) and compare outcomes:</span>
+  </p>
+  <dl class="spec">
+    <div><dt><span class="zh">停在 $100</span><span class="en">Pins at $100</span></dt><dd class="pos"><span class="zh">蝶式 +$3.67 · 跨式 +$1.78</span><span class="en">Fly +$3.67 · straddle +$1.78</span></dd></div>
+    <div><dt><span class="zh">涨到 $110</span><span class="en">Rises to $110</span></dt><dd><span class="zh">两者都亏 $1.33（等风险口径）</span><span class="en">Both lose $1.33 (by construction)</span></dd></div>
+    <div><dt><span class="zh">涨到 $130</span><span class="en">Rises to $130</span></dt><dd class="neg"><span class="zh">蝶式 −$1.33 · 跨式 −$7.56</span><span class="en">Fly −$1.33 · straddle −$7.56</span></dd></div>
+  </dl>
+  <p>
+    <span class="zh">结论很干净：<strong>在判断正确时蝶式付得更多（$3.67 对 $1.78），在判断大错时它还是只亏那 $1.33，而跨式已经亏到 $7.56 并且继续走。</strong>蝶式买到的不是更高的胜率，而是<strong>把"我错得多离谱"这个变量从等式里彻底删掉</strong>——它的最大亏损在开仓时就是净借记，涨到 $130 还是 $500 完全一样。</span>
+    <span class="en">The conclusion is clean: <strong>when the view is right the butterfly pays more ($3.67 against $1.78), and when the view is badly wrong it still loses only that $1.33 while the straddle is down $7.56 and still going.</strong> What a butterfly buys is not a higher win rate but <strong>the deletion of "how wrong am I" from the equation entirely</strong> — its maximum loss is the net debit whether the stock ends at $130 or at $500.</span>
+  </p>
+  <p>
+    <span class="zh">简化声明：钉住比例 8.2%、相邻日"不超过 6%"、±$0.125 的定义、16.5 个基点与约 90 亿美元市值位移，均出自上述已发表研究。<strong>本节所有期权价格由 Black-Scholes 按声明的示意参数（IV 25%、30 天、利率 4%）导出，非实际报价</strong>；等风险缩放比例 0.311 由"两者在 $110 处亏损相同"反解得到，忽略了合约不可拆分。跨式在 $130 处的 −$7.56 是按该缩放后的口径计算的。</span>
+    <span class="en">Stated simplification: the 8.2% pin rate, the "never above 6%" on adjacent days, the ±$0.125 definition, the 16.5 basis points and the ~$9 billion displacement all come from the published study cited above. <strong>Every option price in this section is a Black-Scholes value derived from the stated illustrative inputs (25% IV, 30 days, 4% rate), not a quote</strong>; the 0.311 equal-risk scale is solved from "both lose the same at $110" and ignores contract indivisibility. The straddle's −$7.56 at $130 is computed on that scaled basis.</span>
+  </p>
+  <p class="verdict gain"><span class="zh">亏损减少：同一个"停在 $100 附近"的判断，等风险缩放后——判断正确时蝶式 +$3.67 vs 跨式 +$1.78；股价冲到 $130 时蝶式仍只亏 $1.33，跨式已亏 $7.56 且无上限</span><span class="en">Loss capped: the same "finishes near $100" view, equal-risk scaled — right, the fly pays $3.67 against the straddle's $1.78; at $130 the fly still loses only $1.33 while the straddle is down $7.56 with no ceiling</span></p>
+</div>
+
+<div class="note">
+  <span class="note-tag"><span class="zh">钉住真正该让你担心的事</span><span class="en">What pinning should actually worry you about</span></span>
+  <p>
+    <span class="zh">钉住效应对蝶式持有者的现实意义不是收益，而是<strong><a class="term" href="../glossary.html#pin-risk">运维风险</a></strong>：到期日收盘时你正空着两张中间 Strike 的期权，而股价恰好贴着那个行权价。<strong>它们会不会被指派，你在周一开盘前不会知道</strong>——部分被指派的话，周一你会带着一个意料之外的正股头寸开盘，而对冲它的翅膀已经作废。第 10 章的 1R0NYMAN 是"提前行权拆掉一条腿"，这里是"到期日的模糊地带拆掉一条腿"，后果同类。<strong>实务上的处理很简单：不要把蝶式留到到期日收盘，在最后一两天平掉。</strong></span>
+    <span class="en">For a butterfly holder, pinning's real significance isn't return but <strong><a class="term" href="../glossary.html#pin-risk">operational risk</a></strong>: at the closing bell on expiration day you are short two options at the middle strike, and the stock is sitting right on it. <strong>Whether they get assigned is something you won't know until Monday</strong> — and on a partial assignment you open Monday with an unexpected stock position whose hedging wings have already expired. Chapter 10's 1R0NYMAN lost a leg to early exercise; this is losing a leg to expiration-day ambiguity, and the consequence is the same family. <strong>The practical handling is simple: don't carry a butterfly into the closing bell — close it in the final day or two.</strong></span>
+  </p>
+</div>
+
+<!-- ============ 12.3 ============ -->
+<h2><span class="zh">12.3 Broken-Wing：拆掉一只翅膀之后</span><span class="en">12.3 Broken Wings: After You Remove One</span></h2>
+
+<p>
+  <span class="zh">标准蝶式三个行权价等距。把其中一只翅膀往外挪，让两侧宽度不等，就是 <a class="term" href="../glossary.html#bwb">Broken-Wing Butterfly</a>（断翼蝶）。挪远的那只翅膀更便宜，所以整个结构的成本下降，甚至可以变成<strong>净收权利金</strong>——于是它常被这样推销：<strong>"一个能收钱的蝶式，而且有一侧完全没有风险。"</strong></span>
+  <span class="en">A standard butterfly has equally spaced strikes. Push one wing further out so the two sides are unequal and you have a <a class="term" href="../glossary.html#bwb">broken-wing butterfly</a>. The distant wing is cheaper, so the whole structure costs less — it can even be opened for a <strong>net credit</strong>. Which is how it gets marketed: <strong>"a butterfly that pays you, with no risk at all on one side."</strong></span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>BROKEN-WING BUTTERFLY <span class="zh">拖动外侧翅膀，看右侧的坑怎么长出来</span><span class="en">drag the far wing and watch the pit open on the right</span></p>
+  <div id="pf-bwb"></div>
+</div>
+
+<p>
+  <span class="zh">"一侧没有风险"这半句是真的：靠近的那一侧确实被完全封住。<strong>被省略的是另一侧。</strong>把翅膀挪远意味着中间那两张空头和外侧那张多头之间出现了一段没有保护的宽度，而<strong>这段宽度差就是新的最大亏损</strong>——它通常是你收到的那点权利金的好几倍。上图那只断翼蝶就是标准形态：净收 <strong>$0.16</strong> 权利金，而最大亏损是 <strong>$4.84</strong>——正是两侧宽度差（8 − 3 = 5 点）减去那点权利金。<strong>你收到的是 $0.16，承担的是它的 30 倍。</strong>这不是"无风险"，这是<strong>把风险从两侧集中到了一侧</strong>。</span>
+  <span class="en">Half of "no risk on one side" is true: the near side genuinely is sealed. <strong>What the pitch omits is the other side.</strong> Moving the wing out leaves an unprotected span between the two short middles and the distant long, and <strong>that span is the new maximum loss</strong> — typically several times the credit collected. The broken wing above is the standard shape: it opens for a <strong>$0.16</strong> credit and carries a <strong>$4.84</strong> worst case — precisely the difference in wing widths (8 − 3 = 5 points) less that credit. <strong>You collect $0.16 and carry thirty times as much.</strong> It isn't "riskless," it is <strong>risk moved from both sides onto one</strong>.</span>
+</p>
+
+<!-- ============ 12.4 ============ -->
+<h2><span class="zh">12.4 Ratio 与 Backspread：腿数不再配对</span><span class="en">12.4 Ratios and Backspreads: When the Legs Stop Pairing</span></h2>
+
+<p>
+  <span class="zh">断翼蝶至少还保留着四条腿的配对关系。<a class="term" href="../glossary.html#ratio">Ratio Spread</a>（比率价差）连这个也放弃了：买 1 张、卖 2 张，<strong>第二张空头没有任何东西覆盖它</strong>。图形上它有一个漂亮的帐篷，帐篷右侧却不是水平的——是一条<strong>向下无限延伸的斜线</strong>。</span>
+  <span class="en">A broken wing at least keeps its legs paired. A <a class="term" href="../glossary.html#ratio">ratio spread</a> abandons even that: buy one, sell two, and <strong>the second short has nothing covering it</strong>. On a chart it shows a handsome tent whose right-hand side is not flat but <strong>a line descending without limit</strong>.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>1×2 CALL RATIO <span class="zh">帐篷右侧那条斜线没有尽头</span><span class="en">that descending line on the right has no end</span></p>
+  <div id="pf-ratio"></div>
+</div>
+
+<p>
+  <span class="zh">和第 5 章的 Short Strangle 一样，这张图的"最大亏损"读数是<strong>被画框截断的数字</strong>——把显示区间往右拉，它只会继续变大。<strong>真实的最大亏损画不进任何一张图里，因为它不存在。</strong>这正是本章后半段要教你在下单前认出的东西。</span>
+  <span class="en">As with Chapter 5's short strangle, this chart's "max loss" readout is <strong>a number truncated by the frame</strong> — widen the display range and it simply grows. <strong>The real maximum loss cannot be drawn on any chart, because there isn't one.</strong> Recognising that before you enter is what the rest of this chapter is for.</span>
+</p>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2022-11-10</p>
+  <h3><span class="zh">CPI 日：一条没人管的腿，一天亏掉 $476</span><span class="en">CPI Day: One Uncovered Leg, $476 in a Session</span></h3>
+  <p>
+    <span class="zh">2022 年 11 月 10 日，美国公布的 10 月通胀数据低于预期，市场认为加息节奏可能放缓，随即爆发本轮周期最猛的一次反弹：<strong>标普 500 单日上涨 5.54%</strong> 收于 3,956.37（2020 年 4 月以来最佳），<strong>纳斯达克综合指数上涨 7.35%</strong>（2020 年 3 月以来最佳）。</span>
+    <span class="en">On November 10, 2022, US October inflation came in below expectations, markets concluded the Fed might slow its hikes, and the sharpest rally of the cycle followed: <strong>the S&P 500 rose 5.54%</strong> to close at 3,956.37 (its best day since April 2020) and <strong>the Nasdaq Composite rose 7.35%</strong> (its best since March 2020).</span>
+  </p>
+  <div class="panel">
+    <p class="panel-title"><span class="dot"></span>SPY · 2022-11 <span class="zh">（收盘价，约值）</span><span class="en">(closes, approx.)</span></p>
+    <div id="case-cpi"></div>
+  </div>
+  <p>
+    <span class="zh">Counterfactual：11 月 9 日，SPY 约 $374。两位交易者都认为"反弹有限，SPY 到期大概停在 $390 附近"。<strong>A 用 1×2 比率价差</strong>：买 1 张 $380 Call、卖 2 张 $390 Call，<strong>净收 $0.87</strong>——开仓就进账，看起来是免费的。<strong>B 补上第三条腿做成蝶式</strong>：380/390/400，<strong>净付 $1.38</strong>。</span>
+    <span class="en">Counterfactual: on November 9, SPY was about $374. Two traders both think "the bounce is limited; SPY finishes near $390." <strong>A uses a 1×2 ratio</strong>: buy one $380 call, sell two $390 calls, for a <strong>net credit of $0.87</strong> — money in on day one, apparently free. <strong>B adds the third leg to make it a butterfly</strong>: 380/390/400, for a <strong>net debit of $1.38</strong>.</span>
+  </p>
+  <p>
+    <span class="zh">第二天收盘，SPY 约 $395。两个头寸的单日盈亏：</span>
+    <span class="en">By the next close SPY was around $395. The two positions' one-day P/L:</span>
+  </p>
+  <dl class="spec">
+    <div><dt>A · 1×2 Ratio</dt><dd class="neg"><span class="zh">−$4.76/单位 = <strong>−$476</strong></span><span class="en">−$4.76/unit = <strong>−$476</strong></span></dd></div>
+    <div><dt>B · Butterfly</dt><dd class="pos"><span class="zh">+$0.18/单位 = <strong>+$18</strong></span><span class="en">+$0.18/unit = <strong>+$18</strong></span></dd></div>
+    <div><dt><span class="zh">差别</span><span class="en">The difference</span></dt><dd><span class="zh">一条 $400 的多头腿</span><span class="en">one long $400 call</span></dd></div>
+  </dl>
+  <p>
+    <span class="zh">而这还只是<strong>第一天</strong>。如果 SPY 继续走高，到期时两者的差距会变成另一个量级：</span>
+    <span class="en">And this is only <strong>day one</strong>. If SPY keeps climbing, by expiry the gap becomes something else entirely:</span>
+  </p>
+  <dl class="spec">
+    <div><dt>SPY 400</dt><dd>Ratio +$0.87 · Fly −$1.38</dd></div>
+    <div><dt>SPY 420</dt><dd class="neg">Ratio −$19.13 · Fly −$1.38</dd></div>
+    <div><dt>SPY 500</dt><dd class="neg">Ratio −$99.13 · Fly −$1.38</dd></div>
+  </dl>
+  <p>
+    <span class="zh">蝶式那一列<strong>永远是 −$1.38</strong>，因为第三条腿在 $400 之上接管了一切。比率价差那一列没有终点。<strong>那 $2.25 的差价（从净收 $0.87 变成净付 $1.38）买到的不是收益，而是那条斜线的终结。</strong>这与第 8 章天然气案例是同一句话，只是换了一个更体面的外表：那次是明目张胆的裸卖，这次是一个有帐篷、有名字、看起来很专业的结构。</span>
+    <span class="en">The butterfly column is <strong>always −$1.38</strong>, because above $400 the third leg takes over. The ratio column has no end. <strong>The $2.25 of entry economics you give up (from an $0.87 credit to a $1.38 debit) buys not return but the termination of that descending line.</strong> This is Chapter 8's natural-gas lesson wearing better clothes: there the naked short was obvious, here it hides inside a structure with a tent, a name and a professional appearance.</span>
+  </p>
+  <p>
+    <span class="zh">简化声明：标普 500 与纳指的涨幅、收盘点位为真实历史；SPY 的 $374 → $395 是按指数比例折算的约值。<strong>所有期权价格由 Black-Scholes 按示意参数导出（30 天、IV 24%–25%，次日剩 29 天并按 CPI 落地后 IV 下降 3 个百分点计），非实际成交价</strong>；到期一栏按内在价值计算。真实市场中该日的 IV 变动与偏斜形态会让具体数字有出入，但符号与量级成立。</span>
+    <span class="en">Stated simplification: the S&P and Nasdaq percentage gains and closing levels are real history; SPY's $374 → $395 is scaled from the index. <strong>All option prices are Black-Scholes values from illustrative inputs (30 days, 24–25% IV, with 29 days and a 3-point IV decline the next day as the CPI print landed), not fills</strong>; the expiry column is intrinsic value. Real IV moves and skew that day would shift the exact figures, but the signs and magnitudes hold.</span>
+  </p>
+  <p class="verdict loss"><span class="zh">亏损减少：同一个"SPY 停在 $390 附近"的判断，1×2 比率价差单日亏 $476 且上方无上限（SPY 500 时 −$99.13/单位）→ 补上第三条腿的蝶式单日 +$18，最大亏损永久锁定在 $138</span><span class="en">Loss capped: the same "SPY finishes near $390" view — the 1×2 ratio lost $476 in a session with no ceiling above (−$99.13/unit at SPY 500) → adding the third leg made it a butterfly that gained $18, with the worst case fixed at $138 forever</span></p>
+</div>
+
+<p>
+  <span class="zh">把比率倒过来——<strong>买 2 张、卖 1 张</strong>——就是 <a class="term" href="../glossary.html#backspread">Backspread</a>（反向比率）。它通常也能以净收或接近零成本建立，但净多头腿数为正，所以尾部是<strong>向上敞开</strong>的：小幅波动时小亏，剧烈单边行情时收益无上限。它是本章唯一一个<strong>希望自己判断错得离谱</strong>的结构，也是第 8 章那些故事的镜像——同样的极端行情，一边是墓碑，一边是彩票兑奖。</span>
+  <span class="en">Invert the ratio — <strong>buy two, sell one</strong> — and you have a <a class="term" href="../glossary.html#backspread">backspread</a>. It too can often be opened for a credit or near zero cost, but its net long leg count is positive, so the tail opens <strong>upward</strong>: small losses on modest moves, unlimited gains on a violent one-way move. It is the only structure in this chapter that <strong>hopes to be spectacularly wrong</strong>, and the mirror image of Chapter 8's stories — the same extreme move that produced those headstones pays this one off.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>CALL BACKSPREAD <span class="zh">买 2 卖 1 — 尾部朝上敞开</span><span class="en">buy 2, sell 1 — the tail opens upward</span></p>
+  <div id="pf-backspread"></div>
+</div>
+
+<!-- ============ 12.5 ============ -->
+<h2><span class="zh">12.5 一条设计通则：每条空头腿，谁在管它</span><span class="en">12.5 One Design Rule: Who Covers Each Short Leg</span></h2>
+
+<p>
+  <span class="zh">本章能给出的最有用的东西，不是任何一个结构，而是一条<strong>在下单前十秒内就能跑完的检查</strong>。它把第 8 章那个血淋淋的教训变成了一道可以机械执行的题目：</span>
+  <span class="en">The most useful thing this chapter has to offer isn't any one structure but <strong>a check you can run in the ten seconds before you submit an order</strong>. It converts Chapter 8's expensive lesson into something mechanical:</span>
+</p>
+
+<div class="spec">
+  <div style="grid-column:1/-1;padding:1.1rem .9rem;text-align:center;font-family:var(--mono);font-size:1rem">
+    <span class="zh">逐条数你的空头腿 —— 每一条，谁在覆盖它？</span>
+    <span class="en">Count your short legs one by one — for each, who covers it?</span>
+  </div>
+</div>
+
+<p>
+  <span class="zh">合法的覆盖者只有三种：<strong>① 正股</strong>（Covered Call）、<strong>② 足额现金</strong>（<a class="term" href="../glossary.html#csp">CSP</a>）、<strong>③ 一条到期日不早于它、且行权价能封住其损失方向的多头期权</strong>（价差、蝶式、Iron Condor）。<strong>任何一条找不到覆盖者的空头腿，就是一条裸腿，而裸腿意味着那个方向没有上限</strong>——无论整个结构叫什么名字、图形看起来多么规整。</span>
+  <span class="en">There are exactly three legitimate covers: <strong>① the shares</strong> (covered call), <strong>② full cash</strong> (<a class="term" href="../glossary.html#csp">CSP</a>), and <strong>③ a long option expiring no earlier, struck so as to cap the loss in that direction</strong> (spreads, butterflies, iron condors). <strong>Any short leg without a cover is a naked leg, and a naked leg means no ceiling in that direction</strong> — whatever the whole structure is called and however tidy its diagram looks.</span>
+</p>
+
+<dl class="spec">
+  <div><dt>Covered Call</dt><dd class="pos"><span class="zh">① 正股覆盖</span><span class="en">① shares</span></dd></div>
+  <div><dt>CSP</dt><dd class="pos"><span class="zh">② 现金覆盖</span><span class="en">② cash</span></dd></div>
+  <div><dt><span class="zh">价差 / 蝶式 / 铁鹰</span><span class="en">Spread / fly / condor</span></dd><dd class="pos"><span class="zh">③ 长腿覆盖</span><span class="en">③ long leg</span></dd></div>
+  <div><dt><span class="zh">1×2 比率</span><span class="en">1×2 ratio</span></dt><dd class="neg"><span class="zh">第二条空头无人覆盖</span><span class="en">second short: uncovered</span></dd></div>
+  <div><dt>PMCC</dt><dd><span class="zh">③ 但有条件（见下）</span><span class="en">③ conditionally (below)</span></dd></div>
+</dl>
+
+<div class="warn">
+  <span class="warn-tag"><span class="zh">这条规则的边界：PMCC</span><span class="en">The rule's boundary case: the PMCC</span></span>
+  <p>
+    <span class="zh">第 11 章的 PMCC 正好卡在规则的边界上，值得单独想清楚。它的短 Call 确实有一条长腿覆盖——那张 LEAPS——所以它<strong>形式上</strong>满足第 ③ 条。但第 11 章用 NFLX 演示过：<strong>LEAPS 只有在保持深度价内时才真正等价于正股</strong>；股价一夜跌 35.1% 之后，它的 Delta 从 0.83 塌到 0.55，覆盖能力打了对折。<strong>所以完整的规则应该这样问：不是"有没有长腿"，而是"在我担心的那个情形里，这条长腿还在不在它该在的位置"。</strong>价差和蝶式的长腿是同到期日的，答案永远是"在"；PMCC 的长腿是另一个到期日的，答案取决于股价走到哪里。</span>
+    <span class="en">Chapter 11's PMCC sits exactly on the rule's boundary and deserves its own thought. Its short call genuinely has a long leg behind it — the LEAPS — so it satisfies cover ③ <strong>formally</strong>. But Chapter 11 demonstrated with NFLX that <strong>a LEAPS is equivalent to stock only while it stays deep ITM</strong>: after a 35.1% overnight fall its delta went from 0.83 to 0.55 and its covering power halved. <strong>So the complete rule asks not "is there a long leg" but "in the scenario I'm worried about, is that long leg still where it needs to be."</strong> A spread's or butterfly's long leg shares the expiry, so the answer is always yes; a PMCC's long leg lives on a different date, and the answer depends on where the stock goes.</span>
+  </p>
+</div>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">比率价差和断翼蝶都能以<strong>净收权利金</strong>开仓，而蝶式要净付。如果你只看开仓时的现金流，前两者显然"更好"。<strong>那么"开仓收到钱"这件事，到底提供了什么信息？</strong>把它和第 4 章那道赔率算术、第 7 章"权利金最肥的地方风险最大"放在一起：<strong>当一个结构付钱请你进场时，你收到的究竟是收益，还是别人不愿意承担的那段尾部？</strong></span>
+  <span class="en">Ratios and broken wings can both be opened for a <strong>net credit</strong>, while a butterfly costs money. Judged only on day-one cash flow, the first two are obviously "better." <strong>So what information does "I got paid to open it" actually convey?</strong> Set it beside Chapter 4's payoff arithmetic and Chapter 7's "the fattest premium sits where the risk is": <strong>when a structure pays you to enter, are you receiving a return — or the tail nobody else wanted to carry?</strong></span>
+</div>
+
+<!-- ============ 12.6 Quiz ============ -->
+<h2><span class="zh">12.6 本章测验</span><span class="en">12.6 Chapter Quiz</span></h2>
+<p><span class="zh">点击选项即可作答，答案与解析即时显示。</span><span class="en">Click an option to answer; the correct answer and explanation appear immediately.</span></p>
+
+<div class="quiz-set">
+
+<div class="quiz" data-answer="c">
+  <p class="q"><span class="zh">研究显示到期日约 8.2% 的股票会"钉住"行权价。这是否意味着买蝶式有 8.2% 的概率打满？</span><span class="en">Research shows about 8.2% of stocks "pin" a strike on expiration day. Does that mean a butterfly has an 8.2% chance of paying in full?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">是，这正是蝶式的胜率</span><span class="en">Yes — that is the butterfly's win rate</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">是，而且实际概率更高</span><span class="en">Yes, and the real probability is higher still</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">否，钉住是 ±$0.125 的刀锋，而蝶式赚的是两个平衡点之间的整条带</span><span class="en">No — pinning is a ±$0.125 knife-edge; a butterfly earns across the whole band between its breakevens</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">否，因为该研究已被推翻</span><span class="en">No — that study has been refuted</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>C。</b>两个数量说的不是同一件事：钉住定义为收盘价落在行权价 ±$0.125（0.25 点带宽），而本章那只蝶式的盈利区间宽 7.33 点——<strong>宽 29 倍</strong>。用算术直接验证 A 的荒谬：蝶式满额收益约为成本 2.75 倍，8.2% × 2.75 ≈ 0.23，若这真是胜率，蝶式就是一笔期望值为负四分之三的交易。D 与事实不符：该研究结论稳固，<strong>它只是回答了另一个问题</strong>——对冲盘会不会推动股价（会，约 16.5 个基点）。</span>
+    <span class="en"><b>C.</b> The two quantities describe different events: pinning means closing within ±$0.125 of a strike (a 0.25-point band), while this chapter's butterfly is profitable across 7.33 points — <strong>twenty-nine times wider</strong>. Arithmetic disposes of A directly: max payoff is about 2.75× cost, and 8.2% × 2.75 ≈ 0.23, so on that reading the trade would have an expectancy of minus three quarters. D is false — the study is sound; <strong>it simply answers a different question</strong>: do hedging flows move stock prices (yes, by about 16.5 basis points).</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">断翼蝶被推销为"能收权利金、且一侧无风险"。这句话的问题在哪？</span><span class="en">A broken-wing butterfly is pitched as "collects a credit, with no risk on one side." What's wrong with that?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">没有问题，它确实无风险</span><span class="en">Nothing — it really is riskless</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">近侧确实封死了，但挪远翅膀留下的宽度差成为新的最大亏损，通常是权利金的数倍</span><span class="en">The near side is sealed, but the widened gap becomes the new max loss — typically several times the credit</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">它的风险和标准蝶式完全一样</span><span class="en">Its risk is identical to a standard butterfly's</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">它无法在真实市场成交</span><span class="en">It can't be filled in a real market</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>"一侧无风险"这半句是真的——问题在于它只说了一半。把翅膀挪远，中间两张空头与外侧多头之间就出现一段没有保护的宽度，<strong>那段宽度差减去权利金就是新的最大亏损</strong>（典型形态：收 $0.50、最坏亏 $4.50）。C 错在标准蝶式两侧对称封死、最大亏损就是净借记。<strong>断翼蝶不是消除了风险，而是把风险从两侧搬到了一侧——并用一点权利金换来了你对这件事的忽视。</strong></span>
+    <span class="en"><b>B.</b> "No risk on one side" is true as far as it goes — the problem is that it stops there. Widening a wing leaves an unprotected span between the two shorts and the distant long, and <strong>that span minus the credit is the new maximum loss</strong> (a typical shape: take $0.50, risk $4.50). C is wrong because a standard butterfly is sealed symmetrically and risks only its debit. <strong>A broken wing doesn't remove risk; it relocates it onto one side — and buys your inattention with a small credit.</strong></span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="d">
+  <p class="q"><span class="zh">2022 年 11 月 10 日 SPY 从 $374 涨到 $395，1×2 比率价差单日亏 $476，而 380/390/400 蝶式赚 $18。差别来自什么？</span><span class="en">On November 10, 2022 SPY went $374 → $395; a 1×2 ratio lost $476 in the session while a 380/390/400 butterfly gained $18. What accounts for the difference?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">蝶式的方向判断更准</span><span class="en">The butterfly's directional view was better</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">蝶式规模更小</span><span class="en">The butterfly was smaller</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">比率价差的手续费更高</span><span class="en">The ratio paid more in commissions</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">一条 $400 的多头腿——它接管了 $400 之上的全部损失</span><span class="en">One long $400 call — it takes over every loss above $400</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>D。</b>两个头寸的观点完全相同（"SPY 停在 $390 附近"），腿也几乎相同，唯一的差别就是那条 $400 多头腿。它让蝶式的最大亏损<strong>永久固定在 $138</strong>：SPY 到 420 是 −$1.38，到 500 还是 −$1.38；而比率价差在 500 时是 −$99.13 且没有终点。A 错在两者方向判断一模一样，且<em>都错了</em>。B 恰恰相反——比率价差开仓时还净收 $0.87，蝶式净付 $1.38。<strong>那 $2.25 的差价买的不是收益，是那条斜线的终结。</strong></span>
+    <span class="en"><b>D.</b> Both positions express the identical view ("SPY finishes near $390") with nearly identical legs; the only difference is that long $400 call. It fixes the butterfly's maximum loss <strong>permanently at $138</strong>: −$1.38 at SPY 420, still −$1.38 at 500 — while the ratio is −$99.13 at 500 with no end. A is wrong because their directional views were identical, and <em>both were wrong</em>. B is backwards: the ratio opened for a $0.87 credit, the butterfly for a $1.38 debit. <strong>That $2.25 bought not return but the termination of the descending line.</strong></span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="a">
+  <p class="q"><span class="zh">按本章的设计通则，下面哪个头寸含有一条<strong>无人覆盖</strong>的空头腿？</span><span class="en">By this chapter's design rule, which position contains an <strong>uncovered</strong> short leg?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">买 1 张 $100 Call、卖 2 张 $110 Call</span><span class="en">Long one $100 call, short two $110 calls</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">持有 100 股，卖出 1 张 Call</span><span class="en">100 shares, short one call</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">卖 1 张 $100 Put，买 1 张 $90 Put</span><span class="en">Short one $100 put, long one $90 put</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">卖 1 张 Put，账户锁定足额现金</span><span class="en">Short one put with full cash set aside</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>A。</b>逐条数：两张空头 $110 Call，而多头只有一张 $100 Call——<strong>它只能覆盖其中一张，第二张裸露</strong>，$110 之上无上限。B 由正股覆盖（覆盖者①），C 由 $90 多头 Put 封底（覆盖者③），D 由现金覆盖（覆盖者②），三者最坏结果都是有限且开仓即知的。<strong>注意 A 的图形有一个很像蝶式的帐篷，名字也很专业——规则要数的是腿，不是形状。</strong></span>
+    <span class="en"><b>A.</b> Count them: two short $110 calls against a single long $100 call — <strong>it can cover only one, leaving the second naked</strong>, with no ceiling above $110. B is covered by shares (cover ①), C is floored by the long $90 put (cover ③), D is covered by cash (cover ②); all three have a finite worst case known at entry. <strong>Note that A draws a tent that looks a lot like a butterfly and carries a professional-sounding name — the rule counts legs, not shapes.</strong></span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">为什么 PMCC 是这条通则的"边界情况"？</span><span class="en">Why is the PMCC a "boundary case" for this rule?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">因为它有三条腿</span><span class="en">Because it has three legs</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">短 Call 形式上有 LEAPS 覆盖，但 LEAPS 只在保持深度价内时才真正顶用</span><span class="en">The short call is formally covered by the LEAPS, but the LEAPS only truly covers while it stays deep ITM</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">因为 LEAPS 到期日更早</span><span class="en">Because the LEAPS expires sooner</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">因为它不含空头腿</span><span class="en">Because it contains no short leg</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>PMCC 形式上满足覆盖者③（有一条到期更晚的多头 Call），但第 11 章的 NFLX 案例证明这个覆盖是<strong>有条件的</strong>：股价一夜跌 35.1% 后 LEAPS 的 Delta 从 0.83 塌到 0.55，覆盖能力对折。所以完整的问法不是"有没有长腿"，而是<strong>"在我担心的那个情形里，这条长腿还在不在它该在的位置"</strong>。C 说反了——LEAPS 到期<em>更晚</em>，这恰恰是它能当覆盖者的前提。</span>
+    <span class="en"><b>B.</b> A PMCC formally satisfies cover ③ (a long call expiring later), but Chapter 11's NFLX case shows the cover is <strong>conditional</strong>: after a 35.1% overnight fall the LEAPS delta went from 0.83 to 0.55 and its covering power halved. So the complete question isn't "is there a long leg" but <strong>"in the scenario I'm worried about, is that long leg still where it needs to be."</strong> C is backwards — the LEAPS expires <em>later</em>, which is precisely what qualifies it as a cover at all.</span>
+  </div>
+</div>
+
+</div>
+
+<!-- ============ takeaways ============ -->
+<h2><span class="zh">本章要点</span><span class="en">Key Takeaways</span></h2>
+<p>
+  <span class="zh">蝶式是第一个能说出"它会落在这一带"的结构，而它赌的确实是一条<strong>带</strong>而不是一个点——盈利区间宽 7.33 点，是钉住定义（±$0.125）的 29 倍；那条被反复引用的 8.2% 钉住率证明的是<strong>做市商对冲会推动股价</strong>（约 16.5 个基点、约 90 亿美元市值位移），而不是蝶式的胜率——把它当胜率，算术立刻给出 8.2% × 2.75 ≈ 0.23 这样一个荒谬的期望值。蝶式真正买到的东西，在等风险对比里看得最清楚：把它和 Short Straddle 缩放到 ±10% 时亏损相同，判断对时它付 $3.67 而跨式付 $1.78，判断大错时它仍只亏 $1.33 而跨式已亏 $7.56 并继续——<strong>它删掉的不是犯错的概率，是"我错得多离谱"这个变量</strong>。而当腿数开始不配对，同一个删除动作就会被悄悄撤销：断翼蝶把风险从两侧搬到一侧，比率价差干脆让第二条空头腿裸露，于是 2022 年 11 月 10 日 SPY 一天涨 5.6%，那个开仓还净收 $0.87 的"专业结构"单日亏掉 $476，而只差一条 $400 多头腿的蝶式赚了 $18、最坏结果永远是 $138。<strong>所以本章真正要留下的不是任何一个结构，而是那道十秒钟的检查：逐条数你的空头腿，每一条，谁在覆盖它——正股、现金，还是一条同到期或更远、行权价能封顶的多头？找不到覆盖者的那一条，就是你账户里没有上限的那个方向。</strong></span>
+  <span class="en">The butterfly is the first structure that can say "it lands in this band," and a band is genuinely what it bets on — 7.33 points wide, twenty-nine times the ±$0.125 pinning definition. That much-quoted 8.2% pin rate demonstrates that <strong>dealer hedging moves stock prices</strong> (about 16.5 basis points, some $9 billion of displacement), not a butterfly's win rate — read as a win rate, arithmetic immediately returns the absurd 8.2% × 2.75 ≈ 0.23. What a butterfly actually buys shows up most clearly in an equal-risk comparison: scale it against a short straddle so both lose the same at ±10%, and when the view is right it pays $3.67 against $1.78, while when the view is badly wrong it still loses only $1.33 against $7.56 and climbing. <strong>What it deletes is not the probability of being wrong but the variable "how wrong."</strong> And the moment the legs stop pairing, that deletion is quietly undone: a broken wing relocates risk onto one side, a ratio simply leaves the second short naked — so when SPY rose 5.6% on November 10, 2022, the "professional" structure that had paid $0.87 to open lost $476 in a session, while a butterfly one long $400 call away made $18 with a worst case fixed forever at $138. <strong>So what this chapter leaves you is not a structure but a ten-second check: count your short legs one at a time and ask who covers each — shares, cash, or a long option expiring no earlier and struck to cap the loss? The one with no cover is the direction in which your account has no ceiling.</strong></span>
+</p>
+
+<nav class="chap-nav">
+  <a href="11-time-structures.html">← <span class="zh">第 11 章 时间维度</span><span class="en">Ch.11 The Time Dimension</span></a>
+  <a href="../glossary.html">Glossary →</a>
+</nav>
+
+</main>
+
+<script src="../assets/i18n.js"></script>
+<script src="../assets/payoff.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  var R = 0.04;
+
+  Payoff.mount('pf-butterfly', {
+    spot0: 100, rate: R, elapsed: 0,
+    legs: [
+      { kind: 'call', side: 1, strike: 95, iv: 0.25, dte: 30 },
+      { kind: 'call', side: -1, strike: 100, iv: 0.25, dte: 30, qty: 2 },
+      { kind: 'call', side: 1, strike: 105, iv: 0.25, dte: 30 }
+    ],
+    range: [88, 112],
+    controls: [
+      { prop: 'elapsed', min: 0, max: 30, step: 1, label: { zh: '已过天数（帐篷是时间支起来的）', en: 'Days elapsed (time raises the tent)' } },
+      { leg: 1, prop: 'strike', min: 96, max: 104, step: 1, label: { zh: '中间 Strike（帐篷顶）', en: 'Middle strike (the peak)' } }
+    ]
+  });
+
+  Payoff.mount('pf-bwb', {
+    spot0: 100, rate: R, elapsed: 0,
+    legs: [
+      { kind: 'put', side: 1, strike: 96, iv: 0.26, dte: 30 },
+      { kind: 'put', side: -1, strike: 93, iv: 0.29, dte: 30, qty: 2 },
+      { kind: 'put', side: 1, strike: 85, iv: 0.34, dte: 30 }
+    ],
+    range: [78, 108],
+    controls: [
+      { leg: 2, prop: 'strike', min: 78, max: 92, step: 1, label: { zh: '外侧翅膀（越远，坑越深）', en: 'Far wing (further = deeper pit)' } }
+    ]
+  });
+
+  Payoff.mount('pf-ratio', {
+    spot0: 100, rate: R, elapsed: 0,
+    legs: [
+      { kind: 'call', side: 1, strike: 100, iv: 0.25, dte: 30 },
+      { kind: 'call', side: -1, strike: 110, iv: 0.24, dte: 30, qty: 2 }
+    ],
+    range: [85, 140],
+    controls: [
+      { prop: 'elapsed', min: 0, max: 30, step: 1, label: { zh: '已过天数 Days elapsed', en: 'Days elapsed' } }
+    ]
+  });
+
+  Payoff.mount('pf-backspread', {
+    spot0: 100, rate: R, elapsed: 0,
+    legs: [
+      { kind: 'call', side: -1, strike: 100, iv: 0.25, dte: 30 },
+      { kind: 'call', side: 1, strike: 110, iv: 0.24, dte: 30, qty: 2 }
+    ],
+    range: [85, 140],
+    controls: [
+      { prop: 'elapsed', min: 0, max: 30, step: 1, label: { zh: '已过天数 Days elapsed', en: 'Days elapsed' } }
+    ]
+  });
+
+  CaseChart.mount('case-cpi', {
+    labels: ['11-03', '11-08', '11-09', '11-10', '11-11', '11-15'],
+    series: [
+      { name: { zh: 'SPY', en: 'SPY' }, color: '#3CDFA3', data: [371, 382, 374, 395, 398, 398] }
+    ],
+    events: [{ i: 3, text: { zh: 'CPI 公布', en: 'CPI print' } }],
+    yfmt: function (v) { return '$' + v.toFixed(0); }
+  });
+
+});
+</script>
+</body>
+</html>

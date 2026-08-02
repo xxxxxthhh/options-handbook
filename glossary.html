@@ -220,6 +220,26 @@
     <span class="zh">任何净卖出期权的头寸（Short Strangle、Iron Condor、CSP、Covered Call）。收益分布天然是"缓坡 + 悬崖"：多数时候小赚，偶尔一次大亏。见第 5.5 节与第 8 章。</span>
     <span class="en">Any net-short-option position (short strangle, iron condor, CSP, covered call). Its return distribution is inherently "slope then cliff": small gains most of the time, an occasional large loss. See §5.5 and Chapter 8.</span></td></tr>
 
+  <tr id="butterfly"><td class="t">Butterfly</td><td class="c">蝶式</td><td>
+    <span class="zh">买 1 张低 Strike、卖 2 张中 Strike、买 1 张高 Strike，行权价等距。第一个能表达"到期落在这一带"的结构。<strong>它赌的是两个平衡点之间的区间，不是一个点</strong>——最大亏损恒为净借记，无论股价跑到哪里。见第 12 章。</span>
+    <span class="en">Long one low strike, short two at the middle, long one high, equally spaced. The first structure able to say "it lands in this band." <strong>It bets on the range between its breakevens, not on a point</strong> — and its maximum loss is the net debit however far the stock travels. See Chapter 12.</span></td></tr>
+
+  <tr id="bwb"><td class="t">Broken-Wing Butterfly</td><td class="c">断翼蝶</td><td>
+    <span class="zh">把蝶式的一只翅膀往外挪，两侧宽度不等，成本下降甚至转为净收权利金。常被宣传为"一侧无风险"——<strong>近侧确实封死，但挪远留下的宽度差成为新的最大亏损，通常是权利金的数倍</strong>。它没有消除风险，只是把风险搬到了一侧。</span>
+    <span class="en">A butterfly with one wing pushed further out, so the sides are unequal, the cost drops and it may even open for a credit. Marketed as "no risk on one side" — <strong>the near side is genuinely sealed, but the widened gap becomes the new maximum loss, typically several times the credit</strong>. It relocates risk rather than removing it.</span></td></tr>
+
+  <tr id="ratio"><td class="t">Ratio Spread</td><td class="c">比率价差</td><td>
+    <span class="zh">买 1 卖 2（或更不平衡）。<strong>第二条空头腿没有任何东西覆盖，那个方向没有上限</strong>——图形有帐篷、名字很专业，但本质是第 8 章的裸卖换了外表。2022-11-10 SPY 一天涨 5.6%，一个开仓净收 $0.87 的 1×2 单日亏 $476。见第 12.4 节。</span>
+    <span class="en">Buy one, sell two (or worse). <strong>The second short leg has nothing covering it, so that direction has no ceiling</strong> — a tidy tent and a professional name, but structurally Chapter 8's naked short in better clothes. When SPY rose 5.6% on 2022-11-10, a 1×2 opened for a $0.87 credit lost $476 in a session. See §12.4.</span></td></tr>
+
+  <tr id="backspread"><td class="t">Backspread</td><td class="c">反向比率</td><td>
+    <span class="zh">比率价差的镜像：卖 1 买 2。净多头腿数为正，所以尾部向外敞开——小幅波动小亏，剧烈单边行情收益无上限。<strong>本书唯一一个希望自己错得离谱的结构。</strong></span>
+    <span class="en">The mirror of a ratio: sell one, buy two. Net long leg count is positive, so the tail opens outward — small losses on modest moves, unbounded gains on a violent one. <strong>The only structure in this book that hopes to be spectacularly wrong.</strong></span></td></tr>
+
+  <tr id="pin-risk"><td class="t">Pin Risk</td><td class="c">钉住风险</td><td>
+    <span class="zh">到期时标的恰好贴在你的空头行权价上，<strong>你在下周一开盘前无法知道自己是否被指派</strong>；部分指派会留下一个意料之外的正股头寸，而对冲它的腿已经作废。研究显示到期日收盘价确实向行权价聚集（约 8.2% vs 相邻日不超过 6%），机制是做市商 <a class="term" href="#delta-hedge">Delta 对冲</a>。实务处理：不要把多腿结构留到收盘。</span>
+    <span class="en">At expiry the underlying sits right on your short strike and <strong>you cannot know whether you were assigned until Monday's open</strong>; a partial assignment leaves an unexpected stock position whose hedging legs have already expired. Closing prices really do cluster at strikes on expiration days (about 8.2% versus never above 6% on adjacent days), driven by dealer <a class="term" href="#delta-hedge">delta hedging</a>. Practical handling: don't carry a multi-leg structure into the closing bell.</span></td></tr>
+
   <tr id="iron-condor"><td class="t">Iron Condor</td><td class="c">铁鹰</td><td>
     <span class="zh">同时卖出上下两个价外价差，赌股价停留在区间内。收租策略的进阶形态，风险有限但两侧都可能破。</span>
     <span class="en">Selling an OTM spread on each side, betting the stock stays in a range. An advanced income structure — defined risk, but breachable on either wing.</span></td></tr>
@@ -292,7 +312,7 @@
 </table>
 
 <nav class="chap-nav">
-  <a href="chapters/11-time-structures.html">← <span class="zh">第 11 章 时间维度</span><span class="en">Ch.11 The Time Dimension</span></a>
+  <a href="chapters/12-butterflies.html">← <span class="zh">第 12 章 蝶式与结构工程</span><span class="en">Ch.12 Butterflies</span></a>
   <a href="index.html"><span class="zh">目录 →</span><span class="en">Contents →</span></a>
 </nav>
 
