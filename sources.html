@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sources &amp; Methodology 来源与方法 · Options Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="index.html"><b>OPTIONS</b>/HANDBOOK</a>
+  <div class="spacer"></div>
+  <nav>
+    <a href="index.html"><span class="zh">目录</span><span class="en">Contents</span></a>
+    <a href="glossary.html">Glossary</a>
+  </nav>
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button data-lang="zh" aria-pressed="true">中</button>
+    <button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main class="page">
+<p class="eyebrow">Appendix · Sources &amp; Methodology</p>
+<h1><span class="zh">来源与方法</span><span class="en">Sources and Methodology</span></h1>
+<p class="lede">
+  <span class="zh">这是本手册的公开审计台账：它说明哪些内容来自一手文件，哪些是本书的可复算示例，以及哪些网络故事只能当作自述。它是逐章的核心来源映射，不是对每句常识的脚注。</span>
+  <span class="en">This is the handbook's public audit ledger. It separates primary documents, reproducible book calculations, and internet stories that can only be treated as self-report. It maps each chapter to its core sources; it is not a footnote for every statement of common knowledge.</span>
+</p>
+
+<div class="note">
+  <span class="note-tag"><span class="zh">证据层级</span><span class="en">Evidence hierarchy</span></span>
+  <p><span class="zh"><strong>一手来源</strong>：监管文件、交易所方法、发行人文件、公司提交文件与学术原文。<strong>本书计算</strong>：输入在正文公开，由 <code>assets/payoff.js</code> 的唯一定价实现与 <code>tools/checks/</code> 复算。<strong>自述/二手材料</strong>：只证明“有人如此声称”，不证明账户、持仓或绩效真实。</span><span class="en"><strong>Primary:</strong> regulator records, exchange methodologies, issuer documents, company filings, and original research. <strong>Book calculation:</strong> inputs are disclosed in the chapter and recomputed through the single pricing implementation in <code>assets/payoff.js</code> and checks under <code>tools/checks/</code>. <strong>Self-report/secondary:</strong> establishes only that someone made a claim, not that an account, position, or return was independently verified.</span></p>
+</div>
+
+<h2><span class="zh">可复核规则</span><span class="en">Reproducibility rules</span></h2>
+<ol>
+  <li><span class="zh">历史事实优先链接稳定的发行人、交易所或监管机构 URL；页面访问日期为 2026-08-02。</span><span class="en">Historical facts prefer stable issuer, exchange, or regulator URLs; pages were last reviewed on 2026-08-02.</span></li>
+  <li><span class="zh">图中的“示意”序列不得被描述为实际行情。精确市场数字若无可公开复现的取数口径，就删除或降级为近似背景。</span><span class="en">An illustrative chart must never be described as an observed price series. Exact market figures without a publicly reproducible extraction method are removed or reduced to approximate context.</span></li>
+  <li><span class="zh">任何模型输出都必须与实际事实分开；策略反事实不代表历史账户损益。</span><span class="en">Model outputs are kept separate from observed facts; a strategy counterfactual is not a reconstruction of a historical account.</span></li>
+</ol>
+
+<h2><span class="zh">逐章来源映射</span><span class="en">Chapter source map</span></h2>
+
+<section id="ch01"><h3>01 · <span class="zh">合约与条款</span><span class="en">Contracts and terms</span></h3>
+<p><a href="https://www.theocc.com/company-information/documents-and-archives/options-disclosure-document" rel="noopener">OCC — Characteristics and Risks of Standardized Options</a> · <a href="https://www.berkshirehathaway.com/letters/2008ltr.pdf" rel="noopener">Berkshire Hathaway 2008 shareholder letter</a></p></section>
+
+<section id="ch02"><h3>02 · <span class="zh">单腿结构</span><span class="en">Single-leg structures</span></h3>
+<p><a href="https://www.optionseducation.org/strategies/all-strategies/long-call" rel="noopener">Options Industry Council — long call</a> · <a href="https://www.optionseducation.org/strategies/all-strategies/covered-call-buy-write" rel="noopener">Options Industry Council — covered call</a> · <a href="https://www.theocc.com/company-information/documents-and-archives/options-disclosure-document" rel="noopener">OCC options disclosure document</a></p></section>
+
+<section id="ch03"><h3>03 · <span class="zh">希腊字母</span><span class="en">Greeks</span></h3>
+<p><a href="https://www.optionseducation.org/advancedconcepts/theta" rel="noopener">Options Industry Council — Theta</a> · <a href="https://www.sec.gov/files/staff-report-equity-options-market-struction-conditions-early-2021.pdf" rel="noopener">SEC staff report — January 2021 equity and options market structure</a></p></section>
+
+<section id="ch04"><h3>04 · <span class="zh">垂直价差</span><span class="en">Vertical spreads</span></h3>
+<p><a href="https://www.optionseducation.org/strategies/all-strategies/bull-call-spread-debit-call-spread" rel="noopener">Options Industry Council — bull call spread</a> · <a href="https://www.theocc.com/company-information/documents-and-archives/options-disclosure-document" rel="noopener">OCC options disclosure document</a></p></section>
+
+<section id="ch05"><h3>05 · <span class="zh">波动率</span><span class="en">Volatility</span></h3>
+<p><a href="https://cdn.cboe.com/resources/indices/Volatility_Index_Methodology_Cboe_Volatility_Index.pdf" rel="noopener">Cboe — VIX Index methodology</a> · <a href="https://www.cboe.com/tradable-products/vix/faqs" rel="noopener">Cboe — VIX FAQ</a></p></section>
+
+<section id="ch06"><h3>06 · <span class="zh">事件交易</span><span class="en">Event trading</span></h3>
+<p><a href="https://www.sec.gov/edgar/search/" rel="noopener">SEC EDGAR — issuer filings</a> · <a href="https://www.optionseducation.org/advancedconcepts/volatility-the-greeks" rel="noopener">Options Industry Council — volatility and the Greeks</a></p></section>
+
+<section id="ch07"><h3>07 · <span class="zh">Wheel 策略</span><span class="en">The Wheel</span></h3>
+<p><a href="https://www.optionseducation.org/strategies/all-strategies/covered-call-buy-write" rel="noopener">Options Industry Council — covered call</a> · <a href="https://www.optionseducation.org/strategies/all-strategies/cash-secured-put" rel="noopener">Options Industry Council — cash-secured put</a> · <a href="https://www.theocc.com/company-information/documents-and-archives/options-disclosure-document" rel="noopener">OCC — assignment and exercise risks</a></p></section>
+
+<section id="ch08"><h3>08 · <span class="zh">极端损失</span><span class="en">Extreme losses</span></h3>
+<p><a href="https://www.sec.gov/oiea/investor-alerts-and-bulletins/ib_etn" rel="noopener">SEC Investor Bulletin — Exchange-Traded Notes</a> · <a href="https://www.cftc.gov/sites/default/files/files/dea/cotarchives/2018/options/nat_gas_sof032018.htm" rel="noopener">CFTC — natural-gas contract unit in 2018 market data</a> · <a href="https://www.federalreservehistory.org/essays/stock-market-crash-of-1987" rel="noopener">Federal Reserve History — 1987 crash</a></p>
+<p><span class="zh">OptionSellers 段落不把客户数、资产规模或个别负债当作经监管机构确认的事实；它只保留“裸卖 Call 损失无上限”的合约结论与已标注的示意反事实。</span><span class="en">The OptionSellers passage does not treat customer counts, assets, or individual debts as regulator-confirmed facts. It retains only the contractual conclusion that naked-call loss is unbounded and a clearly labelled illustrative counterfactual.</span></p></section>
+
+<section id="ch09"><h3>09 · <span class="zh">仓位与系统性风险</span><span class="en">Sizing and systemic risk</span></h3>
+<p><a href="https://www.federalreserve.gov/boarddocs/testimony/1998/19981001.htm" rel="noopener">Federal Reserve — testimony on LTCM</a> · <a href="https://www.berkshirehathaway.com/letters/letters.html" rel="noopener">Berkshire Hathaway — shareholder-letter archive</a></p></section>
+
+<section id="ch10"><h3>10 · <span class="zh">平价关系与领口</span><span class="en">Parity and collars</span></h3>
+<p><a href="https://www.cboe.com/tradable-products/sp-500/spx-options/spx-specifications/" rel="noopener">Cboe — SPX contract specifications</a> · <a href="https://www.proshares.com/our-etfs/strategic/uvxy" rel="noopener">ProShares — UVXY product page (options available)</a> · <a href="https://www.cboe.com/exchange-traded-stock" rel="noopener">Cboe — ETP options contract features (American exercise)</a> · <a href="https://am.jpmorgan.com/us/en/asset-management/adv/funds/hedged-equity-fund-series/" rel="noopener">J.P. Morgan Asset Management — Hedged Equity Fund Series</a> · <a href="https://am.jpmorgan.com/content/dam/jpm-am-aem/americas/us/en/literature/brochure/BRO-HE.pdf" rel="noopener">J.P. Morgan — put-spread collar brochure</a></p>
+<p><span class="zh">1R0NYMAN 故事来自匿名论坛贴文与转述；没有经审计的账户对账单或监管调查公开文件。本书因此将金额和经过明确标为论坛自述。ProShares 产品页确认 UVXY 可交易期权，Cboe 的 ETP 期权合约说明确认这类标准合约采用美式行权；两份一手文件共同支持提前行权机制，不支持论坛所述金额或经过。</span><span class="en">The 1R0NYMAN story comes from anonymous forum posts and retellings, with no audited statement or public regulatory investigation. Dollar amounts and sequence are therefore labelled forum self-report. The ProShares product page confirms options are available on UVXY, while Cboe's ETP options specifications establish American exercise for this standard contract class; together they support the early-exercise mechanism, not the forum's amounts or sequence.</span></p></section>
+
+<section id="ch11"><h3>11 · <span class="zh">期限结构</span><span class="en">Term structures</span></h3>
+<p><a href="https://www.cboe.com/tradable-products/vix/term-structure" rel="noopener">Cboe — VIX term structure</a> · <a href="https://www.sec.gov/Archives/edgar/data/1065280/000106528022000144/nflx-20220419.htm" rel="noopener">Netflix Form 8-K, 2022-04-19</a></p>
+<p><span class="zh">倒挂图是情景输入，不是历史频率估计；Netflix 股价是事件背景，PMCC 权利金与 Greeks 是本书对公开输入的模型计算，不是历史成交重建。</span><span class="en">The inversion chart is a scenario input, not a historical frequency estimate. Netflix prices provide event context; PMCC premiums and Greeks are model calculations from disclosed inputs, not a reconstruction of actual fills.</span></p></section>
+
+<section id="ch12"><h3>12 · <span class="zh">蝶式与到期</span><span class="en">Butterflies and expiry</span></h3>
+<p><a href="https://doi.org/10.1016/j.jfineco.2004.08.005" rel="noopener">Ni, Pearson &amp; Poteshman — stock-price clustering on option expiration dates</a> · <a href="https://www.bls.gov/news.release/archives/cpi_11102022.htm" rel="noopener">U.S. Bureau of Labor Statistics — CPI release, 2022-11-10</a></p></section>
+
+<section id="ch13"><h3>13 · <span class="zh">尾部对冲与波动率工具</span><span class="en">Tail hedges and volatility products</span></h3>
+<p><a href="https://cdn.cboe.com/resources/regulation/circulars/products/218-iPath-VIX-Short-and-Mid-Term-ETNs_VXX_VXZ_.pdf" rel="noopener">Cboe regulatory circular — VXX/VXZ</a> · <a href="https://www.cboe.com/global-disclaimers/" rel="noopener">Cboe — VIX product relationships and risks</a> · <a href="https://www.universa.net/riskmitigation.html" rel="noopener">Universa — manager description of risk mitigation</a></p>
+<p><span class="zh">Universa 的精确回报数字来自媒体对投资者信的转述，不是公开审计的组合回报；正文只用它教读者追问分母。VXX 段落仅根据发行/交易文件说明“跟踪短期期货指数，而非现货 VIX”，不再使用无取数快照的累计涨跌。</span><span class="en">Universa's exact return headlines are media retellings of an investor letter, not a public audited portfolio return; the chapter uses them only to teach denominator discipline. The VXX passage now relies on issuer/exchange documents only for the fact that it tracks a short-term futures index rather than spot VIX, and no longer uses cumulative-return snapshots without a reproducible extract.</span></p></section>
+
+<section id="ch14"><h3>14 · <span class="zh">订单、暂停与 0DTE</span><span class="en">Orders, pauses, and 0DTE</span></h3>
+<p><a href="https://www.sec.gov/about/divisions-offices/division-economic-risk-analysis/staff-papers-analyses/feb2016-dera-white-paper-etf-volatility" rel="noopener">SEC DERA — ETF trading pauses on 2015-08-24</a> · <a href="https://www.investor.gov/introduction-investing/investing-basics/how-stock-markets-work/types-orders" rel="noopener">SEC Investor.gov — order types</a> · <a href="https://www.cboe.com/insights/posts/the-state-of-the-options-industry-2025" rel="noopener">Cboe — state of the options industry, 2025</a></p>
+<p><span class="zh">SEC DERA 的可复核口径是 1,569 只 ETF 中 302 只（19.2%）触发交易暂停。Cboe 确认 2025 年 0DTE 占 SPX 成交量 59%。本书不列示无公开 Cboe 文件支持的更新数字。</span><span class="en">SEC DERA's reproducible denominator is 302 of 1,569 ETFs (19.2%) triggering a trading pause. Cboe confirms that 0DTE represented 59% of SPX volume in 2025. The book does not publish a newer figure without a public Cboe document.</span></p></section>
+
+<section id="ch15"><h3>15 · <span class="zh">长期基准</span><span class="en">Long-run benchmarks</span></h3>
+<p><a href="https://cdn.cboe.com/api/global/us_indices/governance/BXM_Methodology.pdf" rel="noopener">Cboe — BXM methodology</a> · <a href="https://cdn.cboe.com/resources/indices/factsheet/CboeGlobalIndices_BXM-Index.pdf" rel="noopener">Cboe — BXM factsheet</a> · <a href="https://cdn.cboe.com/resources/education/research_publications/PUTIndexEnnisKnupp.pdf" rel="noopener">Ennis Knupp/Cboe — PUT Index performance study (Jan 2009)</a></p></section>
+
+<nav class="chap-nav">
+  <a href="glossary.html">← <span class="zh">术语表</span><span class="en">Glossary</span></a>
+  <a href="index.html"><span class="zh">目录 →</span><span class="en">Contents →</span></a>
+</nav>
+</main>
+
+<script src="assets/i18n.js"></script>
+</body>
+</html>

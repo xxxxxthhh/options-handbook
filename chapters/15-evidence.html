@@ -16,6 +16,7 @@
   <nav>
     <a href="../index.html"><span class="zh">目录</span><span class="en">Contents</span></a>
     <a href="../glossary.html">Glossary</a>
+    <a href="../sources.html"><span class="zh">来源</span><span class="en">Sources</span></a>
   </nav>
   <div class="lang-switch" role="group" aria-label="Language">
     <button data-lang="zh" aria-pressed="true">中</button>
@@ -41,8 +42,8 @@
 </p>
 
 <p>
-  <span class="zh">这样的记录是存在的。Cboe 从 1986 年起就在计算<a class="term" href="../glossary.html#bxm">策略基准指数</a>：<strong>BXM</strong> 机械地执行第 2 章的 <a class="term" href="../glossary.html#covered-call">Covered Call</a>——持有标普 500，每月卖出一张平值 Call，月月如此，不择时、不挑标的、不跳过任何一个月。它是"如果一个人完美执行这个策略四十年会怎样"的答案，而且这个答案是公开的。</span>
-  <span class="en">Such a record exists. Cboe has computed <a class="term" href="../glossary.html#bxm">strategy benchmark indices</a> since 1986: <strong>BXM</strong> mechanically runs Chapter 2's <a class="term" href="../glossary.html#covered-call">covered call</a> — hold the S&P 500, sell one at-the-money call every month, every month, with no timing, no selection, and no skipped months. It is the answer to "what if someone executed this perfectly for forty years," and the answer is public.</span>
+  <span class="zh">这样的长期基准是存在的，但先要说清它是什么。Cboe 发布的 <a class="term" href="../glossary.html#bxm">BXM 策略基准指数</a>假设持有标普 500，并按规则每月卖出平值 Call。其历史序列追溯到 1986 年，指数在 2002 年正式发布；发布前的数据属于按后来方法回算的假设结果。<strong>它回答的是“同一套公开规则在这段历史数据上会呈现什么回报”，不是某位投资者四十年的真实成交记录。</strong>这条边界不会让基准失去价值，反而决定了我们能从它推出什么、不能推出什么。</span>
+  <span class="en">A long benchmark does exist, but its nature matters. Cboe's <a class="term" href="../glossary.html#bxm">BXM strategy index</a> assumes an S&amp;P 500 position and a rules-based monthly sale of an at-the-money call. Its historical series reaches back to 1986, while the index itself launched in 2002; the pre-launch history is a hypothetical back-calculation under the later methodology. <strong>It answers “what would these published rules have produced on this historical dataset?”, not “what did one investor actually earn through forty years of fills?”</strong> That boundary does not make the benchmark useless; it defines what can and cannot be inferred from it.</span>
 </p>
 
 <div class="panel">
@@ -51,14 +52,14 @@
 </div>
 
 <!-- ============ 15.2 ============ -->
-<h2><span class="zh">15.2 四十年的完整记录</span><span class="en">15.2 The Complete Forty-Year Record</span></h2>
+<h2><span class="zh">15.2 四十年的假设性基准记录</span><span class="en">15.2 Forty Years of Hypothetical Benchmark History</span></h2>
 
 <div class="case">
   <p class="case-tag">CASE FILE · 1986–2026</p>
-  <h3><span class="zh">备兑开仓的四十年：波动更小，回撤更浅，然后呢？</span><span class="en">Forty Years of Buy-Writing: Less Volatility, Shallower Drawdowns, and Then?</span></h3>
+  <h3><span class="zh">备兑开仓的长期基准：波动更小，回撤更浅，然后呢？</span><span class="en">The Long Buy-Write Benchmark: Less Volatility, Shallower Drawdowns, and Then?</span></h3>
   <p>
-    <span class="zh">Cboe 官方基准数据（自 1986 年 6 月 20 日起，截至 2026 年 6 月 30 日）：</span>
-    <span class="en">Official Cboe benchmark data (from June 20, 1986, as of June 30, 2026):</span>
+    <span class="zh">Cboe 官方假设性基准数据（历史序列自 1986 年 6 月 20 日起，截至 2026 年 6 月 30 日）：</span>
+    <span class="en">Official Cboe hypothetical benchmark data (historical series from June 20, 1986, as of June 30, 2026):</span>
   </p>
   <dl class="spec">
     <div><dt><span class="zh">年化收益</span><span class="en">Annualized return</span></dt><dd><span class="zh">BXM <strong>8.5%</strong> · 标普全收益 <strong>11.2%</strong></span><span class="en">BXM <strong>8.5%</strong> · S&P 500 TR <strong>11.2%</strong></span></dd></div>
@@ -67,8 +68,8 @@
     <div><dt>Beta</dt><dd><span class="zh">BXM <strong>0.62</strong> · 标普 1.0</span><span class="en">BXM <strong>0.62</strong> · S&P 1.0</span></dd></div>
   </dl>
   <p>
-    <span class="zh">前三行完全支持第 2 章的说法：<strong>Covered Call 确实降低了波动，也确实让回撤浅了 15.1 个百分点</strong>——这不是营销，是四十年的测量结果。代价也很清楚：年化少 2.7 个百分点。</span>
-    <span class="en">The first three rows fully support Chapter 2's claims: <strong>covered calls genuinely reduced volatility, and genuinely made the worst drawdown 15.1 percentage points shallower</strong> — that isn't marketing, it's a forty-year measurement. The cost is equally clear: 2.7 percentage points a year.</span>
+    <span class="zh">在 BXM 的特定规则与这段历史样本里，<strong>买写基准的年化波动更低，最大回撤也浅了 15.1 个百分点</strong>；与此同时，年化收益少 2.7 个百分点。这证明的是该基准在该窗口中的风险收益形态，不是对所有 Covered Call 规则、所有未来窗口或任何实际产品的普遍定律。</span>
+    <span class="en">Under BXM's particular rules and this historical sample, <strong>the buy-write benchmark had lower annualized volatility and a maximum drawdown 15.1 percentage points shallower</strong>, while annualized return was 2.7 points lower. That establishes the benchmark's risk-return shape in this window, not a universal law for every covered-call rule, every future period or any investable product.</span>
   </p>
   <p>
     <span class="zh">2.7 个百分点听起来不多。把它按四十年复利展开就不是了。用同一份数据里 2011–2025 的逐年收益，从 $100 起算：</span>
@@ -91,34 +92,34 @@
     <div><dt><span class="zh">索提诺比率</span><span class="en">Sortino ratio</span></dt><dd class="neg"><span class="zh">BXM <strong>0.75</strong> · 标普 <strong>0.84</strong></span><span class="en">BXM <strong>0.75</strong> · S&P <strong>0.84</strong></span></dd></div>
   </dl>
   <p>
-    <span class="zh">这才是四十年给出的真正答案。<strong>按 <a class="term" href="../glossary.html#sharpe">夏普比率</a> 衡量，机械执行四十年的备兑开仓与直接持有指数几乎完全相同（0.55 对 0.56）；按只惩罚下行波动的索提诺比率衡量，它还更差（0.75 对 0.84）。</strong>换句话说：它确实用收益换来了平稳，但<strong>这笔交换是公平的，没有额外的免费午餐</strong>——你少承担的风险，正好等于你少拿的收益。</span>
-    <span class="en">This is what forty years actually answers. <strong>On the <a class="term" href="../glossary.html#sharpe">Sharpe ratio</a>, four decades of mechanical buy-writing is essentially indistinguishable from simply owning the index (0.55 against 0.56); on the Sortino ratio, which penalises only downside volatility, it is worse (0.75 against 0.84).</strong> In other words: it did trade return for smoothness, but <strong>the trade was fair — there was no extra free lunch</strong>. The risk you avoided is precisely the return you gave up.</span>
+    <span class="zh">这组数据最值得读的是：<strong>BXM 的 <a class="term" href="../glossary.html#sharpe">夏普比率</a>为 0.55，标普为 0.56；索提诺比率为 0.75，对照为 0.84。</strong>在这套定义和历史窗口里，BXM 没有显示出优于直接持有指数的风险调整收益。这里不能再多走一步说“市场证明交换绝对公平”或“少掉的风险正好等于少掉的收益”——单一历史样本与两个比率不支持如此精确的因果结论。可支持的结论只有：<strong>这份长期基准没有提供免费午餐或持久超额收益的证据。</strong></span>
+    <span class="en">The most informative comparison is that <strong>BXM's <a class="term" href="../glossary.html#sharpe">Sharpe ratio</a> is 0.55 versus 0.56 for the S&amp;P, while its Sortino ratio is 0.75 versus 0.84.</strong> Under these definitions and this historical window, BXM does not show superior risk-adjusted return to simply owning the index. One cannot take the extra step of claiming that the market proved the exchange perfectly fair or that every unit of avoided risk exactly matched foregone return — one historical sample and two ratios do not support that precise causal conclusion. The defensible result is narrower: <strong>this long benchmark provides no evidence of a free lunch or durable excess return.</strong></span>
   </p>
   <p>
-    <span class="zh">数据来源声明：以上全部数字取自 Cboe Global Indices 的 BXM 指数官方 factsheet（数据截至 2026 年 6 月 30 日），包括年化收益、波动率、最大回撤、Beta、夏普与索提诺比率，以及 2011–2025 的逐年收益。累计增长曲线由该逐年收益直接复利计算。<strong>本章不含任何由本书推算的期权价格。</strong>需要注意：夏普与索提诺比率按该 factsheet 说明基于 1989 年 7 月起的数据；指数收益为税前，且不含任何费用（见 15.4 节）。</span>
-    <span class="en">Source statement: every figure above is taken from Cboe Global Indices' official BXM factsheet (data as of June 30, 2026) — annualized return, volatility, maximum drawdown, beta, Sharpe and Sortino ratios, and the 2011–2025 calendar-year returns. The cumulative growth curve is compounded directly from those annual returns. <strong>This chapter contains no option prices computed by this book.</strong> Note that per the factsheet the Sharpe and Sortino ratios are based on data from July 1989, and that index returns are pre-tax and include no fees whatsoever (see §15.4).</span>
+    <span class="zh">数据来源声明：以上全部数字取自 Cboe Global Indices 的 <a href="https://cdn.cboe.com/resources/indices/factsheet/CboeGlobalIndices_BXM-Index.pdf">BXM 官方 factsheet</a>（数据截至 2026 年 6 月 30 日），包括年化收益、波动率、最大回撤、Beta、夏普与索提诺比率，以及 2011–2025 的逐年收益。累计增长曲线由该逐年收益直接复利计算。<strong>本章不含任何由本书推算的期权价格。</strong>需要注意：夏普与索提诺比率按该 factsheet 说明基于 1989 年 7 月起的数据；指数收益为税前，且不含基金管理费、税负等投资者层面的费用（见 15.4 节）。</span>
+    <span class="en">Source statement: every figure above is taken from Cboe Global Indices' <a href="https://cdn.cboe.com/resources/indices/factsheet/CboeGlobalIndices_BXM-Index.pdf">official BXM factsheet</a> (data as of June 30, 2026) — annualized return, volatility, maximum drawdown, beta, Sharpe and Sortino ratios, and the 2011–2025 calendar-year returns. The cumulative growth curve is compounded directly from those annual returns. <strong>This chapter contains no option prices computed by this book.</strong> Note that the factsheet bases its Sharpe and Sortino ratios on data from July 1989 and reports a pre-tax index return without investor-level costs such as fund management fees and taxes (see §15.4).</span>
   </p>
-  <p class="verdict gain"><span class="zh">亏损减少：四十年最大回撤 −50.9%（标普）→ −35.8%（BXM），少 15.1 个百分点；代价是年化少 2.7 点，且风险调整后两者几乎相同（夏普 0.56 → 0.55）</span><span class="en">Loss reduced: over forty years the worst drawdown went from −50.9% (S&P) to −35.8% (BXM), 15.1 points shallower — at a cost of 2.7 points a year, and with risk-adjusted returns essentially identical (Sharpe 0.56 → 0.55)</span></p>
+  <p class="verdict gain"><span class="zh">基准结果：最大回撤 −50.9%（标普）→ −35.8%（BXM），浅 15.1 个百分点；年化收益少 2.7 点，且未显示更高的风险调整收益（夏普 0.56 → 0.55）</span><span class="en">Benchmark result: maximum drawdown moved from −50.9% (S&amp;P) to −35.8% (BXM), 15.1 points shallower; annualized return was 2.7 points lower, with no superior risk-adjusted return shown (Sharpe 0.56 → 0.55)</span></p>
 </div>
 
 <!-- ============ 15.3 ============ -->
-<h2><span class="zh">15.3 同一个策略，两份权威数据，相反的结论</span><span class="en">15.3 One Strategy, Two Authoritative Datasets, Opposite Conclusions</span></h2>
+<h2><span class="zh">15.3 同类策略，两组不能直接比较的数据</span><span class="en">15.3 Related Strategies, Two Incomparable Datasets</span></h2>
 
 <p>
-  <span class="zh">上一节的结论听起来很确定。<strong>但如果你在 2009 年读到关于同一类策略的权威研究，你会得到完全相反的印象。</strong></span>
-  <span class="en">The previous section sounds settled. <strong>Yet if you had read an authoritative study of the same family of strategies in 2009, you would have come away with the opposite impression.</strong></span>
+  <span class="zh">上一节描述 BXM 的一条长期样本。2009 年另一份权威研究则报告 PUT 指数在另一个窗口跑赢其基准。<strong>两份摘要看起来方向相反，但它们不是对同一个策略、同一窗口和同一基准的配对实验。</strong></span>
+  <span class="en">The previous section describes one long BXM sample. A separate authoritative 2009 study reports that the PUT Index beat its benchmark over a different window. <strong>The summaries appear to point in opposite directions, but they are not a paired experiment on the same strategy, window, and benchmark.</strong></span>
 </p>
 
 <dl class="spec">
-  <div><dt><span class="zh">2009 年 1 月发布</span><span class="en">Published Jan 2009</span></dt><dd><span class="zh">PUT 指数 <strong>10.32%</strong> · 标普 <strong>8.77%</strong>（<strong>卖方 +1.55 点</strong>）</span><span class="en">PUT <strong>10.32%</strong> · S&P <strong>8.77%</strong> (<strong>writer +1.55</strong>)</span></dd></div>
+  <div><dt><span class="zh"><a href="https://cdn.cboe.com/resources/education/research_publications/PUTIndexEnnisKnupp.pdf">2009 年 1 月研究</a></span><span class="en"><a href="https://cdn.cboe.com/resources/education/research_publications/PUTIndexEnnisKnupp.pdf">Jan 2009 study</a></span></dt><dd><span class="zh">PUT 指数 <strong>10.32%</strong> · 标普 <strong>8.77%</strong>（<strong>卖方 +1.55 点</strong>）</span><span class="en">PUT <strong>10.32%</strong> · S&P <strong>8.77%</strong> (<strong>writer +1.55</strong>)</span></dd></div>
   <div><dt><span class="zh">窗口</span><span class="en">Window</span></dt><dd class="neg"><span class="zh">1986-07 → <strong>2008-10</strong></span><span class="en">Jul 1986 → <strong>Oct 2008</strong></span></dd></div>
   <div><dt><span class="zh">2026 年 6 月数据</span><span class="en">As of Jun 2026</span></dt><dd><span class="zh">BXM <strong>8.5%</strong> · 标普 <strong>11.2%</strong>（<strong>卖方 −2.7 点</strong>）</span><span class="en">BXM <strong>8.5%</strong> · S&P <strong>11.2%</strong> (<strong>writer −2.7</strong>)</span></dd></div>
   <div><dt><span class="zh">窗口</span><span class="en">Window</span></dt><dd><span class="zh">1986-06 → <strong>2026-06</strong></span><span class="en">Jun 1986 → <strong>Jun 2026</strong></span></dd></div>
 </dl>
 
 <p>
-  <span class="zh">两份数据都出自可信来源，起点几乎相同，结论却相差 <strong>4.25 个百分点</strong>——一边是期权卖方明显跑赢，一边是明显跑输。<strong>最大的差别不在方法，在那个截止日期。</strong>2008 年 10 月是什么时候？标普 500 已经从高点腰斩、离最终低点只剩几个月。<strong>把一个 Beta 只有 0.62 的策略，测量到七十年来最惨崩盘的谷底为止，它当然会赢——这个结论几乎是被截止日期决定的，而不是被策略决定的。</strong></span>
-  <span class="en">Both figures come from credible sources over near-identical start dates, and their conclusions differ by <strong>4.25 percentage points</strong> — one showing option writers clearly ahead, the other clearly behind. <strong>The largest difference isn't methodology; it's that end date.</strong> What was October 2008? The S&P had already halved from its peak and was months from its final low. <strong>Measure a strategy with a beta of 0.62 up to the bottom of the worst crash in seventy years and of course it wins — that conclusion is very nearly determined by the end date rather than by the strategy.</strong></span>
+  <span class="zh">2008 年 10 月处于金融危机深处，终点选择当然可能影响结果；但这里<strong>策略从 PUT 换成 BXM、窗口延长近十八年、基准口径也未被这张并列表统一</strong>。这些变量同时改变，因此不能把两组结果相减或归因于单一差异。上一节的 Beta 0.62 属于 BXM 资料，也不能套到 2009 年的 PUT 样本。<strong>这个并列只负责触发可比性审查，不负责证明截止日效应。</strong></span>
+  <span class="en">October 2008 sits deep in the financial crisis, so endpoint choice may matter. But here <strong>the strategy changes from PUT to BXM, the window extends by nearly eighteen years, and this side-by-side does not harmonize benchmark conventions.</strong> Because those variables change together, the two results cannot be subtracted or attributed to one difference. The 0.62 beta in the previous section belongs to the BXM factsheet and cannot be applied to the 2009 PUT sample. <strong>This juxtaposition triggers a comparability audit; it does not prove an endpoint effect.</strong></span>
 </p>
 
 <div class="warn">
@@ -142,15 +143,15 @@
 </p>
 
 <p>
-  <span class="zh">把 8.5% 变成你账户里的数字，至少要再扣掉四层：<strong>① 管理费</strong>——追踪买写策略的 ETF 管理费率通常在 0.6%–0.8% 量级；<strong>② 每月的买卖价差</strong>——BXM 假设按结算价成交，真实世界每月要穿越一次点差；<strong>③ 税</strong>——每月卖出的 Call 产生持续的应税事件，而买入持有指数不产生（本书不提供税务建议，但这一项在应税账户里不可忽略）；<strong>④ 执行偏差</strong>——指数从不错过一个月、从不手滑、从不因为"这个月 IV 太低"而跳过。</span>
-  <span class="en">Turning 8.5% into a number in your account means subtracting at least four more layers: <strong>① management fees</strong> — ETFs tracking buy-write strategies typically charge on the order of 0.6–0.8%; <strong>② the monthly bid-ask</strong> — BXM assumes settlement-price fills, while the real world crosses a spread every month; <strong>③ taxes</strong> — a call sold every month generates a continuous stream of taxable events that buying and holding an index does not (this book gives no tax advice, but in a taxable account the item is not ignorable); <strong>④ execution drift</strong> — the index never misses a month, never fat-fingers, and never skips because "IV looks low this month."</span>
+  <span class="zh">把 8.5% 变成你账户里的数字，至少要另外核算四层：<strong>① 产品或管理费</strong>；<strong>② 券商佣金、报价与真实成交执行</strong>；<strong>③ 税务</strong>——月度卖 Call 会持续产生潜在税务事件，具体处理因账户与辖区而异；<strong>④ 跟踪偏差</strong>——真实产品的展期时间、现金管理、持仓约束和操作选择未必逐点复制指数。这里还要纠正一个常见误解：按 <a href="https://cdn.cboe.com/api/global/us_indices/governance/BXM_Methodology.pdf">Cboe 当前 BXM 方法文件</a>，到期 Call 用 SOQ 结算，新 Call 的权利金按展期日 11:30–13:30 ET 的成交 VWAP 计入；它<strong>不是</strong>简单假设“所有腿都按结算价成交”。但指数仍不等于任何投资者可直接获得的税后、费后回报。</span>
+  <span class="en">Turning 8.5% into an account return requires four additional reconciliations: <strong>① product or management fees</strong>; <strong>② brokerage commissions, quotes and actual execution</strong>; <strong>③ taxes</strong> — monthly call writing can create recurring taxable events whose treatment depends on account and jurisdiction; and <strong>④ tracking difference</strong> — a real product's roll timing, cash management, constraints and discretionary operations may not replicate the index point for point. One common misconception also needs correcting: under Cboe's current <a href="https://cdn.cboe.com/api/global/us_indices/governance/BXM_Methodology.pdf">BXM methodology</a>, the expiring call settles to the SOQ and the new call premium is incorporated using the 11:30 a.m.–1:30 p.m. ET trading VWAP on the roll date. The index does <strong>not</strong> simply assume that every leg fills at a settlement price. It still is not an after-tax, after-fee return directly available to an investor.</span>
 </p>
 
 <div class="note">
   <span class="note-tag"><span class="zh">这一层为什么是课程内容，而不是脚注</span><span class="en">Why this layer is the lesson, not a footnote</span></span>
   <p>
-    <span class="zh">因为它<strong>不对称地作用于比较的两边</strong>。指数化持有标普 500 的成本可以低到每年 0.03%，而机械执行买写策略的成本是它的二十倍以上，还要加上每月的点差与税务摩擦。<strong>也就是说：8.5% 对 11.2% 这个已经不利的对比，在扣完真实成本之后只会更不利，而不会更好。</strong>凡是拿指数收益率去推销一个需要持续交易的策略的材料，都在系统性地高估你能拿到的部分——而且高估的方向永远是同一个。</span>
-    <span class="en">Because it <strong>bites asymmetrically on the two sides of the comparison</strong>. Indexing the S&P 500 can cost as little as 0.03% a year, while running a mechanical buy-write costs twenty times that, plus a monthly spread and tax friction. <strong>Which means the already-unfavourable 8.5% versus 11.2% only gets worse after real costs, never better.</strong> Any material quoting index returns to sell a strategy that requires continuous trading is systematically overstating what you would receive — and the overstatement always points the same way.</span>
+    <span class="zh">因为这些摩擦对比较两边未必相同。低成本广泛指数产品通常只需很少交易，而买写产品需要持续管理期权腿；<strong>在其他条件相同时，额外费用与执行摩擦会给 BXM 一侧增加向下拖累</strong>。税务则必须按账户与辖区单独计算，不能宣称对每位投资者都“只会更差”。所以严谨的结论是：8.5% 对 11.2% 是<strong>指数层</strong>的比较；任何产品或个人策略都必须用自己的费后、税后、可实现回报重新比较，不能直接把 BXM 指数收益当到账户收益。</span>
+    <span class="en">Because those frictions need not affect both sides equally. A low-cost broad-index product generally trades very little, whereas a buy-write product must continually manage an options leg; <strong>all else equal, additional fees and execution frictions create extra downward drag on the BXM side</strong>. Taxes, however, must be calculated for the actual account and jurisdiction, so “it can only get worse” is not a universal statement for every investor. The defensible conclusion is narrower: 8.5% versus 11.2% is an <strong>index-level</strong> comparison. Any fund or personal implementation must be re-evaluated using its own realizable after-fee and after-tax returns rather than treating the BXM index return as an account return.</span>
   </p>
 </div>
 
@@ -174,24 +175,24 @@
     <div><dt>2018</dt><dd class="neg"><span class="zh">BXM <strong>−4.8%</strong> · 标普 <strong>−4.4%</strong>（<strong>多亏 0.4 点</strong>）</span><span class="en">BXM <strong>−4.8%</strong> · S&P <strong>−4.4%</strong> (<strong>0.4 pts worse</strong>)</span></dd></div>
   </dl>
   <p>
-    <span class="zh"><strong>同一个策略，同样是下跌年，一次少亏 6.7 个百分点，一次反而多亏 0.4 个百分点。</strong>这不是噪音，原因在第 2 章和第 9 章都写过：<strong>2022 年是持续一整年的阴跌</strong>——每个月都能顺利收租，租金月月累积，这正是 Covered Call 的理想环境；<strong>2018 年的下跌集中在第四季度的急挫，随后迅速反弹</strong>，而急涨会让卖出的 Call 被击穿、把反弹的收益削掉，于是"缓冲"没兑现，"封顶"却兑现了。</span>
-    <span class="en"><strong>The same strategy, in two down years, was 6.7 points better in one and 0.4 points worse in the other.</strong> That isn't noise, and Chapters 2 and 9 already gave the reason: <strong>2022 was a grinding decline lasting all year</strong> — every month's rent was collected cleanly and accumulated, which is a covered call's ideal habitat. <strong>2018's decline was a sharp fourth-quarter drop followed by a fast rebound</strong>, and a fast rebound breaches the calls you sold and shaves off the recovery — so the cushion failed to materialise while the cap did.</span>
+    <span class="zh"><strong>同一个指数规则，同样是下跌年，一次少亏 6.7 个百分点，一次反而多亏 0.4 个百分点。</strong>这两个被选中的年份与备兑策略的路径依赖机制一致：持续下行期间，权利金可能提供部分缓冲；急跌后快速反弹时，卖出的 Call 又可能限制修复收益。<strong>但逐年收益本身不能证明这个解释，更不能证明未来能提前识别哪种路径。</strong></span>
+    <span class="en"><strong>The same index rule, in two down years, was 6.7 points better in one and 0.4 points worse in the other.</strong> These selected years are consistent with the path-dependent mechanism of a covered call: premium may cushion part of a sustained decline, while sold calls may limit recovery after a sharp fall and rebound. <strong>The annual returns alone do not prove that explanation, however, and they certainly do not show that the future path can be identified in advance.</strong></span>
   </p>
   <p>
-    <span class="zh">所以四十年数据和第 2 章并不矛盾，<strong>它们在回答不同的问题</strong>。第 2 章问的是"在什么样的市场里这个结构有用"，答案是震荡与阴跌；BXM 问的是"不管什么市场都机械执行四十年会怎样"，答案是与指数打平、扣费后更差。<strong>两个答案合在一起才是完整的结论：这个策略本身是有效的，无效的是"不看 Regime 就一直做"。</strong>这正是本书从第 2 章讲到第 9 章的那条主线，只不过这一次它有了四十年的数据背书。</span>
-    <span class="en">So the forty-year record and Chapter 2 don't contradict each other — <strong>they answer different questions</strong>. Chapter 2 asked "in what market is this structure useful," and the answer is chop and grinding declines. BXM asks "what if you ran it mechanically for forty years regardless," and the answer is a tie with the index, worse after costs. <strong>Together they form the complete conclusion: the strategy works; what doesn't work is running it without reading the regime.</strong> That is the through-line this book has followed since Chapter 2 — only now it has four decades of data behind it.</span>
+    <span class="zh">因此，第 2 章的结构机制与 BXM 的长期基准证据回答的是不同问题。前者说明损益如何随路径变化；后者显示一套固定规则在这段假设性指数历史中的结果。<strong>两者都不能证明“读 Regime”本身有可交易的优势。</strong>若要提出状态切换策略，必须先定义可观测信号，再做样本外、扣费后的比较。</span>
+    <span class="en">Chapter 2's structural mechanism and BXM's long-run benchmark evidence therefore answer different questions. The former explains how payoff changes with the path; the latter records one fixed rule over this hypothetical index history. <strong>Neither proves that "reading the regime" is itself a tradable edge.</strong> A regime-switching strategy would require observable signals specified in advance and an out-of-sample, after-cost comparison.</span>
   </p>
   <p>
     <span class="zh">数据来源声明：2018 与 2022 的逐年收益取自 Cboe BXM factsheet（全收益口径，与标普 500 全收益指数并列公布）。对两年市场形态的描述属于解释，不属于该数据源的结论。</span>
     <span class="en">Source statement: the 2018 and 2022 calendar-year returns are from the Cboe BXM factsheet (total return, published alongside the S&P 500 Total Return Index). The characterisation of the two years' market shapes is interpretation, not a finding of that source.</span>
   </p>
-  <p class="verdict gain"><span class="zh">亏损减少：2022 年阴跌中 −18.1% → −11.4%，少亏 6.7 个百分点；但同一个策略在 2018 年的 V 形下跌中反而多亏 0.4 点——决定它有没有用的是 Regime，不是策略本身</span><span class="en">Loss reduced: through 2022's grinding decline, −18.1% → −11.4%, 6.7 points better; yet the same strategy was 0.4 points worse through 2018's V-shaped fall — what decides whether it helps is the regime, not the strategy</span></p>
+  <p class="verdict loss"><span class="zh">历史观察：BXM 在 2022 年少亏 6.7 个百分点，在 2018 年却多亏 0.4 个百分点；这说明结果依赖路径，不证明存在可事前交易的 Regime 信号</span><span class="en">Historical observation: BXM lost 6.7 points less in 2022 but 0.4 points more in 2018; this illustrates path dependence, not a regime signal that can be traded in advance</span></p>
 </div>
 
 <div class="think">
   <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
-  <span class="zh">BXM 的四十年夏普比率是 0.55，标普是 0.56。<strong>如果一个策略在几十年里既没有创造超额收益、也没有改善风险调整后收益，那么它存在的意义是什么？</strong>在你回答"没有意义"之前，先想想第 9 章那条回撤曲线：−35.8% 和 −50.9% 对一个真实的人来说，是"继续持有"和"在谷底割肉"的区别。<strong>一个不改变期望值、但改变你能否坚持下去的工具，到底算不算有用？</strong></span>
-  <span class="en">BXM's forty-year Sharpe is 0.55; the S&P's is 0.56. <strong>If a strategy creates neither excess return nor better risk-adjusted return across four decades, what is it for?</strong> Before answering "nothing," revisit Chapter 9's drawdown curve: for an actual human being, −35.8% and −50.9% is the difference between holding on and capitulating at the bottom. <strong>Is a tool that doesn't change your expectancy but does change whether you can stay in the seat useful or not?</strong></span>
+  <span class="zh">在这份历史指数样本里，BXM 的夏普比率是 0.55，标普是 0.56。<strong>如果一个基准没有显示更高的风险调整后收益，它仍可能满足什么投资目标？</strong>先想想第 9 章那条回撤曲线：−35.8% 和 −50.9% 对真实投资者的持有体验并不相同。<strong>更平缓的路径是否值得较低的历史收益，取决于投资者约束；仅凭两个比率不能证明交换“恰好公平”。</strong></span>
+  <span class="en">In this historical index sample, BXM's Sharpe ratio is 0.55 and the S&P's is 0.56. <strong>If a benchmark does not show a higher risk-adjusted return, what investor objective might it still serve?</strong> Revisit Chapter 9's drawdown curve: −35.8% and −50.9% do not create the same holding experience for a real investor. <strong>Whether a smoother path is worth the lower historical return depends on investor constraints; two ratios cannot prove that the exchange was "exactly fair."</strong></span>
 </div>
 
 <!-- ============ 15.6 Quiz ============ -->
@@ -205,12 +206,12 @@
   <div class="opts">
     <button data-opt="a"><span class="key">A</span><span class="zh">BXM 更好，因为风险更低</span><span class="en">BXM is better — lower risk</span></button>
     <button data-opt="b"><span class="key">B</span><span class="zh">标普更好，因为收益更高</span><span class="en">The S&P is better — higher return</span></button>
-    <button data-opt="c"><span class="key">C</span><span class="zh">风险调整后两者几乎相同（夏普 0.55 对 0.56），这笔交换是公平的</span><span class="en">Risk-adjusted they're nearly identical (Sharpe 0.55 vs 0.56) — the trade was fair</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">这份样本未显示 BXM 有更高的风险调整后收益；是否值得仍取决于投资者约束</span><span class="en">This sample shows no higher risk-adjusted return for BXM; whether it is worthwhile still depends on investor constraints</span></button>
     <button data-opt="d"><span class="key">D</span><span class="zh">数据不足以判断</span><span class="en">There isn't enough data to say</span></button>
   </div>
   <div class="expl">
-    <span class="zh"><b>C。</b>A 和 B 各只看了一半——比较收益必须同时看风险，这正是夏普比率的用途。四十年的答案是 <strong>0.55 对 0.56</strong>：几乎完全相同，<strong>说明降低的风险与放弃的收益恰好等价，没有额外的免费午餐</strong>。而按只惩罚下行的索提诺比率，BXM 还更差（0.75 对 0.84）。D 不成立：四十年、包含所有牛熊的连续记录，正是能回答这个问题的最好数据。</span>
-    <span class="en"><b>C.</b> A and B each see half — comparing returns requires comparing risk too, which is what the Sharpe ratio is for. Forty years answers <strong>0.55 against 0.56</strong>: essentially identical, meaning <strong>the risk avoided was exactly equivalent to the return surrendered, with no free lunch left over</strong>. On the Sortino ratio, which penalises only downside, BXM is actually worse (0.75 vs 0.84). D fails: a continuous forty-year record spanning every bull and bear is precisely the data that can answer this.</span>
+    <span class="zh"><b>C。</b>A 和 B 都只看了一半：比较收益必须同时看风险。样本中的夏普是 <strong>0.55 对 0.56</strong>，索提诺是 0.75 对 0.84，因此没有显示 BXM 提供了更高的风险调整后收益。<strong>这不等于证明两者“恰好公平”或未来也会如此</strong>；它只描述这条假设性指数历史。投资者是否愿意用部分收益换取较低波动和较浅回撤，还取决于负债、税务与行为约束。</span>
+    <span class="en"><b>C.</b> A and B each see only half the comparison: return must be considered together with risk. In this sample the Sharpe ratios are <strong>0.55 versus 0.56</strong> and the Sortino ratios 0.75 versus 0.84, so BXM did not show a higher risk-adjusted return. <strong>That does not prove the exchange was "exactly fair" or that the future will match</strong>; it describes this hypothetical index history. Whether lower volatility and drawdown justify giving up some return depends on an investor's liabilities, taxes and behavioural constraints.</span>
   </div>
 </div>
 
@@ -218,13 +219,13 @@
   <p class="q"><span class="zh">一份 2009 年 1 月发布的研究显示卖权策略年化跑赢标普 1.55 个百分点，窗口是 1986-07 至 2008-10。最该警惕什么？</span><span class="en">A study published in January 2009 shows a put-writing strategy beating the S&P by 1.55 points annualized, over July 1986 to October 2008. What should you be most wary of?</span></p>
   <div class="opts">
     <button data-opt="a"><span class="key">A</span><span class="zh">样本太短</span><span class="en">The sample is too short</span></button>
-    <button data-opt="b"><span class="key">B</span><span class="zh">窗口终止于崩盘谷底附近，天然有利于低 Beta 策略</span><span class="en">The window ends near a crash bottom, which inherently flatters a low-beta strategy</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">不能只拿它与另一策略的另一窗口比较并归因于截止日；策略、窗口和基准必须先统一</span><span class="en">Do not compare it with another strategy's other window and blame the endpoint; align strategy, window, and benchmark first</span></button>
     <button data-opt="c"><span class="key">C</span><span class="zh">该机构不可信</span><span class="en">The institution isn't credible</span></button>
     <button data-opt="d"><span class="key">D</span><span class="zh">没有问题，22 年足够长</span><span class="en">Nothing — 22 years is long enough</span></button>
   </div>
   <div class="expl">
-    <span class="zh"><b>B。</b>2008 年 10 月，标普已从高点腰斩、离最终低点只剩几个月。<strong>把一个 Beta 0.62 的策略测量到那一刻为止，结论几乎是被截止日期决定的，而不是被策略决定的</strong>——同一族策略测到 2026 年 6 月，优势变成了 −2.7 点，前后相差 4.25 个百分点。A 和 D 都盯着样本长度，但问题不在长度而在<strong>终点位置</strong>：22 年确实不短，可它停在了一个极不寻常的地方。C 是人身攻击而非方法批评——数据本身没有造假，需要质疑的是它被截取的那一刀。</span>
-    <span class="en"><b>B.</b> By October 2008 the S&P had halved from its peak and was months from its final low. <strong>Measuring a 0.62-beta strategy up to that instant makes the conclusion very nearly a function of the end date rather than the strategy</strong> — the same family measured to June 2026 shows a −2.7 point deficit, a 4.25-point swing. A and D both fixate on sample length, but the issue isn't length, it's <strong>where the endpoint sits</strong>: 22 years is genuinely long, and it stopped somewhere very unusual. C attacks the institution rather than the method — the data isn't falsified; what deserves scrutiny is where it was cut.</span>
+    <span class="zh"><b>B。</b>2008 年 10 月这个终点值得做敏感性分析，但不能拿 PUT 的该窗口与 BXM 的另一窗口直接相减：策略、结束日期和基准口径同时改变。上一节的 0.62 Beta 也只属于 BXM，不能移植到 PUT。<strong>要检验截止日效应，应固定同一策略与同一基准，改变终点并报告滚动窗口或端点敏感性。</strong>A 与 D 只讨论样本长度，C 则攻击来源而没有解决可比性。</span>
+    <span class="en"><b>B.</b> The October 2008 endpoint deserves sensitivity analysis, but the PUT window cannot be directly subtracted from a different BXM window: strategy, endpoint, and benchmark convention all change together. The previous section's 0.62 beta belongs only to BXM and cannot be transferred to PUT. <strong>Testing an endpoint effect requires holding strategy and benchmark fixed, varying the endpoint, and reporting rolling-window or endpoint sensitivity.</strong> A and D discuss length only; C attacks the source without resolving comparability.</span>
   </div>
 </div>
 
@@ -237,8 +238,8 @@
     <button data-opt="d"><span class="key">D</span><span class="zh">更低：指数不含费用、点差、税负与执行偏差</span><span class="en">Lower: the index excludes fees, spreads, taxes and execution drift</span></button>
   </div>
   <div class="expl">
-    <span class="zh"><b>D。</b>Cboe 自己的免责声明写明指数值是理论值，<strong>不反映买卖、持有投资产生的费用、税负或其他开支</strong>。你要额外扣掉：每月一次的买卖价差、每月卖 Call 产生的应税事件、以及"指数从不错过一个月、从不手滑"这种执行偏差。C 有一点道理但方向不对——省下管理费不代表省下点差和税。<strong>关键是这些成本不对称：指数化持有标普可以低到每年 0.03%，而买写策略的摩擦是它的很多倍，所以 8.5% 对 11.2% 这个已经不利的对比，扣完成本只会更不利。</strong></span>
-    <span class="en"><b>D.</b> Cboe's own disclaimer states index values are theoretical and <strong>do not reflect the fees, taxes or other expenses of buying, holding or selling investments</strong>. You additionally pay a monthly bid-ask crossing, a taxable event every month you sell a call, and the execution drift of being a human rather than an index that never misses a month. C has a grain of truth pointed the wrong way — avoiding a management fee doesn't avoid spreads or taxes. <strong>Crucially these costs are asymmetric: indexing the S&P can cost 0.03% a year while a buy-write's friction is many times that, so the already-unfavourable 8.5% versus 11.2% only worsens after costs.</strong></span>
+    <span class="zh"><b>D。</b>Cboe 的免责声明写明指数值是理论值，<strong>不反映买卖、持有投资产生的费用、税负或其他开支</strong>。真实账户还会受到佣金、点差、相对指数规则的执行偏差与账户税制影响；这些都必须单独测算。指数方法本身也不是“任意时点按一个结算价成交”：到期 Call 使用 SOQ，新 Call 使用规定时段的 VWAP。<strong>在其他条件相同的情况下，费用与交易摩擦会拖累可实现收益；税务和实际执行造成的差异则取决于账户与实施方式，不能从 8.5% 这个毛指数数字直接推出。</strong></span>
+    <span class="en"><b>D.</b> Cboe's disclaimer says index values are theoretical and <strong>do not reflect the fees, taxes or other expenses of buying, holding or selling investments</strong>. A real account is also affected by commissions, spreads, implementation drift from the index rules and its own tax regime, all of which require separate measurement. The methodology itself is not an arbitrary single settlement-price fill: it uses the SOQ for the expiring call and a prescribed VWAP window for the new call. <strong>All else equal, fees and trading friction reduce realizable returns; differences from taxes and execution depend on the account and implementation and cannot be inferred directly from the 8.5% gross index figure.</strong></span>
   </div>
 </div>
 
@@ -275,12 +276,12 @@
 <!-- ============ takeaways ============ -->
 <h2><span class="zh">本章要点</span><span class="en">Key Takeaways</span></h2>
 <p>
-  <span class="zh">十四章的案例能说明机制，说明不了期望；要回答"长期值不值得"，只能看一条不加挑选、连续几十年的记录。Cboe 的 BXM 就是这条记录：机械执行第 2 章的备兑开仓四十年，年化 8.5% 对标普全收益 11.2%，波动率 10.7% 对 15.2%，最大回撤 −35.8% 对 −50.9%。前面几个数字支持第 2 章的一切说法，<strong>而真正的答案藏在最后两行：夏普 0.55 对 0.56、索提诺 0.75 对 0.84——四十年之后，风险调整后的收益几乎完全相同，下行调整后还更差。它确实用收益换来了平稳，但这笔交换是公平的，没有免费午餐。</strong>更何况指数不含费用、点差与税，而这些成本不对称地作用于比较的两边，所以真实账户里的差距只会更大。</span>
-  <span class="en">Fourteen chapters of cases can demonstrate mechanism but never expectancy; answering "is this worth doing" requires an unselected, decades-long record. Cboe's BXM is that record: Chapter 2's covered call run mechanically for forty years returned 8.5% annualized against the S&P's 11.2% total return, with 10.7% volatility against 15.2% and a worst drawdown of −35.8% against −50.9%. Those figures support everything Chapter 2 claimed — <strong>but the real answer sits in the last two rows: Sharpe 0.55 against 0.56, Sortino 0.75 against 0.84. After forty years the risk-adjusted returns are nearly identical, and on downside risk the strategy is worse. It did trade return for smoothness, and the trade was fair — there was no free lunch in it.</strong> And since the index excludes fees, spreads and taxes, which bite asymmetrically on the two sides, a real account's gap only widens.</span>
+  <span class="zh">案例可以说明机制，却不能单独证明长期期望。Cboe BXM 提供了一条有价值的假设性基准历史：该指数 2002 年推出，1986 年至推出前的部分属于回溯计算；截至资料日期，年化 8.5% 对标普全收益 11.2%，波动率 10.7% 对 15.2%，最大回撤 −35.8% 对 −50.9%。<strong>夏普 0.55 对 0.56、索提诺 0.75 对 0.84，说明这份样本没有显示 BXM 提供更高的风险调整后收益，但也不能证明收益与平稳之间存在精确、普适的“公平交换”。</strong>指数还不包含投资者层面的费用、税负与全部执行偏差；真实账户必须按自身成本和税制重算。</span>
+  <span class="en">Cases can illustrate mechanisms, but they cannot by themselves establish long-run expectancy. Cboe BXM provides a valuable hypothetical benchmark history: the index launched in 2002, so the segment from 1986 to launch is back-tested; as of the factsheet date it returned 8.5% annualized versus 11.2% for the S&P total-return benchmark, with 10.7% volatility versus 15.2% and a maximum drawdown of −35.8% versus −50.9%. <strong>Sharpe of 0.55 versus 0.56 and Sortino of 0.75 versus 0.84 show no higher risk-adjusted return for BXM in this sample, but they do not prove an exact or universal "fair exchange" between return and smoothness.</strong> The index also omits investor-level fees, taxes and all implementation drift; a real account must be recalculated using its own costs and tax regime.</span>
 </p>
 <p>
-  <span class="zh">但这并不推翻第 2 章，因为两者回答的是<strong>不同的问题</strong>。2022 年的阴跌里 BXM 少亏 6.7 个百分点，2018 年的 V 形下跌里却多亏 0.4 个百分点——<strong>同一个策略、同样是下跌年，结果相反。决定它有没有用的从来不是"涨还是跌"，而是 Regime。</strong>这正是本书从第 2 章讲到第 9 章的那条主线，现在它有了四十年的数据背书：<strong>策略本身是有效的，无效的是"不看状态就一直做"。</strong>至于那两份结论相反的权威数据——一份测到 2008 年 10 月的崩盘谷底，卖方跑赢 1.55 点；一份测到 2026 年 6 月，卖方跑输 2.7 点——它们留下的不是"谁对"，而是一个必须变成本能的习惯：<strong>看到任何一个跑赢多少个百分点的说法，先问哪个指数、哪个窗口、价格收益还是全收益。三个问题里有一个答不上来，那个数字就不能拿来做决策。这本书能教给你的最后一件事，不是任何一个结构，而是对数字本身保持怀疑的能力。</strong></span>
-  <span class="en">None of this overturns Chapter 2, because the two answer <strong>different questions</strong>. Through 2022's grinding decline BXM was 6.7 points better; through 2018's V-shaped fall it was 0.4 points worse — <strong>the same strategy, two down years, opposite results. What decides whether it helps was never up-or-down but the regime.</strong> That is the through-line running from Chapter 2 to Chapter 9, now with four decades behind it: <strong>the strategy works; running it without reading the regime does not.</strong> As for the two authoritative datasets that disagree — one measured to the crash bottom of October 2008, showing writers ahead by 1.55 points, one measured to June 2026, showing them behind by 2.7 — what they leave you is not "who was right" but a habit that has to become instinct: <strong>whenever you meet a claim of beating the market by N points, ask which index, which window, price return or total return. If even one has no answer, that number cannot inform a decision. The last thing this book can teach you is not a structure at all — it is the capacity to doubt a number.</strong></span>
+  <span class="zh">2022 与 2018 两个被选中的年份展示了路径依赖：持续阴跌与急跌后反弹会让备兑策略呈现不同结果。<strong>它们不能证明投资者能够事前识别 Regime，更不能证明择时规则拥有超额收益。</strong>任何“读状态”的规则都需要预先定义，并用样本外、扣除费用后的结果检验。至于窗口不同、结构不同的两份研究，它们首先提醒我们：<strong>看到任何跑赢多少个百分点的说法，先问哪个指数、哪个窗口、价格收益还是全收益；只要口径不同，就不能直接相减或据此决策。</strong>最后要学会的不是相信某个结构，而是审查数字的来源、定义与可比性。</span>
+  <span class="en">The selected 2022 and 2018 episodes illustrate path dependence: a grinding decline and a sharp fall followed by a rebound can produce different outcomes for a covered-call benchmark. <strong>They do not show that an investor can identify the regime in advance, much less that a timing rule has excess return.</strong> Any regime rule must be specified beforehand and tested out of sample after costs. The two studies with different windows and structures chiefly teach a measurement habit: <strong>when a claim says a strategy beat the market by N points, first ask which index, which window, and whether the benchmark is price return or total return; unlike definitions cannot be subtracted directly or used as a decision rule.</strong> The final lesson is not to trust a particular structure, but to inspect each number's source, definition and comparability.</span>
 </p>
 
 <nav class="chap-nav">

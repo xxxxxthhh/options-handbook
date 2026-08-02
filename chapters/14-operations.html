@@ -16,6 +16,7 @@
   <nav>
     <a href="../index.html"><span class="zh">目录</span><span class="en">Contents</span></a>
     <a href="../glossary.html">Glossary</a>
+    <a href="../sources.html"><span class="zh">来源</span><span class="en">Sources</span></a>
   </nav>
   <div class="lang-switch" role="group" aria-label="Language">
     <button data-lang="zh" aria-pressed="true">中</button>
@@ -168,37 +169,37 @@
   <p class="case-tag">CASE FILE · 2015-08-24</p>
   <h3><span class="zh">止损单在那天做了它被设计去做的事</span><span class="en">Stop Orders Did Exactly What They Were Built to Do</span></h3>
   <p>
-    <span class="zh">2015 年 8 月 24 日周一开盘前，上证综指收跌 8.5%，标普 500 期货一度下跌近 <strong>7%</strong>。开盘后市场陷入混乱：<strong>约 1,278 只股票开盘跳空下跌超过 5%</strong>，交易所因此暂停了它们的交易；<strong>开盘第一个小时内，471 只证券触发熔断，其中包括 303 只 ETF</strong>。这一天成为当时史上第二活跃的交易日。</span>
-    <span class="en">Before Monday's open on August 24, 2015, the Shanghai Composite had closed down 8.5% and S&P 500 futures were down nearly <strong>7%</strong>. The open descended into chaos: <strong>roughly 1,278 stocks gapped down more than 5%</strong>, prompting the exchange to halt them, and <strong>within the first hour 471 securities were halted, 303 of them ETFs</strong>. It became the second most active trading day on record at the time.</span>
+    <span class="zh">2015 年 8 月 24 日，美国市场开盘时出现剧烈波动与大量交易暂停。SEC DERA 随后对当日 ETF 交易做了统一口径分析：在样本中的 <strong>1,569 只 ETF 里，有 302 只（19.2%）至少触发过一次交易暂停</strong>。这项官方统计足以说明当时流动性和价格发现承受的压力；本书不再混用新闻报道中分母、时间窗口不同的其他精确计数。</span>
+    <span class="en">On August 24, 2015, the U.S. market opened into extreme volatility and widespread trading pauses. The SEC's Division of Economic and Risk Analysis later examined ETF trading on a consistent basis: <strong>302 of the 1,569 ETFs in its sample (19.2%) experienced at least one trading pause</strong>. That official statistic is sufficient to show the stress on liquidity and price discovery; this book no longer mixes other exact counts reported with different denominators and time windows.</span>
   </p>
   <p>
-    <span class="zh">最严重的问题出在 ETF 上：<strong>成分股大面积停牌，做市商无从知道这些 ETF 的真实净值，于是把买价整体下调约 35%</strong>。结果是部分 ETF 的成交价<strong>偏离其净值超过 40%</strong>——不是因为它们持有的资产真的跌了 40%，而是因为在那个小时里，没有人知道它们值多少钱。</span>
-    <span class="en">The worst of it hit ETFs: <strong>with constituent stocks halted en masse, market makers had no way to know an ETF's true net asset value, so they dropped their bids by roughly 35%</strong>. Some ETFs consequently traded <strong>more than 40% away from NAV</strong> — not because their holdings had fallen 40%, but because for that hour nobody knew what they were worth.</span>
+    <span class="zh">ETF 的问题尤其突出：当成分证券暂停交易、报价陈旧或彼此不同步时，做市商更难估计可执行的组合价值，也更难对冲，于是可能扩大点差或撤回报价。<strong>屏幕上最后一个价格、参考净值和下一笔真正可成交的价格，在这种时刻可能明显分离。</strong></span>
+    <span class="en">The problem was especially acute for ETFs. When constituent securities are paused, stale or trading out of sync, market makers have greater difficulty estimating an executable portfolio value and hedging it, so they may widen spreads or withdraw quotes. <strong>The last displayed price, an indicative NAV and the next executable price can diverge materially in such conditions.</strong></span>
   </p>
   <p>
-    <span class="zh">而这就是止损单的处境。<strong>一张止损单被触发后会变成市价单，按<em>下一个可成交的买价</em>成交——在那个早晨，$100 的止损可能成交在 $50 或更低。</strong>它没有失灵，它精确地执行了指令：卖掉，不问价格。几小时后，随着成分股恢复交易、净值重新可知，这些 ETF 的价格基本回到了应有的水平——<strong>但那些被止损单卖出的人已经在最坏的那一刻永久离场了。</strong></span>
-    <span class="en">Which is precisely where stop orders found themselves. <strong>A triggered stop becomes a market order and fills at <em>the next available bid</em> — on that morning, a $100 stop could fill at $50 or less.</strong> It did not malfunction; it executed its instruction exactly: sell, do not ask the price. Within hours, as constituents reopened and NAVs became knowable again, those ETFs largely returned to sensible levels — <strong>but anyone whose stop had fired was already out, permanently, at the worst possible instant.</strong></span>
+    <span class="zh">这正是 Stop Market 的边界：<strong>触发价决定何时把订单变成市价单，却不保证成交价。</strong>在报价跳空或买盘稀薄时，下一笔可成交价格可能远离触发价。它没有失灵，而是在“尽快成交”和“限制价格”之间选择了前者；Stop Limit 选择后者，却可能完全不成交。</span>
+    <span class="en">This is the boundary of a stop-market order: <strong>the stop price determines when the order becomes a market order; it does not guarantee the execution price.</strong> When quotes gap or bids are thin, the next executable price may be far from the trigger. The order has not malfunctioned; it chose execution certainty over price control. A stop-limit order chooses price control instead, but may not fill at all.</span>
   </p>
   <p>
-    <span class="zh">对期权交易者，这一天的教训有三条，而且都可以直接执行：<strong>① 用限价单，不用市价单</strong>——多腿结构尤其如此，第 4 章说过一次组合单要穿越两条腿的点差，而在混乱的早晨那个点差可能宽到没有意义；<strong>② 不要用止损单来管理期权头寸</strong>——期权的报价本来就比正股宽得多，一个正常的开盘波动就足以触发它；<strong>③ 开盘后的前几分钟不要交易</strong>——这一天所有极端成交都集中在开盘的第一个小时。</span>
-    <span class="en">For an options trader the day carries three directly executable lessons: <strong>① use limit orders, never market orders</strong> — especially for multi-leg structures, since Chapter 4 noted a combo crosses two spreads, and on a chaotic morning those spreads can widen past meaning; <strong>② never manage an options position with a stop order</strong> — option quotes are far wider than stock quotes to begin with, and an ordinary opening swing is enough to trigger one; <strong>③ don't trade in the opening minutes</strong> — every extreme print that day clustered in the first hour.</strong></span>
+    <span class="zh">对期权交易者，直接可执行的教训是：<strong>① 默认使用带价格边界的组合限价单</strong>，尤其是多腿结构；<strong>② 把 Stop Market 当作“成交优先、价格不保证”的指令</strong>，不要误认为它锁定最大亏损；<strong>③ 在开盘、暂停恢复或报价明显失序时先等待可交易点差恢复</strong>。是否必须立即退出取决于风险约束，不能用“永远不用市价单”替代应急计划。</span>
+    <span class="en">For an options trader, the executable lessons are: <strong>① default to a combo limit order with an explicit price boundary</strong>, especially for multi-leg structures; <strong>② treat a stop-market order as "execution first, price not guaranteed"</strong>, not as a cap on maximum loss; and <strong>③ at the open, after a trading pause, or when quotes are visibly dislocated, wait for executable spreads to return when the risk mandate permits.</strong> Whether immediate liquidation is mandatory depends on the risk constraint; "never use a market order" is not a substitute for an emergency plan.</span>
   </p>
   <p>
-    <span class="zh">数据来源声明：上证指数跌幅、标普期货盘前跌幅、约 1,278 只股票跳空、471 只证券（含 303 只 ETF）熔断、做市商下调买价约 35%、部分 ETF 偏离净值逾 40%，均为公开报道与监管材料中的数字。"$100 止损成交在 $50"是对该机制的<strong>说明性举例</strong>，非特定证券的实际成交记录。</span>
-    <span class="en">Source statement: the Shanghai decline, the pre-open futures drop, the roughly 1,278 gapping stocks, the 471 halted securities including 303 ETFs, the roughly 35% cut to market-maker bids and the 40%-plus deviations from NAV are all figures from public reporting and regulatory material. "A $100 stop filling at $50" is an <strong>illustrative statement of the mechanism</strong>, not the trade record of any specific security.</span>
+    <span class="zh">证据与方法：302 / 1,569 来自 <a href="https://www.sec.gov/about/divisions-offices/division-economic-risk-analysis/staff-papers-analyses/feb2016-dera-white-paper-etf-volatility">SEC DERA 对 2015-08-24 ETF 交易暂停的分析</a>。订单类型的执行边界参见 <a href="https://www.investor.gov/introduction-investing/investing-basics/how-stock-markets-work/types-orders">SEC Investor.gov 的订单类型说明</a>。以上机制说明不重建任何特定投资者的成交。</span>
+    <span class="en">Evidence and method: 302 / 1,569 comes from the <a href="https://www.sec.gov/about/divisions-offices/division-economic-risk-analysis/staff-papers-analyses/feb2016-dera-white-paper-etf-volatility">SEC DERA analysis of ETF trading pauses on August 24, 2015</a>. The execution boundaries of order types are described by <a href="https://www.investor.gov/introduction-investing/investing-basics/how-stock-markets-work/types-orders">SEC Investor.gov's order-type guidance</a>. This mechanism discussion does not reconstruct any particular investor's fill.</span>
   </p>
-  <p class="verdict loss"><span class="zh">亏损减少：止损市价单在触发后按下一个买价成交（当日部分 ETF 偏离净值逾 40%，几小时后价格基本回归）→ 限价单不会在无人知道价格的那一小时成交，代价只是可能不成交</span><span class="en">Loss avoided: a stop becomes a market order and fills at the next bid (some ETFs traded 40%+ from NAV that day and largely recovered within hours) → a limit order simply doesn't fill during the hour when nobody knows the price, at the cost of possibly not filling at all</span></p>
+  <p class="verdict loss"><span class="zh">执行风险降低：Stop Market 只保证触发后寻求成交，不保证价格 → Limit / Stop Limit 给出价格边界，但必须接受可能不成交</span><span class="en">Execution risk reduced: a stop-market order seeks execution after triggering but does not guarantee price → a limit or stop-limit order defines a price boundary, at the cost of possibly not filling</span></p>
 </div>
 
 <div class="warn">
   <span class="warn-tag"><span class="zh">关于 0DTE：这本书不教它，但你必须知道它有多大</span><span class="en">On 0DTE: this book won't teach it, but you must know its scale</span></span>
   <p>
-    <span class="zh"><a class="term" href="../glossary.html#zero-dte">0DTE</a>（当日到期期权）已经不是边缘现象。据 Cboe 公布的数据：<strong>2025 年全年，0DTE 占 SPX 期权总成交量的 59%；到 2026 年第二季度，这一比例升至 65%</strong>——也就是说，标普 500 指数期权的成交里，接近三分之二发生在当天就要到期的合约上。</span>
-    <span class="en"><a class="term" href="../glossary.html#zero-dte">0DTE</a> — options expiring the same day — is no longer a fringe phenomenon. Per Cboe's published data: <strong>across full-year 2025, 0DTE accounted for 59% of total SPX option volume; by the second quarter of 2026 that share had risen to 65%</strong> — meaning close to two thirds of S&P 500 index option trading now happens in contracts expiring that day.</span>
+    <span class="zh"><a class="term" href="../glossary.html#zero-dte">0DTE</a>（当日到期期权）已经不是边缘现象。<a href="https://www.cboe.com/insights/posts/the-state-of-the-options-industry-2025">Cboe 的 2025 年终统计</a>显示，<strong>0DTE 占当年 SPX 期权总成交量的 59%</strong>。这是目前正文采用的公开口径；没有公开 Cboe 文件支持的更新比例不在本书列示。</span>
+    <span class="en"><a class="term" href="../glossary.html#zero-dte">0DTE</a> — options expiring the same day — is no longer a fringe phenomenon. <a href="https://www.cboe.com/insights/posts/the-state-of-the-options-industry-2025">Cboe's 2025 year-end review</a> reports that <strong>0DTE represented 59% of SPX option volume that year</strong>. That is the public figure used here; this book does not publish a newer percentage without a public Cboe document.</span>
   </p>
   <p>
-    <span class="zh">本书不把它作为策略来教，原因在第 3 章那张 Gamma 图里已经写清楚了：<strong>Gamma 在到期日趋于无穷</strong>。0DTE 头寸的 Delta 可以在几分钟内从 0.2 翻到 0.8，这意味着<strong>你的方向暴露不再由你控制，而是由标的的每一次跳动重新定义</strong>；同时 Theta 收益被压缩到几个小时里，任何一次判断错误都没有时间修正。对卖方，它是本书反复警告的"负 Gamma"的极端形态；对买方，它是 Theta 归零最快的地方。<strong>知道它占了市场的三分之二是必要的（它会影响你交易的每一个指数期权的流动性与盘中波动），但那不构成参与它的理由。</strong></span>
-    <span class="en">This book does not teach it as a strategy, and Chapter 3's gamma chart already explains why: <strong>gamma tends to infinity at expiry</strong>. A 0DTE position's delta can travel from 0.2 to 0.8 in minutes, which means <strong>your directional exposure is no longer yours to set — it is redefined by every tick in the underlying</strong>; meanwhile theta's income is compressed into hours, leaving no time to correct a mistake. For sellers it is the extreme form of the negative gamma this book keeps warning about; for buyers it is where theta reaches zero fastest. <strong>Knowing it is two thirds of the market is necessary — it shapes the liquidity and intraday behaviour of every index option you trade — but that is not a reason to participate in it.</strong></span>
+    <span class="zh">临近到期且接近平值时，<strong>Gamma 通常会非常高，Delta 可因小幅标的变动而快速改变</strong>；与此同时，时间价值也可能快速衰减。具体敏感度取决于 moneyness、隐含波动率和剩余时间，不能把某个极限情形推广到所有到期合约。0DTE 的市场规模会影响 SPX 的盘中交易环境，<strong>但成交量大不构成策略优势；参与前仍要独立证明风险、成本与执行适配。</strong></span>
+    <span class="en">Near expiry and near the money, <strong>gamma is often very high, so delta can change rapidly for a small move in the underlying</strong>; time value may also decay quickly. The sensitivity depends on moneyness, implied volatility and time remaining, so an asymptotic limiting case must not be generalized to every expiring contract. The scale of 0DTE affects SPX's intraday trading environment, <strong>but high volume is not a strategy edge; risk, cost and execution fit still require independent evidence.</strong></span>
   </p>
 </div>
 
@@ -248,16 +249,16 @@
 </div>
 
 <div class="quiz" data-answer="d">
-  <p class="q"><span class="zh">2015 年 8 月 24 日，部分 ETF 成交价偏离净值超过 40%，几小时后基本回归。止损单持有者的处境是？</span><span class="en">On August 24, 2015 some ETFs traded 40%+ from NAV and largely recovered within hours. What happened to holders of stop orders?</span></p>
+  <p class="q"><span class="zh">市场跳空且买盘稀薄时，Stop Market 被触发后最准确的描述是？</span><span class="en">When a market gaps and bids are thin, what most accurately describes a triggered stop-market order?</span></p>
   <div class="opts">
-    <button data-opt="a"><span class="key">A</span><span class="zh">止损单保护了他们</span><span class="en">Their stops protected them</span></button>
-    <button data-opt="b"><span class="key">B</span><span class="zh">止损单失灵了</span><span class="en">The stops malfunctioned</span></button>
-    <button data-opt="c"><span class="key">C</span><span class="zh">止损单不会在这种行情触发</span><span class="en">Stops don't trigger in that kind of market</span></button>
-    <button data-opt="d"><span class="key">D</span><span class="zh">止损单精确执行了指令——变成市价单、按下一个买价成交，在最坏的一刻永久离场</span><span class="en">The stops executed exactly as designed — becoming market orders filled at the next bid, exiting permanently at the worst instant</span></button>
+    <button data-opt="a"><span class="key">A</span><span class="zh">触发价保证是最低成交价</span><span class="en">The stop price guarantees a minimum fill</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">交易所会等待原报价恢复</span><span class="en">The exchange waits for the old quote to return</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">自动变成限价单</span><span class="en">It automatically becomes a limit order</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">变成市价单并寻求尽快成交；触发价不保证成交价</span><span class="en">It becomes a market order seeking prompt execution; the stop price does not guarantee the fill</span></button>
   </div>
   <div class="expl">
-    <span class="zh"><b>D。</b>止损单没有失灵（B 错），它做了它被设计去做的事：触发后变成市价单，<strong>按下一个可成交的买价成交，不问价格</strong>。那个早晨成分股大面积停牌，做市商无从判断净值、把买价整体下调约 35%，于是"下一个买价"可能远低于任何合理价值。几小时后价格基本回归，<strong>但止损单持有者已经在最坏的那一刻永久离场</strong>——这正是 A 说反的地方：它没有保护他们，它把一次临时的报价失灵变成了永久的实现亏损。</span>
-    <span class="en"><b>D.</b> The stops did not malfunction (not B); they did exactly what they are built to do: on triggering they become market orders that fill <strong>at the next available bid, without regard to price</strong>. That morning, with constituents halted, market makers could not assess NAV and cut bids by roughly 35%, so "the next bid" could sit far below any sensible value. Prices largely recovered within hours — <strong>but stop holders were already out, permanently, at the worst instant</strong>. That is precisely what A gets backwards: the stop didn't protect them, it converted a temporary quote failure into a permanent realized loss.</span>
+    <span class="zh"><b>D。</b>Stop Market 的 stop 是<strong>触发条件</strong>，不是价格保护。触发后订单按市价逻辑寻求成交；在跳空、暂停恢复或点差很宽时，成交可能远离触发价。Stop Limit 可以给出价格边界，但代价是市场穿过限价后可能完全不成交。两者是在成交确定性与价格确定性之间做不同选择。</span>
+    <span class="en"><b>D.</b> The stop in a stop-market order is a <strong>trigger condition</strong>, not price protection. Once triggered, the order seeks execution as a market order; after a gap, a pause or a very wide spread, the fill may be far from the stop. A stop-limit order defines a price boundary, but may not execute if the market moves through it. The two instructions make different choices between execution certainty and price certainty.</span>
   </div>
 </div>
 
@@ -276,7 +277,7 @@
 </div>
 
 <div class="quiz" data-answer="c">
-  <p class="q"><span class="zh">0DTE 已占 SPX 期权成交量的约三分之二。本书对此的立场是？</span><span class="en">0DTE now accounts for roughly two thirds of SPX option volume. What is this book's position?</span></p>
+  <p class="q"><span class="zh">Cboe 公布的 2025 年 0DTE 占 SPX 期权成交量 59%。本书对此的立场是？</span><span class="en">Cboe reports that 0DTE represented 59% of SPX option volume in 2025. What is this book's position?</span></p>
   <div class="opts">
     <button data-opt="a"><span class="key">A</span><span class="zh">既然占比这么高，应该学会交易它</span><span class="en">Given the share, you should learn to trade it</span></button>
     <button data-opt="b"><span class="key">B</span><span class="zh">它不重要，可以忽略</span><span class="en">It's unimportant and can be ignored</span></button>
@@ -284,8 +285,8 @@
     <button data-opt="d"><span class="key">D</span><span class="zh">它比普通期权更安全，因为持有时间短</span><span class="en">It's safer than ordinary options because you hold it briefly</span></button>
   </div>
   <div class="expl">
-    <span class="zh"><b>C。</b>忽略它是不行的（B 错）：占比 59%→65% 意味着它塑造了你交易的每一个指数期权的流动性与盘中波动。但"很多人在做"从来不是参与的理由。<strong>第 3 章那张 Gamma 图给出了原因：Gamma 在到期日趋于无穷，0DTE 的 Delta 可以在几分钟内从 0.2 翻到 0.8——你的方向暴露不再由你设定，而是被标的的每一次跳动重新定义。</strong>D 恰好说反了：持有时间短意味着<em>没有时间修正错误</em>，而不是风险小。</span>
-    <span class="en"><b>C.</b> Ignoring it won't do (not B): a 59%→65% share means it shapes the liquidity and intraday behaviour of every index option you trade. But "many people do it" was never a reason to. <strong>Chapter 3's gamma chart supplies the reason: gamma tends to infinity at expiry, and a 0DTE delta can go from 0.2 to 0.8 in minutes — your directional exposure stops being something you set and becomes something every tick redefines.</strong> D is backwards: a short holding period means <em>no time to correct a mistake</em>, not less risk.</span>
+    <span class="zh"><b>C。</b>59% 说明 0DTE 是 SPX 市场结构的重要部分，但“很多人在做”不是参与的理由。<strong>临近到期、接近平值的合约通常有很高的 Gamma，Delta 可快速改变；短持有期也意味着更少的纠错时间。</strong>这解释了为什么必须理解其影响，却不能替代对策略优势、费用和执行风险的独立验证。</span>
+    <span class="en"><b>C.</b> A 59% share makes 0DTE an important part of SPX market structure, but "many people do it" is not a reason to participate. <strong>Near-expiry, near-the-money contracts often have very high gamma and rapidly changing delta; a short holding period also leaves less time to correct an error.</strong> That explains why the market impact matters, but it does not replace independent evidence of edge, costs and execution risk.</span>
   </div>
 </div>
 
@@ -294,8 +295,8 @@
 <!-- ============ takeaways ============ -->
 <h2><span class="zh">本章要点</span><span class="en">Key Takeaways</span></h2>
 <p>
-  <span class="zh">开仓之后的每一个动作，都有一个诚实版本和一个自欺版本。<strong>Roll 几乎总能收到净贷记——上面那个例子收了 $0.85——但那 $4.99 的亏损在你平仓的瞬间就已经实现了，展期只是把它带进下个月，同时开出一笔全新的、最大亏损 $91.16 的交易。</strong>判断一次展期的唯一问题不是"我收到贷记了吗"，而是"如果今天空仓，我会主动开出这个仓吗"。机械规则（50% 止盈、21 DTE 离场）的价值同样不在数字本身，而在它们是<strong>在你还没有情绪的时候写下的</strong>——这与第 9 章要求开仓前说出最坏情况的具体数字，是同一个原理的两次应用。到期日有三个坑：Pin Risk 让你在周一开盘前不知道自己是否被指派；除息前的那个除法（剩余时间价值 &lt; 股息）只要十秒钟，却能用 $0.18 的成本避免 $0.80 的股息损失加一次计划外交割；而选择欧式现金结算的合约可以把前两个坑一次性消除。最后，2015 年 8 月 24 日那个早晨留下的教训不需要任何解释：<strong>止损单没有失灵，它精确地执行了"卖掉，不问价格"——在部分 ETF 偏离净值超过 40%、而几小时后价格基本回归的那一天，它把一次临时的报价失灵变成了永久的实现亏损。</strong>这一章的每一条建议都不提高任何一笔交易的期望收益，它们只防止你在流程上把已经赚到的东西还回去——<strong>而这恰恰是第 9 章之后，第二个完全由你控制的变量。</strong></span>
-  <span class="en">Every action after entry has an honest version and a self-deceiving one. <strong>A roll almost always brings a net credit — $0.85 in the example above — but the $4.99 loss was realized the instant you closed, and rolling merely carries it into next month while opening an entirely new trade risking $91.16.</strong> The only question that judges a roll isn't "did I collect a credit" but "holding nothing today, would I open this?" Mechanical rules (close at 50%, exit at 21 DTE) likewise draw their value not from the numbers but from having been <strong>written down while you felt nothing</strong> — the same principle as Chapter 9's demand for a specific worst-case number before entering, applied at the other end. Expiration day holds three hazards: pin risk leaves you not knowing until Monday whether you were assigned; the ex-dividend comparison (remaining time value &lt; dividend) takes ten seconds and spends $0.18 to avoid losing a $0.80 dividend plus an unplanned delivery; and choosing European, cash-settled contracts eliminates the first two outright. Finally, the morning of August 24, 2015 needs no gloss: <strong>the stops did not malfunction — they executed "sell, don't ask the price" exactly, and on a day when some ETFs traded 40% from NAV and largely recovered within hours, they converted a temporary quote failure into a permanent realized loss.</strong> Nothing in this chapter raises the expected return of any trade; it only stops you from handing back, procedurally, what you already earned — <strong>which makes it, after Chapter 9, the second variable entirely within your control.</strong></span>
+  <span class="zh">开仓后的流程必须把新交易与旧损益分开：<strong>Roll 收到净贷记，不会撤销平仓时已经实现的亏损；判断标准应是“如果今天空仓，我会不会主动开这个新仓”。</strong>机械退出规则的价值不在 50% 或 21 DTE 这些数字天然最优，而在于它们事先定义了行为边界。到期日前要分别管理 Pin Risk、股息相关提前行权与结算方式。2015 年 8 月 24 日则提醒你：<strong>Stop Market 的触发价不保证成交价；Limit / Stop Limit 给出价格边界，却可能不成交。</strong>这些工具不能保证减少每次亏损，真正可控的是订单意图、退出条件和异常市场下的应急边界。</span>
+  <span class="en">Post-entry process must keep a new trade separate from the old P/L: <strong>a net credit on a roll does not reverse the loss realized when the old position was closed; the decision test is "would I open this new position from flat today?"</strong> The value of mechanical exits is not that 50% or 21 DTE is universally optimal, but that the behavioural boundary was defined in advance. Pin risk, dividend-related early exercise and settlement method each require separate expiry handling. August 24, 2015 adds another boundary: <strong>a stop-market trigger does not guarantee execution price; a limit or stop-limit order defines price but may not execute.</strong> None of these tools guarantees a smaller loss on every trade; what can be controlled is order intent, exit criteria and the emergency boundary for dislocated markets.</span>
 </p>
 
 <nav class="chap-nav">
@@ -335,11 +336,11 @@ document.addEventListener('DOMContentLoaded', function () {
     ]
   });
 
-  // 0DTE share of SPX option volume — Cboe published figures.
+  // 0DTE share of SPX option volume — Cboe full-year 2025 figure.
   CaseChart.mount('case-0dte', {
-    labels: ['2025-02', '2025-Q3', '2025 FY', '2026-Q2'],
+    labels: ['2025 FY'],
     series: [
-      { name: { zh: '0DTE 占比', en: '0DTE share' }, color: '#FF6A55', data: [56, 57, 59, 65] }
+      { name: { zh: '0DTE 占比', en: '0DTE share' }, color: '#FF6A55', data: [59] }
     ],
     yfmt: function (v) { return v.toFixed(0) + '%'; }
   });

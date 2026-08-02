@@ -16,6 +16,7 @@
   <nav>
     <a href="../index.html"><span class="zh">目录</span><span class="en">Contents</span></a>
     <a href="../glossary.html">Glossary</a>
+    <a href="../sources.html"><span class="zh">来源</span><span class="en">Sources</span></a>
   </nav>
   <div class="lang-switch" role="group" aria-label="Language">
     <button data-lang="zh" aria-pressed="true">中</button>
@@ -72,13 +73,13 @@
 </dl>
 
 <p>
-  <span class="zh">Delta 的第一重身份是<strong>方向暴露</strong>。一张 0.60 Delta 的 Call 对应 100 股，等效于持有 60 股正股——这句话让你可以把期权和股票放进同一个尺子里衡量。手里有 300 股 AAPL 加上三张 0.40 Delta 的 Call？你的实际方向暴露是 300 + 120 = 420 股。<strong>这是唯一正确的"我到底承担了多少方向风险"的算法。</strong></span>
-  <span class="en">Delta's first identity is <strong>directional exposure</strong>. One 0.60-delta call covers 100 shares and is equivalent to holding 60 — which lets you measure options and stock on one ruler. Hold 300 AAPL shares plus three 0.40-delta calls? Your real directional exposure is 300 + 120 = 420 shares. <strong>This is the only correct way to answer "how much directional risk am I actually carrying."</strong></span>
+  <span class="zh">Delta 的第一重身份是<strong>局部方向暴露</strong>。一张 0.60 Delta 的 Call 对应 100 股，当前这个价位附近等效于持有约 60 股正股——这句话让你可以把期权和股票放进同一个尺子里衡量。手里有 300 股 AAPL 加上三张 0.40 Delta 的 Call？此刻的一阶方向暴露约为 300 + 120 = 420 股。<strong>但这是一个会随股价、时间和 IV 变化的瞬时近似，不是整个价格路径上的固定仓位。</strong></span>
+  <span class="en">Delta's first identity is <strong>local directional exposure</strong>. One 0.60-delta call covers 100 shares and, near the current spot, behaves like roughly 60 shares — which lets you measure options and stock on one ruler. Hold 300 AAPL shares plus three 0.40-delta calls? Your first-order directional exposure at this moment is about 300 + 120 = 420 shares. <strong>But this is an instantaneous approximation that changes with spot, time and IV, not a fixed share count across the whole price path.</strong></span>
 </p>
 
 <p>
-  <span class="zh">第二重身份是<strong>概率代理</strong>：0.30 Delta 的期权，大致有 30% 的概率在到期时是 <a class="term" href="../glossary.html#itm">ITM</a> 的。这个近似不精确（它其实对应模型里的另一个量），但足够好用——它是你判断"这张 Put 有多大概率被指派"的第一手工具。第 4 章说的"短腿放在 0.15–0.30 Delta"，用的就是这重身份。</span>
-  <span class="en">The second identity is a <strong>probability proxy</strong>: a 0.30-delta option has roughly a 30% chance of finishing <a class="term" href="../glossary.html#itm">ITM</a>. The approximation isn't exact (it actually corresponds to a slightly different quantity in the model) but it's good enough to use — it's your first-line tool for "how likely is this put to be assigned." Chapter 4's "place the short leg at 0.15–0.30 delta" is this identity at work.</span>
+  <span class="zh">第二重身份是<strong>风险中性概率的粗略代理</strong>。交易员常把 0.30 Delta 读成“约 30% 概率到期时 <a class="term" href="../glossary.html#itm">ITM</a>”，但两者在模型里不是同一个量：Call Delta 是 N(d1)，到期 ITM 的风险中性概率是 N(d2)，真实世界概率还会受风险溢价与分布偏斜影响。<strong>它可以用来快速比较 Strike，不能当成真实概率，更不能直接等同于美式期权在到期前被指派的概率。</strong></span>
+  <span class="en">The second identity is a <strong>rough proxy for risk-neutral probability</strong>. Traders often read a 0.30 delta as “about a 30% chance of finishing <a class="term" href="../glossary.html#itm">ITM</a>,” but the two are not the same model quantity: call delta is N(d1), the risk-neutral expiry probability is N(d2), and real-world probability also reflects risk premia and skewed distributions. <strong>It is useful for quickly comparing strikes; it is not a literal forecast, and it is not the probability that an American option will be assigned before expiry.</strong></span>
 </p>
 
 <div class="panel">
@@ -118,35 +119,35 @@
 
 <div class="case">
   <p class="case-tag">CASE FILE · 2021-01</p>
-  <h3><span class="zh">GameStop：当 Gamma 开始自我实现</span><span class="en">GameStop: When Gamma Becomes Self-Fulfilling</span></h3>
+  <h3><span class="zh">GameStop：一个流行叙事，和数据给出的反证</span><span class="en">GameStop: A Popular Narrative, and the Evidence Against It</span></h3>
   <p>
-    <span class="zh">2021 年 1 月 4 日，GME 收盘 $17.25。1 月 27 日，它收在 $347.51；次日盘中触及 $483。18 个交易日，<strong>+1,915%</strong>。这不是一个基本面故事，而是一个 Gamma 故事。</span>
-    <span class="en">On January 4, 2021, GME closed at $17.25. On January 27 it closed at $347.51, and touched $483 intraday the next day. Eighteen sessions, <strong>+1,915%</strong>. This was not a fundamentals story. It was a gamma story.</span>
+    <span class="zh">2021 年 1 月 4 日，GME 收盘 $17.25。1 月 27 日，它收在 $347.51；次日盘中触及 $483。从 1 月 4 日到 27 日共 <strong>17 个交易日收盘点</strong>，端点涨幅 <strong>+1,915%</strong>。事后最流行的解释之一是 Gamma Squeeze；但“机制听起来合理”不等于“它在这次事件里真的发生”。</span>
+    <span class="en">On January 4, 2021, GME closed at $17.25. On January 27 it closed at $347.51, and touched $483 intraday the next day. January 4 through 27 contains <strong>17 trading-session closes</strong>, with a <strong>+1,915%</strong> endpoint gain. One of the most popular explanations afterward was a gamma squeeze — but a plausible mechanism is not evidence that the mechanism actually drove this episode.</span>
   </p>
   <div class="panel">
     <p class="panel-title"><span class="dot"></span>GME · JAN 2021 <span class="zh">（收盘价）</span><span class="en">(closes)</span></p>
     <div id="case-gme"></div>
   </div>
   <p>
-    <span class="zh">机制是这样的：散户大量买入价外 Call。<strong>卖出这些 Call 的做市商并不想赌方向</strong>——他们通过买入相应比例的正股来<a class="term" href="../glossary.html#delta-hedge">对冲 Delta</a>。而 Delta 会随股价上升而上升，所以股价每涨一点，做市商就必须<strong>再买一点股票</strong>；这些买盘推高股价，又进一步抬升 Delta，又需要买更多。<strong>正反馈闭合了。</strong></span>
-    <span class="en">The mechanism: retail bought out-of-the-money calls in volume. <strong>The market makers selling those calls did not want a directional bet</strong> — they <a class="term" href="../glossary.html#delta-hedge">hedged the delta</a> by buying a matching fraction of the shares. But delta rises as the stock rises, so every uptick forced the market makers to <strong>buy more stock</strong>; that buying pushed the price higher, which lifted delta again, which required still more buying. <strong>The feedback loop closed.</strong></span>
+    <span class="zh"><strong>教科书里的机制</strong>是这样的：如果客户集中买入 Call、做市商因此净卖出 Call，他们通常会买入相应比例的正股来<a class="term" href="../glossary.html#delta-hedge">对冲 Delta</a>。股价上涨会抬高这些 Call 的 Delta，迫使净短 Gamma 的做市商继续买股；买盘再推高股价，正反馈就可能闭合。注意开头那个“如果”：没有做市商净头寸和实际对冲流量的数据，这只能证明机制可能存在，不能证明某次上涨由它造成。</span>
+    <span class="en"><strong>The textbook mechanism</strong> works like this: if customers buy calls in concentration and dealers become net call sellers, dealers commonly buy a matching fraction of shares to <a class="term" href="../glossary.html#delta-hedge">hedge delta</a>. A rising stock lifts those calls' deltas and can force dealers who are net short gamma to buy still more shares; that buying can lift the stock again and close a positive-feedback loop. Notice the opening “if”: without data on dealers' net positions and actual hedging flow, this establishes a possible mechanism, not the cause of a particular rally.</span>
   </p>
   <p>
-    <span class="zh">用数字看这个闭环。取一张 30 天到期、Strike $60 的 GME Call，按当时极端的 IV（约 150%）计算：股价 $40 时 Delta 约 <strong>0.23</strong>，$60 时 <strong>0.59</strong>，$80 时 <strong>0.81</strong>，$150 时 <strong>0.99</strong>。做市商若卖出 1 万张这样的合约（对应 100 万股），仅仅从 $40 涨到 $80 这一段，就必须从对冲 23 万股加仓到对冲 81 万股——<strong>在一只流通盘本就紧张的股票上，被迫买入 58 万股</strong>。买入推高股价，股价再抬 Delta，循环继续。这就是 <a class="term" href="../glossary.html#gamma-squeeze">Gamma Squeeze</a>。</span>
-    <span class="en">Put numbers on the loop. Take a 30-day GME call struck at $60, priced at the extreme IV of the time (about 150%): at a $40 stock its delta is roughly <strong>0.23</strong>; at $60, <strong>0.59</strong>; at $80, <strong>0.81</strong>; at $150, <strong>0.99</strong>. A market maker short 10,000 such contracts (one million shares) must, over the move from $40 to $80 alone, go from hedging 230,000 shares to hedging 810,000 — <strong>forced to buy 580,000 shares in a stock whose float was already tight</strong>. The buying lifts the price, the price lifts delta, and round it goes. That is a <a class="term" href="../glossary.html#gamma-squeeze">gamma squeeze</a>.</span>
+    <span class="zh">用数字看这个<strong>反事实模型</strong>。取一张 30 天到期、Strike $60、IV 150% 的 Call：股价 $40 时 Delta 约 <strong>0.23</strong>，$60 时 <strong>0.59</strong>，$80 时 <strong>0.81</strong>。如果某做市商净卖出 1 万张且持续 Delta 中性，从 $40 涨到 $80 会把理论对冲量从 23 万股推到 81 万股，相差 58 万股。这组数字解释了 <a class="term" href="../glossary.html#gamma-squeeze">Gamma Squeeze</a> 为什么可能猛烈；它不是对 GME 实际做市商持仓的重建。</span>
+    <span class="en">Put numbers on that <strong>counterfactual model</strong>. Take a 30-day, $60-strike call at 150% IV: its delta is about <strong>0.23</strong> with the stock at $40, <strong>0.59</strong> at $60 and <strong>0.81</strong> at $80. If a dealer were net short 10,000 such contracts and continuously delta-neutral, the theoretical hedge would rise from 230,000 to 810,000 shares as the stock moved from $40 to $80 — a difference of 580,000 shares. Those numbers show why a <a class="term" href="../glossary.html#gamma-squeeze">gamma squeeze</a> can be violent; they do not reconstruct actual GME dealer positions.</span>
   </p>
   <p>
-    <span class="zh">简化声明：GME 收盘价为真实历史数据。Delta 数值由 Black-Scholes 按 IV 150%、30 天到期计算，是<strong>说明机制的模型值</strong>；"1 万张合约"为示意规模，用于展示对冲买盘的量级，不是对任何一家做市商实际持仓的描述。</span>
-    <span class="en">Stated simplification: the GME closes are real. The delta figures are Black-Scholes values at 150% IV and 30 days — <strong>model numbers illustrating the mechanism</strong>; the "10,000 contracts" is an illustrative size used to show the order of magnitude of hedging demand, not a description of any actual market maker's book.</span>
+    <span class="zh">证据边界：SEC 工作人员基于 CAT 等监管数据审查后明确写道，<strong>没有发现 2021 年 1 月 GME 发生 Gamma Squeeze 的证据</strong>；客户期权成交量的增量主要来自买 Put，且数据显示做市商当时是买入而非卖出 Call，这些观察与 Gamma Squeeze 不一致。参见 <a href="https://www.sec.gov/files/staff-report-equity-options-market-struction-conditions-early-2021.pdf">SEC Staff Report（2021），第 29 页</a>。本书的 Delta 与“1 万张”仍只是机制演示。</span>
+    <span class="en">Evidence boundary: after reviewing regulatory data including CAT, SEC staff wrote that they <strong>did not find evidence of a gamma squeeze in GME in January 2021</strong>. The increase in customer options volume was driven mostly by put buying, and dealers were buying rather than writing calls — observations inconsistent with a gamma squeeze. See the <a href="https://www.sec.gov/files/staff-report-equity-options-market-struction-conditions-early-2021.pdf">SEC Staff Report (2021), p. 29</a>. This book's deltas and “10,000 contracts” remain a mechanism illustration only.</span>
   </p>
-  <p class="verdict gain"><span class="zh">利润扩大：正股 +1,915%，而同一张 Call 的 Delta 从 0.23 升到 0.99——敏感度翻了四倍，非线性正来自 Gamma</span><span class="en">Profit amplified: the stock +1,915%, while the same call's delta ran 0.23 → 0.99 — sensitivity quadrupled, and the nonlinearity is gamma</span></p>
+  <p class="verdict loss"><span class="zh">归因被否：GME 在 1 月 4 日至 27 日的 17 个交易日收盘点之间上涨 1,915%，但 SEC 未发现 Gamma Squeeze 证据；“价格暴涨”不能反推出“Gamma 是原因”</span><span class="en">Attribution rejected: GME gained 1,915% across the 17 session closes from January 4 through 27, but the SEC found no evidence of a gamma squeeze; a price surge does not prove gamma caused it</span></p>
 </div>
 
 <div class="warn">
   <span class="warn-tag"><span class="zh">Gamma 是一把双刃剑，而且反面更常见</span><span class="en">Gamma cuts both ways, and the reverse is more common</span></span>
   <p>
-    <span class="zh">GameStop 让人记住了 Gamma 的爆发力，却容易让人忘记它的常态。<strong>Gamma 为正的代价是 Theta 为负</strong>——买方每天都在为这份加速度付租金。绝大多数买入 OTM 周期权的人，等不到 Gamma 发威就已经被 Theta 磨光了。反过来，卖方拿的是 Theta 的租金，付的是 Gamma 的保险：99 天平安无事，第 100 天股价跳空，负 Gamma 会在几分钟内把前面 99 天的收益一次还清。<strong>2021 年 1 月站在 GME Call 卖方的人，赚了几个月的 Theta，输了一个星期的 Gamma。</strong></span>
-    <span class="en">GameStop makes people remember gamma's explosiveness and forget its ordinary state. <strong>The price of positive gamma is negative theta</strong> — buyers pay daily rent for that acceleration. Most people buying OTM weeklies are ground down by theta long before gamma ever gets to work. Inverted: the seller collects theta's rent and pays gamma's insurance — 99 quiet days, then a gap on the hundredth, and negative gamma repays all 99 days of income in minutes. <strong>Whoever was short GME calls in January 2021 earned months of theta and lost a single week of gamma.</strong></span>
+    <span class="zh">上面的反事实让人记住 Gamma 的爆发力，却也容易让人忘记证据边界。<strong>单一期权的正 Gamma 通常与负 Theta 同时出现</strong>——买方为凸性持续支付时间价值；卖方在收取时间价值的同时承担跳空与负凸性风险。但组合层面还会叠加不同到期日、IV、利率和持仓腿，不能把“正 Theta = 必然负 Gamma”当成普遍定律，更不能从一次暴涨反推谁赚了多久、又因哪个 Greek 亏了多少。</span>
+    <span class="en">The counterfactual above makes gamma's explosive potential memorable, but it also shows why evidence boundaries matter. <strong>For a single vanilla option, positive gamma usually comes with negative theta</strong> — the buyer continually pays time value for convexity, while the seller collects time value and carries jump and negative-convexity risk. At portfolio level, however, expiries, IV, rates and multiple legs interact. “Positive theta means necessarily negative gamma” is not a universal law, and a price surge alone cannot tell us who earned how much theta or lost how much gamma.</span>
   </p>
 </div>
 
@@ -160,15 +161,15 @@
 <h2><span class="zh">3.4 Theta：每天流逝的租金</span><span class="en">3.4 Theta: The Rent That Runs Every Day</span></h2>
 
 <dl class="spec">
-  <div><dt><span class="zh">定义</span><span class="en">Definition</span></dt><dd><span class="zh">每过一天损失的价值</span><span class="en">Value lost per day</span></dd></div>
-  <div><dt><span class="zh">买方</span><span class="en">Buyer</span></dt><dd class="neg"><span class="zh">负（每天付租）</span><span class="en">Negative (pays rent)</span></dd></div>
-  <div><dt><span class="zh">卖方</span><span class="en">Seller</span></dt><dd class="pos"><span class="zh">正（每天收租）</span><span class="en">Positive (collects rent)</span></dd></div>
-  <div><dt><span class="zh">加速点</span><span class="en">Accelerates</span></dt><dd><span class="zh">最后 30 天</span><span class="en">Final 30 days</span></dd></div>
+  <div><dt><span class="zh">定义</span><span class="en">Definition</span></dt><dd><span class="zh">其他条件不变时，理论价值对日历时间的敏感度</span><span class="en">Sensitivity of theoretical value to calendar time, all else equal</span></dd></div>
+  <div><dt><span class="zh">单一期权买方</span><span class="en">Single-option buyer</span></dt><dd class="neg"><span class="zh">通常为负</span><span class="en">Usually negative</span></dd></div>
+  <div><dt><span class="zh">单一期权卖方</span><span class="en">Single-option seller</span></dt><dd class="pos"><span class="zh">通常为正</span><span class="en">Usually positive</span></dd></div>
+  <div><dt><span class="zh">衰减最明显</span><span class="en">Decay most pronounced</span></dt><dd><span class="zh">临近到期的 ATM 期权</span><span class="en">Near-expiry ATM options</span></dd></div>
 </dl>
 
 <p>
-  <span class="zh">Theta 是唯一一个<strong>确定会发生</strong>的 Greek。股价可能涨可能跌，IV 可能升可能降，但时间只朝一个方向走。所以 Theta 是期权里唯一不需要预测的东西——也正因为如此，它是卖方策略的全部收入来源。</span>
-  <span class="en">Theta is the only Greek that is <strong>certain to happen</strong>. The stock may rise or fall, IV may expand or collapse, but time runs one way only. So theta is the one thing in options that requires no forecast — which is precisely why it is the entire revenue line of every selling strategy.</span>
+  <span class="zh">日历时间一定会向前，但<strong>Theta 本身不是一笔保证到账的损益</strong>。它回答的是一个条件句：“如果股价、IV、利率等其他输入都不变，过一天，模型价格大约变多少？”现实里这些输入通常同时变化，所以实际一天的 P&amp;L 不能只归给 Theta。卖方收取的权利金是承担波动、跳空、偏斜与流动性等风险的总对价，Theta 只是把其中的时间敏感度单独标出来。</span>
+  <span class="en">Calendar time certainly moves forward, but <strong>theta is not guaranteed P&amp;L</strong>. It answers a conditional question: “if spot, IV, rates and the other inputs stay unchanged, about how much does the model price change after a day?” Those inputs normally move together in real markets, so a day's realized P&amp;L cannot be assigned to theta alone. Premium compensates a seller for volatility, jumps, skew, liquidity and other risks; theta isolates only the time sensitivity.</span>
 </p>
 
 <div class="panel">
@@ -189,8 +190,8 @@
 <div class="note">
   <span class="note-tag"><span class="zh">Theta 陷阱：正的 Theta 不等于正的期望</span><span class="en">The theta trap: positive theta ≠ positive expectancy</span></span>
   <p>
-    <span class="zh">"我的组合每天收 $50 Theta"是新手最容易上瘾的一句话。但请把它和第 4 章的赔率算术放在一起看：<strong>Theta 是你收到的租金，Gamma 是你承担的风险，市场大致把两者定价成公平交换。</strong>每天稳定收租的账户，正在积累一个不显示在日报表上的负债。真正的问题从来不是"我收了多少 Theta"，而是"如果明天跳空 8%，我要还回去多少天的 Theta"。</span>
-    <span class="en">"My book collects $50 of theta a day" is the sentence beginners get addicted to. Put it next to Chapter 4's payoff arithmetic: <strong>theta is the rent you receive, gamma is the risk you carry, and the market prices the two as roughly a fair swap.</strong> An account collecting steady rent is accumulating a liability that never appears on the daily statement. The real question is never "how much theta did I collect" but "if tomorrow gaps 8%, how many days of theta do I hand back?"</span>
+    <span class="zh">“我的组合每天收 $50 Theta”是新手最容易上瘾的一句话。但 Theta 是<strong>模型在当前输入附近给出的条件敏感度</strong>，不是每日利息。一个正 Theta 组合可能同时暴露于负 Gamma、Vega、偏斜、相关性和跳空风险；具体是哪一种，必须看完整头寸。真正的问题不是“模型显示我收多少 Theta”，而是“哪些市场变化会让这项局部优势失效，以及压力情景下会亏多少”。</span>
+    <span class="en">“My book collects $50 of theta a day” is an addictive sentence for beginners. But theta is a <strong>conditional model sensitivity around today's inputs</strong>, not daily interest. A positive-theta portfolio may also carry negative gamma, vega, skew, correlation and jump exposures; the actual mix depends on the whole position. The real question is not “how much theta does the screen show?” but “which market moves make this local advantage disappear, and what do I lose under stress?”</span>
   </p>
 </div>
 
@@ -341,14 +342,14 @@
 <div class="quiz" data-answer="a">
   <p class="q"><span class="zh">"我的组合每天收 $80 的 Theta，所以这是一个稳定盈利的系统。"这句话的问题在哪？</span><span class="en">"My book collects $80 of theta a day, so it's a steadily profitable system." What's wrong with that?</span></p>
   <div class="opts">
-    <button data-opt="a"><span class="key">A</span><span class="zh">正 Theta 必然伴随负 Gamma，租金是风险的对价</span><span class="en">Positive theta necessarily means negative gamma — the rent is payment for risk</span></button>
+    <button data-opt="a"><span class="key">A</span><span class="zh">Theta 是条件敏感度；正 Theta 不等于正期望，必须同时检查完整风险暴露</span><span class="en">Theta is conditional; positive theta is not positive expectancy, so the full risk exposure still matters</span></button>
     <button data-opt="b"><span class="key">B</span><span class="zh">Theta 的计算通常不准确</span><span class="en">Theta figures are usually inaccurate</span></button>
     <button data-opt="c"><span class="key">C</span><span class="zh">Theta 只在到期日才实现</span><span class="en">Theta is only realized at expiry</span></button>
     <button data-opt="d"><span class="key">D</span><span class="zh">应该看 Delta 而不是 Theta</span><span class="en">You should look at delta instead</span></button>
   </div>
   <div class="expl">
-    <span class="zh"><b>A。</b>Greeks 是捆绑出售的：市场不会让你只收租不担风险。每天进账的 $80，对应的是一个不出现在日报表上的负 Gamma 负债——它会在某个跳空的早晨一次性结算。<strong>这就是"缓慢上升 + 悬崖式下跌"型账户曲线的成因</strong>。B 与事实不符（Theta 是模型的确定输出）；C 错在时间价值每天都在实实在在地流失；D 答非所问。</span>
-    <span class="en"><b>A.</b> The Greeks come bundled: the market won't let you collect rent without carrying risk. That $80 a day corresponds to a negative-gamma liability that never shows on the daily statement — and settles all at once on some gapping morning. <strong>This is what produces the "slow climb, sudden cliff" equity curve.</strong> B is false (theta is a definite model output); C is wrong because time value bleeds every single day; D doesn't address the claim.</span>
+    <span class="zh"><b>A。</b>Theta 是在其他输入不变时的局部模型输出，不是账户每天保证收到的 $80，更不能单独证明策略有正期望。单一期权卖方通常正 Theta、负 Gamma，但多腿与跨期限组合不满足这个绝对等号；还必须检查 Vega、跳空、偏斜、流动性和压力损失。B 把“条件模型输出”误解成“不准确”；C 错在 Theta 并非只到期日才存在；D 只看 Delta 同样不完整。</span>
+    <span class="en"><b>A.</b> Theta is a local model output conditional on the other inputs staying fixed, not $80 the account is guaranteed to receive each day and not proof of positive expectancy. A single short vanilla option is usually positive theta and negative gamma, but multi-leg and cross-expiry portfolios do not obey that absolute equivalence; vega, jumps, skew, liquidity and stress losses still matter. B confuses “conditional” with “inaccurate”; C is wrong because theta exists before expiry; D is equally incomplete if it looks only at delta.</span>
   </div>
 </div>
 
@@ -371,8 +372,8 @@
 <!-- ============ takeaways ============ -->
 <h2><span class="zh">本章要点</span><span class="en">Key Takeaways</span></h2>
 <p>
-  <span class="zh">Greeks 不是信号，是灵敏度——它们让你在开仓<em>之前</em>就能回答"如果……我会怎样"。Delta 同时是方向暴露和概率代理，让期权和股票可以放在同一把尺子上量；Gamma 是 Delta 的加速度，它在到期周的 ATM 处飙到平时的三倍，既是买方非线性收益的来源，也是卖方最容易被一夜清算的地带；Theta 是唯一确定发生的 Greek，也因此是所有卖方策略的收入来源，但它加速衰减，且对 OTM 期权格外残酷；Vega 则是大多数人在不知情的情况下押下的那个更大的赌注——2024 年 8 月 5 日那张亏了 42% 的 Put，有 71% 的亏损与股价无关。最关键的一点是：<strong>这四个数字是捆绑出售的</strong>。正 Gamma 必须付 Theta，正 Theta 必须担 Gamma，市场把这笔交换定价得相当公平。所以真正的问题从来不是"哪个 Greek 好"，而是<strong>你想承担哪一组风险，以及你选的期限和 Strike 是否真的表达了那个意思</strong>。</span>
-  <span class="en">The Greeks are sensitivities, not signals — they let you answer "what if…" <em>before</em> you enter. Delta is at once directional exposure and a probability proxy, putting options and shares on one ruler. Gamma is delta's acceleration; it triples at the money in expiry week, making it both the source of a buyer's nonlinear payoff and the zone where sellers get liquidated overnight. Theta is the only Greek certain to occur, and therefore the revenue line of every selling strategy — but it accelerates, and it is especially brutal to OTM options. Vega is the larger bet most people place without knowing it: of that put that lost 42% on August 5, 2024, 71% of the loss had nothing to do with the stock. Above all: <strong>the four numbers are sold as a bundle</strong>. Long gamma must pay theta, long theta must carry gamma, and the market prices that swap about fairly. So the question is never "which Greek is good," it is <strong>which set of risks you want to carry, and whether the tenor and strike you chose actually say that</strong>.</span>
+  <span class="zh">Greeks 不是信号，是局部敏感度——它们让你在开仓<em>之前</em>回答“如果某个输入单独变化，我会怎样”。Delta 衡量当前价位附近的一阶方向暴露，也常被用作风险中性概率的粗略代理；Gamma 是 Delta 对股价的变化率，在临近到期的 ATM 区域最集中；Theta 是其他输入不变时的时间敏感度，不是保证到账的收益；Vega 则显示 IV 变化会怎样影响价格。2024 年 8 月 5 日那张示例 Put 的一天损益里，71% 来自 IV 假设的变化，正说明<strong>任何一个 Greek 都不能脱离其他输入单独解释实际 P&amp;L</strong>。真正的问题从来不是“哪个 Greek 好”，而是你承担了哪一组局部风险，以及期限和 Strike 是否真的表达了你的意图。</span>
+  <span class="en">The Greeks are not signals but local sensitivities — they let you ask, <em>before</em> entering, “what happens if one input changes?” Delta measures first-order directional exposure near today's spot and is often used as a rough proxy for risk-neutral probability; gamma is the rate at which delta changes with spot and is most concentrated near-the-money close to expiry; theta is time sensitivity with the other inputs fixed, not guaranteed income; and vega describes sensitivity to IV. In the August 5, 2024 example put, 71% of the one-day change came from the assumed IV move, illustrating that <strong>no Greek can explain realized P&amp;L in isolation from the other inputs</strong>. The question is never “which Greek is good?” but which bundle of local risks you carry and whether the tenor and strike express what you intend.</span>
 </p>
 
 <nav class="chap-nav">

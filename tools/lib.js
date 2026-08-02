@@ -23,22 +23,22 @@ function pages() {
   var chapters = fs.readdirSync(path.join(ROOT, 'chapters'))
     .filter(function (f) { return /\.html$/.test(f); }).sort()
     .map(function (f) { return 'chapters/' + f; });
-  return ['index.html', 'glossary.html'].concat(chapters);
+  return ['index.html', 'glossary.html', 'sources.html'].concat(chapters);
 }
 function isVol1(rel) { return /chapters\/0[1-9]-/.test(rel) || rel === 'index.html'; }
 function read(rel) { return fs.readFileSync(path.join(ROOT, rel), 'utf8'); }
 
-/* ---- extract the real Payoff.mount configs by running each page's script ---- */
-function chartConfigs() {
-  var out = [];
+/* ---- extract the real browser mount configs by running each page's script ---- */
+function mountConfigs() {
+  var payoff = [], cases = [];
   pages().forEach(function (rel) {
     var m = read(rel).match(/<script>\s*document\.addEventListener\('DOMContentLoaded'[\s\S]*?<\/script>/);
     if (!m) return;
     var code = m[0].replace(/<\/?script>/g, '');
     try {
       new Function('Payoff', 'CaseChart', 'document', code)(
-        { mount: function (id, cfg) { out.push({ file: rel, id: id, cfg: cfg }); } },
-        { mount: function () {} },
+        { mount: function (id, cfg) { payoff.push({ file: rel, id: id, cfg: cfg }); } },
+        { mount: function (id, cfg) { cases.push({ file: rel, id: id, cfg: cfg }); } },
         { addEventListener: function (e, fn) { fn(); },
           // glossary.html's script drives its search box; stub enough of the
           // DOM that it runs harmlessly instead of throwing.
@@ -49,8 +49,10 @@ function chartConfigs() {
       console.log('  !! could not evaluate ' + rel + ': ' + e.message);
     }
   });
-  return out;
+  return { payoff: payoff, cases: cases };
 }
+function chartConfigs() { return mountConfigs().payoff; }
+function caseChartConfigs() { return mountConfigs().cases; }
 
 /* ---- Greeks by finite difference on the engine's own bsPrice ----
    Prose that quotes a delta must be checkable the same way prose that quotes
@@ -109,4 +111,5 @@ Checks.prototype.constant = function (label, values, expected, tol) {
 };
 
 module.exports = { ROOT: ROOT, loadEngine: loadEngine, pages: pages, isVol1: isVol1,
-                   read: read, chartConfigs: chartConfigs, greeks: greeks, Checks: Checks };
+                   read: read, chartConfigs: chartConfigs, caseChartConfigs: caseChartConfigs,
+                   greeks: greeks, Checks: Checks };

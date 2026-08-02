@@ -37,21 +37,23 @@ module.exports = function (ctx) {
   c.prose('§14.3 states the deep-ITM case', '$0.10');
   c.prose('§14.3 states the dividend', '$0.80');
 
-  /* §14.4 public figures from 2015-08-24 and Cboe's 0DTE data */
-  c.prose('cites the Shanghai decline', '8.5%');
-  c.prose('cites the futures drop', '7%');
-  c.prose('cites the gapping stocks', '1,278');
-  c.prose('cites the halts', '471');
-  c.prose('cites the ETF halts', '303');
-  c.prose('cites the bid cut', '35%');
-  c.prose('cites the NAV deviation', '40%');
+  /* §14.4 uses one reproducible SEC DERA denominator and the documented
+     full-year Cboe figure; these positive source invariants are the contract. */
+  c.prose('cites SEC DERA ETF sample', '1,569');
+  c.prose('cites SEC DERA ETF pauses', '302');
+  c.prose('cites SEC DERA pause share', '19.2%');
+  c.prose('states stop-market trigger is not price guarantee', '不保证成交价');
   c.prose('cites 0DTE full-year 2025', '59%');
-  c.prose('cites 0DTE Q2 2026', '65%');
 
-  // the 0DTE chart series must match the cited figures
-  var series = [56, 57, 59, 65];
-  c.eq('0DTE chart endpoint = cited Q2 2026', series[3], 65, 0);
-  c.eq('0DTE chart FY2025 = cited', series[2], 59, 0);
+  // Read the CaseChart configuration the browser actually receives.
+  var chart = ctx.L.caseChartConfigs().filter(function (x) {
+    return x.file === 'chapters/14-operations.html' && x.id === 'case-0dte';
+  })[0];
+  c.eq('0DTE chart is mounted', chart ? 1 : 0, 1, 0);
+  c.eq('0DTE chart labels the supported full-year period',
+       chart && JSON.stringify(chart.cfg.labels) === JSON.stringify(['2025 FY']) ? 1 : 0, 1, 0);
+  var chartValue = chart && chart.cfg.series[0] ? chart.cfg.series[0].data[0] : NaN;
+  c.eq('0DTE rendered chart FY2025 = cited prose', chartValue, 59, 0);
 
   /* the tax mention must stay one sentence with a disclaimer */
   c.prose('tax note carries a disclaimer', '本书不提供税务建议');

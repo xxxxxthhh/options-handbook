@@ -10,47 +10,63 @@ module.exports = function (ctx) {
     return P.bsPrice(S, 95, 30 / 365, atmIV + SKEW, r, false) * 12;
   }
 
-  c.eq('VIX 15 -> annual cost %', annualCost(0.15), 4.5, 0.05);
-  c.eq('VIX 20 -> annual cost %', annualCost(0.20), 8.8, 0.05);
-  c.eq('VIX 25 -> annual cost % (chart point)', annualCost(0.25), 13.8, 0.05);
-  c.eq('VIX 30 -> annual cost %', annualCost(0.30), 19.3, 0.05);
-  c.eq('VIX 35 -> annual cost % (chart point)', annualCost(0.35), 25.1, 0.05);
-  c.eq('VIX 45 -> annual cost %', annualCost(0.45), 37.2, 0.05);
+  var ivs = [0.15, 0.20, 0.25, 0.30, 0.35, 0.45];
+  var expected = [4.5, 8.8, 13.8, 19.3, 25.1, 37.2];
+  ivs.forEach(function (iv, i) {
+    c.eq('VIX ' + Math.round(iv * 100) + ' -> annual cost %', annualCost(iv), expected[i], 0.05);
+  });
+
+  // Compare those calculations with the configuration the page actually sends
+  // to CaseChart. This catches drift in the rendered data, not just in a local
+  // checker fixture.
+  var chart = ctx.L.caseChartConfigs().filter(function (x) {
+    return x.file === 'chapters/13-hedging.html' && x.id === 'case-hedge-cost';
+  })[0];
+  c.eq('hedge-cost chart is mounted', chart ? 1 : 0, 1, 0);
+  var expectedLabels = ['VIX 15', 'VIX 20', 'VIX 25', 'VIX 30', 'VIX 35', 'VIX 45'];
+  var labels = chart ? chart.cfg.labels : [];
+  c.eq('hedge-cost labels match modeled IVs',
+       JSON.stringify(labels) === JSON.stringify(expectedLabels) ? 1 : 0, 1, 0);
+  var rendered = chart && chart.cfg.series[0] ? chart.cfg.series[0].data : [];
+  c.eq('hedge-cost rendered series length', rendered.length, expected.length, 0);
+  expected.forEach(function (value, i) {
+    c.eq('hedge-cost rendered point ' + expectedLabels[i], rendered[i], value, 0.05);
+  });
 
   c.prose('§13.1 states the calm cost', '4.5%');
   c.prose('§13.1 states the normal cost', '8.8%');
   c.prose('§13.1 states the tense cost', '19.3%');
   c.prose('§13.1 states the panic cost', '37.2%');
 
-  // the ratio that drives "hedge once trouble starts is unavailable"
+  // Conditional price sensitivity with every other model input held fixed.
   c.eq('panic / calm cost ratio', annualCost(0.45) / annualCost(0.15), 8.3, 0.3);
   c.prose('states the eightfold claim', '八倍');
 
   // The 8.8% is GROSS premium outlay (price x 12, no payouts netted off), while
-  // 11.2% is a NET total return. The chapter must NOT subtract one from the other;
-  // it may only say they are of the same order of magnitude.
+  // 11.2% is a NET total return. The chapter must not infer net drag from this
+  // juxtaposition or from annual return signs.
   c.prose('labels the figure as gross outlay', '毛保费支出');
   c.prose('says payouts offset part of it', '还没有减去它们的赔付');
-  c.prose('states same-order-of-magnitude, not subtraction', '同一个量级');
+  c.prose('requires complete net-P/L evidence', '完整净损益回测');
+  c.prose('rejects annual-to-monthly payout inference', '年度收益为正或负也不能推断月度尾部赔付');
   c.absent('does not present the invalid subtraction', '这是一道减法');
   c.prose('cites the S&P long-run return', '11.2%');
   c.prose('declares the x12 static-spot simplification', '单月保费 × 12');
+  c.prose('denies a gross-cost upper bound', '它也不是实际毛支出的上界');
 
-  /* VXX: public figures, plus the annualization this book performs */
-  var yrs = 17, cum = -0.9802;
-  c.eq('VXX annualized from -98.02% over 17y', (Math.pow(1 + cum, 1 / yrs) - 1) * 100, -20.6, 0.1);
-  c.prose('states VXX cumulative', '98%');
-  c.prose('states VIX cumulative', '65%');
-  c.prose('states the annualized decay', '−20.6%');
-  // the comparison the verdict rests on
-  c.eq('VXX decay vs rolling puts, gross (x)', 20.6 / annualCost(0.20), 2.34, 0.05);
-  c.prose('flags that comparison as conservative', '这个对比是偏保守的');
+  /* VXX: retain the issuer-defined product mapping, not an unreproducible
+     stitched cumulative-return comparison across predecessor products. */
+  c.prose('states the VXX reference index', 'S&amp;P 500 VIX Short-Term Futures Index Total Return');
+  c.prose('states the daily-roll mechanism', '逐日调整');
+  c.prose('rejects spot-VIX equivalence', '没有承诺按点对点复制现货 VIX');
 
   /* Universa figures are reported, not computed — assert they are quoted
      with the denominator caveat rather than as a portfolio return. */
   c.prose('quotes the March figure', '+3,612%');
   c.prose('quotes the Q1 figure', '+4,144%');
   c.prose('carries the denominator caveat', '分母是什么');
+  c.prose('labels Universa numbers as secondary manager claim', '二手转述');
+  c.prose('denies public-audit status', '不是公开审计报告');
   c.absent('does not claim a portfolio-level multiple', '组合涨了 41 倍</strong>');
 
   return c;

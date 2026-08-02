@@ -13,7 +13,7 @@
 <header class="topbar">
   <a class="brand" href="index.html"><b>OPTIONS</b>/HANDBOOK</a>
   <div class="spacer"></div>
-  <nav><a href="index.html"><span class="zh">目录</span><span class="en">Contents</span></a></nav>
+  <nav><a href="index.html"><span class="zh">目录</span><span class="en">Contents</span></a><a href="sources.html"><span class="zh">来源</span><span class="en">Sources</span></a></nav>
   <div class="lang-switch" role="group" aria-label="Language">
     <button data-lang="zh" aria-pressed="true">中</button>
     <button data-lang="en" aria-pressed="false">EN</button>
@@ -169,16 +169,16 @@
     <span class="en">Replicating one position's payoff with option legs. From parity: +C −P is long stock, stock +P is a synthetic call, and <strong>a covered call ≡ a short put</strong> (differing by a constant equal to the interest on the cash). Which expression to use is a cost question, not a risk one.</span></td></tr>
 
   <tr id="box"><td class="t">Box Spread</td><td class="c">箱体价差</td><td>
-    <span class="zh">在两个 Strike 上分别建合成多头与合成空头。到期价值恒等于宽度、与股价无关——<strong>它是一张零息债券</strong>：买入即放贷，卖出即借款。用美式期权做会因<a class="term" href="#early-exercise">提前行权</a>而失效，2019 年 1R0NYMAN 即因此爆仓。</span>
-    <span class="en">A synthetic long at one strike and a synthetic short at another. Its expiry value equals the width regardless of the stock — <strong>it is a zero-coupon bond</strong>: buying lends, selling borrows. Built with American options it breaks via <a class="term" href="#early-exercise">early exercise</a>, which is how 1R0NYMAN blew up in 2019.</span></td></tr>
+    <span class="zh">在两个 Strike 上分别建合成多头与合成空头。若所有腿同时到期，价值恒等于宽度、与股价无关，经济形状类似零息债券。用美式期权构造时，<a class="term" href="#early-exercise">提前行权</a>会让腿不同步并产生路径与融资风险；第 10 章的匿名论坛自述案例用于说明这一机制，不是经审计账户记录。</span>
+    <span class="en">A synthetic long at one strike and a synthetic short at another. If all legs settle together, expiry value equals the width regardless of the stock, giving the economic shape of a zero-coupon bond. With American options, <a class="term" href="#early-exercise">early exercise</a> can desynchronize the legs and create path and financing risk; Chapter 10's anonymous forum self-report illustrates the mechanism but is not an audited account record.</span></td></tr>
 
   <tr id="early-exercise"><td class="t">Early Exercise</td><td class="c">提前行权</td><td>
     <span class="zh">美式期权持有人在到期前主动行权。对买方通常不划算，但深度价内或除息日前是例外——<strong>而它一旦发生，任何依赖"所有腿同时到期"的结构都会被拆开一条腿</strong>。与<a class="term" href="#assignment">指派</a>是同一件事的两端。</span>
     <span class="en">An American option's holder exercising before expiry. Usually suboptimal for the buyer, with deep-ITM positions and ex-dividend dates as the exceptions — <strong>and when it happens, any structure relying on "all legs settle together" loses a leg</strong>. It is the other end of <a class="term" href="#assignment">assignment</a>.</span></td></tr>
 
   <tr id="term-structure"><td class="t">Term Structure</td><td class="c">期限结构</td><td>
-    <span class="zh">同一 Strike 下 IV 随到期日变化的曲线。平静时向上倾斜（<a class="term" href="#contango">contango</a>），恐慌时整体倒挂。自 2006 年以来 VIX 曲线仅约 19% 的交易日处于倒挂，主要集中在 2008–09、2020-03 等危机时段。见第 11.3 节。</span>
-    <span class="en">How IV varies across expiries at one strike. It slopes up in calm markets (<a class="term" href="#contango">contango</a>) and inverts wholesale in panics. Since 2006 the VIX curve has been inverted on only about 19% of trading days, mostly in crisis stretches such as 2008–09 and March 2020. See §11.3.</span></td></tr>
+    <span class="zh">同一 Strike 下 IV 随到期日变化的曲线。市场平静时常见远期高于近期，压力期则可能倒挂；这只是常见形态，不是保证。若要声称历史倒挂频率，必须给出期限、取样时点、节假日规则与可复算数据。见第 11.3 节。</span>
+    <span class="en">How IV varies across expiries at one strike. Far expiries are often above near expiries in calm markets, while the curve may invert under stress; neither shape is guaranteed. Any historical inversion-frequency claim requires defined tenors, sampling time, holiday rules and reproducible data. See §11.3.</span></td></tr>
 
   <tr id="diagonal"><td class="t">Diagonal Spread</td><td class="c">对角价差</td><td>
     <span class="zh">同时改变 Strike 与到期日的两腿结构——垂直价差与<a class="term" href="#calendar">日历价差</a>的合体。最流行的形态是 <a class="term" href="#pmcc">PMCC</a>。</span>
@@ -289,8 +289,8 @@
     <span class="en">Capital the broker requires against potential obligations. A shortfall triggers a margin call; in extremes the broker liquidates for you — without asking.</span></td></tr>
 
   <tr id="gamma-squeeze"><td class="t">Gamma Squeeze</td><td class="c">伽马挤压</td><td>
-    <span class="zh">大量买入 Call → 做市商买股对冲 → 股价上涨 → Delta 上升需买入更多 → 正反馈螺旋。2021 年 GameStop 的引擎。</span>
-    <span class="en">Heavy call buying → market makers hedge by buying stock → stock rises → deltas rise, forcing more buying → a feedback spiral. The engine of GameStop 2021.</span></td></tr>
+    <span class="zh">一种可能的正反馈机制：大量买入 Call → 做市商买股对冲 → 股价上涨 → Delta 上升需买入更多。它是机制假设，不是对任何一次价格上涨的自动归因；SEC 对 2021 年 1 月 GameStop 的审查没有找到 Gamma Squeeze 证据。</span>
+    <span class="en">A possible feedback mechanism: heavy call buying → market makers hedge by buying stock → stock rises → deltas rise, forcing more buying. It is a mechanism hypothesis, not an automatic explanation for any rally; the SEC's review of GameStop in January 2021 did not find evidence of a gamma squeeze.</span></td></tr>
 
   <tr id="kelly"><td class="t">Kelly Criterion</td><td class="c">凯利公式</td><td>
     <span class="zh">使长期复合增长率最大化的下注比例。它是一座山不是一条上升线：<strong>下注到两倍最优值，即使优势真实，长期增长率也变成负数</strong>。实践中通常只用一半（半凯利），保留约 75% 的增长并为"高估优势"留出余地。见第 9.3 节。</span>
@@ -305,35 +305,35 @@
     <span class="en">Assets divided by equity. It never changes whether you're right, only the magnitude: at LTCM's 26.6:1, a −3.7% move on assets became −92% of equity. <strong>Options carry embedded leverage already; adding margin squares it.</strong></span></td></tr>
 
   <tr id="bxm"><td class="t">BXM / PUT</td><td class="c">Cboe 策略基准指数</td><td>
-    <span class="zh">Cboe 自 1986 年起计算的期权策略基准：BXM 机械执行"持有标普 500 + 每月卖平值 Call"，PUT 则机械卖出平值 Put。<strong>它们是回答"长期到底值不值得做"的唯一不加挑选的证据</strong>——但都是<em>指数</em>，不含费用、点差与税。见第 15 章。</span>
-    <span class="en">Cboe's option-strategy benchmarks, computed since 1986: BXM mechanically runs "hold the S&P 500, sell a one-month ATM call"; PUT mechanically sells ATM puts. <strong>They are the only unselected evidence on whether any of this is worth doing long term</strong> — but they are <em>indices</em>, excluding fees, spreads and taxes. See Chapter 15.</span></td></tr>
+    <span class="zh">Cboe 发布的规则型期权策略基准：BXM 表示“持有标普 500 + 按月卖 Call”，PUT 表示按规则卖出 Put。<strong>它们是长期规则基准证据的一部分，不是唯一证据；发布前的历史区间属于按后来规则回溯计算的假设结果。</strong>指数也不等于投资者实盘，不含投资者层面的费用、税务与全部执行偏差。见第 15 章。</span>
+    <span class="en">Rules-based option-strategy benchmarks published by Cboe: BXM represents holding the S&amp;P 500 and selling calls monthly, while PUT represents rules-based put writing. <strong>They are one source of long-run rules-based evidence, not the only evidence; pre-launch history is a hypothetical back-calculation under later rules.</strong> An index is not an investor account and omits investor-level fees, taxes, and all implementation drift. See Chapter 15.</span></td></tr>
 
   <tr id="sharpe"><td class="t">Sharpe / Sortino Ratio</td><td class="c">夏普 / 索提诺比率</td><td>
-    <span class="zh">每承担一单位风险换来多少超额收益；索提诺只把<strong>下行</strong>波动算作风险。比较两个风险不同的策略时，只看收益率是没有意义的。四十年下来 BXM 与标普的夏普是 0.55 对 0.56——<strong>几乎相同，说明降低的风险恰好等价于放弃的收益。</strong></span>
-    <span class="en">Excess return per unit of risk; Sortino counts only <strong>downside</strong> volatility as risk. Comparing two strategies of different riskiness on return alone is meaningless. Over forty years BXM and the S&P scored 0.55 against 0.56 — <strong>near-identical, meaning the risk avoided was exactly equivalent to the return surrendered.</strong></span></td></tr>
+    <span class="zh">每承担一单位风险换来多少超额收益；索提诺只把<strong>下行</strong>波动算作风险。比较两个风险不同的策略时，只看收益率是不完整的。Cboe 资料样本中 BXM 与标普的夏普为 0.55 对 0.56，<strong>这只说明该样本没有显示 BXM 有更高的风险调整后收益；不能证明风险降低与收益放弃存在精确、公平或未来不变的交换。</strong></span>
+    <span class="en">Excess return per unit of risk; Sortino counts only <strong>downside</strong> volatility as risk. Comparing strategies with different risk using return alone is incomplete. In the Cboe factsheet sample, BXM and the S&amp;P have Sharpe ratios of 0.55 and 0.56. <strong>That shows no higher risk-adjusted return for BXM in this sample; it does not prove an exact, fair, or persistent exchange between risk reduction and return surrendered.</strong></span></td></tr>
 
   <tr id="tail-hedge"><td class="t">Tail Hedge</td><td class="c">尾部对冲</td><td>
-    <span class="zh">只保护极端下跌（如 −20% 以下）而放弃日常回撤保护的做法：买深度价外 Put，便宜得多，但绝大多数回撤它根本不赔。<strong>连续对冲的成本随波动率上升八倍</strong>——平静时年化约 4.5%，恐慌时约 37.2%，所以"等出事再对冲"在算术上不可行。见第 13 章。</span>
-    <span class="en">Insuring only the extreme (below, say, −20%) and forgoing everyday drawdown cover: deep OTM puts are far cheaper but pay nothing in the vast majority of declines. <strong>Continuous hedging costs rise eightfold with volatility</strong> — about 4.5% a year in calm, about 37.2% in panic — which is why "hedge once trouble starts" is arithmetically unavailable. See Chapter 13.</span></td></tr>
+    <span class="zh">只保护极端下跌（如 −20% 以下）而放弃日常回撤保护的做法：买深度价外 Put，保费通常更低，但许多普通回撤不会触发到期赔付。第 13 章的静态示意表显示，同一规则在 IV≈15 与 IV≈45 时的<strong>毛保费支出可相差八倍</strong>；这要求事先预算，不是净成本回测或择时结论。</span>
+    <span class="en">Insuring only the extreme (below, say, −20%) while forgoing routine drawdown cover: deep OTM puts usually cost less, but many ordinary declines produce no expiry payout. Chapter 13's static scenarios show that <strong>gross premium outlay for the same rule can differ eightfold</strong> between IV≈15 and IV≈45; that calls for pre-budgeting and is neither a net-cost backtest nor a timing conclusion.</span></td></tr>
 
   <tr id="zero-dte"><td class="t">0DTE</td><td class="c">当日到期期权</td><td>
-    <span class="zh">当天到期的合约。已占 SPX 期权成交量的多数（2025 全年 59%、2026 Q2 达 65%，Cboe 数据）。<strong>Gamma 在到期日趋于无穷</strong>，Delta 可在几分钟内从 0.2 翻到 0.8——方向暴露不再由你设定。本书说明其规模（它影响所有指数期权的流动性），但不作为策略教授。见第 14 章。</span>
-    <span class="en">Contracts expiring the same day. Now the majority of SPX option volume (59% for full-year 2025, 65% in Q2 2026, per Cboe). <strong>Gamma tends to infinity at expiry</strong> and delta can travel 0.2 to 0.8 in minutes — directional exposure stops being something you set. This book documents its scale (it shapes all index-option liquidity) but does not teach it as a strategy. See Chapter 14.</span></td></tr>
+    <span class="zh">当天到期的合约。Cboe 公布的 2025 全年数据显示，0DTE 占 SPX 期权成交量 <strong>59%</strong>。越接近到期，平值附近的 Gamma 通常越高，Delta 也可在小幅标的变动中大幅改变。本书说明其规模与风险，但不作为策略教授。见第 14 章。</span>
+    <span class="en">Contracts expiring the same day. Cboe's full-year 2025 data show 0DTE at <strong>59%</strong> of SPX option volume. Near expiry, gamma is generally higher around the money, so delta can change sharply for a small move in the underlying. This book documents the scale and risk but does not teach 0DTE as a strategy. See Chapter 14.</span></td></tr>
 
   <tr id="cash-settled"><td class="t">Cash Settlement</td><td class="c">现金结算</td><td>
     <span class="zh">到期按指数水平以现金结清盈亏，不交割标的。SPX 等指数期权属此类，配合<a class="term" href="#american-european">欧式</a>条款可一次性消除<a class="term" href="#early-exercise">提前行权</a>与到期日意外持股两个风险。代价是合约面值大、仓位粒度粗。</span>
     <span class="en">P/L settles in cash against the index level at expiry, with no delivery of the underlying. Index options such as SPX work this way; combined with <a class="term" href="#american-european">European</a> terms this eliminates both <a class="term" href="#early-exercise">early exercise</a> and the risk of waking up holding shares. The cost is a large contract and coarser sizing.</span></td></tr>
 
   <tr id="regime"><td class="t">Regime</td><td class="c">市场状态</td><td>
-    <span class="zh">当前市场所处的宏观环境类型（单边牛、震荡、趋势熊、恐慌）。同一策略在不同 Regime 下结果天差地别——先判断状态，再选策略。</span>
-    <span class="en">The prevailing market environment (one-way bull, chop, trending bear, panic). The same strategy produces wildly different outcomes across regimes — read the regime before choosing the strategy.</span></td></tr>
+    <span class="zh">用于事后描述市场环境的一组分类（如单边牛、震荡、趋势熊、恐慌）。同一策略的历史结果可能随分类而异；<strong>事后可分组不代表状态能在事前被可靠识别，更不自动构成可交易信号</strong>。任何 Regime 规则都需要样本外、扣费验证。</span>
+    <span class="en">A set of labels used to describe market environments after observation (for example, one-way bull, chop, trending bear, or panic). Historical strategy results may differ across labels; <strong>post-hoc separability does not mean the state is reliably identifiable in advance or creates a tradable signal.</strong> Any regime rule needs out-of-sample, after-cost validation.</span></td></tr>
 
   </tbody>
 </table>
 
 <nav class="chap-nav">
   <a href="chapters/15-evidence.html">← <span class="zh">第 15 章 证据素养</span><span class="en">Ch.15 Evidence Literacy</span></a>
-  <a href="index.html"><span class="zh">目录 →</span><span class="en">Contents →</span></a>
+  <a href="sources.html"><span class="zh">来源与方法 →</span><span class="en">Sources &amp; Methodology →</span></a>
 </nav>
 
 </main>

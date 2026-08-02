@@ -42,11 +42,40 @@ module.exports = function (ctx) {
   c.prose('states S&P terminal value', '$720');
   c.prose('states the ratio', '2.54');
 
-  // the chart series must equal the compounded values, not hand-typed numbers
-  var chartBXM = ctx.L.chartConfigs; // (chart data is CaseChart, checked via prose below)
-  var acc = 100, seriesB = [100];
-  bxmCY.forEach(function (r) { acc *= 1 + r / 100; seriesB.push(+acc.toFixed(1)); });
-  c.eq('chart series endpoint matches compounding', seriesB[seriesB.length - 1], 283.1, 0.05);
+  // Verify the configuration that the browser actually passes to CaseChart.
+  // Recomputing a second local series would prove only the fixture and would
+  // miss a stale or hand-edited value in the rendered chapter.
+  var chart = ctx.L.caseChartConfigs().filter(function (x) {
+    return x.file === 'chapters/15-evidence.html' && x.id === 'case-bxm-cum';
+  })[0];
+  c.eq('BXM cumulative chart is mounted', chart ? 1 : 0, 1, 0);
+
+  var expectedLabels = ['2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017',
+                        '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'];
+  var labels = chart ? chart.cfg.labels : [];
+  c.eq('chart labels match the calendar-year window',
+       JSON.stringify(labels) === JSON.stringify(expectedLabels) ? 1 : 0, 1, 0);
+
+  function compounded(yearly) {
+    var acc = 100, out = [100];
+    yearly.forEach(function (r) { acc *= 1 + r / 100; out.push(+acc.toFixed(1)); });
+    return out;
+  }
+  function seriesNamed(name) {
+    if (!chart) return [];
+    var row = chart.cfg.series.filter(function (s) { return s.name && s.name.en === name; })[0];
+    return row ? row.data : [];
+  }
+  var expectedBXM = compounded(bxmCY), expectedSPX = compounded(spxCY);
+  var renderedBXM = seriesNamed('BXM'), renderedSPX = seriesNamed('S&P 500 TR');
+  c.eq('BXM rendered series length', renderedBXM.length, expectedBXM.length, 0);
+  c.eq('S&P rendered series length', renderedSPX.length, expectedSPX.length, 0);
+  expectedBXM.forEach(function (value, i) {
+    c.eq('BXM rendered point ' + expectedLabels[i], renderedBXM[i], value, 0.05);
+  });
+  expectedSPX.forEach(function (value, i) {
+    c.eq('S&P rendered point ' + expectedLabels[i], renderedSPX[i], value, 0.05);
+  });
 
   /* --- how many years BXM led --- */
   var led = 0;
@@ -64,14 +93,13 @@ module.exports = function (ctx) {
   c.prose('states the 2022 advantage', '6.7');
   c.prose('states the 2018 shortfall', '0.4');
 
-  /* --- §15.3 the end-date contrast --- */
+  /* --- §15.3 source values plus the comparability boundary --- */
   var ek = { put: 10.32, spx: 8.77 };          // Ennis Knupp, Jan 2009, Jul 1986-Oct 2008
   c.eq('2009 study edge (points)', ek.put - ek.spx, 1.55, 0.001);
-  c.eq('swing between the two windows', (ek.put - ek.spx) - (pub.bxmRet - pub.spxRet), 4.25, 0.001);
   c.prose('states the 2009 PUT figure', '10.32%');
   c.prose('states the 2009 S&P figure', '8.77%');
   c.prose('states that edge', '1.55');
-  c.prose('states the swing', '4.25');
+  c.prose('rejects single-difference attribution', '不能把两组结果相减或归因于单一差异');
 
   /* --- this chapter must contain no book-computed option prices --- */
   c.prose('declares no illustrative values', '没有任何示意值');

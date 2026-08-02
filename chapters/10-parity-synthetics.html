@@ -16,6 +16,7 @@
   <nav>
     <a href="../index.html"><span class="zh">目录</span><span class="en">Contents</span></a>
     <a href="../glossary.html">Glossary</a>
+    <a href="../sources.html"><span class="zh">来源</span><span class="en">Sources</span></a>
   </nav>
   <div class="lang-switch" role="group" aria-label="Language">
     <button data-lang="zh" aria-pressed="true">中</button>
@@ -28,8 +29,8 @@
 <p class="eyebrow">Chapter 10 · Parity &amp; Synthetics</p>
 <h1><span class="zh">平价关系与合成头寸：期权世界的守恒律</span><span class="en">Parity and Synthetics: The Conservation Law of Options</span></h1>
 <p class="lede">
-  <span class="zh">前九章的每一个结论，背后都站着一个模型和一堆假设。这一章不同。<strong>Put-Call Parity 是一个恒等式，不是一个模型</strong>——它不需要你相信波动率是常数、不需要正态分布、也不需要 Black-Scholes 是对的。它只需要"同样的东西不能有两个价格"。这是本书唯一一条<strong>不可能错</strong>的理论，而它的推论会重新排列你对前九章的理解。</span>
-  <span class="en">Every conclusion in the first nine chapters rests on a model and a pile of assumptions. This chapter is different. <strong>Put-call parity is an identity, not a model</strong> — it doesn't ask you to believe volatility is constant, or that returns are lognormal, or that Black-Scholes is right. It asks only that the same thing cannot have two prices. It is the one piece of theory in this book that <strong>cannot be wrong</strong>, and its corollaries rearrange what you thought the first nine chapters said.</span>
+  <span class="zh">Put-Call Parity 不依赖正态分布或 Black-Scholes，但它有清楚的适用条件：<strong>同一标的、同一行权价与到期日的欧式 Call 和 Put，在无套利且融资、做空、股息与其他 carry 被正确计入时，组成相同到期付款的组合必须同价。</strong>在这些条件下它是到期无套利恒等式；换成美式行权、漏掉股息或遇到融资与借券限制，就需要调整等式或改用边界。理解这条边界，才会重新排列你对前九章的认识。</span>
+  <span class="en">Put-call parity does not require lognormal returns or Black-Scholes, but it has explicit conditions: <strong>European calls and puts on the same underlying, strike, and expiry must price identical expiry payments equally when no-arbitrage holds and financing, shorting, dividends, and other carry are handled correctly.</strong> Under those conditions it is an expiry no-arbitrage identity. With American exercise, omitted dividends, or financing and borrow constraints, the equation needs adjustment or becomes a bound. Its power comes from understanding that boundary.</span>
 </p>
 
 <!-- ============ 10.1 ============ -->
@@ -165,39 +166,39 @@
 </p>
 
 <div class="case">
-  <p class="case-tag">CASE FILE · 2019-01</p>
+  <p class="case-tag">ANONYMOUS FORUM SELF-REPORT · 2019-01</p>
   <h3><span class="zh">"它字面意义上不可能爆仓"</span><span class="en">"It Literally Cannot Go Tits Up"</span></h3>
   <p>
-    <span class="zh">2019 年 1 月，Reddit 论坛 r/wallstreetbets 上一位化名 <strong>1R0NYMAN</strong> 的用户发帖，宣布自己找到了一台印钞机。他在 Robinhood 上卖出 Box Spread 来"无风险"融资，并写下那句后来被反复引用的话：<strong>"我没有任何资金处于风险之中"</strong>、<strong>"它字面意义上不可能爆仓"</strong>。</span>
-    <span class="en">In January 2019 a user posting as <strong>1R0NYMAN</strong> on Reddit's r/wallstreetbets announced he had found a money printer. He was selling box spreads on Robinhood to finance himself "risk-free," and wrote the line that would be quoted ever after: <strong>"I have no money at risk"</strong> and <strong>"it literally cannot go tits up."</strong></span>
+    <span class="zh">2019 年 1 月，Reddit 论坛 r/wallstreetbets 上一位化名 <strong>1R0NYMAN</strong> 的用户发帖，声称自己在 Robinhood 上卖出 Box Spread 来“无风险”融资。<strong>以下经过与金额来自匿名论坛自述及后续转述，不是经审计账户记录或监管调查结论。</strong>它们能证明“这个故事是如此被当事人讲述的”，不能独立证明每个数字。</span>
+    <span class="en">In January 2019, a user posting as <strong>1R0NYMAN</strong> on Reddit's r/wallstreetbets claimed to be selling box spreads on Robinhood for "risk-free" financing. <strong>The sequence and dollar amounts below come from anonymous forum self-report and later retellings, not audited account records or a regulatory investigation.</strong> They establish how the participant told the story, not independent verification of every number.</span>
   </p>
   <p>
-    <span class="zh">他的推理并没有错——<strong>前提是那些期权是欧式的</strong>。box 的水平盈亏线只在"没有人能提前行权"时成立。而他交易的是 <strong>UVXY</strong>（一只波动率 ETF）的期权，<strong>美式条款</strong>：持有人可以在到期前的任何一天要求履约。</span>
-    <span class="en">His reasoning was not wrong — <strong>provided the options were European</strong>. A box's flat payoff line holds only while nobody can exercise early. He was trading options on <strong>UVXY</strong>, a volatility ETF, under <strong>American-style</strong> terms: the holder may demand performance on any day before expiry.</span>
+    <span class="zh">论坛叙事描述的是 UVXY 期权。若该产品与持仓描述属实，关键机制就在行权条款：<strong>欧式 box 的到期锁定不适用于可提前行权的美式腿</strong>。一手产品文件可以证明 UVXY 可交易期权、标准 ETP 期权采用美式行权；它们不能证明该匿名账户具体持有什么。</span>
+    <span class="en">The forum account describes options on UVXY. If that product and position description is accurate, the key mechanism is exercise style: <strong>a European box's expiry lock does not apply unchanged to American legs that can be exercised early.</strong> Primary product documents establish that options are available on UVXY and that standard ETP options use American exercise; they do not establish what the anonymous account actually held.</span>
   </p>
   <p>
-    <span class="zh">UVXY 当时在 $50 附近，而他卖出的其中一条腿是 <strong>$15 的 Call</strong>——深度价内。对手方直接行权，他被迫按 $15 交出股票，box 的一条腿被拆走，剩下的三条腿瞬间从"零息债券"变成一个巨大的裸露方向头寸。</span>
-    <span class="en">UVXY was trading near $50, and one of the legs he had sold was a <strong>$15 call</strong> — deep in the money. The counterparty simply exercised. He was forced to deliver at $15, one leg of the box was torn out, and the remaining three instantly stopped being a zero-coupon bond and became a large naked directional position.</span>
+    <span class="zh">按匿名帖子及转述的说法，UVXY 当时在 $50 附近，其中一条空头腿是 <strong>$15 Call</strong>，随后被提前行权。<strong>这组价格、持仓与事件顺序没有独立审计。</strong>它所演示的机制则成立：若一条深度价内空头腿先被行权，四腿到期锁定会被拆开，剩余头寸可能暴露方向风险。</span>
+    <span class="en">According to the anonymous post and retellings, UVXY was near $50, one short leg was a <strong>$15 call</strong>, and that leg was exercised early. <strong>Those prices, positions, and sequence have not been independently audited.</strong> The mechanism they illustrate is valid: if a deep-ITM short leg is exercised first, the four-leg expiry lock is broken and the remainder may carry directional exposure.</span>
   </p>
   <dl class="spec">
-    <div><dt><span class="zh">自有资金</span><span class="en">His own capital</span></dt><dd>$5,000</dd></div>
-    <div><dt><span class="zh">券商授信</span><span class="en">Credit extended</span></dt><dd><span class="zh">约 $250,000（约 50 倍）</span><span class="en">≈ $250,000 (≈ 50×)</span></dd></div>
-    <div><dt><span class="zh">最终亏损</span><span class="en">Final loss</span></dt><dd class="neg"><span class="zh">约 $58,000</span><span class="en">≈ $58,000</span></dd></div>
-    <div><dt><span class="zh">后果</span><span class="en">Aftermath</span></dt><dd><span class="zh">Robinhood 全面禁止 box spread</span><span class="en">Robinhood banned box spreads</span></dd></div>
+    <div><dt><span class="zh">论坛自述本金</span><span class="en">Forum-reported capital</span></dt><dd>$5,000</dd></div>
+    <div><dt><span class="zh">论坛自述授信</span><span class="en">Forum-reported credit</span></dt><dd><span class="zh">约 $250,000（约 50 倍）</span><span class="en">≈ $250,000 (≈ 50×)</span></dd></div>
+    <div><dt><span class="zh">论坛自述负余额</span><span class="en">Forum-reported deficit</span></dt><dd class="neg"><span class="zh">约 $58,000</span><span class="en">≈ $58,000</span></dd></div>
+    <div><dt><span class="zh">证据状态</span><span class="en">Evidence status</span></dt><dd><span class="zh">匿名、未审计</span><span class="en">anonymous, unaudited</span></dd></div>
   </dl>
   <p>
-    <span class="zh">他在爆仓前已经提走了 $10,000，账户被强制平仓后余额为负，券商承担了缺口。<strong>而这一切的唯一起因，是招募文件里"美式"这两个字。</strong></span>
-    <span class="en">He had withdrawn $10,000 before it unwound; after forced liquidation the account was negative and the broker ate the shortfall. <strong>And the sole cause of all of it was the word "American" in the contract terms.</strong></span>
+    <span class="zh">匿名叙事还称发帖者此前提走 $10,000，强平后账户为负；这些结果同样未审计。<strong>能负责任得出的结论只限于机制：提前行权是欧式 box 到期恒等式没有覆盖的一条真实路径风险，不能据此完成对匿名账户的单因果归因。</strong></span>
+    <span class="en">The anonymous account also says the poster had withdrawn $10,000 and the account was negative after liquidation; those outcomes are likewise unaudited. <strong>The defensible conclusion is limited to mechanism: early exercise is a real path risk outside the European box's expiry identity, not a complete causal account of an anonymous portfolio.</strong></span>
   </p>
   <p>
-    <span class="zh">这是本书第三次、也是最后一次讲同一件事。第 1 章：伯克希尔的欧式条款让 2009 年 3 月的 677 点<strong>在合同意义上不存在</strong>。第 8 章：XIV 的"加速赎回"条款让持有者<strong>连等待反弹的资格都没有</strong>。这一章：美式条款把一个数学上无风险的结构<strong>变成了一笔约 5.8 万美元的债务</strong>。<strong>三个案例，三种条款，一个教训：决定你生死的常常不是模型，而是合同细则里那一行你没读的字。</strong></span>
-    <span class="en">This is the third and final time this book tells the same story. Chapter 1: Berkshire's European terms made March 2009's 677 <strong>contractually non-existent</strong>. Chapter 8: XIV's acceleration clause denied holders <strong>even the right to wait for a bounce</strong>. Here: American terms turned a mathematically riskless structure <strong>into a $58,000 debt</strong>. <strong>Three cases, three clauses, one lesson: what decides your survival is usually not the model, but the line of fine print you didn't read.</strong></span>
+    <span class="zh">这仍然说明一条重要方法：<strong>到期恒等式不能替代路径与合约审查。</strong>第 1 章的欧式条款、第 8 章的加速赎回和这里的美式提前行权，都会改变“等到到期”的权利与义务。匿名故事的金额不能当事实，但一手合约文件足以提醒你在建模前先核对行权、结算和提前终止条款。</span>
+    <span class="en">The case still supports an important method: <strong>an expiry identity cannot replace path and contract review.</strong> Chapter 1's European exercise, Chapter 8's acceleration clause, and American early exercise here all change the rights and obligations involved in “waiting until expiry.” The anonymous story's amounts are not established facts, but primary contract documents are enough to require checking exercise, settlement, and early-termination terms before modelling.</span>
   </p>
   <p>
-    <span class="zh">简化声明：$5,000 自有资金、约 $250,000 授信、约 $58,000 亏损、提前提走 $10,000、Robinhood 随后禁止 box spread，以及标的为 UVXY 美式期权，均为公开报道的事实。约 50 倍杠杆为授信除以自有资金的直接计算。网络上流传的"-2,000%"回报率是论坛与媒体口径，分母定义不明确，本书<strong>不采用该百分比</strong>，只使用可核对的金额；不同报道对最终缺口的口径在 $58,000–$60,000 之间（前者为券商实际承担的负余额，后者为盯市义务），本书统一采用 $58,000。<strong>公开报道只确认了被提前行权的那条 $15 Call，完整的四腿行权价组合并未见诸可靠来源</strong>，因此本案例只说明"一条腿被拆走即导致结构失效"这一机制，不重建他的具体持仓。</span>
-    <span class="en">Stated simplification: the $5,000 of own capital, roughly $250,000 of credit, roughly $58,000 loss, the $10,000 withdrawn beforehand, Robinhood's subsequent ban, and the UVXY American-style underlying are all publicly reported facts. The ≈50× leverage is credit divided by own capital. The widely circulated "−2,000%" return is a forum-and-press figure whose denominator is undefined; this book <strong>does not use that percentage</strong>, only the verifiable dollar amounts; reports put the final shortfall between $58,000 and $60,000 (the former the negative balance the broker actually absorbed, the latter the marked-to-market obligation) and this book uses $58,000 throughout. <strong>Public reporting establishes only the $15 call that was exercised early; the complete four-leg strike structure is not documented in any reliable source</strong>, so this case illustrates the mechanism — one leg removed and the structure fails — without reconstructing his specific position.</span>
+    <span class="zh">证据边界：$5,000 自有资金、约 $250,000 授信、约 $58,000 亏损、提走 $10,000 与经过先后，<strong>都只是论坛自述口径，本书无法独立核实</strong>。约 50 倍只是对这组自述数字做的除法，不是券商授信记录的审计结论。可由一手文件独立验证的只是机制：<a href="https://www.proshares.com/our-etfs/strategic/uvxy">ProShares 确认 UVXY 可交易期权</a>，<a href="https://www.cboe.com/exchange-traded-stock">Cboe 确认标准 ETP 期权采用美式行权</a>，因此深度价内空头腿可被提前行权，并打破四腿同时存在时的到期锁定。本案例不重建具体持仓或真实损益。<a href="../sources.html#ch10">来源与方法</a></span>
+    <span class="en">Evidence boundary: the $5,000 capital, approximately $250,000 credit, approximately $58,000 loss, $10,000 withdrawal, and sequence are <strong>forum self-report that this book cannot independently verify</strong>. The roughly 50× figure is only division on those self-reported inputs, not an audit of broker credit records. Primary documents verify only the mechanism: <a href="https://www.proshares.com/our-etfs/strategic/uvxy">ProShares confirms options are available on UVXY</a>, and <a href="https://www.cboe.com/exchange-traded-stock">Cboe confirms standard ETP options use American exercise</a>, so a deep-ITM short leg can be exercised early and break the expiry lock that exists while all four legs remain. This case does not reconstruct the actual position or P/L. <a href="../sources.html#ch10">Sources and methodology</a></span>
   </p>
-  <p class="verdict loss"><span class="zh">亏损减少：同一个"无风险套利"结构，若用欧式期权（如 SPX）建仓，最坏结果是到期按 width 结算；用美式期权建仓，$5,000 本金变成约 -$58,000 的欠款</span><span class="en">Loss avoided: the same "riskless arbitrage" built with European options (SPX, say) settles at width in the worst case; built with American options it turned $5,000 of capital into roughly −$58,000 of debt</span></p>
+  <p class="verdict loss"><span class="zh">机制结论：欧式 box 的到期 width 锁定不等于美式腿的路径无风险；论坛所述金额与实际损益未经审计，不作为事实结论</span><span class="en">Mechanism conclusion: a European box's expiry-width lock does not make American legs path-risk-free; the forum's amounts and actual P/L are unaudited and are not factual findings</span></p>
 </div>
 
 <!-- ============ 10.4 ============ -->
@@ -230,20 +231,20 @@
 <h2><span class="zh">10.5 Collar：为偏斜付账</span><span class="en">10.5 The Collar: Paying the Skew Bill</span></h2>
 
 <p>
-  <span class="zh"><a class="term" href="../glossary.html#collar">Collar</a>（领口）在术语表里躺了九章，现在终于到了它的位置：持股 + 买入价外 Put + 卖出价外 Call，用卖 Call 的收入补贴买 Put 的保费。它常被宣传为"零成本对冲"，而<strong>它究竟能零成本到什么程度，完全由偏斜决定</strong>——这正是上一节那条边界的实际后果。</span>
-  <span class="en">The <a class="term" href="../glossary.html#collar">collar</a> has sat in the glossary for nine chapters; here is its place. Hold stock, buy an OTM put, sell an OTM call, and let the call premium subsidize the put. It is marketed as a "zero-cost hedge" — and <strong>exactly how zero-cost it can be is decided entirely by skew</strong>, which is the practical consequence of the boundary in §10.4.</span>
+  <span class="zh"><a class="term" href="../glossary.html#collar">Collar</a>（领口）在术语表里躺了九章，现在终于到了它的位置：持股 + 买入价外 Put + 卖出价外 Call，用卖 Call 的收入补贴买 Put 的保费。它常被宣传为“零成本对冲”，但净成本取决于行权价、期限、carry 与整条 IV 曲面。<strong>下一案例固定其他模型输入，只隔离偏斜对可卖 Call 距离的影响。</strong></span>
+  <span class="en">The <a class="term" href="../glossary.html#collar">collar</a> has sat in the glossary for nine chapters; here is its place. Hold stock, buy an OTM put, sell an OTM call, and let the call premium subsidize the put. It is marketed as a “zero-cost hedge,” but net cost depends on strikes, tenor, carry, and the full IV surface. <strong>The next case holds other model inputs fixed and isolates skew's effect on how far away the short call can be placed.</strong></span>
 </p>
 
 <div class="case">
-  <p class="case-tag">CASE FILE · <span class="zh">2026 年第二季度</span><span class="en">Q2 2026</span></p>
-  <h3><span class="zh">摩根大通的季度领口：一只 180 亿美元基金如何为保护定价</span><span class="en">JPMorgan's Quarterly Collar: How an $18bn Fund Prices Protection</span></h3>
+  <p class="case-tag">ISSUER METHOD + <span class="zh">本书示意情景</span><span class="en">BOOK SCENARIO</span></p>
+  <h3><span class="zh">摩根大通公开的领口方法：用自洽情景看保护如何定价</span><span class="en">J.P. Morgan's Published Collar Method: A Self-Contained Pricing Scenario</span></h3>
   <p>
-    <span class="zh">摩根大通的 Hedged Equity 系列（旗舰为 JHEQX）持有一个标普 500 组合，并用一个<strong>每季度重置的领口</strong>为它买保险。规模约 <strong>180 亿美元</strong>，每次展仓涉及约 <strong>35,000 张</strong> SPX 合约。按 SPX 合约乘数 $100 计算，单腿名义金额约 <strong>227 亿美元</strong>——大到足以让市场在展仓日盯着它看。</span>
-    <span class="en">JPMorgan's Hedged Equity complex (flagship JHEQX) holds an S&P 500 portfolio and insures it with a <strong>collar that resets every quarter</strong>. It runs about <strong>$18 billion</strong>, and each roll involves roughly <strong>35,000</strong> SPX contracts. At the $100 SPX multiplier that is about <strong>$22.7 billion</strong> of notional per leg — large enough that the market watches the roll date.</span>
+    <span class="zh">摩根大通在官方材料中说明，Hedged Equity 系列持有美国大盘股组合，并使用<strong>每三个月重置的 Put-spread Collar</strong>：买入价外 Put、卖出更深的 Put，再卖 Call 补贴差额。发行人材料支持这个结构与重置周期，<strong>但不支持媒体所述某季度的精确持仓、合约数或展仓影响</strong>。本案例因此只以官方方法为原型，不重建 JHEQX 的实际仓位。</span>
+    <span class="en">J.P. Morgan's official materials say the Hedged Equity series holds a U.S. large-cap portfolio and uses a <strong>put-spread collar reset every three months</strong>: buy an OTM put, sell a deeper put, then sell a call to subsidize the difference. Issuer materials support that structure and reset cycle, <strong>but not media claims about a particular quarter's exact holdings, contract count, or market impact</strong>. This case therefore uses the published method as its prototype and does not reconstruct JHEQX's actual book.</span>
   </p>
   <p>
-    <span class="zh">2026 年第二季度的结构是三条腿，相对当时约 6,475 点的指数水平（<strong>该季度已于 6 月底到期结算；下面的百分比是这个结构<em>设计上</em>的保护曲线，不是该季度的实际损益</strong>）：</span>
-    <span class="en">The Q2 2026 structure was three legs, against an index level near 6,475 (<strong>that quarter has since settled at June quarter-end; the percentages below describe the structure's <em>designed</em> protection profile, not that quarter's realized result</strong>):</span>
+    <span class="zh">为了让结构可交互复算，本书设定一个<strong>完全示意</strong>的指数水平 6,475 与三条腿。下面的 Strike、IV、合约数与损益都不是任何基金的披露或实际交易：</span>
+    <span class="en">To make the structure interactively reproducible, the book sets a <strong>wholly illustrative</strong> index level of 6,475 and three legs. The strikes, IVs, contract count, and P/L below are not a fund disclosure or actual trade:</span>
   </p>
   <dl class="spec">
     <div><dt><span class="zh">买入 Put</span><span class="en">Long put</span></dt><dd class="pos">6180 <span class="zh">（−4.6%）</span><span class="en">(−4.6%)</span></dd></div>
@@ -252,24 +253,24 @@
     <div><dt><span class="zh">净成本</span><span class="en">Net cost</span></dt><dd><span class="zh">目标接近于零</span><span class="en">targeted near zero</span></dd></div>
   </dl>
   <div class="panel">
-    <p class="panel-title"><span class="dot"></span>JHEQX <span class="zh">Q2 2026 结构 · 虚线为当期价值，实线为到期</span><span class="en">Q2 2026 · dashed = value today, solid = at expiry</span></p>
+    <p class="panel-title"><span class="dot"></span>PUT-SPREAD COLLAR <span class="zh">示意情景 · 虚线为当期价值，实线为到期</span><span class="en">illustrative scenario · dashed = value today, solid = at expiry</span></p>
     <div id="pf-jheqx"></div>
   </div>
   <p>
-    <span class="zh">请注意<strong>它为什么需要第三条腿</strong>。如果只买 −4.6% 的 Put、只卖 +6.0% 的 Call，两者并不能互相抵消——按符合典型 SPX 偏斜形态的示意 IV 计算，这两条腿净支出约 <strong>$44/单位指数</strong>。必须再卖出一个 −19.5% 的深度价外 Put，才能把成本压下来。图中 readout 显示的约 $32 净支出，就是这组示意 IV 下仍未补平的残差——它和下一段"零成本解在 +4.0%、实际 Call 卖在 +6.0%"是同一件事：Call 卖得越远，收回的钱越少。<strong>下跌保护之所以贵，不是因为它离得近，而是因为市场为下跌方向额外收费。</strong></span>
-    <span class="en">Note <strong>why it needs a third leg</strong>. Buying the −4.6% put and selling the +6.0% call does not net out: at illustrative IVs shaped like a typical SPX skew, those two legs cost roughly <strong>$44 per unit of index</strong>. Only by also selling a −19.5% deep OTM put does the cost come down. The ≈$32 net debit in the chart's readout is the residual these illustrative IVs still leave uncovered — the same fact as the next paragraph's "the zero-cost solve sits at +4.0% while the actual call is sold at +6.0%": the further out you sell the call, the less it brings in. <strong>Downside protection is expensive not because it is close, but because the market charges a premium for the downside direction itself.</strong></span>
+    <span class="zh">请注意<strong>它为什么需要第三条腿</strong>。如果只买 −4.6% 的 Put、只卖 +6.0% 的 Call，两者并不能互相抵消——按符合典型 SPX 偏斜形态的示意 IV 计算，这两条腿净支出约 <strong>$44/单位指数</strong>。必须再卖出一个 −19.5% 的深度价外 Put，才能把成本压下来。图中 readout 显示的约 $32 净支出，就是这组示意 IV 下仍未补平的残差——它和下一段“零成本解在 +4.0%、实际 Call 卖在 +6.0%”是同一件事：Call 卖得越远，收回的钱越少。<strong>保护成本不只由距离与期限决定；在本章固定行权价、期限和利率的对照中，下跌偏斜还额外抬高了 Put 相对 Call 的价格。</strong></span>
+    <span class="en">Note <strong>why it needs a third leg</strong>. Buying the −4.6% put and selling the +6.0% call does not net out: at illustrative IVs shaped like a typical SPX skew, those two legs cost roughly <strong>$44 per unit of index</strong>. Only by also selling a −19.5% deep OTM put does the cost come down. The ≈$32 net debit in the chart's readout is the residual these illustrative IVs still leave uncovered — the same fact as the next paragraph's “the zero-cost solve sits at +4.0% while the actual call is sold at +6.0%”: the further out you sell the call, the less it brings in. <strong>Protection cost depends on more than distance and tenor; in this chapter's comparison holding strikes, tenor, and rates fixed, downside skew adds to the put's price relative to the call.</strong></span>
   </p>
   <p>
-    <span class="zh">把偏斜的代价量化出来最能说明问题。用同一组示意 IV 反解"能让整个结构零成本的 Call 行权价"：<strong>在有偏斜的世界里，你只能卖出 +4.0% 的 Call；在假想的无偏斜世界（所有 Strike 同一 IV）里，你可以卖出 +7.2% 的 Call。</strong>同样的下跌保护，偏斜让你多交出 <strong>3.2 个百分点</strong>的上涨空间。而 JHEQX 实际的 +6.0% 落在这两条示意曲线之间——真实市场的偏斜确实在这个区间里。</span>
-    <span class="en">Quantifying the skew bill makes the point best. Using the same illustrative IVs, solve for the call strike that makes the whole structure zero-cost: <strong>in a world with skew you can only sell the +4.0% call; in a hypothetical skew-free world (one IV at every strike) you could sell the +7.2% call.</strong> For identical downside protection, skew costs you <strong>3.2 percentage points</strong> of upside. JHEQX's actual +6.0% sits between those two illustrative curves — real skew does live in that range.</span>
+    <span class="zh">把偏斜的代价量化出来最能说明问题。用同一组示意 IV 反解“能让整个结构零成本的 Call 行权价”：<strong>在这个偏斜情景里只能卖出 +4.0% 的 Call；在假想的无偏斜情景（所有 Strike 同一 IV）里可以卖出 +7.2% 的 Call。</strong>对同一组模型输入，偏斜的代价是 <strong>3.2 个百分点</strong>的示意上涨空间。<strong>这不是对 JHEQX 实际展仓或当时 SPX 偏斜的估计。</strong></span>
+    <span class="en">Quantifying the skew bill makes the point best. Using the same illustrative IVs, solve for the call strike that makes the structure zero-cost: <strong>in this skewed scenario the call can be sold at only +4.0%; in a hypothetical flat-IV scenario it can be sold at +7.2%.</strong> On this same set of model inputs, skew costs <strong>3.2 percentage points</strong> of illustrative upside. <strong>This is not an estimate of JHEQX's actual roll or the SPX skew at that time.</strong></span>
   </p>
   <p>
-    <span class="zh">保护的边界也要看清楚。指数跌到 −19.5% 之前，组合的损失被压在约 <strong>−4.6%</strong>；<strong>跌破 −19.5% 之后，卖出的那条 Put 开始反噬，保护失效</strong>。指数 −25% 时，带领口的组合约亏 <strong>−10.0%</strong>。这是一个<strong>为"大跌"设计、而非为"崩盘"设计</strong>的结构——第 4 章 ARKK 案例的同一个道理，只是这次的规模是 227 亿美元。</span>
-    <span class="en">The boundary of the protection matters too. Down to −19.5%, the portfolio's loss is pinned near <strong>−4.6%</strong>; <strong>below −19.5% the short put bites back and the protection lapses</strong>. At −25% the collared portfolio loses about <strong>−10.0%</strong>. This is a structure built for <strong>a bad quarter, not for a crash</strong> — the same lesson as Chapter 4's ARKK case, at a scale of $22.7 billion.</span>
+    <span class="zh">保护的边界也要看清楚。在这组示意行权价下，指数跌到 −19.5% 之前，组合的损失被压在约 <strong>−4.6%</strong>；<strong>跌破 −19.5% 之后，卖出的那条 Put 开始反噬，保护失效</strong>。指数 −25% 时，示意组合约亏 <strong>−10.0%</strong>。这是一个<strong>为“大跌”设计、而非为“崩盘”设计</strong>的损益形状——第 4 章 ARKK 案例的同一个结构边界。</span>
+    <span class="en">The boundary of the protection matters too. At these illustrative strikes, down to −19.5% the portfolio's loss is pinned near <strong>−4.6%</strong>; <strong>below −19.5% the short put bites back and the protection lapses</strong>. At −25% the illustrative collar loses about <strong>−10.0%</strong>. This payoff shape is built for <strong>a bad decline, not for a crash</strong> — the same structural boundary as Chapter 4's ARKK case.</span>
   </p>
   <p>
-    <span class="zh">简化声明：基金规模、约 35,000 张合约、2026 年第二季度的三个行权价（6180 / 5210 / 6865）与季末展仓机制为公开信息。<strong>各腿的 IV（示意值：−4.6% Put 用 18%、−19.5% Put 用 26%、+6.0% Call 用 12%）由本书按典型 SPX 偏斜形态设定，非实际报价</strong>；图中权利金由这些 IV 经 Black-Scholes 导出。指数水平 6,475 为按"长 Put 行权价低于季初收盘约 295 点"推算的约值。保护区间的百分比按到期内在价值计算，忽略结构的净成本残差。</span>
-    <span class="en">Stated simplification: the fund size, the roughly 35,000 contracts, the Q2 2026 strikes (6180 / 5210 / 6865) and the quarter-end roll mechanism are public. <strong>The per-leg IVs (illustrative: 18% on the −4.6% put, 26% on the −19.5% put, 12% on the +6.0% call) are set by this book to match a typical SPX skew shape and are not quotes</strong>; the premiums in the chart are derived from them by Black-Scholes. The 6,475 index level is inferred from the long put sitting about 295 points below the prior quarter's close. Protection percentages are computed at expiry intrinsic value, ignoring the structure's residual net cost.</span>
+    <span class="zh">方法声明：发行人一手材料只用于支持“大盘股组合 + 每三个月重置的 Put-spread Collar”。<strong>6,475、6180 / 5210 / 6865、各腿 IV（18% / 26% / 12%）及所有权利金都是本书示意输入或 Black-Scholes 输出，非实际报价、基金披露或持仓推算。</strong>保护区间按到期内在价值计算，忽略净成本残差。<a href="../sources.html#ch10">来源与方法</a></span>
+    <span class="en">Method statement: primary issuer material supports only "large-cap portfolio plus a put-spread collar reset every three months." <strong>The 6,475 level, 6180 / 5210 / 6865 strikes, per-leg IVs (18% / 26% / 12%), and all premiums are book-supplied illustrative inputs or Black-Scholes outputs, not quotes, fund disclosures, or inferred holdings.</strong> Protection percentages use expiry intrinsic value and ignore the residual net cost. <a href="../sources.html#ch10">Sources and methodology</a></span>
   </p>
   <p class="verdict gain"><span class="zh">亏损减少：指数下跌 19.5% 时，裸持仓 −19.5% → 带领口约 −4.6%；但跌破 −19.5% 保护失效，−25% 时约 −10.0%</span><span class="en">Loss reduced: at −19.5% on the index, unhedged −19.5% → collared about −4.6%; below −19.5% the protection lapses, and at −25% the collar is down about −10.0%</span></p>
 </div>
@@ -329,7 +330,7 @@
 </div>
 
 <div class="quiz" data-answer="a">
-  <p class="q"><span class="zh">1R0NYMAN 的 box spread 为什么不是无风险的？</span><span class="en">Why was 1R0NYMAN's box spread not riskless?</span></p>
+  <p class="q"><span class="zh">按匿名论坛叙事所描述的机制，为什么那组 box spread 不是路径无风险的？</span><span class="en">Under the mechanism described by the anonymous forum account, why was that box spread not path-risk-free?</span></p>
   <div class="opts">
     <button data-opt="a"><span class="key">A</span><span class="zh">他用的是美式期权，深度价内的短腿被提前行权，box 被拆开</span><span class="en">American options: a deep-ITM short leg was exercised early, tearing the box apart</span></button>
     <button data-opt="b"><span class="key">B</span><span class="zh">他算错了宽度</span><span class="en">He miscalculated the width</span></button>
@@ -337,22 +338,22 @@
     <button data-opt="d"><span class="key">D</span><span class="zh">UVXY 的波动率太高</span><span class="en">UVXY was too volatile</span></button>
   </div>
   <div class="expl">
-    <span class="zh"><b>A。</b>他的数学完全正确——<strong>前提是没有人能提前行权</strong>。UVXY 期权是美式的，股价约 $50 而他卖出的一条腿是 $15 Call，深度价内，对手方直接行权，四条腿的平衡被拆掉一条。C 说反了：用欧式期权（如 SPX）建的 box 确实是无风险的。D 是干扰项——<strong>波动率高低完全无关，box 的水平盈亏线本来就与股价无关；杀死他的是条款，不是行情。</strong></span>
-    <span class="en"><b>A.</b> His mathematics was entirely correct — <strong>provided nobody could exercise early</strong>. UVXY options are American; with the stock near $50 and one leg a short $15 call, deep in the money, the counterparty simply exercised and one of the four balancing legs was removed. C is backwards: a box built from European options (SPX) genuinely is riskless. D is a distractor — <strong>volatility is irrelevant, since a box's flat payoff is independent of the stock. What killed him was the contract terms, not the market.</strong></span>
+    <span class="zh"><b>A。</b>欧式 box 的到期数学成立，<strong>但美式短腿可能在到期前被行权</strong>，从而拆开四腿锁定并暴露剩余头寸。ProShares 与 Cboe 一手文件支持 UVXY 可交易期权及标准 ETP 期权的美式行权机制；约 $50、$15 Call、账户金额和事件顺序只来自匿名论坛自述，未经独立审计。C 把到期恒等式与路径风险混为一谈，D 则忽略了真正需要核对的是合约条款。</span>
+    <span class="en"><b>A.</b> The European box's expiry arithmetic holds, <strong>but an American short leg may be exercised before expiry</strong>, breaking the four-leg lock and exposing the remainder. Primary ProShares and Cboe documents support options availability on UVXY and American exercise for standard ETP options; the roughly $50 price, $15 call, account amounts, and sequence come only from anonymous forum self-report and are unaudited. C confuses an expiry identity with path risk, while D misses the need to inspect contract terms.</span>
   </div>
 </div>
 
 <div class="quiz" data-answer="b">
-  <p class="q"><span class="zh">为什么 JHEQX 的领口除了卖 Call，还必须卖出一个很深的价外 Put？</span><span class="en">Why must JHEQX's collar sell a deep OTM put in addition to the call?</span></p>
+  <p class="q"><span class="zh">在本章的示意 Put-spread Collar 中，为什么除了卖 Call，还要卖出一个很深的价外 Put？</span><span class="en">In the chapter's illustrative put-spread collar, why sell a deep OTM put in addition to the call?</span></p>
   <div class="opts">
     <button data-opt="a"><span class="key">A</span><span class="zh">为了增加下跌保护</span><span class="en">To add more downside protection</span></button>
-    <button data-opt="b"><span class="key">B</span><span class="zh">因为偏斜让下跌保护很贵，只卖 Call 无法覆盖成本</span><span class="en">Because skew makes downside protection expensive; the call alone doesn't cover it</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">在这组固定行权价的示意偏斜输入下，只卖 Call 无法覆盖 Put 成本</span><span class="en">Under this fixed-strike illustrative skew input, the call alone does not cover the put cost</span></button>
     <button data-opt="c"><span class="key">C</span><span class="zh">为了对冲 Vega</span><span class="en">To hedge vega</span></button>
     <button data-opt="d"><span class="key">D</span><span class="zh">监管要求</span><span class="en">Regulation requires it</span></button>
   </div>
   <div class="expl">
-    <span class="zh"><b>B。</b>按典型偏斜形态的示意 IV 计算，"买 −4.6% Put + 卖 +6.0% Call"两条腿净支出约 $44/单位指数，远非零成本；必须再卖出 −19.5% 的 Put 才补得上。A 恰恰说反了——<strong>卖出</strong> Put 是在放弃保护：跌破 −19.5% 后它开始反噬，指数 −25% 时组合约亏 −10.0%。这条腿买来的不是保护，是<strong>钱</strong>。</span>
-    <span class="en"><b>B.</b> At IVs shaped like a typical skew, "buy the −4.6% put, sell the +6.0% call" nets a cost of roughly $44 per unit of index — nowhere near zero; only selling the −19.5% put closes the gap. A is exactly backwards: <strong>selling</strong> a put gives protection away — below −19.5% it bites back, and at −25% the portfolio is down about −10.0%. That leg buys not protection but <strong>cash</strong>.</span>
+    <span class="zh"><b>B。</b>在本章固定行权价、期限和利率的示意偏斜输入下，“买 −4.6% Put + 卖 +6.0% Call”两条腿净支出约 $44/单位指数，远非零成本；必须再卖出 −19.5% 的 Put 才能继续压低成本。这只证明该模型对照中的偏斜账单，不代表距离对保费没有影响。A 恰恰说反了——<strong>卖出</strong> Put 是在放弃保护：跌破 −19.5% 后它开始反噬，指数 −25% 时组合约亏 −10.0%。这条腿换来的是<strong>权利金</strong>，不是更多保护。</span>
+    <span class="en"><b>B.</b> Under this chapter's illustrative skew inputs with strikes, tenor, and rates fixed, “buy the −4.6% put, sell the +6.0% call” costs roughly $44 per unit of index — nowhere near zero; selling the −19.5% put reduces that cost further. This identifies the skew bill in this model comparison; it does not say moneyness is irrelevant to premium. A is exactly backwards: <strong>selling</strong> a put gives protection away — below −19.5% it bites back, and at −25% the portfolio is down about −10.0%. That leg raises <strong>premium</strong>, not protection.</span>
   </div>
 </div>
 
@@ -361,8 +362,8 @@
 <!-- ============ takeaways ============ -->
 <h2><span class="zh">本章要点</span><span class="en">Key Takeaways</span></h2>
 <p>
-  <span class="zh">Put-Call Parity 是这本书里唯一不可能错的东西：C − P = S − K·e<sup>−rT</sup> 里没有波动率、没有分布假设，只有"付款相同的两个组合必须同价"。它的推论会重排你对前九章的理解——<strong>Covered Call 就是 Short Put</strong>（引擎逐点验证，差值恒为一个等于现金利息的常数 $1.09），于是第 7 章的 Wheel 不是两个策略的闭环，而是同一个头寸在现金抵押与股票抵押之间来回切换；<strong>Protective Put 一直是一张合成 Call</strong>，于是"用哪个策略"变成了"同一个形状，哪种腿最便宜"这道算术题。把四条腿凑成一个 Box，它连期权都不再是——那是一张零息债券，买入即放贷、卖出即借款，而 1R0NYMAN 用 $5,000 本金换来约 $58,000 欠款的全部原因，只是他用的期权带着"美式"两个字。这是本书第三次讲同一件事：伯克希尔靠欧式条款躲过 2009 年的 677 点，XIV 持有者被加速赎回条款剥夺了等待的资格，而这一次条款把无风险变成了债务。<strong>至于平价关系管不到的地方——不同 Strike 之间——市场就自由地开出了偏斜，而 JHEQX 每季度为它付账：同样的下跌保护，偏斜让这只 180 亿美元的基金多交出 3.2 个百分点的上涨空间。</strong></span>
-  <span class="en">Put-call parity is the one thing in this book that cannot be wrong: C − P = S − K·e<sup>−rT</sup> contains no volatility and no distributional assumption, only the requirement that two portfolios paying identically must cost identically. Its corollaries rearrange the first nine chapters. <strong>A covered call <em>is</em> a short put</strong> — verified point by point by the engine, differing by a constant $1.09 equal to the interest on the cash — so Chapter 7's Wheel is not a loop between two strategies but one position alternating between cash and share collateral. <strong>A protective put was a synthetic call all along</strong>, so "which strategy" becomes the arithmetic question "same shape, which legs are cheapest." Assemble four legs into a box and it stops being an options position at all: it is a zero-coupon bond, buying it is lending and selling it is borrowing — and the entire reason 1R0NYMAN turned $5,000 of capital into roughly $58,000 of debt is that his options carried the word "American." That is the third time this book has told one story: Berkshire's European terms erased March 2009's 677, XIV's acceleration clause denied its holders the right to wait, and here the fine print turned riskless into a debt. <strong>Where parity has no jurisdiction — across strikes — the market is free to charge skew, and JHEQX pays that bill every quarter: for identical downside protection, skew costs this $18 billion fund 3.2 percentage points of upside.</strong></span>
+  <span class="zh">Put-Call Parity 是这本书里最坚固的到期恒等式之一：C − P = S − K·e<sup>−rT</sup> 里没有波动率、没有分布假设，只有“付款相同的两个组合必须同价”。它的推论会重排你对前九章的理解——<strong>Covered Call 与 Short Put 具有相同到期损益形状</strong>（引擎逐点验证，差值恒为一个等于现金利息的常数 $1.09），于是第 7 章的 Wheel 是同一种风险形状在现金抵押与股票抵押之间切换；<strong>Protective Put 对应一张合成 Call</strong>，于是“用哪个策略”变成了“同一个形状，哪种腿的成本、条款和执行更合适”。四条欧式腿组成的 Box 在到期上等价于零息债券，但美式提前行权会引入路径风险。匿名 1R0NYMAN 故事只能作为未经审计的论坛自述；一手文件支持的是机制，不支持其金额、持仓和因果顺序。<strong>至于平价关系管不到的地方——不同 Strike 之间——市场可以开出偏斜；本章的示意输入表明，同样的下跌保护在偏斜情景中会少 3.2 个百分点的上涨空间。这是模型对比，不是 JHEQX 实际展仓的估计。</strong></span>
+  <span class="en">Put-call parity is one of the book's strongest expiry identities: C − P = S − K·e<sup>−rT</sup> contains no volatility or distributional assumption, only the requirement that portfolios with identical payments have identical value. Its corollaries rearrange the first nine chapters. <strong>A covered call and a short put have the same expiry payoff shape</strong> — the engine verifies point by point that they differ by a constant $1.09 equal to interest on cash — so Chapter 7's Wheel moves one risk shape between cash and share collateral. <strong>A protective put corresponds to a synthetic call</strong>, turning “which strategy?” into “which implementation has the better costs, terms, and execution?” A box of four European legs is bond-like at expiry, but American early exercise introduces path risk. The anonymous 1R0NYMAN story is unaudited forum self-report; primary documents support the mechanism, not its amounts, positions, or causal sequence. <strong>Where parity has no jurisdiction — across strikes — the market can charge skew. With this chapter's illustrative inputs, identical downside protection gives up 3.2 more percentage points of upside in the skewed scenario. That is a model comparison, not an estimate of JHEQX's actual roll.</strong></span>
 </p>
 
 <nav class="chap-nav">

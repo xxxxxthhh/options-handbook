@@ -81,9 +81,11 @@ module.exports = function (ctx) {
   c.prose('§10.5 states the floor', '−4.6%');
   c.prose('§10.5 states the −25% case', '−10.0%');
 
-  // 1R0NYMAN dollar figures — reconciled to one source set
-  c.eq('1R0NYMAN leverage ≈50x', 250000 / 5000, 50, 0.5);
-  c.prose('case uses $58,000', '$58,000');
+  // 1R0NYMAN is an anonymous, unaudited account. Validate the evidence boundary
+  // and mechanism wording instead of re-proving its self-reported arithmetic.
+  c.prose('case labels anonymous forum evidence', 'ANONYMOUS FORUM SELF-REPORT');
+  c.prose('primary sources support mechanism only', 'Primary documents verify only the mechanism');
+  c.prose('verdict refuses factual P/L finding', 'actual P/L are unaudited and are not factual findings');
   c.absent('no unsourced −2,000% claim as fact', '回报率 -2,000%');
 
   return c;

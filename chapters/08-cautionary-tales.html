@@ -16,6 +16,7 @@
   <nav>
     <a href="../index.html"><span class="zh">目录</span><span class="en">Contents</span></a>
     <a href="../glossary.html">Glossary</a>
+    <a href="../sources.html"><span class="zh">来源</span><span class="en">Sources</span></a>
   </nav>
   <div class="lang-switch" role="group" aria-label="Language">
     <button data-lang="zh" aria-pressed="true">中</button>
@@ -99,20 +100,20 @@
   <p class="case-tag">CASE FILE · 2018-11</p>
   <h3><span class="zh">裸卖天然气期权：客户不仅归零，还倒欠券商</span><span class="en">Naked Natural Gas: Clients Didn't Just Lose Everything, They Owed More</span></h3>
   <p>
-    <span class="zh">OptionSellers.com 是一家管理约 <strong>1.5 亿美元</strong>、服务约 <strong>290 位客户</strong>的资产管理公司。它的策略非常直白，甚至写在公司名字里：<strong>在商品市场上裸卖期权</strong>，收取权利金。这套做法运转了很多年。</span>
-    <span class="en">OptionSellers.com managed roughly <strong>$150 million</strong> for about <strong>290 clients</strong>. Its strategy was so plain it was in the company's name: <strong>sell naked options on commodities</strong> and collect the premium. It had worked for years.</span>
+    <span class="zh">OptionSellers.com 曾对外宣传<strong>在商品市场卖出期权</strong>、收取权利金的策略。2018 年 11 月事件后，创始人的道歉视频与客户陈述把崩溃归因于天然气期权的极端行情。<strong>这些材料是当事人自述，不是公开的监管调查结论</strong>；因此本书不再把传播很广的资产规模与客户人数当作已核实事实。</span>
+    <span class="en">OptionSellers.com publicly promoted a strategy of <strong>selling options on commodities</strong> to collect premium. After the November 2018 event, the founder's apology video and customer accounts attributed the collapse to an extreme move in natural-gas options. <strong>Those materials are participant self-report, not a published regulatory finding</strong>; this book therefore does not present the widely repeated asset and client counts as verified facts.</span>
   </p>
   <p>
-    <span class="zh">2018 年 11 月，天然气价格失控。11 月 1 日前月合约约 <strong>$3.23</strong>；到 11 月 14 日，它冲到约 <strong>$4.84</strong>——两周约 <strong>+50%</strong>，其中 11 月 14 日单日盘中涨幅接近 18%。客户账户里是大量的<strong>裸卖看涨期权</strong>。</span>
-    <span class="en">In November 2018 natural gas went vertical. The front-month contract was near <strong>$3.23</strong> on November 1; by November 14 it reached about <strong>$4.84</strong> — roughly <strong>+50%</strong> in two weeks, with nearly 18% of that intraday on November 14 alone. The client accounts were full of <strong>naked short calls</strong>.</span>
+    <span class="zh">2018 年 11 月上半月，近月天然气期货在短时间内上涨约一半。下图使用同期公开市场记录中的<strong>近似、代表性点位</strong>表现路径，不是从交易所结算文件重建的每日序列。事后自述将损失与<strong>裸卖看涨期权</strong>联系在一起。</span>
+    <span class="en">In the first half of November 2018, front-month natural-gas futures rose by roughly half in a short span. The chart uses <strong>approximate representative points</strong> from contemporaneous public market records to show the path; it is not a daily series reconstructed from exchange settlement files. Post-event self-reports linked the losses to <strong>naked short calls</strong>.</span>
   </p>
   <div class="panel">
     <p class="panel-title"><span class="dot"></span>NATURAL GAS · NOV 2018 <span class="zh">（前月合约，$/MMBtu，约值）</span><span class="en">(front month, $/MMBtu, approx.)</span></p>
     <div id="case-natgas"></div>
   </div>
   <p>
-    <span class="zh">结果不是"亏了很多"。<strong>结果是客户账户的亏损超过了账户里的全部资金</strong>——他们收到追加保证金通知，并且在清算之后<strong>倒欠清算券商一笔钱</strong>。创始人录制了一段流着泪的道歉视频，公司随后关闭。</span>
-    <span class="en">The outcome wasn't "large losses." <strong>The losses exceeded the entire equity in the accounts</strong> — clients received margin calls and, after liquidation, <strong>owed money to the clearing broker</strong>. The founder recorded a tearful video apology and the firm shut down.</span>
+    <span class="zh">创始人在道歉视频中称，客户账户遭受严重损失，并可能在强制平仓后面临对清算券商的负债。<strong>由于没有公开的监管调查、经审计账户记录或逐客户清算表，本书不把负债人数或金额当作已独立证实</strong>。可以独立确定的是合约算术：裸卖 Call 的损失无上限，因而可以超过账户权益。</span>
+    <span class="en">In the apology video, the founder said customer accounts had suffered severe losses and could face debts to the clearing broker after forced liquidation. <strong>Because there is no public regulatory investigation, audited account record, or customer-by-customer liquidation ledger, this book does not treat the number or amount of such debts as independently established.</strong> What can be established independently is the contract arithmetic: a naked call has unbounded loss and can therefore lose more than account equity.</span>
   </p>
   <p>
     <span class="zh">这是第 1 章那句话最昂贵的一次演示：<strong>买方的最大亏损是已付出的 Premium，卖方没有这个上限。</strong>把它画出来看：</span>
@@ -135,18 +136,18 @@
     <div><dt><span class="zh">加买 $4.50 Call</span><span class="en">Add a long $4.50 call</span></dt><dd><span class="zh">付 $0.04；最大亏损锁死在每张 <strong>$4,400</strong></span><span class="en">Pay $0.04; worst case sealed at <strong>$4,400</strong> per contract</span></dd></div>
   </dl>
   <p>
-    <span class="zh">在 $4.84 这个点上，两者的差距只有 40%——看起来保护腿并不值钱。<strong>但真正的区别不在 $4.84，而在 $4.84 之后。</strong>如果天然气继续涨到 $6，裸卖版本每张亏 $19,000 并继续扩大；而价差版本无论涨到 $6、$10 还是 $100，每张<strong>永远是 $4,400</strong>。<strong>那条腿买的不是收益，是"账户不会变成负数"这件事。</strong></span>
-    <span class="en">At $4.84 the gap is only about 40% — the wing looks like poor value. <strong>But the real difference isn't at $4.84, it's beyond it.</strong> Had gas run to $6, the naked version loses $19,000 per contract and keeps going; the spread loses <strong>$4,400 per contract at $6, at $10, at $100</strong>. <strong>That leg didn't buy return. It bought the fact that the account cannot go negative.</strong></span>
+    <span class="zh">在 $4.84 这个点上，两者的差距只有 40%——看起来保护腿并不值钱。<strong>但真正的区别不在 $4.84，而在 $4.84 之后。</strong>如果天然气继续涨到 $6，裸卖版本每张亏 $19,000 并继续扩大；而在这组示意到期情景下，价差版本无论涨到 $6、$10 还是 $100，每张最大亏损都是 <strong>$4,400</strong>。<strong>保护腿封顶的是单张合约的到期损失，不是整个账户：</strong>仓位过大、融资、提前行权与到期前平仓仍可能让账户损失超过净值。</span>
+    <span class="en">At $4.84 the gap is only about 40% — the wing looks like poor value. <strong>But the real difference isn't at $4.84, it's beyond it.</strong> Had gas run to $6, the naked version loses $19,000 per contract and keeps going; in this illustrative expiry scenario the spread's maximum loss is <strong>$4,400 per contract at $6, at $10, and at $100</strong>. <strong>The wing caps expiry loss per contract, not loss for the whole account:</strong> excessive size, financing, early assignment, and pre-expiry liquidation can still push account losses beyond equity.</span>
   </p>
   <div class="panel">
     <p class="panel-title"><span class="dot"></span><span class="zh">加一条 $4.50 保护腿之后</span><span class="en">the same trade with a $4.50 wing</span></p>
     <div id="pf-natgas-spread"></div>
   </div>
   <p>
-    <span class="zh">简化声明：天然气价格与该公司的规模、客户数、结局为真实历史事实。<strong>上述两个期权的价格（$0.10 与 $0.04）为示意假设，不是实际报价</strong>，也不是对该公司实际持仓 Strike 的还原——2018 年 11 月的天然气期权流动性有限，本手册不据此推测任何具体客户的损益。这组数字用于说明"有保护腿"与"无保护腿"在结构上的差别。</span>
-    <span class="en">Stated simplification: the gas prices and the firm's size, client count and fate are real. <strong>The two option prices ($0.10 and $0.04) are illustrative assumptions, not quotes</strong>, and not a reconstruction of the firm's actual strikes — November 2018 natural gas options were thinly traded, and this handbook infers no specific client's P/L from them. The figures exist to show the structural difference between having a wing and not having one.</span>
+    <span class="zh">证据边界：上述对账户结果的描述来自当事人自述，未经独立审计。<strong>两个期权价格（$0.10 与 $0.04）、Strike 与单张损益全是本书的示意反事实，不是实际报价或持仓还原</strong>。可复核的输入是 CME/CFTC 所用的 10,000 MMBtu 合约单位；其余数字只用于比较有无保护腿的到期形状。<a href="../sources.html#ch08">来源与方法</a></span>
+    <span class="en">Evidence boundary: the account outcome above is participant self-report and has not been independently audited. <strong>The two option prices ($0.10 and $0.04), strikes, and per-contract P/L are this book's illustrative counterfactual, not quotes or a reconstruction of actual positions.</strong> The reproducible input is the 10,000-MMBtu contract unit used by CME/CFTC; all other numbers exist only to compare the expiry shapes with and without a protective wing. <a href="../sources.html#ch08">Sources and methodology</a></span>
   </p>
-  <p class="verdict loss"><span class="zh">亏损减少：裸卖版本在气价 $4.84 时每张亏约 $7,400 且无上限（客户最终倒欠券商）→ 加一条保护腿后，无论涨到哪里，每张最大亏损固定为约 $4,400</span><span class="en">Loss capped: naked, −$7,400 per contract at $4.84 and no ceiling (clients ended up owing the broker) → with one protective leg, a fixed $4,400 per contract no matter how high gas goes</span></p>
+  <p class="verdict loss"><span class="zh">示意亏损上限：裸卖版本在示意气价 $4.84 时每张亏约 $7,400 且无上限 → 加一条示意保护腿后，每张最大亏损固定为约 $4,400</span><span class="en">Illustrative loss cap: naked, −$7,400 per contract at the scenario price of $4.84 and no ceiling → with the illustrative protective leg, maximum loss is fixed at about $4,400 per contract</span></p>
 </div>
 
 <!-- ============ 8.4 ============ -->
@@ -210,8 +211,8 @@
 </dl>
 
 <p>
-  <span class="zh">第 ② 条最值得停下来想。<strong>连续的成功不是风险的减少，它是仓位的放大器。</strong>2017 年 XIV 涨了 188%，这个数字本身就在说服每一个持有者加仓；OptionSellers 多年的平稳收益，正是它能募集到 1.5 亿美元的原因。<strong>换句话说，这些策略的崩溃规模，恰恰与它们此前的成功程度成正比。</strong>这不是巧合，是结构。</span>
-  <span class="en">The second deserves a pause. <strong>A run of success isn't a reduction in risk, it's an amplifier of size.</strong> XIV's 188% in 2017 was itself an argument to every holder for adding more; OptionSellers' years of smooth returns are exactly why it could raise $150 million. <strong>Put differently: the scale of these blow-ups was proportional to how successful they had previously been.</strong> That's not a coincidence, it's the structure.</span>
+  <span class="zh">第 ② 条最值得停下来想。<strong>连续的成功不是风险的减少，它是仓位的放大器。</strong>2017 年 XIV 的大幅上涨本身就在说服持有者加仓；OptionSellers 对长期平稳收益的宣传也会弱化人们对尾部风险的感受。<strong>换句话说，长时间没有出事，可能让最终出事时的仓位更大。</strong>这是机制，不需要借助未核实的募集金额才能成立。</span>
+  <span class="en">The second deserves a pause. <strong>A run of success isn't a reduction in risk, it's an amplifier of size.</strong> XIV's large 2017 gain was itself an argument for holders to add; OptionSellers' promotion of years of smooth returns likewise dulled sensitivity to tail risk. <strong>Put differently, a long period without failure can make the position larger when failure finally arrives.</strong> That mechanism does not require an unverified fundraising figure.</span>
 </p>
 
 <div class="warn">
@@ -257,8 +258,8 @@
     <button data-opt="d"><span class="key">D</span><span class="zh">Strike × 100</span><span class="en">Strike × 100</span></button>
   </div>
   <div class="expl">
-    <span class="zh"><b>B。</b>这不是理论推演，OptionSellers.com 的约 290 位客户在 2018 年 11 月真实经历了这一幕：亏损超过账户净值，清算后<strong>倒欠清算券商</strong>。C 是最普遍也最危险的误解——"最多亏光"这个直觉来自股票（股价不会低于零），但裸卖 Call 的亏损跟着股价一起上不封顶。D 只对裸卖 Put 成立（股价归零时），Call 没有这个上限。</span>
-    <span class="en"><b>B.</b> This isn't a thought experiment: roughly 290 OptionSellers.com clients lived it in November 2018 — losses exceeded account equity and, after liquidation, they <strong>owed the clearing broker</strong>. C is the most widespread and most dangerous misconception; the "worst case is zero" instinct comes from stocks (whose price has a floor), but a naked call's loss rises with the stock without limit. D holds only for a naked put (at a zero share price); calls have no such ceiling.</span>
+    <span class="zh"><b>B。</b>这是合约算术，不需要借助未公开的客户账户来证明：裸卖 Call 的亏损随标的上涨而无上限，所以可以超过账户净值并形成对券商的负债。C 是最危险的误解；“最多亏光”的直觉来自股票。D 只对裸卖 Put 在标的归零时的上限计算成立。</span>
+    <span class="en"><b>B.</b> This follows from contract arithmetic and needs no private customer account as proof: a naked call's loss is unbounded as the underlying rises, so it can exceed account equity and create a debt to the broker. C is the dangerous misconception; the "worst case is zero" intuition comes from owning stock. D describes the bounded zero-price endpoint of a naked put, not a call.</span>
   </div>
 </div>
 
@@ -299,8 +300,8 @@
     <button data-opt="d"><span class="key">D</span><span class="zh">波动率策略不可行</span><span class="en">Volatility strategies don't work</span></button>
   </div>
   <div class="expl">
-    <span class="zh"><b>B。</b>A 和 D 是过度纠正：本手册第 2、4、5、7 章的核心策略都是卖方，区别在于它们全都有抵押或有保护腿。C 恰恰是这一章要根治的思维——<strong>2017 年的 XIV 有着教科书般漂亮的回测，而漂亮的回测正是仓位失控的原因，不是安全的证据</strong>。判别标准只有一个可操作的问题："如果明天跳空 30%，我亏多少？"能报出具体数字，就是 B；报不出，就是这一章的三块墓碑。</span>
-    <span class="en"><b>B.</b> A and D are overcorrections: the core strategies of Chapters 2, 4, 5 and 7 are all selling strategies — the difference is that each is collateralized or winged. C is exactly the thinking this chapter exists to cure: <strong>XIV's 2017 backtest was textbook-beautiful, and a beautiful backtest is what causes size to run away, not evidence of safety</strong>. One operational question separates them: "if it gaps 30% tomorrow, how much do I lose?" A specific number means B. No number means one of this chapter's three headstones.</span>
+    <span class="zh"><b>B。</b>A 和 D 是过度纠正：本手册第 2、4、5、7 章的核心策略都是卖方，区别在于它们有抵押或保护腿，并且仍须按账户最坏情景控制仓位。C 恰恰是这一章要根治的思维——<strong>漂亮回测不是安全证据，还可能推动仓位失控。</strong>保护腿给出的是单张合约的损失上限，不会自动给账户上限；必须把合约上限乘以仓位，再计入融资、提前行权与退出路径。能回答“如果明天跳空 30%，整个账户亏多少”，才满足 B。</span>
+    <span class="en"><b>B.</b> A and D are overcorrections: the core strategies of Chapters 2, 4, 5 and 7 are all selling strategies, but they use collateral or a wing and still require account-level worst-case sizing. C is exactly the thinking this chapter exists to cure: <strong>a beautiful backtest is not evidence of safety and can encourage size to run away.</strong> A wing provides a per-contract loss cap, not an automatic account cap; multiply by position size and include financing, early assignment, and the exit path. B is satisfied only when you can answer, “if it gaps 30% tomorrow, how much does the whole account lose?”</span>
   </div>
 </div>
 
