@@ -87,13 +87,21 @@ Payoff.mount('id', {
 ## QA（每章提交前）
 
 ```bash
-node --check assets/*.js                 # 若改动了 JS
+sh tools/check-all.sh                    # 全部自动检查，失败即非零退出
 python3 -m http.server 8000              # 手动过一遍：中英切换、滑块、测验、术语链接
-# 打印预览 (Ctrl+P)：分页不截断 .panel/.case/.quiz，测验答案在打印时展开
+# 打印预览 (Ctrl+P)：分页不截断 .panel/.quiz，测验答案在打印时展开
 ```
 
-- 双语完整性检查：`grep -c 'class="zh"'` 与 `grep -c 'class="en"'` 数量应相等
-- glossary 锚点检查：正文所有 `.term` 链接的 `#id` 必须存在于 glossary.html
+`tools/` 里的四个检查器（**不要重写，直接用**）：
+
+| 工具 | 查什么 |
+|---|---|
+| `tools/qa.js` | 双语 span 配对 + **en 块里混入中文/zh 块里没中文**（数量相等查不出这类）、术语锚点（含 glossary 内部）、内链、图表挂载双向配对、quiz 答案与解析、case 的 tag 与 verdict |
+| `tools/regress.js` | Vol.1 的 26 张图在新引擎下逐点全等（546 点），且 Vol.2 词汇未泄漏进 Vol.1 |
+| `tools/figures.js` | 跑 `tools/checks/chNN.js`，把正文引用的每个数字用引擎复算，**并断言正文确实写着那个数字**；`absent()` 用于确保旧的错误值不会复活 |
+| `tools/lib.js` | 共享：从 payoff.js 读出引擎、抽取各章 mount 配置、有限差分算 Greeks |
+
+**新写一章时，同时写 `tools/checks/chNN.js`。** 这不是可选项——引擎派生的权利金不会漂移，但正文手写的 Greeks、比率、百分比没有任何防线：第 11 章曾写 LEAPS Delta「0.9 → 0.2」，真值是 0.83 → 0.55，QA 全绿也照样漏过去，正是这个检查器补上的缺口。
 
 ## 设计 token（勿改，改前先问）
 

@@ -19,6 +19,12 @@ chapters/
   09-sizing-discipline.html  仓位与纪律：Regime、资金管理与"不交易"
   10-parity-synthetics.html  平价关系与合成头寸：期权世界的守恒律
   11-time-structures.html    时间维度：Calendar · Diagonal · PMCC
+tools/
+  check-all.sh          一键跑完下面全部检查
+  qa.js                 结构检查：双语、术语锚点、内链、图表、测验、案例
+  regress.js            Vol.1 引擎回归（新引擎不得改变旧章节任何一点）
+  figures.js            用引擎复算正文引用的每个数字，并核对正文确实这么写
+  checks/chNN.js        各章的数值断言（新增章节时同步新增）
 assets/
   style.css             设计系统 + print CSS（Ctrl+P 导出 PDF）
   i18n.js               中英切换（localStorage 记忆语言，#en hash 可作分享链接的显式覆盖）
