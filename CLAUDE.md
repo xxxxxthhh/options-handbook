@@ -34,7 +34,8 @@
   - Ch10 1R0NYMAN box spread 2019-01（UVXY 美式提前行权）· JPM JHEQX 季度 collar
   - Ch11 期限结构倒挂（示意 IV 演示）· NFLX 2022-04-20 PMCC 杠杆
   - Ch12 到期日钉住效应（Ni-Pearson-Poteshman, JFE 2005）· 2022-11-10 CPI 日
-  - Ch13 VXX 2009–2026（−98% vs VIX −65%）
+  - Ch13 VXX 2009–2026（−98% vs VIX −65%）——**本章只有 1 个案例是有意为之**：
+    第二个若强行凑出来会与第 3 章 2024-08「保险要在着火前买」重复，不要补
   - Ch14 除息日提前指派阈值 · 2015-08-24 ETF 闪崩
   - Ch15 Cboe BXM 四十年记录 · 2022 vs 2018 两个下跌年
 

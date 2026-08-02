@@ -26,9 +26,15 @@ module.exports = function (ctx) {
   c.eq('panic / calm cost ratio', annualCost(0.45) / annualCost(0.15), 8.3, 0.3);
   c.prose('states the eightfold claim', '八倍');
 
-  // the subtraction against Ch15's published S&P figure
-  c.eq('8.8% against the S&P 11.2%', 11.2 - annualCost(0.20), 2.4, 0.06);
+  // The 8.8% is GROSS premium outlay (price x 12, no payouts netted off), while
+  // 11.2% is a NET total return. The chapter must NOT subtract one from the other;
+  // it may only say they are of the same order of magnitude.
+  c.prose('labels the figure as gross outlay', '毛保费支出');
+  c.prose('says payouts offset part of it', '还没有减去它们的赔付');
+  c.prose('states same-order-of-magnitude, not subtraction', '同一个量级');
+  c.absent('does not present the invalid subtraction', '这是一道减法');
   c.prose('cites the S&P long-run return', '11.2%');
+  c.prose('declares the x12 static-spot simplification', '单月保费 × 12');
 
   /* VXX: public figures, plus the annualization this book performs */
   var yrs = 17, cum = -0.9802;
@@ -37,7 +43,8 @@ module.exports = function (ctx) {
   c.prose('states VIX cumulative', '65%');
   c.prose('states the annualized decay', '−20.6%');
   // the comparison the verdict rests on
-  c.eq('VXX decay vs rolling puts (x)', 20.6 / annualCost(0.20), 2.34, 0.05);
+  c.eq('VXX decay vs rolling puts, gross (x)', 20.6 / annualCost(0.20), 2.34, 0.05);
+  c.prose('flags that comparison as conservative', '这个对比是偏保守的');
 
   /* Universa figures are reported, not computed — assert they are quoted
      with the denominator caveat rather than as a portfolio return. */
