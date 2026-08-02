@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.13 对冲的工程学 Hedging Engineering · Options Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../index.html"><b>OPTIONS</b>/HANDBOOK</a>
+  <div class="spacer"></div>
+  <nav>
+    <a href="../index.html"><span class="zh">目录</span><span class="en">Contents</span></a>
+    <a href="../glossary.html">Glossary</a>
+  </nav>
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button data-lang="zh" aria-pressed="true">中</button>
+    <button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main class="page">
+
+<p class="eyebrow">Chapter 13 · Hedging Engineering</p>
+<h1><span class="zh">对冲的工程学：尾部保险的成本核算</span><span class="en">Hedging Engineering: Costing Out Tail Protection</span></h1>
+<p class="lede">
+  <span class="zh">第 2 章说 Protective Put 是"特定时期的战术工具，不是常态配置"，并让你自己去算连续买保险的年化成本。这一章把那笔账算完。<strong>结论会让很多人不舒服：在常态市场里永久对冲，一年要花掉约 8.8%——而标普 500 四十年的年化总回报是 11.2%。</strong></span>
+  <span class="en">Chapter 2 called the protective put "a tactical tool for specific windows, not a permanent allocation," and left you to work out what continuous insurance costs per year. This chapter finishes that calculation. <strong>The answer is uncomfortable: permanently hedging in a normal market costs about 8.8% a year — against the S&P 500's 11.2% annualized total return over forty years.</strong></span>
+</p>
+
+<!-- ============ 13.1 ============ -->
+<h2><span class="zh">13.1 先把账单摆出来</span><span class="en">13.1 The Bill, Up Front</span></h2>
+
+<p>
+  <span class="zh">最简单的持续对冲方案：每月买入一张 5% 价外的 <a class="term" href="../glossary.html#put">Put</a>，到期后再买下一张，永不间断。用本书的引擎按不同的市场波动水平定价（<a class="term" href="../glossary.html#skew">偏斜</a>使价外 Put 的 IV 高于平值，此处统一加 3 个百分点）：</span>
+  <span class="en">The simplest continuous hedge: buy a 5% out-of-the-money <a class="term" href="../glossary.html#put">put</a> every month, roll it at expiry, never stop. Priced with this book's engine across volatility regimes (<a class="term" href="../glossary.html#skew">skew</a> lifts an OTM put's IV above the at-the-money level, so 3 points are added throughout):</span>
+</p>
+
+<dl class="spec">
+  <div><dt><span class="zh">平静 VIX≈15</span><span class="en">Calm, VIX≈15</span></dt><dd class="pos"><span class="zh">年化 <strong>4.5%</strong></span><span class="en"><strong>4.5%</strong>/yr</span></dd></div>
+  <div><dt><span class="zh">常态 VIX≈20</span><span class="en">Normal, VIX≈20</span></dt><dd><span class="zh">年化 <strong>8.8%</strong></span><span class="en"><strong>8.8%</strong>/yr</span></dd></div>
+  <div><dt><span class="zh">紧张 VIX≈30</span><span class="en">Tense, VIX≈30</span></dt><dd class="neg"><span class="zh">年化 <strong>19.3%</strong></span><span class="en"><strong>19.3%</strong>/yr</span></dd></div>
+  <div><dt><span class="zh">恐慌 VIX≈45</span><span class="en">Panic, VIX≈45</span></dt><dd class="neg"><span class="zh">年化 <strong>37.2%</strong></span><span class="en"><strong>37.2%</strong>/yr</span></dd></div>
+</dl>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span><span class="zh">对冲年成本 vs 波动率水平</span><span class="en">annual hedging cost vs. volatility level</span></p>
+  <div id="case-hedge-cost"></div>
+</div>
+
+<p>
+  <span class="zh">把这张表和第 15 章那个四十年的数字放在一起，结论就出来了：<strong>标普 500 自 1986 年以来的年化总回报是 11.2%。在常态波动水平下永久对冲，每年要交出 8.8%——也就是股权溢价的绝大部分。</strong>这不是"对冲很贵"这种模糊说法，这是一道减法。</span>
+  <span class="en">Set that table beside Chapter 15's forty-year figure and the conclusion writes itself: <strong>the S&P 500 has returned 11.2% annualized since 1986. Permanently hedging at normal volatility surrenders 8.8% of that every year — very nearly the whole equity premium.</strong> This isn't the vague claim that "hedging is expensive"; it is a subtraction.</span>
+</p>
+
+<div class="warn">
+  <span class="warn-tag"><span class="zh">而且它在你最需要的时候最贵</span><span class="en">And it costs most exactly when you want it most</span></span>
+  <p>
+    <span class="zh">注意这张表的形状：成本不是恒定的，它<strong>随波动率一起上升</strong>——从平静时的 4.5% 到恐慌时的 37.2%，相差<strong>八倍多</strong>。这意味着一件很残酷的事：<strong>当市场平静、你觉得不需要保险时，保险最便宜；当市场已经开始崩塌、你终于想买保险时，它贵了八倍。</strong>第 3 章用 2024 年 8 月那次套息平仓演示过同一件事（提前三天买，成本低 39%），只是这次我们看到的是整条曲线。<strong>"等出事了再对冲"在算术上是不可行的，不是因为纪律问题，而是因为价格。</strong></span>
+    <span class="en">Note the shape of that table: the cost is not constant, it <strong>rises with volatility</strong> — from 4.5% in calm to 37.2% in panic, a factor of more than <strong>eight</strong>. Which implies something brutal: <strong>when markets are quiet and you feel no need for insurance, insurance is cheap; when markets are already breaking and you finally want it, it costs eight times as much.</strong> Chapter 3 demonstrated the same thing with the August 2024 carry unwind (three days earlier, 39% cheaper) — this time you can see the whole curve. <strong>"Hedge once trouble starts" is arithmetically unavailable, not for want of discipline but because of the price.</strong></span>
+  </p>
+</div>
+
+<!-- ============ 13.2 ============ -->
+<h2><span class="zh">13.2 三个把账单压下来的杠杆</span><span class="en">13.2 Three Levers That Lower the Bill</span></h2>
+
+<p>
+  <span class="zh">既然 8.8% 交不起，工程问题就变成了：<strong>怎么在保留有意义保护的前提下，把这个数字压到可承受的范围</strong>。只有三个杠杆，而它们都在前面的章节里出现过。</span>
+  <span class="en">Since 8.8% is unaffordable, the engineering question becomes: <strong>how do you compress that number into something bearable while retaining meaningful protection?</strong> There are only three levers, and every one has appeared in an earlier chapter.</span>
+</p>
+
+<dl class="spec">
+  <div><dt><span class="zh">① 买得更远</span><span class="en">① Further OTM</span></dt><dd><span class="zh">便宜得多，但只保尾部</span><span class="en">Far cheaper, tail only</span></dd></div>
+  <div><dt><span class="zh">② 卖掉一部分</span><span class="en">② Sell some back</span></dt><dd><span class="zh">价差 / 领口（第 4、10 章）</span><span class="en">Spreads / collars (Ch.4, 10)</span></dd></div>
+  <div><dt><span class="zh">③ 只在便宜时买</span><span class="en">③ Buy only when cheap</span></dt><dd><span class="zh"><a class="term" href="../glossary.html#iv-rank">IV 分位</a>过滤（第 5 章）</span><span class="en"><a class="term" href="../glossary.html#iv-rank">IV rank</a> filter (Ch.5)</span></dd></div>
+</dl>
+
+<p>
+  <span class="zh">第 ① 条是<a class="term" href="../glossary.html#tail-hedge">尾部对冲</a>的核心思路：不再保护"下跌 5% 以后的全部损失"，而只保护"下跌 20% 以后的部分"。深度价外的 Put 便宜得多，代价是绝大多数回撤它根本不赔——它只在真正的崩盘里兑现。第 ② 条是第 10 章 JHEQX 的做法：卖出上行和更深的下行来补贴保费，代价是封顶与保护失效区间。第 ③ 条把对冲从"永久配置"变回"战术动作"，也就是第 2 章一开始说的那句话。</span>
+  <span class="en">Lever ① is the essence of <a class="term" href="../glossary.html#tail-hedge">tail hedging</a>: stop insuring "everything below −5%" and insure only "everything below −20%." Deep OTM puts are far cheaper, and the price is that they pay nothing in the overwhelming majority of drawdowns — they only fire in an actual crash. Lever ② is JHEQX's approach from Chapter 10: sell upside and deeper downside to subsidise the premium, at the cost of a cap and a protection gap. Lever ③ turns hedging from a permanent allocation back into a tactical action — which is exactly what Chapter 2 said in the first place.</span>
+</p>
+
+<div class="panel">
+  <p class="panel-title"><span class="dot"></span>TAIL HEDGE <span class="zh">深度价外 Put · 拖动天数看保费怎么流走</span><span class="en">deep OTM put · drag the days and watch the premium bleed</span></p>
+  <div id="pf-tail"></div>
+</div>
+
+<div class="warn">
+  <span class="warn-tag"><span class="zh">读懂"+4,144%"这种数字</span><span class="en">Reading a "+4,144%" headline</span></span>
+  <p>
+    <span class="zh">尾部对冲最著名的例子是 Universa Investments（Nassim Taleb 任顾问）的 Black Swan Protection Protocol：据多家媒体报道，该基金 2020 年 3 月单月回报约 <strong>+3,612%</strong>、一季度约 <strong>+4,144%</strong>，而同期标普 500 下跌约 20%。这个数字是真实报道的，<strong>但它几乎无法直接使用</strong>。</span>
+    <span class="en">Tail hedging's most famous instance is Universa Investments (advised by Nassim Taleb) and its Black Swan Protection Protocol: multiple outlets reported roughly <strong>+3,612%</strong> for March 2020 and about <strong>+4,144%</strong> for the first quarter, against an S&P 500 down some 20%. The figure is genuinely reported — <strong>and almost unusable as it stands.</strong></span>
+  </p>
+  <p>
+    <span class="zh">原因是第 15 章那三个问题里的第一个：<strong>分母是什么？</strong>这类回报通常按<strong>投入资本</strong>（实际花出去的权利金）计算，而不是按组合规模。尾部对冲的设计前提就是只占组合很小的一个切片，所以"+4,144%"和"你的组合涨了 41 倍"之间隔着一个你不知道的分母。<strong>在你能说出那个分母之前，这个数字不能用来做任何配置决策</strong>——它说明的是策略的形状（极度凸性），不是它对你组合的贡献。</span>
+    <span class="en">The reason is the first of Chapter 15's three questions: <strong>what is the denominator?</strong> Returns like this are typically quoted on <strong>invested capital</strong> — the premium actually spent — not on portfolio size. Tail hedging is designed to occupy a small sleeve, so between "+4,144%" and "your portfolio multiplied by 41" sits a denominator you have not been told. <strong>Until you can state that denominator the number cannot inform any allocation decision</strong> — it describes the strategy's shape (extreme convexity), not its contribution to your portfolio.</span>
+  </p>
+</div>
+
+<!-- ============ 13.3 ============ -->
+<h2><span class="zh">13.3 不要用会衰减的工具做长期保险</span><span class="en">13.3 Never Use a Decaying Instrument as Long-Term Insurance</span></h2>
+
+<p>
+  <span class="zh">既然买 Put 这么贵、又要不停展期，一个自然的想法是：<strong>能不能直接买一个"做多波动率"的 ETF 拿着？</strong>它看起来省事得多——不用挑行权价、不用管到期日、像股票一样买入即可。</span>
+  <span class="en">Given how expensive puts are and how relentlessly they must be rolled, a natural thought: <strong>why not just buy a long-volatility ETF and hold it?</strong> It looks far simpler — no strike to choose, no expiry to manage, buy it like a stock.</span>
+</p>
+
+<div class="case">
+  <p class="case-tag">CASE FILE · 2009–2026</p>
+  <h3><span class="zh">VXX 的十七年：VIX 跌了 65%，它跌了 98%</span><span class="en">Seventeen Years of VXX: the VIX Fell 65%, It Fell 98%</span></h3>
+  <p>
+    <span class="zh">VXX 是最主流的做多短期波动率工具，2009 年 1 月 29 日上市。自上市至今，<strong>VXX 累计下跌约 98%</strong>，而同期<strong>VIX 本身只下跌约 65%</strong>。这中间 33 个百分点的差额，不是因为看错了波动率方向——<strong>是因为这个工具本身在持续漏水。</strong></span>
+    <span class="en">VXX is the mainstream long-short-term-volatility vehicle, listed on January 29, 2009. Since listing, <strong>VXX is down roughly 98%</strong>, while <strong>the VIX itself is down only about 65%</strong>. The 33-point gap is not the result of a wrong call on volatility — <strong>it is the vehicle itself leaking.</strong></span>
+  </p>
+  <p>
+    <span class="zh">漏水的原因第 8 章已经讲过，只是那次是从获利的一侧看的：VIX 期货长期处于 <a class="term" href="../glossary.html#contango">contango</a>（远月比近月贵）。VXX 每天卖出即将到期的近月、买入更贵的次月，<strong>每一次展期都在高买低卖</strong>。第 8 章里，XIV 靠站在这个结构的反面连年上涨——那么站在正面的 VXX 就必然连年下跌。<strong>它们是同一枚硬币：XIV 一夜之间蒸发 96%，VXX 用十七年慢慢蒸发 98%。</strong></span>
+    <span class="en">The leak's cause appeared in Chapter 8, seen from the profitable side: VIX futures sit in persistent <a class="term" href="../glossary.html#contango">contango</a>, later months priced above nearer ones. VXX sells the expiring near month daily and buys the pricier next one — <strong>every roll is buying high and selling low</strong>. In Chapter 8, XIV rose year after year by standing on the other side of exactly this structure; so VXX must fall year after year. <strong>They are one coin: XIV evaporated 96% in a night, VXX evaporated 98% over seventeen years.</strong></span>
+  </p>
+  <dl class="spec">
+    <div><dt>VXX <span class="zh">累计</span><span class="en">cumulative</span></dt><dd class="neg"><span class="zh">约 <strong>−98%</strong></span><span class="en">about <strong>−98%</strong></span></dd></div>
+    <div><dt>VIX <span class="zh">同期</span><span class="en">same period</span></dt><dd><span class="zh">约 <strong>−65%</strong></span><span class="en">about <strong>−65%</strong></span></dd></div>
+    <div><dt><span class="zh">折合年化</span><span class="en">Annualized</span></dt><dd class="neg"><span class="zh">约 <strong>−20.6%</strong></span><span class="en">about <strong>−20.6%</strong></span></dd></div>
+    <div><dt><span class="zh">反向拆分</span><span class="en">Reverse splits</span></dt><dd><span class="zh">多次（否则股价近乎归零）</span><span class="en">Repeatedly (or the price nears zero)</span></dd></div>
+  </dl>
+  <p>
+    <span class="zh">把年化 <strong>−20.6%</strong> 和 13.1 节那张表放在一起看：<strong>用 VXX 做长期保险，比每月滚动买 5% 价外 Put（常态 8.8%）还要贵一倍以上，而且它<em>不保证</em>在崩盘时给你对应的赔付</strong>——它跟踪的是短期期货，不是你的持仓。真 Put 至少是一份合约：跌破行权价，对手方必须履约（第 1、10 章那条主线）。VXX 只是一个每天都在漏的篮子。</span>
+    <span class="en">Set that <strong>−20.6%</strong> annualized beside §13.1's table: <strong>using VXX as long-term insurance costs more than twice a monthly 5%-OTM put programme (8.8% in normal conditions), and it does <em>not</em> guarantee a matching payout in a crash</strong> — it tracks short-term futures, not your holdings. A real put is at least a contract: below the strike the counterparty must perform (the through-line of Chapters 1 and 10). VXX is just a basket with a hole in it.</span>
+  </p>
+  <p>
+    <span class="zh">数据来源声明：VXX 上市日、VXX 与 VIX 的累计跌幅、以及反向拆分的事实为公开数据。<strong>年化 −20.6% 为按 17 年对约 −98% 累计跌幅的直接折算</strong>。需注意：原始 iPath VXX 为有到期日的 ETN，2019 年到期后由执行同一策略的后继产品承接，长期序列为两者衔接；此处引用的是该衔接口径的公开数字。表中"常态 8.8%"来自 13.1 节的引擎计算，属本书推算而非市场报价。</span>
+    <span class="en">Source statement: VXX's listing date, the cumulative declines of VXX and the VIX, and the fact of repeated reverse splits are public data. <strong>The −20.6% annualized figure is a direct conversion of the roughly −98% cumulative decline over 17 years.</strong> Note that the original iPath VXX was a dated ETN which matured in 2019 and was succeeded by a product running the same strategy; the long series chains the two, and the public figures cited use that chained basis. The "8.8% in normal conditions" comes from §13.1's engine calculation — this book's computation, not a market quote.</span>
+  </p>
+  <p class="verdict loss"><span class="zh">亏损减少：同样是"长期持有下跌保护"，VXX 的十七年折合年化约 −20.6% → 每月滚动买 5% 价外 Put 在常态波动下约 −8.8%/年，且后者是一份到期必须履约的合约</span><span class="en">Loss reduced: as a way to hold downside protection long term, VXX cost about −20.6% a year over seventeen years → a monthly 5%-OTM put programme costs about −8.8% a year at normal volatility, and is a contract the counterparty must honour</span></p>
+</div>
+
+<!-- ============ 13.4 ============ -->
+<h2><span class="zh">13.4 那么什么时候对冲是理性的</span><span class="en">13.4 So When Is Hedging Rational?</span></h2>
+
+<p>
+  <span class="zh">如果永久对冲要交出几乎全部股权溢价，而第 15 章又证明卖方策略在风险调整后并不占便宜，那么一个诚实的问题是：<strong>对冲到底还有什么用？</strong></span>
+  <span class="en">If permanent hedging surrenders nearly the entire equity premium, and Chapter 15 shows selling strategies gain nothing risk-adjusted, an honest question follows: <strong>what is hedging for at all?</strong></span>
+</p>
+
+<p>
+  <span class="zh">答案不在期望值里，在<strong>路径</strong>里。第 9 章那条回撤曲线说过：−50% 需要 +100% 才能回本，而这个算术对<strong>一个必须在特定时间用钱的人</strong>是致命的。如果你还有三十年才退休，回撤只是波动；如果你明年要用这笔钱，同样的回撤是永久性损失。<strong>对冲不改变期望收益——它把"什么时候需要用钱"这个约束，翻译成了组合可以承受的形状。</strong></span>
+  <span class="en">The answer isn't in expectancy, it's in the <strong>path</strong>. Chapter 9's drawdown curve established that −50% requires +100% to recover, and that arithmetic is lethal to <strong>anyone who must spend the money on a particular date</strong>. Thirty years from retirement, a drawdown is volatility; if you need the money next year, the same drawdown is a permanent loss. <strong>Hedging doesn't change expected return — it translates the constraint "when do I need this money" into a shape the portfolio can survive.</strong></span>
+</p>
+
+<dl class="spec">
+  <div><dt><span class="zh">理性的对冲</span><span class="en">Rational hedge</span></dt><dd class="pos"><span class="zh">有明确期限与用途的资金</span><span class="en">Money with a date and a purpose</span></dd></div>
+  <div><dt><span class="zh">理性的对冲</span><span class="en">Rational hedge</span></dt><dd class="pos"><span class="zh">IV 分位低时的战术买入</span><span class="en">Tactical, bought at low IV rank</span></dd></div>
+  <div><dt><span class="zh">不理性的对冲</span><span class="en">Irrational hedge</span></dt><dd class="neg"><span class="zh">恐慌中追买（贵八倍）</span><span class="en">Chasing in a panic (8× the price)</span></dd></div>
+  <div><dt><span class="zh">不理性的对冲</span><span class="en">Irrational hedge</span></dt><dd class="neg"><span class="zh">用会衰减的工具长期持有</span><span class="en">Holding a decaying vehicle</span></dd></div>
+</dl>
+
+<div class="think">
+  <span class="think-tag"><span class="zh">思考</span><span class="en">Think</span></span>
+  <span class="zh">13.1 那张表说明：保险的价格随波动率上升八倍，而波动率恰好在市场下跌时上升。<strong>这意味着一个自洽的对冲计划，必须在你最不想花钱的时候花钱</strong>——市场平静、组合创新高、所有人都在赚钱的那几个月。<strong>如果一个策略要求你在感觉最好的时候持续付费、在感觉最糟的时候什么都不做，它失败的原因会是数学问题，还是别的什么？</strong>把这个问题和第 9 章"连续成功会放大仓位"放在一起想。</span>
+  <span class="en">§13.1's table shows insurance prices rise eightfold with volatility, and volatility rises precisely when markets fall. <strong>Which means a coherent hedging plan must spend money exactly when you least want to</strong> — in the calm months when the portfolio is at highs and everyone is making money. <strong>If a strategy requires you to keep paying when you feel best and to do nothing when you feel worst, will its failures be mathematical or something else?</strong> Consider it alongside Chapter 9's observation that a run of success inflates position size.</span>
+</div>
+
+<!-- ============ 13.5 Quiz ============ -->
+<h2><span class="zh">13.5 本章测验</span><span class="en">13.5 Chapter Quiz</span></h2>
+<p><span class="zh">点击选项即可作答，答案与解析即时显示。</span><span class="en">Click an option to answer; the correct answer and explanation appear immediately.</span></p>
+
+<div class="quiz-set">
+
+<div class="quiz" data-answer="c">
+  <p class="q"><span class="zh">在常态波动（VIX≈20）下每月滚动买 5% 价外 Put，年化成本约 8.8%。这个数字最该和什么比？</span><span class="en">Rolling a monthly 5%-OTM put at normal volatility (VIX≈20) costs about 8.8% a year. What should that number be compared against?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">和期权手续费比</span><span class="en">Option commissions</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">和你上一次亏损的金额比</span><span class="en">The size of your last loss</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">和标普 500 的长期年化回报 11.2% 比</span><span class="en">The S&P 500's 11.2% long-run annualized return</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">和无风险利率比</span><span class="en">The risk-free rate</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>C。</b>对冲的成本只有放在"它吃掉了多少你本来能拿到的收益"这个尺度上才有意义。标普四十年的年化总回报是 11.2%（第 15 章的 Cboe 数据），<strong>永久对冲要交出其中的 8.8% —— 几乎是全部股权溢价</strong>。这才是"Protective Put 是战术工具而非常态配置"这句话的真正含义。A 把量级搞错了好几个数量级；D 忽略了对冲的机会成本不是现金收益，而是<em>被放弃的风险收益</em>。</span>
+    <span class="en"><b>C.</b> A hedge's cost only means something measured against how much of your available return it consumes. The S&P returned 11.2% annualized over forty years (Chapter 15's Cboe data), and <strong>permanently hedging hands back 8.8% of that — very nearly the whole equity premium</strong>. That is what "the protective put is tactical, not a permanent allocation" actually means. A is wrong by orders of magnitude; D misses that the opportunity cost of hedging isn't a cash yield but the <em>risk premium foregone</em>.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="b">
+  <p class="q"><span class="zh">对冲的年化成本从平静时的 4.5% 升到恐慌时的 37.2%。这对"等出事了再对冲"意味着什么？</span><span class="en">Hedging costs rise from 4.5% a year in calm to 37.2% in panic. What does that imply for "hedge once trouble starts"?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">没影响，反正只对冲一次</span><span class="en">No impact — you only hedge once</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">它在算术上不可行：你想买的时候价格已经贵了八倍</span><span class="en">It's arithmetically unavailable: by the time you want it, it costs eight times more</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">可行，只要你反应够快</span><span class="en">It works if you react fast enough</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">恐慌时应该买更多</span><span class="en">You should buy more during a panic</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>B。</b>波动率上升本身就是"出事了"的定义，而保险的价格与波动率同步上升——所以<strong>"事情发生"和"保险变贵"是同一个事件，中间没有可以插入操作的时间窗</strong>。C 的"反应够快"低估了这一点：第 3 章 2024 年 8 月那次，提前三天买入成本就低 39%，而那三天里市场还没出事。<strong>这不是纪律问题，是定价问题：保险要在着火前买，因为着火时你付的是 Vega。</strong></span>
+    <span class="en"><b>B.</b> Rising volatility <em>is</em> the definition of trouble arriving, and insurance prices rise in lockstep — so <strong>"the event happens" and "insurance gets expensive" are the same event, with no window between them to act in</strong>. C's "react fast enough" underestimates this: in Chapter 3's August 2024 case, buying three days earlier cost 39% less, and during those three days nothing had happened yet. <strong>This isn't a discipline problem but a pricing one: buy insurance before the fire, because during the fire what you pay for is vega.</strong></span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="d">
+  <p class="q"><span class="zh">VXX 上市以来跌约 98%，同期 VIX 只跌约 65%。这 33 个百分点的差额来自？</span><span class="en">VXX is down about 98% since listing while the VIX fell only about 65%. Where does the 33-point gap come from?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">管理费</span><span class="en">Management fees</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">看错了波动率方向</span><span class="en">Getting the volatility call wrong</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">多次反向拆分</span><span class="en">The repeated reverse splits</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">contango 展期成本：每天卖近月、买更贵的次月</span><span class="en">Contango roll cost: selling the near month daily and buying a pricier one</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>D。</b>VIX 期货长期处于 contango，VXX 每天的展期都在高买低卖，这项结构性损耗与波动率本身走势无关（B 排除）。管理费只有零点几个百分点，解释不了 33 个点（A 排除）。C 是<strong>结果不是原因</strong>——反向拆分只是把已经跌没的股价重新调回可读区间。<strong>值得注意的是第 8 章的 XIV 正是站在这个结构的反面：它连年上涨、一夜蒸发 96%，而 VXX 用十七年蒸发 98%。同一枚硬币。</strong></span>
+    <span class="en"><b>D.</b> VIX futures sit in persistent contango, so VXX's daily roll buys high and sells low — a structural drag unrelated to which way volatility went (rules out B). Fees of a fraction of a percent cannot explain 33 points (rules out A). C is <strong>a consequence, not a cause</strong> — reverse splits merely restore a readable share price after the decline. <strong>Note that Chapter 8's XIV stood on the opposite side of this same structure: it rose for years and evaporated 96% in a night, while VXX evaporated 98% over seventeen. One coin.</strong></span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="a">
+  <p class="q"><span class="zh">某尾部对冲基金报告 2020 年一季度回报 +4,144%。在用它做任何判断之前，最该先问什么？</span><span class="en">A tail-hedge fund reports +4,144% for Q1 2020. Before drawing any conclusion, what must you ask first?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">分母是什么——投入资本还是组合规模</span><span class="en">What's the denominator — invested capital or portfolio size</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">这个数字是不是真的</span><span class="en">Whether the number is real</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">基金经理是谁</span><span class="en">Who the manager is</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">能不能申购</span><span class="en">Whether you can invest</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>A。</b>这类回报通常按<strong>投入资本</strong>（实际花出去的权利金）计算，而尾部对冲的设计前提就是只占组合很小一片。所以"+4,144%"和"组合涨了 41 倍"之间隔着一个你不知道的分母——<strong>在能说出那个分母之前，这个数字描述的是策略的凸性形状，而不是它对你组合的贡献。</strong>B 问错了方向：数字是真实报道的，问题不在真假而在<strong>可用性</strong>。这正是第 15 章那三个问题在另一个场景下的应用。</span>
+    <span class="en"><b>A.</b> Such returns are typically quoted on <strong>invested capital</strong> — the premium actually spent — and tail hedging is designed to occupy a small sleeve. So between "+4,144%" and "the portfolio multiplied by 41" sits a denominator you haven't been given: <strong>until you can state it, the figure describes the strategy's convexity, not its contribution to your portfolio.</strong> B aims at the wrong target — the number is genuinely reported; the issue isn't truth but <strong>usability</strong>. This is Chapter 15's three questions applied in another setting.</span>
+  </div>
+</div>
+
+<div class="quiz" data-answer="c">
+  <p class="q"><span class="zh">既然永久对冲吃掉几乎全部股权溢价，什么情况下对冲仍然是理性的？</span><span class="en">Given that permanent hedging consumes nearly the whole equity premium, when is hedging still rational?</span></p>
+  <div class="opts">
+    <button data-opt="a"><span class="key">A</span><span class="zh">永远不理性</span><span class="en">Never</span></button>
+    <button data-opt="b"><span class="key">B</span><span class="zh">当你预测到崩盘时</span><span class="en">When you foresee a crash</span></button>
+    <button data-opt="c"><span class="key">C</span><span class="zh">当这笔钱有明确的使用期限时——对冲改变的是路径，不是期望值</span><span class="en">When the money has a date attached — hedging changes the path, not the expectancy</span></button>
+    <button data-opt="d"><span class="key">D</span><span class="zh">当 IV 处于历史高位时</span><span class="en">When IV is at historic highs</span></button>
+  </div>
+  <div class="expl">
+    <span class="zh"><b>C。</b>对冲不改变期望收益，它把"我什么时候必须用这笔钱"这个约束翻译成组合能承受的形状。还有三十年才用的钱，回撤只是波动；明年要用的钱，同样的回撤是永久损失——第 9 章那条回撤曲线（−50% 需要 +100%）对后者才是致命的。B 依赖预测能力，而第 9 章已经说明"不交易"的触发条件不该是预测。<strong>D 正好说反了：IV 高位意味着保险贵八倍，那是最不该买的时候。</strong></span>
+    <span class="en"><b>C.</b> Hedging doesn't change expected return; it translates the constraint "when must I spend this" into a shape the portfolio can survive. Money needed in thirty years experiences a drawdown as volatility; money needed next year experiences the same drawdown as permanent loss — and Chapter 9's curve (−50% requires +100%) is lethal only to the latter. B depends on forecasting, which Chapter 9 established should not be the trigger. <strong>D is exactly backwards: high IV means insurance costs eight times more, which is when you least want to buy it.</strong></span>
+  </div>
+</div>
+
+</div>
+
+<!-- ============ takeaways ============ -->
+<h2><span class="zh">本章要点</span><span class="en">Key Takeaways</span></h2>
+<p>
+  <span class="zh">第 2 章留下的那道作业，答案是这样的：每月滚动买入 5% 价外 Put，平静时年化 <strong>4.5%</strong>，常态 <strong>8.8%</strong>，紧张 <strong>19.3%</strong>，恐慌 <strong>37.2%</strong>。把 8.8% 放在标普四十年 11.2% 的年化总回报旁边，<strong>永久对冲交出的几乎就是全部股权溢价</strong>——这不是"保险很贵"的感慨，是一道减法。更要命的是这条曲线的形状：成本随波动率上升八倍，<strong>而波动率恰好在你想买保险时上升，所以"等出事了再对冲"在算术上就不可行</strong>。压低账单只有三个杠杆：买得更远（尾部对冲）、卖掉一部分（价差与领口）、只在 IV 分位低时买（把对冲变回战术动作）。至于那些看起来更省事的工具——VXX 十七年跌了约 98%，而同期 VIX 只跌 65%，差额全部来自 contango 展期损耗，折合年化约 <strong>−20.6%</strong>，比自己滚动买 Put 还贵一倍以上，而且它不是合约、不保证赔付。它和第 8 章那个一夜蒸发 96% 的 XIV 是同一枚硬币的两面。<strong>而所有这些数字合起来指向一个不在期望值里的结论：对冲不改变你的期望收益，它只把"我什么时候必须用这笔钱"这个约束，翻译成组合能够承受的形状——所以真正决定要不要对冲的，从来不是你对市场的预测，而是你资金的期限。</strong></span>
+  <span class="en">Chapter 2's homework has an answer: rolling a monthly 5%-OTM put costs <strong>4.5%</strong> a year in calm, <strong>8.8%</strong> in normal conditions, <strong>19.3%</strong> when tense and <strong>37.2%</strong> in panic. Put 8.8% beside the S&P's 11.2% forty-year annualized return and <strong>permanent hedging hands back very nearly the entire equity premium</strong> — not a lament that insurance is dear, but a subtraction. Worse is the shape of the curve: cost rises eightfold with volatility, <strong>and volatility rises exactly when you want the insurance, which makes "hedge once trouble starts" arithmetically unavailable</strong>. Only three levers compress the bill: buy further out (tail hedging), sell part of it back (spreads and collars), and buy only at low IV rank (returning hedging to a tactical act). As for the vehicles that look easier — VXX has fallen about 98% in seventeen years while the VIX fell only 65%, the entire gap being contango roll drag, about <strong>−20.6%</strong> annualized, more than twice the cost of rolling puts yourself, and it is not a contract and guarantees no payout. It is the same coin as Chapter 8's XIV, which evaporated 96% in a single night. <strong>Together these numbers point at a conclusion that lives outside expectancy: hedging does not change your expected return; it translates the constraint "when must I spend this money" into a shape your portfolio can survive — so what decides whether to hedge was never your forecast of the market, but the horizon of your capital.</strong></span>
+</p>
+
+<nav class="chap-nav">
+  <a href="12-butterflies.html">← <span class="zh">第 12 章 蝶式与结构工程</span><span class="en">Ch.12 Butterflies</span></a>
+  <a href="15-evidence.html"><span class="zh">第 15 章 证据素养 →</span><span class="en">Ch.15 Evidence Literacy →</span></a>
+</nav>
+
+</main>
+
+<script src="../assets/i18n.js"></script>
+<script src="../assets/payoff.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  // Deep OTM tail hedge: cheap, pays only in a real crash, bleeds daily.
+  Payoff.mount('pf-tail', {
+    spot0: 100, rate: 0.04, elapsed: 0,
+    legs: [{ kind: 'put', side: 1, strike: 80, iv: 0.28, dte: 60 }],
+    range: [55, 115],
+    controls: [
+      { prop: 'elapsed', min: 0, max: 60, step: 1, label: { zh: '已过天数 Days elapsed', en: 'Days elapsed' } },
+      { leg: 0, prop: 'strike', min: 65, max: 97, step: 1, label: { zh: 'Strike（越远越便宜，也越少赔）', en: 'Strike (further = cheaper, pays less often)' } }
+    ]
+  });
+
+  // Annualized cost of rolling a monthly 5%-OTM put, by volatility regime.
+  // Values come from the engine; see tools/checks/ch13.js.
+  CaseChart.mount('case-hedge-cost', {
+    labels: ['VIX 15', 'VIX 20', 'VIX 25', 'VIX 30', 'VIX 35', 'VIX 45'],
+    series: [
+      { name: { zh: '年化对冲成本', en: 'Annual hedge cost' }, color: '#FF6A55',
+        data: [4.5, 8.8, 13.8, 19.3, 25.1, 37.2] }
+    ],
+    events: [{ i: 1, text: { zh: '常态', en: 'normal' } }],
+    yfmt: function (v) { return v.toFixed(0) + '%'; }
+  });
+
+});
+</script>
+</body>
+</html>
