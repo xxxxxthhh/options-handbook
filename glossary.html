@@ -304,6 +304,14 @@
     <span class="zh">资产规模与权益之比。它不改变你判断的对错，只放大结果：LTCM 在 26.6:1 杠杆下，资产端约 -3.7% 的走势变成了权益的 -92%。<strong>期权本身自带杠杆，再叠加保证金等于杠杆的平方。</strong></span>
     <span class="en">Assets divided by equity. It never changes whether you're right, only the magnitude: at LTCM's 26.6:1, a −3.7% move on assets became −92% of equity. <strong>Options carry embedded leverage already; adding margin squares it.</strong></span></td></tr>
 
+  <tr id="bxm"><td class="t">BXM / PUT</td><td class="c">Cboe 策略基准指数</td><td>
+    <span class="zh">Cboe 自 1986 年起计算的期权策略基准：BXM 机械执行"持有标普 500 + 每月卖平值 Call"，PUT 则机械卖出平值 Put。<strong>它们是回答"长期到底值不值得做"的唯一不加挑选的证据</strong>——但都是<em>指数</em>，不含费用、点差与税。见第 15 章。</span>
+    <span class="en">Cboe's option-strategy benchmarks, computed since 1986: BXM mechanically runs "hold the S&P 500, sell a one-month ATM call"; PUT mechanically sells ATM puts. <strong>They are the only unselected evidence on whether any of this is worth doing long term</strong> — but they are <em>indices</em>, excluding fees, spreads and taxes. See Chapter 15.</span></td></tr>
+
+  <tr id="sharpe"><td class="t">Sharpe / Sortino Ratio</td><td class="c">夏普 / 索提诺比率</td><td>
+    <span class="zh">每承担一单位风险换来多少超额收益；索提诺只把<strong>下行</strong>波动算作风险。比较两个风险不同的策略时，只看收益率是没有意义的。四十年下来 BXM 与标普的夏普是 0.55 对 0.56——<strong>几乎相同，说明降低的风险恰好等价于放弃的收益。</strong></span>
+    <span class="en">Excess return per unit of risk; Sortino counts only <strong>downside</strong> volatility as risk. Comparing two strategies of different riskiness on return alone is meaningless. Over forty years BXM and the S&P scored 0.55 against 0.56 — <strong>near-identical, meaning the risk avoided was exactly equivalent to the return surrendered.</strong></span></td></tr>
+
   <tr id="regime"><td class="t">Regime</td><td class="c">市场状态</td><td>
     <span class="zh">当前市场所处的宏观环境类型（单边牛、震荡、趋势熊、恐慌）。同一策略在不同 Regime 下结果天差地别——先判断状态，再选策略。</span>
     <span class="en">The prevailing market environment (one-way bull, chop, trending bear, panic). The same strategy produces wildly different outcomes across regimes — read the regime before choosing the strategy.</span></td></tr>
@@ -312,7 +320,7 @@
 </table>
 
 <nav class="chap-nav">
-  <a href="chapters/12-butterflies.html">← <span class="zh">第 12 章 蝶式与结构工程</span><span class="en">Ch.12 Butterflies</span></a>
+  <a href="chapters/15-evidence.html">← <span class="zh">第 15 章 证据素养</span><span class="en">Ch.15 Evidence Literacy</span></a>
   <a href="index.html"><span class="zh">目录 →</span><span class="en">Contents →</span></a>
 </nav>
 
