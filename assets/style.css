@@ -73,6 +73,10 @@ html[data-lang="en"] body{line-height:1.65}
   padding:.3rem .7rem;cursor:pointer;font:inherit;
 }
 .lang-switch button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+@media (max-width:32rem){
+  .topbar{flex-wrap:wrap;padding:.55rem .9rem;gap:.4rem .75rem}
+  .topbar nav{gap:.75rem;font-size:.8rem}
+}
 .lang-switch button:focus-visible,
 a:focus-visible,button:focus-visible,input:focus-visible{
   outline:2px solid var(--amber);outline-offset:2px;

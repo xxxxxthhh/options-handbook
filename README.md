@@ -7,6 +7,7 @@
 ```
 index.html              封面 + 目录
 glossary.html           可搜索术语表（正文术语锚点链接至此）
+sources.html            来源与方法：逐章一手来源映射与证据分级
 chapters/
   01-what-is-an-option.html  期权的本质：权利、义务与定价直觉
   02-single-leg.html         单腿策略：Long Call / Put · Covered Call · CSP
