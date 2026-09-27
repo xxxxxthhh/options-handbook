@@ -4,6 +4,7 @@ var L = require('./lib'), fs = require('fs'), path = require('path');
 
 var CJK = /[一-鿿　-〿＀-￯]/;
 var fails = 0;
+var caseCfgs = L.caseChartConfigs();
 function bad(msg) { console.log('  FAIL ' + msg); fails++; }
 
 var gloss = L.read('glossary.html');
@@ -113,6 +114,18 @@ L.pages().forEach(function (rel) {
     if (mounts.indexOf(id) === -1) bad('container div never mounted: ' + id);
   });
   if (mounts.length) console.log('  charts: ' + mounts.length);
+
+  // 5b. a CaseChart must be drawable: >= 2 points, every series as long as the
+  // labels, every value finite. One point makes i / (n - 1) = 0 / 0 and the
+  // browser silently renders an empty SVG full of NaN (Ch14 0DTE, 2026-09).
+  caseCfgs.filter(function (x) { return x.file === rel; }).forEach(function (x) {
+    var n = x.cfg.labels.length;
+    if (n < 2) bad('CaseChart ' + x.id + ' has ' + n + ' point(s); a line needs >= 2 (use a figure card)');
+    x.cfg.series.forEach(function (s) {
+      if (s.data.length !== n) bad('CaseChart ' + x.id + ' series length ' + s.data.length + ' != labels ' + n);
+      s.data.forEach(function (v) { if (!isFinite(v)) bad('CaseChart ' + x.id + ' has a non-finite value: ' + v); });
+    });
+  });
 
   // 6. quiz answers must exist and be explained
   var quizzes = html.split('<div class="quiz" data-answer=').slice(1);

@@ -300,8 +300,11 @@ var CaseChart = (function () {
     var all = [];
     cfg.series.forEach(function (s) { all = all.concat(s.data); });
     var lo = Math.min.apply(null, all), hi = Math.max.apply(null, all);
-    var pad = (hi - lo) * 0.08; lo -= pad; hi += pad;
+    var pad = (hi - lo) * 0.08 || Math.abs(hi) * 0.1 || 1; lo -= pad; hi += pad;
     var n = cfg.labels.length;
+    // a single point would divide by zero (i / (n - 1)) and fill the SVG with NaN;
+    // a time-series chart needs at least two points — use a figure card instead
+    if (n < 2) { root.textContent = ''; return; }
     var X = function (i) { return M.l + i / (n - 1) * (W - M.l - M.r); };
     var Y = function (v) { return M.t + (hi - v) / (hi - lo) * (H - M.t - M.b); };
     var yfmt = cfg.yfmt || function (v) { return v >= 1000 ? (v / 1000).toFixed(1) + 'k' : v.toFixed(0); };

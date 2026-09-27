@@ -150,6 +150,11 @@ hr{border:0;border-top:1px solid var(--line);margin:3rem 0}
 .panel .readout b{color:var(--panel-text);font-weight:500}
 .panel .readout .g{color:var(--gain-bright)}
 .panel .readout .r{color:var(--loss-bright)}
+/* static figure cards: for published single values that are not a time series */
+.panel .figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:1rem;margin:.2rem 0 .2rem}
+.panel .fig{border:1px solid var(--panel-edge);border-radius:10px;padding:.8rem 1rem}
+.panel .fig .v{display:block;font-family:var(--mono);font-size:2rem;line-height:1.15;color:var(--loss-bright)}
+.panel .fig .k{display:block;font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;color:#8FA6B4;margin-top:.2rem}
 
 .controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:.8rem 1.5rem;margin-top:1rem}
 .ctrl label{

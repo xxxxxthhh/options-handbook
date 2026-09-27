@@ -45,15 +45,24 @@ module.exports = function (ctx) {
   c.prose('states stop-market trigger is not price guarantee', '不保证成交价');
   c.prose('cites 0DTE full-year 2025', '59%');
 
-  // Read the CaseChart configuration the browser actually receives.
-  var chart = ctx.L.caseChartConfigs().filter(function (x) {
-    return x.file === 'chapters/14-operations.html' && x.id === 'case-0dte';
-  })[0];
-  c.eq('0DTE chart is mounted', chart ? 1 : 0, 1, 0);
-  c.eq('0DTE chart labels the supported full-year period',
-       chart && JSON.stringify(chart.cfg.labels) === JSON.stringify(['2025 FY']) ? 1 : 0, 1, 0);
-  var chartValue = chart && chart.cfg.series[0] ? chart.cfg.series[0].data[0] : NaN;
-  c.eq('0DTE rendered chart FY2025 = cited prose', chartValue, 59, 0);
+  c.prose('cites 0DTE July 2026 single month', '66.2%');
+  c.prose('keeps the two bases apart', '口径不同');
+
+  /* The 0DTE panel shows two published single values as figure cards, not a
+     line: a full-year average and a single month are different bases. Read the
+     card values the page actually displays and tie them to the prose. */
+  var html = ctx.L.read('chapters/14-operations.html');
+  function card(key) {
+    var m = html.match(new RegExp('data-fig="' + key + '" data-value="([^"]+)"><span class="v">([^<]+)</span>'));
+    return m ? { value: parseFloat(m[1]), shown: m[2] } : null;
+  }
+  var fy = card('0dte-fy2025'), jul = card('0dte-2026-07');
+  c.eq('0DTE FY2025 card value = cited prose', fy ? fy.value : NaN, 59, 0);
+  c.eq('0DTE FY2025 card shows its value', fy && fy.shown === '59%' ? 1 : 0, 1, 0);
+  c.eq('0DTE July 2026 card value = cited prose', jul ? jul.value : NaN, 66.2, 0);
+  c.eq('0DTE July 2026 card shows its value', jul && jul.shown === '66.2%' ? 1 : 0, 1, 0);
+  c.eq('0DTE panel is not a (one-point) line chart',
+       ctx.L.caseChartConfigs().some(function (x) { return x.id === 'case-0dte'; }) ? 1 : 0, 0, 0);
 
   /* the tax mention must stay one sentence with a disclaimer */
   c.prose('tax note carries a disclaimer', '本书不提供税务建议');

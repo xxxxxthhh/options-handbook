@@ -194,8 +194,8 @@
 <div class="warn">
   <span class="warn-tag"><span class="zh">关于 0DTE：这本书不教它，但你必须知道它有多大</span><span class="en">On 0DTE: this book won't teach it, but you must know its scale</span></span>
   <p>
-    <span class="zh"><a class="term" href="../glossary.html#zero-dte">0DTE</a>（当日到期期权）已经不是边缘现象。<a href="https://www.cboe.com/insights/posts/the-state-of-the-options-industry-2025">Cboe 的 2025 年终统计</a>显示，<strong>0DTE 占当年 SPX 期权总成交量的 59%</strong>。这是目前正文采用的公开口径；没有公开 Cboe 文件支持的更新比例不在本书列示。</span>
-    <span class="en"><a class="term" href="../glossary.html#zero-dte">0DTE</a> — options expiring the same day — is no longer a fringe phenomenon. <a href="https://www.cboe.com/insights/posts/the-state-of-the-options-industry-2025">Cboe's 2025 year-end review</a> reports that <strong>0DTE represented 59% of SPX option volume that year</strong>. That is the public figure used here; this book does not publish a newer percentage without a public Cboe document.</span>
+    <span class="zh"><a class="term" href="../glossary.html#zero-dte">0DTE</a>（当日到期期权）已经不是边缘现象。<a href="https://www.cboe.com/insights/posts/the-state-of-the-options-industry-2025">Cboe 的 2025 年终统计</a>显示，<strong>0DTE 占当年 SPX 期权总成交量的 59%</strong>。Cboe 在 2026-08-05 的<a href="https://ir.cboe.com/news/news-details/2026/Cboe-Global-Markets-Reports-Trading-Volume-for-July-2026/default.aspx">月度成交量公告</a>中又报告：<strong>2026 年 7 月单月，0DTE 占 SPX 期权总成交量 66.2%，创纪录</strong>。全年均值和单月值口径不同，不能连成一条趋势线。</span>
+    <span class="en"><a class="term" href="../glossary.html#zero-dte">0DTE</a> — options expiring the same day — is no longer a fringe phenomenon. <a href="https://www.cboe.com/insights/posts/the-state-of-the-options-industry-2025">Cboe's 2025 year-end review</a> reports that <strong>0DTE represented 59% of SPX option volume that year</strong>. Cboe's <a href="https://ir.cboe.com/news/news-details/2026/Cboe-Global-Markets-Reports-Trading-Volume-for-July-2026/default.aspx">monthly volume release of August 5, 2026</a> adds that <strong>in July 2026 alone, 0DTE reached a record 66.2% of total SPX option volume</strong>. A full-year average and a single-month value are different bases and cannot be joined into one trend line.</span>
   </p>
   <p>
     <span class="zh">临近到期且接近平值时，<strong>Gamma 通常会非常高，Delta 可因小幅标的变动而快速改变</strong>；与此同时，时间价值也可能快速衰减。具体敏感度取决于 moneyness、隐含波动率和剩余时间，不能把某个极限情形推广到所有到期合约。0DTE 的市场规模会影响 SPX 的盘中交易环境，<strong>但成交量大不构成策略优势；参与前仍要独立证明风险、成本与执行适配。</strong></span>
@@ -205,7 +205,11 @@
 
 <div class="panel">
   <p class="panel-title"><span class="dot"></span>0DTE <span class="zh">占 SPX 期权成交量的比例（Cboe 公布数据）</span><span class="en">share of SPX option volume (Cboe published data)</span></p>
-  <div id="case-0dte"></div>
+  <div class="figs">
+    <div class="fig" data-fig="0dte-fy2025" data-value="59"><span class="v">59%</span><span class="k"><span class="zh">2025 全年</span><span class="en">Full-year 2025</span></span></div>
+    <div class="fig" data-fig="0dte-2026-07" data-value="66.2"><span class="v">66.2%</span><span class="k"><span class="zh">2026 年 7 月单月（纪录）</span><span class="en">July 2026, single month (record)</span></span></div>
+  </div>
+  <p class="readout"><span class="zh">口径不同：全年均值与单月值不连成趋势线</span><span class="en">Different bases: a full-year average and a single month are not joined into a trend line</span></p>
 </div>
 
 <div class="think">
@@ -336,14 +340,6 @@ document.addEventListener('DOMContentLoaded', function () {
     ]
   });
 
-  // 0DTE share of SPX option volume — Cboe full-year 2025 figure.
-  CaseChart.mount('case-0dte', {
-    labels: ['2025 FY'],
-    series: [
-      { name: { zh: '0DTE 占比', en: '0DTE share' }, color: '#FF6A55', data: [59] }
-    ],
-    yfmt: function (v) { return v.toFixed(0) + '%'; }
-  });
 
 });
 </script>
