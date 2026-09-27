@@ -4,7 +4,7 @@
 
 ## 项目状态
 
-- **全书 15 章已完成并发布**：https://xxxxxthhh.github.io/options-handbook/ （GitHub Pages, main 分支根目录）
+- **全书 15 章已完成并发布**：https://xxxxxthhh.github.io/options-handbook/ （GitHub Pages，由 `.github/workflows/pages.yml` 从 main 按白名单发布 index / glossary / sources / chapters / assets）
 - 质量基准仍为 chapters/02-single-leg.html（样章）
 - 目录进度 badge 已随全书完成而移除；新增章节时只需在 index.html 目录加链接，并接好前后章 `.chap-nav`
 
