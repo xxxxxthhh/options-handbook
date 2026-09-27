@@ -123,7 +123,7 @@ L.pages().forEach(function (rel) {
     if (n < 2) bad('CaseChart ' + x.id + ' has ' + n + ' point(s); a line needs >= 2 (use a figure card)');
     x.cfg.series.forEach(function (s) {
       if (s.data.length !== n) bad('CaseChart ' + x.id + ' series length ' + s.data.length + ' != labels ' + n);
-      s.data.forEach(function (v) { if (!isFinite(v)) bad('CaseChart ' + x.id + ' has a non-finite value: ' + v); });
+      s.data.forEach(function (v) { if (!Number.isFinite(v)) bad('CaseChart ' + x.id + ' has a non-finite value: ' + v); });
     });
   });
 

@@ -21,6 +21,7 @@ run() {                      # run <label> <script>
 run "structural QA (bilingual / anchors / links / charts / quizzes / cases)" tools/qa.js
 run "Vol.1 engine regression" tools/regress.js
 run "Vol.2 figure verification" tools/figures.js
+run "gate mutation test (a known defect must turn qa red)" tools/mutate.js
 
 echo
 echo "ALL CHECKS PASSED"
