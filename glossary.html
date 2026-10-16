@@ -69,8 +69,8 @@
     <span class="en">The price at expiry where you neither gain nor lose. A buyer's breakeven always sits one premium beyond the strike — the arithmetic behind "right on direction, still down money."</span></td></tr>
 
   <tr id="expiration"><td class="t">Expiration</td><td class="c">到期日</td><td>
-    <span class="zh">合约失效的日期。美股期权通常为周五。到期时 OTM 的期权价值归零。</span>
-    <span class="en">The date the contract ceases to exist — usually a Friday for US equity options. OTM options expire worthless.</span></td></tr>
+    <span class="zh">合约失效的日期。美股期权的标准月度与周度合约多在周五到期；SPY、QQQ 等少数 ETF 周一至周四也有到期，2026 年 1 月起部分超大市值个股（如 AAPL、NVDA）也增加了周一/周三到期。到期时 OTM 的期权价值归零。</span>
+    <span class="en">The date the contract ceases to exist. Standard monthly and weekly US equity options mostly expire on Fridays; a few ETFs such as SPY and QQQ also have Monday–Thursday expirations, and since January 2026 some of the very largest single stocks (e.g. AAPL, NVDA) have added Monday/Wednesday expirations. OTM options expire worthless.</span></td></tr>
 
   <tr id="dte"><td class="t">DTE</td><td class="c">剩余天数</td><td>
     <span class="zh">Days to Expiration，距离到期的天数。"7 DTE"即一周后到期。Theta 衰减在低 DTE 时加速。</span>
@@ -309,8 +309,8 @@
     <span class="en">Rules-based option-strategy benchmarks published by Cboe: BXM represents holding the S&amp;P 500 and selling calls monthly, while PUT represents rules-based put writing. <strong>They are one source of long-run rules-based evidence, not the only evidence; pre-launch history is a hypothetical back-calculation under later rules.</strong> An index is not an investor account and omits investor-level fees, taxes, and all implementation drift. See Chapter 15.</span></td></tr>
 
   <tr id="sharpe"><td class="t">Sharpe / Sortino Ratio</td><td class="c">夏普 / 索提诺比率</td><td>
-    <span class="zh">每承担一单位风险换来多少超额收益；索提诺只把<strong>下行</strong>波动算作风险。比较两个风险不同的策略时，只看收益率是不完整的。Cboe 资料样本中 BXM 与标普的夏普为 0.55 对 0.56，<strong>这只说明该样本没有显示 BXM 有更高的风险调整后收益；不能证明风险降低与收益放弃存在精确、公平或未来不变的交换。</strong></span>
-    <span class="en">Excess return per unit of risk; Sortino counts only <strong>downside</strong> volatility as risk. Comparing strategies with different risk using return alone is incomplete. In the Cboe factsheet sample, BXM and the S&amp;P have Sharpe ratios of 0.55 and 0.56. <strong>That shows no higher risk-adjusted return for BXM in this sample; it does not prove an exact, fair, or persistent exchange between risk reduction and return surrendered.</strong></span></td></tr>
+    <span class="zh">每承担一单位风险换来多少超额收益；索提诺只把<strong>下行</strong>波动算作风险。比较两个风险不同的策略时，只看收益率是不完整的。Cboe 资料样本中 BXM 与标普的夏普同为 0.56，<strong>这只说明该样本没有显示 BXM 有更高的风险调整后收益；不能证明风险降低与收益放弃存在精确、公平或未来不变的交换。</strong></span>
+    <span class="en">Excess return per unit of risk; Sortino counts only <strong>downside</strong> volatility as risk. Comparing strategies with different risk using return alone is incomplete. In the Cboe factsheet sample, BXM and the S&amp;P have the same Sharpe ratio, 0.56. <strong>That shows no higher risk-adjusted return for BXM in this sample; it does not prove an exact, fair, or persistent exchange between risk reduction and return surrendered.</strong></span></td></tr>
 
   <tr id="tail-hedge"><td class="t">Tail Hedge</td><td class="c">尾部对冲</td><td>
     <span class="zh">只保护极端下跌（如 −20% 以下）而放弃日常回撤保护的做法：买深度价外 Put，保费通常更低，但许多普通回撤不会触发到期赔付。第 13 章的静态示意表显示，同一规则在 IV≈15 与 IV≈45 时的<strong>毛保费支出可相差八倍</strong>；这要求事先预算，不是净成本回测或择时结论。</span>

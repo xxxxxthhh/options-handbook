@@ -75,13 +75,13 @@
   <div><dt><span class="zh">标的</span><span class="en">Underlying</span></dt><dd>AAPL</dd></div>
   <div><dt><span class="zh">类型</span><span class="en">Type</span></dt><dd><a class="term" href="../glossary.html#call">Call</a> / <a class="term" href="../glossary.html#put">Put</a></dd></div>
   <div><dt>Strike</dt><dd>$190</dd></div>
-  <div><dt><span class="zh">到期日</span><span class="en">Expiration</span></dt><dd>2026-01-16</dd></div>
+  <div><dt><span class="zh">到期日</span><span class="en">Expiration</span></dt><dd><span class="zh">2026-01-16（示例，已到期）</span><span class="en">2026-01-16 (example, expired)</span></dd></div>
   <div><dt><span class="zh">乘数</span><span class="en">Multiplier</span></dt><dd>× 100</dd></div>
 </dl>
 
 <p>
-  <span class="zh">券商界面上你会看到这样一串代码：<strong><code>AAPL 260116C00190000</code></strong>。它就是上面五个字段的拼接——标的 <code>AAPL</code>、到期日 <code>260116</code>（2026 年 1 月 16 日）、类型 <code>C</code>（Call）、行权价 <code>00190000</code>（$190.000，后三位是小数）。学会读它，你就再也不会下错单。</span>
-  <span class="en">Your broker will show you a string like <strong><code>AAPL 260116C00190000</code></strong>. It is exactly those fields concatenated: underlying <code>AAPL</code>, expiry <code>260116</code> (16 Jan 2026), type <code>C</code> (call), strike <code>00190000</code> ($190.000, the last three digits being decimals). Learn to read it and you will never mis-enter an order again.</span>
+  <span class="zh">券商界面上的期权代码就是这种格式。以上面这张示例合约（2026 年 1 月 16 日到期，现已过期）为例：<strong><code>AAPL 260116C00190000</code></strong>。它就是上面五个字段的拼接——标的 <code>AAPL</code>、到期日 <code>260116</code>（2026 年 1 月 16 日）、类型 <code>C</code>（Call）、行权价 <code>00190000</code>（$190.000，后三位是小数）。学会读它，你就再也不会下错单。</span>
+  <span class="en">Your broker shows option symbols in this format. Take the example contract above (expiring 16 Jan 2026, now expired): <strong><code>AAPL 260116C00190000</code></strong>. It is exactly those fields concatenated: underlying <code>AAPL</code>, expiry <code>260116</code> (16 Jan 2026), type <code>C</code> (call), strike <code>00190000</code> ($190.000, the last three digits being decimals). Learn to read it and you will never mis-enter an order again.</span>
 </p>
 
 <div class="warn">

@@ -8,6 +8,7 @@ var cp = require('child_process');
 var ROOT = path.resolve(__dirname, '..');
 var CH01 = 'chapters/01-what-is-an-option.html';
 var VIX = 'data: [16.6, 13.1, 16.1, 12.3, 18.8, 40.1, 53.5, 30.4, 26.4, 22.8]';
+var CH15 = 'chapters/15-evidence.html';
 
 var CASES = [
   { name: 'CaseChart series value is null',
@@ -21,7 +22,10 @@ var CASES = [
   { name: 'CaseChart with a single point (Ch14 0DTE regression)',
     file: CH01,
     from: "labels: ['19-01', '19-04', '19-07', '19-10', '20-01', '20-02', '20-03', '20-06', '20-09', '20-12'],\n    series: [\n      { name: { zh: 'VIX', en: 'VIX' }, color: '#D99A3D', " + VIX + ' }',
-    to: "labels: ['19-01'],\n    series: [\n      { name: { zh: 'VIX', en: 'VIX' }, color: '#D99A3D', data: [16.6] }" }
+    to: "labels: ['19-01'],\n    series: [\n      { name: { zh: 'VIX', en: 'VIX' }, color: '#D99A3D', data: [16.6] }" },
+  { name: 'Ch15 BXM return reverted to the retired 2026-06 snapshot (8.6% -> 8.5%)',
+    tool: 'tools/figures.js', file: CH15,
+    from: '<span class="zh">BXM <strong>8.6%</strong> · 标普全收益', to: '<span class="zh">BXM <strong>8.5%</strong> · 标普全收益' }
 ];
 
 function copyRepo() {
@@ -42,7 +46,7 @@ CASES.forEach(function (c) {
     var p = path.join(dir, c.file), src = fs.readFileSync(p, 'utf8');
     if (src.indexOf(c.from) === -1) throw new Error('mutation did not apply (source changed?)');
     fs.writeFileSync(p, src.replace(c.from, c.to));
-    var r = cp.spawnSync('node', [path.join(dir, 'tools/qa.js')], { encoding: 'utf8' });
+    var r = cp.spawnSync('node', [path.join(dir, c.tool || 'tools/qa.js')], { encoding: 'utf8' });
     var killed = r.status !== 0;
     if (!killed) survived++;
     console.log((killed ? '  KILL  ' : '  ALIVE ') + c.name);
