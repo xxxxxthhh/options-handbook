@@ -23,7 +23,7 @@ module.exports = function (ctx) {
   c.prose('Sortino pair', 'BXM <strong>0.76</strong> · 标普 <strong>0.84</strong>');
   c.prose('snapshot date', '截至 2026 年 9 月 30 日');
   // Retired 2026-06-30 snapshot values must not survive anywhere in the chapter.
-  ['8.5%', '10.7%', '0.55', '0.75', '2.7 ', '−2.7', '2026 年 6 月 30 日', 'June 30, 2026'].forEach(function (s) {
+  ['8.5%', '10.7%', '0.55', '0.75', '2.7 ', '2.7%', '2.7个', '2.7点', '−2.7', '2026 年 6 月 30 日', 'June 30, 2026'].forEach(function (s) {
     c.absent('retired 2026-06 factsheet value', s);
   });
 
